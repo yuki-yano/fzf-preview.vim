@@ -7,19 +7,24 @@
 let s:grep_preview = expand('<sfile>:h:h') . '/bin/preview.rb '
 
 function! s:project_root() abort
-  let l:get_git_root_cmd = system('git rev-parse --show-toplevel')
-
+  silent !git rev-parse --show-toplevel
   if v:shell_error != 0
-    echo 'The current directory is not a git project'
+    echomsg 'The current directory is not a git project'
+    return ''
   endif
+
+  let l:get_git_root_cmd = system('git rev-parse --show-toplevel')
   return strpart(l:get_git_root_cmd, 0, strlen(l:get_git_root_cmd) - 1)
 endfunction
 
 function! s:project_files() abort
-  let l:list = systemlist(g:fzf_preview_filelist_command)
+  silent !git rev-parse --show-toplevel
   if v:shell_error != 0
     echo 'The current directory is not a git project'
+    return []
   endif
+
+  let l:list = systemlist(g:fzf_preview_filelist_command)
 
   let l:list = map(l:list, "fnamemodify(v:val, ':.')")
   return l:list
@@ -97,6 +102,10 @@ let s:oldfiles         = 'Oldfiles'
 let s:project_grep     = 'ProjectGrep'
 
 function! fzf_preview#fzf_files() abort
+  if s:project_root() ==# ''
+    return
+  endif
+
   call fzf#run({
   \ 'source': s:project_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
@@ -127,6 +136,10 @@ function! fzf_preview#fzf_oldfiles() abort
 endfunction
 
 function! fzf_preview#fzf_project_oldfiles() abort
+  if s:project_root() ==# ''
+    return
+  endif
+
   call fzf#run({
   \ 'source': s:project_oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
@@ -137,6 +150,10 @@ function! fzf_preview#fzf_project_oldfiles() abort
 endfunction
 
 function! fzf_preview#fzf_project_grep(...) abort
+  if s:project_root() ==# ''
+    return
+  endif
+
   if a:0 >= 1
     let l:grep_command = g:fzf_preview_grep_cmd . ' . ' . a:1
   else
