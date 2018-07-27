@@ -120,6 +120,9 @@ set viminfo='1000
 * Set values for each variable. The default settings are as follows.
 
 ```vim
+" Add fzf quit mapping
+g:fzf_preview_quit_map = 1
+
 " fzf window layout
 let g:fzf_preview_layout = 'top split new'
 

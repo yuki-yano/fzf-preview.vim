@@ -94,6 +94,12 @@ COMMANDS                                        *fzf-preview-commands*
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
+g:fzf_preview_quit_map
+    If this value is 1, mapping that will safely quit
+    in fzf's normal mode and visual mode is added
+
+    Default value is 1
+
 g:fzf_preview_layout
     This value is the layout displayed when executing the fzf command.
 

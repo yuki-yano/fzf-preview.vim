@@ -11,6 +11,10 @@ if exists('s:loaded')
 endif
 let s:loaded = 1
 
+if !exists('g:fzf_preview_quit_map')
+  let g:fzf_preview_quit_map = 1
+endif
+
 if !exists('g:fzf_preview_layout')
   let g:fzf_preview_layout = 'top split new'
 endif
@@ -55,6 +59,14 @@ command! BuffersPreview              :call fzf_preview#fzf_buffers()
 command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()
 command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()
 command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>)
+
+augroup fzf_preview_buffers
+  autocmd!
+  if g:fzf_preview_quit_map == 1
+    autocmd FileType fzf nnoremap <silent> <buffer> <C-g> i<C-g>
+    autocmd FileType fzf vnoremap <silent> <buffer> <C-g> <Esc>i<C-g>
+  endif
+augroup END
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
