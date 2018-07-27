@@ -107,30 +107,30 @@ function! fzf_preview#fzf_files() abort
   endif
 
   call fzf#run({
-  \ 'source': s:project_files(),
+  \ 'source':  s:project_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink': 'e',
-  \ 'window': g:fzf_preview_layout,
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()
 endfunction
 
 function! fzf_preview#fzf_buffers() abort
   call fzf#run({
-  \ 'source': s:buffer_list(),
-  \ 'options':  s:fzf_command_common_option(s:files_buffer) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink': 'e',
-  \ 'window': g:fzf_preview_layout,
+  \ 'source':  s:buffer_list(),
+  \ 'options': s:fzf_command_common_option(s:files_buffer) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()
 endfunction
 
 function! fzf_preview#fzf_oldfiles() abort
   call fzf#run({
-  \ 'source': s:oldfile_list(),
+  \ 'source':  s:oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink': 'e',
-  \ 'window': g:fzf_preview_layout,
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()
 endfunction
@@ -141,10 +141,10 @@ function! fzf_preview#fzf_project_oldfiles() abort
   endif
 
   call fzf#run({
-  \ 'source': s:project_oldfile_list(),
+  \ 'source':  s:project_oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink': 'e',
-  \ 'window': g:fzf_preview_layout,
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()
 endfunction
@@ -162,13 +162,12 @@ function! fzf_preview#fzf_project_grep(...) abort
   echomsg l:grep_command
 
   call fzf#run({
-  \ 'source': l:grep_command,
+  \ 'source':  l:grep_command,
   \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . s:grep_preview . " {}'",
-  \ 'sink': 'e',
-  \ 'window': g:fzf_preview_layout,
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()
 endfunction
 
-" 'options': '--delimiter : --nth 4.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . s:grep_preview . " {}'",
 " vim:set expandtab shiftwidth=2 softtabstop=2 tabstop=2 foldenable foldmethod=marker:
