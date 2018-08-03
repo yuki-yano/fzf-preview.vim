@@ -155,7 +155,7 @@ function! fzf_preview#fzf_project_grep(...) abort
   endif
 
   if a:0 >= 1
-    let l:grep_command = g:fzf_preview_grep_cmd . ' . ' . a:1
+    let l:grep_command = g:fzf_preview_grep_cmd . ' ' . a:1
   else
     let l:grep_command = g:fzf_preview_grep_cmd . ' .'
   end
