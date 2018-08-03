@@ -159,7 +159,6 @@ function! fzf_preview#fzf_project_grep(...) abort
   else
     let l:grep_command = g:fzf_preview_grep_cmd . ' .'
   end
-  echomsg l:grep_command
 
   call fzf#run({
   \ 'source':  l:grep_command,
