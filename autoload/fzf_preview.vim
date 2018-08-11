@@ -8,7 +8,7 @@ let s:grep_preview = expand('<sfile>:h:h') . '/bin/preview.rb '
 
 function! s:project_root() abort
   silent !git rev-parse --show-toplevel
-  if v:shell_error != 0
+  if v:shell_error
     echomsg 'The current directory is not a git project'
     return ''
   endif
@@ -19,7 +19,7 @@ endfunction
 
 function! s:project_files() abort
   silent !git rev-parse --show-toplevel
-  if v:shell_error != 0
+  if v:shell_error
     echo 'The current directory is not a git project'
     return []
   endif
@@ -27,6 +27,17 @@ function! s:project_files() abort
   let l:list = systemlist(g:fzf_preview_filelist_command)
 
   let l:list = map(l:list, "fnamemodify(v:val, ':.')")
+  return l:list
+endfunction
+
+function! s:git_files() abort
+  silent !git rev-parse --show-toplevel
+  if v:shell_error
+    echo 'The current directory is not a git project'
+    return []
+  endif
+
+  let l:list = systemlist(g:fzf_preview_gitfiles_command)
   return l:list
 endfunction
 
@@ -64,7 +75,7 @@ function! s:project_oldfile_list() abort
       endif
     endfor
 
-    if l:is_target == 1
+    if l:is_target
       let l:target_files = add(l:target_files, l:readable_file)
     endif
   endfor
@@ -100,6 +111,7 @@ let s:files_buffer     = 'Buffers'
 let s:project_oldfiles = 'ProjectOldfiles'
 let s:oldfiles         = 'Oldfiles'
 let s:project_grep     = 'ProjectGrep'
+let s:git_files_prompt = 'GitFiles'
 
 function! fzf_preview#fzf_files() abort
   if s:project_root() ==# ''
@@ -110,6 +122,25 @@ function! fzf_preview#fzf_files() abort
   \ 'source':  s:project_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
+  \ })
+  call s:map_fzf_keys()
+endfunction
+
+function! fzf_preview#fzf_git_files() abort
+  if s:project_root() ==# ''
+    return
+  endif
+
+  function! s:gitfile_open(line) abort
+    let l:file = a:line[3:]
+    execute 'edit' l:file
+  endfunction
+
+  call fzf#run({
+  \ 'source':  s:git_files(),
+  \ 'options': '--multi --nth 2..,.. ' . s:fzf_command_common_option(s:git_files_prompt) . '--tiebreak=index --preview "git diff --color=always -- {-1}"',
+  \ 'sink':    function('<SID>gitfile_open'),
   \ 'window':  g:fzf_preview_layout,
   \ })
   call s:map_fzf_keys()

@@ -28,7 +28,7 @@ if !exists('g:fzf_full_preview_toggle_key')
 endif
 
 if !exists('g:fzf_preview_command')
-  if executable('ccat') == 1
+  if executable('ccat')
     let g:fzf_preview_command = 'ccat --color=always {}'
   else
     let g:fzf_preview_command = 'head -100 {}'
@@ -40,11 +40,15 @@ if !exists('g:fzf_binary_preview_command')
 endif
 
 if !exists('g:fzf_preview_filelist_command')
-  if executable('rg') == 1
+  if executable('rg')
     let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git/*"'
   else
     let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'
   endif
+endif
+
+if !exists('g:fzf_preview_gitfiles_command')
+    let g:fzf_preview_gitfiles_command = 'git -c color.status=always status --short --untracked-files=all'
 endif
 
 if !exists('g:fzf_preview_grep_cmd')
@@ -55,6 +59,7 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 command! ProjectFilesPreview         :call fzf_preview#fzf_files()
+command! GitFilesPreview             :call fzf_preview#fzf_git_files()
 command! BuffersPreview              :call fzf_preview#fzf_buffers()
 command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()
 command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()
@@ -62,7 +67,7 @@ command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>
 
 augroup fzf_preview_buffers
   autocmd!
-  if g:fzf_preview_quit_map == 1
+  if g:fzf_preview_quit_map
     autocmd FileType fzf nnoremap <silent> <buffer> <C-g> i<C-g>
     autocmd FileType fzf vnoremap <silent> <buffer> <C-g> <Esc>i<C-g>
   endif

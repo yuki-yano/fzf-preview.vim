@@ -81,15 +81,17 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ## Usage
 
 ```vim
-:ProjectFilesPreview " Select project files
+:ProjectFilesPreview              " Select project files
 
-:BuffersPreview " Select buffers
+:GitFilesPreview                  " Select git status listed file
 
-:ProjectOldFilesPreview " Select project files from oldfiles
+:BuffersPreview                   " Select buffers
+
+:ProjectOldFilesPreview           " Select project files from oldfiles
 
 :ProjectGrepPreview {dir or none} " Grep project files from args dir
 
-:OldFilesPreview " Select files from oldfiles
+:OldFilesPreview                  " Select files from oldfiles
 ```
 
 ## Keymap
@@ -134,14 +136,14 @@ let g:fzf_full_preview_toggle_key = '<C-s>'
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
-let g:fzf_preview_command = 'head -100 {}' " Not installed ccat
+let g:fzf_preview_command = 'head -100 {}'           " Not installed ccat
 let g:fzf_preview_command = 'ccat --color=always {}' " Installed ccat
 
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
 
 " Commands used to get the file list from project
-let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard' " Not Installed ripgrep
+let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'               " Not Installed ripgrep
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git/*"' " Installed ripgrep
 
 " Commands used for project grep

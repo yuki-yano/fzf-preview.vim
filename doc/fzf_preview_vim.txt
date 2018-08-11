@@ -70,6 +70,11 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open git repository files with fzf interface
      while watching preview.
 
+                                                *:GitFilesPreview*
+:GitFilesPreview
+     Select files that have been changed with git.
+     Use fzf interface while watching git diff preview.
+
                                                 *:BuffersPreview*
 :BuffersPreview
      Select and open opened buffers with fzf interface while watching preview.
