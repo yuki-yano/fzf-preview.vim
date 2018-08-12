@@ -20,20 +20,19 @@ endfunction
 function! s:project_files() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
-    echo 'The current directory is not a git project'
+    echomsg 'The current directory is not a git project'
     return []
   endif
 
   let l:list = systemlist(g:fzf_preview_filelist_command)
 
-  let l:list = map(l:list, "fnamemodify(v:val, ':.')")
-  return l:list
+  return map(l:list, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:git_files() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
-    echo 'The current directory is not a git project'
+    echomsg 'The current directory is not a git project'
     return []
   endif
 
@@ -45,42 +44,67 @@ function! s:buffer_list() abort
   let l:list = filter(range(1, bufnr('$')),
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
-  let l:list = map(l:list, 'bufname(v:val)')
-
-  return l:list
+  return map(l:list, 'bufname(v:val)')
 endfunction
 
 function! s:oldfile_list() abort
   let l:copyfiles = deepcopy(v:oldfiles, 1)
-  let l:list = filter(l:copyfiles, 'filereadable(v:val)')
+  let l:files = filter(l:copyfiles, 'filereadable(v:val)')
 
-  return map(l:list, "fnamemodify(v:val, ':~')")
+  return map(l:files, "fnamemodify(v:val, ':~')")
+endfunction
+
+function! s:mrufile_list() abort
+  let l:files = readfile(g:neomru#file_mru_path)
+  call remove(l:files, 0)
+  let l:files = filter(l:files, 'filereadable(v:val)')
+
+  return map(l:files, "fnamemodify(v:val, ':.')")
+endfunction
+
+function! s:is_project_file(file, project_path) abort
+  let l:file_path_list = split(a:file, '/')
+
+  let l:is_target = 1
+  let l:project_path_elm = ''
+
+  for l:project_path_elm in a:project_path
+    if match(l:file_path_list, l:project_path_elm) == -1
+      let l:is_target = 0
+    endif
+  endfor
+
+  return l:is_target
 endfunction
 
 function! s:project_oldfile_list() abort
   let l:target_files = []
-
   let l:readable_filelist = filter(v:oldfiles, 'filereadable(v:val)')
   let l:project_path_list = split(s:project_root(), '/')
 
   let l:readable_file = ''
   for l:readable_file in l:readable_filelist
-    let l:file_path_list = split(l:readable_file, '/')
-
-    let l:is_target = 1
-    let l:project_path_elm = ''
-    for l:project_path_elm in l:project_path_list
-      if match(l:file_path_list, l:project_path_elm) == -1
-        let l:is_target = 0
-      endif
-    endfor
-
-    if l:is_target
+    if s:is_project_file(l:readable_file, l:project_path_list)
       let l:target_files = add(l:target_files, l:readable_file)
     endif
   endfor
-  let l:target_files = map(l:target_files, "fnamemodify(v:val, ':.')")
-  return l:target_files
+  return map(l:target_files, "fnamemodify(v:val, ':.')")
+endfunction
+
+function! s:project_mrufile_list() abort
+  let l:files = readfile(g:neomru#file_mru_path)
+  call remove(l:files, 0)
+  let l:target_files = []
+  let l:readable_filelist = filter(l:files, 'filereadable(v:val)')
+  let l:project_path_list = split(s:project_root(), '/')
+
+  let l:readable_file = ''
+  for l:readable_file in l:readable_filelist
+    if s:is_project_file(l:readable_file, l:project_path_list)
+      let l:target_files = add(l:target_files, l:readable_file)
+    endif
+  endfor
+  return map(l:target_files, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:map_fzf_keys() abort
@@ -108,8 +132,10 @@ endfunction
 
 let s:files_prompt     = 'ProjectFiles'
 let s:files_buffer     = 'Buffers'
-let s:project_oldfiles = 'ProjectOldfiles'
-let s:oldfiles         = 'Oldfiles'
+let s:project_oldfiles = 'ProjectOldFiles'
+let s:project_mrufiles = 'ProjectMruFiles'
+let s:oldfiles         = 'OldFiles'
+let s:mrufiles         = 'MruFiles'
 let s:project_grep     = 'ProjectGrep'
 let s:git_files_prompt = 'GitFiles'
 
@@ -166,6 +192,16 @@ function! fzf_preview#fzf_oldfiles() abort
   call s:map_fzf_keys()
 endfunction
 
+function! fzf_preview#fzf_mrufiles() abort
+  call fzf#run({
+  \ 'source':  s:mrufile_list(),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
+  \ })
+  call s:map_fzf_keys()
+endfunction
+
 function! fzf_preview#fzf_project_oldfiles() abort
   if s:project_root() ==# ''
     return
@@ -174,6 +210,20 @@ function! fzf_preview#fzf_project_oldfiles() abort
   call fzf#run({
   \ 'source':  s:project_oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'sink':    'e',
+  \ 'window':  g:fzf_preview_layout,
+  \ })
+  call s:map_fzf_keys()
+endfunction
+
+function! fzf_preview#fzf_project_mrufiles() abort
+  if s:project_root() ==# ''
+    return
+  endif
+
+  call fzf#run({
+  \ 'source':  s:project_mrufile_list(),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
   \ })

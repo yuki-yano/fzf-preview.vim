@@ -62,7 +62,9 @@ command! ProjectFilesPreview         :call fzf_preview#fzf_files()
 command! GitFilesPreview             :call fzf_preview#fzf_git_files()
 command! BuffersPreview              :call fzf_preview#fzf_buffers()
 command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()
+command! MruFilesPreview             :call fzf_preview#fzf_mrufiles()
 command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()
+command! ProjectMruFilesPreview      :call fzf_preview#fzf_project_mrufiles()
 command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>)
 
 augroup fzf_preview_buffers

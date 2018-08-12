@@ -54,6 +54,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 * **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
 * ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
+* neomru.vim (require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
 
 When ccat is installed you can highlight the preview and see it.
 
@@ -89,9 +90,13 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :ProjectOldFilesPreview           " Select project files from oldfiles
 
+:ProjectMruFilesPreview           " Select project mru files with neomru
+
 :ProjectGrepPreview {dir or none} " Grep project files from args dir
 
 :OldFilesPreview                  " Select files from oldfiles
+
+:MruFilesPreview                  " Select mru files with neomru
 ```
 
 ## Keymap
