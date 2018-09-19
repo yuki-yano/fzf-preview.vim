@@ -177,9 +177,19 @@ g:fzf_preview_grep_cmd
     Recommend using a fast grep command such as ripgrep or ag.
     Interactively grep the specified directory.
 
-
     Installed ripgrep:
         Default value is 'rg --line-number --no-heading'
+
+    Not installed ripgrep:
+        :ProjectGrepPreview is disabled.
+
+
+g:fzf_preview_grep_preview_cmd
+    This command is used for :ProjectGrepPreview. bin/preview.rb is used by
+    default. The format of the grep result is "{file}:{line_number}:{text}".
+    You can pass another command that post-process the result
+
+    Default value is 'expand("<sfile>:h:h") . "/bin/preview.rb"'
 
 
 ==============================================================================

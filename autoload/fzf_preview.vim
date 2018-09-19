@@ -4,8 +4,6 @@
 " Created: 2018-01-25
 "=============================================================================
 
-let s:grep_preview = expand('<sfile>:h:h') . '/bin/preview.rb '
-
 function! s:project_root() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
@@ -243,7 +241,7 @@ function! fzf_preview#fzf_project_grep(...) abort
 
   call fzf#run({
   \ 'source':  l:grep_command,
-  \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . s:grep_preview . " {}'",
+  \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
   \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
   \ })

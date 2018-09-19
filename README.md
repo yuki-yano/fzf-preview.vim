@@ -153,6 +153,9 @@ let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git
 
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
+
+" Commands used for preview of the grep result 
+let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 ```
 
 # License

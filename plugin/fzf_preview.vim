@@ -55,6 +55,10 @@ if !exists('g:fzf_preview_grep_cmd')
   let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 endif
 
+if !exists('g:fzf_preview_grep_preview_cmd')
+  let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
+endif
+
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
