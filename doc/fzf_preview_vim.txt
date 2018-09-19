@@ -17,9 +17,7 @@ CONTENTS                                   *fzf-preview-contents*
 INTRODUCTION                              *fzf-preview-introduction*
 
 *fzf-preview* is a Neovim plugin to provide some fzf sources to with preview.
-This plugin can switch fzf to full-screen display and you can see
-the file in a large preview.
-
+You can see the preview of the file on a small or full window.
 
 Requirements:
 - neovim
@@ -170,13 +168,13 @@ g:fzf_preview_filelist_command
     Installed ripgrep:
         Default value is 'rg --files --hidden --follow --glob "!.git/*"'
 
-    Not installed ccat:
+    Not installed ripgrep:
         Default value is 'git ls-files --exclude-standard'
 
 
 g:fzf_preview_grep_cmd
-    Shell command used for project grep.
-    Recommend using a fast grep command such as ripgreo or ag.
+    This command is used for project grep.
+    Recommend using a fast grep command such as ripgrep or ag.
     Interactively grep the specified directory.
 
 
