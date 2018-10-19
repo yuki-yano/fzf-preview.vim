@@ -172,6 +172,11 @@ g:fzf_preview_filelist_command
         Default value is 'git ls-files --exclude-standard'
 
 
+g:fzf_preview_gitfiles_command
+    This is the command used to git status files
+
+    Default value is "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+
 g:fzf_preview_grep_cmd
     This command is used for project grep.
     Recommend using a fast grep command such as ripgrep or ag.
