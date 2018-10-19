@@ -142,12 +142,11 @@ function! fzf_preview#fzf_files() abort
     return
   endif
 
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:project_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
@@ -161,42 +160,38 @@ function! fzf_preview#fzf_git_files() abort
     execute 'edit' l:file
   endfunction
 
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:git_files(),
-  \ 'options': '--multi --nth 2..,.. ' . s:fzf_command_common_option(s:git_files_prompt) . '--tiebreak=index --preview "git diff --color=always -- {-1}"',
-  \ 'sink':    function('<SID>gitfile_open'),
+  \ 'options': "--multi " . s:fzf_command_common_option(s:git_files_prompt) . '--tiebreak=index --preview "git diff --color=always -- {-1}"',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
 function! fzf_preview#fzf_buffers() abort
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:buffer_list(),
   \ 'options': s:fzf_command_common_option(s:files_buffer) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
 function! fzf_preview#fzf_oldfiles() abort
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
 function! fzf_preview#fzf_mrufiles() abort
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:mrufile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
@@ -205,12 +200,11 @@ function! fzf_preview#fzf_project_oldfiles() abort
     return
   endif
 
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:project_oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
@@ -219,12 +213,11 @@ function! fzf_preview#fzf_project_mrufiles() abort
     return
   endif
 
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  s:project_mrufile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
@@ -239,12 +232,11 @@ function! fzf_preview#fzf_project_grep(...) abort
     let l:grep_command = g:fzf_preview_grep_cmd . ' .'
   end
 
-  call fzf#run({
+  call fzf#run(fzf#wrap({
   \ 'source':  l:grep_command,
   \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
-  \ 'sink':    'e',
   \ 'window':  g:fzf_preview_layout,
-  \ })
+  \ }))
   call s:map_fzf_keys()
 endfunction
 
