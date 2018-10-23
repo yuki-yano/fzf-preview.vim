@@ -27,6 +27,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 ![ProjectOldFiles](https://user-images.githubusercontent.com/5423775/37551924-c8c36972-29ed-11e8-97c4-133dd8a80870.gif 'ProjectOldFiles')
 
 **Grep in project with preview and filtering**
+**Required [file-line](https://github.com/bogado/file-line) plugin**
 
 ![ProjectGrep](https://user-images.githubusercontent.com/5423775/37552077-19619716-29f1-11e8-8cdb-f208d9c27a9c.gif 'ProjectGrep')
 
@@ -53,6 +54,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 ### Optional
 
 * **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
+* **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
 * ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
 * neomru.vim (require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
 
@@ -92,7 +94,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :ProjectMruFilesPreview           " Select project mru files with neomru
 
-:ProjectGrepPreview {dir or none} " Grep project files from args dir
+:ProjectGrepPreview {dir or none} " Grep project files from args dir (Required [file-line](https://github.com/bogado/file-line) plugin)
 
 :OldFilesPreview                  " Select files from oldfiles
 

@@ -33,6 +33,10 @@ Optional
     When ccat is installed you can highlight the preview and see it.
     If it is not installed, head will be used
 
+- file-line (Enable opening a file in a given line)
+    https://github.com/bogado/file-line
+    It is also necessary to use the ProjectGrepPreview command.
+
 - ripgrep
     https://github.com/BurntSushi/ripgrep
     If ripgrep is installed, it will be possible to obtain a faster file list.
