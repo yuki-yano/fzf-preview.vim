@@ -120,12 +120,11 @@ function! s:fzf_toggle_full_buffer() abort
     resize 1
     execute 'resize' float2nr(g:fzf_preview_rate * &lines)
   endif
-  call feedkeys("\<C-t>\<C-t>")
   normal! i
 endfunction
 
 function! s:fzf_command_common_option(console) abort
-  return '--reverse --ansi --prompt="' . a:console . '>" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up,ctrl-t:toggle-preview,?:toggle-preview --preview '
+  return '--reverse --ansi --prompt="' . a:console . '>" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --preview '
 endfunction
 
 let s:files_prompt     = 'ProjectFiles'
