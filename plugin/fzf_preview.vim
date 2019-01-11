@@ -29,9 +29,9 @@ endif
 
 if !exists('g:fzf_preview_command')
   if executable('ccat')
-    let g:fzf_preview_command = 'ccat --color=always {}'
+    let g:fzf_preview_command = 'ccat --color=always {-1}'
   else
-    let g:fzf_preview_command = 'head -100 {}'
+    let g:fzf_preview_command = 'head -100 {-1}'
   endif
 endif
 
@@ -48,7 +48,7 @@ if !exists('g:fzf_preview_filelist_command')
 endif
 
 if !exists('g:fzf_preview_gitfiles_command')
-  let g:fzf_preview_gitfiles_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+  let g:fzf_preview_gitfiles_command = 'git -c color.status=always status --short --untracked-files=all'
 endif
 
 if !exists('g:fzf_preview_grep_cmd')

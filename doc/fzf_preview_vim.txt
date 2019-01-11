@@ -151,10 +151,10 @@ g:fzf_preview_command
     the preview is syntax highlighted.
 
     Not installed ccat:
-        Default value is 'head -100 {}'
+        Default value is 'head -100 {-1}'
 
     Installed ccat:
-        Default value is 'ccat --color=always {}'
+        Default value is 'ccat --color=always {-1}'
 
 
 g:fzf_binary_preview_command

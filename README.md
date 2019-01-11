@@ -143,8 +143,8 @@ let g:fzf_full_preview_toggle_key = '<C-s>'
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
-let g:fzf_preview_command = 'head -100 {}'           " Not installed ccat
-let g:fzf_preview_command = 'ccat --color=always {}' " Installed ccat
+let g:fzf_preview_command = 'head -100 {-1}'           " Not installed ccat
+let g:fzf_preview_command = 'ccat --color=always {-1}' " Installed ccat
 
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
