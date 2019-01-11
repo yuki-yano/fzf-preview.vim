@@ -161,7 +161,7 @@ function! fzf_preview#fzf_git_files() abort
 
   call fzf#run(fzf#wrap({
   \ 'source':  s:git_files(),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . '--tiebreak=index --preview "git diff --color=always -- {-1}"',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . "--tiebreak=index --preview '[[ $(git diff -- {}) != \"\" ]] && git diff --color=always -- {} || " . g:fzf_preview_command . "'",
   \ 'window':  g:fzf_preview_layout,
   \ }))
   call s:map_fzf_keys()
