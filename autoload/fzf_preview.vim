@@ -163,6 +163,7 @@ function! fzf_preview#fzf_git_files() abort
   \ 'source':  s:git_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . "--tiebreak=index --preview '[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command . "'",
   \ 'window':  g:fzf_preview_layout,
+  \ 'sink':    function('<SID>gitfile_open'),
   \ })
   call s:map_fzf_keys()
 endfunction
