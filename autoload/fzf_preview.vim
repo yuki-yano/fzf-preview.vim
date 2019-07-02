@@ -67,7 +67,7 @@ function! s:is_project_file(file, project_path) abort
   let l:project_path_elm = ''
 
   for l:project_path_elm in a:project_path
-    if match(l:file_path_list, l:project_path_elm) == -1
+    if match(l:file_path_list, '^' . l:project_path_elm . '$') == -1
       let l:is_target = 0
     endif
   endfor
