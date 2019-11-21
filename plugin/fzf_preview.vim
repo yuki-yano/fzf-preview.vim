@@ -59,6 +59,11 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 endif
 
+if !exists('g:fzf_preview_default_key_bindings')
+  let g:fzf_preview_default_key_bindings =
+        \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+endif
+
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 

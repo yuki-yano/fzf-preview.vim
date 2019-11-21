@@ -124,7 +124,8 @@ function! s:fzf_toggle_full_buffer() abort
 endfunction
 
 function! s:fzf_command_common_option(console) abort
-  return '--reverse --ansi --prompt="' . a:console . '>" --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --preview '
+  return '--reverse --ansi --prompt="' . a:console . '> " --bind '
+        \ . g:fzf_preview_default_key_bindings . ' --preview '
 endfunction
 
 let s:files_prompt     = 'ProjectFiles'
