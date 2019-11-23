@@ -181,6 +181,7 @@ g:fzf_preview_gitfiles_command
 
     Default value is "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
 
+
 g:fzf_preview_grep_cmd
     This command is used for project grep.
     Recommend using a fast grep command such as ripgrep or ag.
@@ -201,11 +202,15 @@ g:fzf_preview_grep_preview_cmd
     Default value is 'expand("<sfile>:h:h") . "/bin/preview.rb"'
 
 
+g:fzf_preview_default_key_bindings
+    This command determines keyboard shortcuts during an interactive FZF
+    session. Options are a string passed directly to fzf's "--bind" option.
+
+    Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+
 ==============================================================================
 KEYMAP                                          *fzf-preview-keymap*
-
-It is currently impossible to change, but we plan to
-make it changeable in the future.
 
 <C-s>
   - Toggle window size of fzf, normal size and full-screen

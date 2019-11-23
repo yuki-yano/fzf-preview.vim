@@ -159,8 +159,11 @@ let g:fzf_preview_gitfiles_command = "git status --short --untracked-files=all |
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 
-" Commands used for preview of the grep result 
+" Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
+
+" Keyboard shortcuts while fzf preview is active
+let g:fzf_preview_default_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 ```
 
 # License
