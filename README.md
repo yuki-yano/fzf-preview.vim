@@ -10,30 +10,30 @@ This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses
 Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf.vim) has a lot of functions.
 [fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep of the interactive project.
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/37551910-a6de0e52-29ed-11e8-950a-c16d164218de.gif 'fzf-preview')
+![fzf-preview](https://user-images.githubusercontent.com/5423775/37551910-a6de0e52-29ed-11e8-950a-c16d164218de.gif "fzf-preview")
 
 ## Demo
 
 **Select files while watching the preview with fzf**
 
-![ProjectFilesPreview](https://user-images.githubusercontent.com/5423775/37551915-b0588a52-29ed-11e8-9bb6-3c892887fa28.gif 'ProjectFilesPreview')
+![ProjectFilesPreview](https://user-images.githubusercontent.com/5423775/37551915-b0588a52-29ed-11e8-9bb6-3c892887fa28.gif "ProjectFilesPreview")
 
 **Select buffer with preview**
 
-![BuffersPreview](https://user-images.githubusercontent.com/5423775/37553007-bc5484a4-2a02-11e8-8af8-7589bf32adae.gif 'BuffersPreview')
+![BuffersPreview](https://user-images.githubusercontent.com/5423775/37553007-bc5484a4-2a02-11e8-8af8-7589bf32adae.gif "BuffersPreview")
 
 **Select files from oldfiles in the project**
 
-![ProjectOldFiles](https://user-images.githubusercontent.com/5423775/37551924-c8c36972-29ed-11e8-97c4-133dd8a80870.gif 'ProjectOldFiles')
+![ProjectOldFiles](https://user-images.githubusercontent.com/5423775/37551924-c8c36972-29ed-11e8-97c4-133dd8a80870.gif "ProjectOldFiles")
 
 **Grep in project with preview and filtering**
 **Required [file-line](https://github.com/bogado/file-line) plugin**
 
-![ProjectGrep](https://user-images.githubusercontent.com/5423775/37552077-19619716-29f1-11e8-8cdb-f208d9c27a9c.gif 'ProjectGrep')
+![ProjectGrep](https://user-images.githubusercontent.com/5423775/37552077-19619716-29f1-11e8-8cdb-f208d9c27a9c.gif "ProjectGrep")
 
 **Select files from all oldfiles**
 
-![OldFilesPreview](https://user-images.githubusercontent.com/5423775/37551927-d5e0eaee-29ed-11e8-869e-4cf4b70d4911.gif 'OldfilesPreview')
+![OldFilesPreview](https://user-images.githubusercontent.com/5423775/37551927-d5e0eaee-29ed-11e8-869e-4cf4b70d4911.gif "OldfilesPreview")
 
 ## Feature
 
@@ -47,16 +47,16 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ## Requirements
 
-* **Neovim** <https://neovim.io/>
-* git <https://git-scm.com/>
-* fzf <https://github.com/junegunn/fzf>
+- **Neovim** <https://neovim.io/>
+- git <https://git-scm.com/>
+- fzf <https://github.com/junegunn/fzf>
 
 ### Optional
 
-* **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
-* **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
-* ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
-* neomru.vim (require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
+- **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
+- **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
+- ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
+- neomru.vim (require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
 
 When ccat is installed you can highlight the preview and see it.
 
@@ -117,7 +117,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 ## Optional Configuration Tips
 
-* Increase the number of file history:
+- Increase the number of file history:
 
 ```vim
 " oldfiles uses viminfo, but the default setting is 100
@@ -126,7 +126,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 set viminfo='1000
 ```
 
-* Set values for each variable. The default settings are as follows.
+- Set values for each variable. The default settings are as follows.
 
 ```vim
 " Add fzf quit mapping
