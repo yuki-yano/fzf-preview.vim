@@ -11,8 +11,8 @@ function! s:project_root() abort
     return ''
   endif
 
-  let l:get_git_root_cmd = system('git rev-parse --show-toplevel')
-  return strpart(l:get_git_root_cmd, 0, strlen(l:get_git_root_cmd) - 1)
+  let get_git_root_cmd = system('git rev-parse --show-toplevel')
+  return strpart(get_git_root_cmd, 0, strlen(get_git_root_cmd) - 1)
 endfunction
 
 function! s:project_files() abort
@@ -22,9 +22,9 @@ function! s:project_files() abort
     return []
   endif
 
-  let l:list = systemlist(g:fzf_preview_filelist_command)
+  let list = systemlist(g:fzf_preview_filelist_command)
 
-  return map(l:list, "fnamemodify(v:val, ':.')")
+  return map(list, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:git_files() abort
@@ -34,75 +34,75 @@ function! s:git_files() abort
     return []
   endif
 
-  let l:list = systemlist(g:fzf_preview_gitfiles_command)
-  return l:list
+  let list = systemlist(g:fzf_preview_gitfiles_command)
+  return list
 endfunction
 
 function! s:buffer_list() abort
-  let l:list = filter(range(1, bufnr('$')),
+  let list = filter(range(1, bufnr('$')),
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
-  return map(l:list, 'bufname(v:val)')
+  return map(list, 'bufname(v:val)')
 endfunction
 
 function! s:oldfile_list() abort
-  let l:copyfiles = deepcopy(v:oldfiles, 1)
-  let l:files = filter(l:copyfiles, 'filereadable(v:val)')
+  let copyfiles = deepcopy(v:oldfiles, 1)
+  let files = filter(copyfiles, 'filereadable(v:val)')
 
-  return map(l:files, "fnamemodify(v:val, ':~')")
+  return map(files, "fnamemodify(v:val, ':~')")
 endfunction
 
 function! s:mrufile_list() abort
-  let l:files = readfile(g:neomru#file_mru_path)
-  call remove(l:files, 0)
-  let l:files = filter(l:files, 'filereadable(v:val)')
+  let files = readfile(g:neomru#file_mru_path)
+  call remove(files, 0)
+  let files = filter(files, 'filereadable(v:val)')
 
-  return map(l:files, "fnamemodify(v:val, ':.')")
+  return map(files, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:is_project_file(file, project_path) abort
-  let l:file_path_list = split(a:file, '/')
+  let file_path_list = split(a:file, '/')
 
-  let l:is_target = 1
-  let l:project_path_elm = ''
+  let is_target = 1
+  let project_path_elm = ''
 
-  for l:project_path_elm in a:project_path
-    if match(l:file_path_list, '^' . l:project_path_elm . '$') == -1
-      let l:is_target = 0
+  for project_path_elm in a:project_path
+    if match(file_path_list, '^' . project_path_elm . '$') == -1
+      let is_target = 0
     endif
   endfor
 
-  return l:is_target
+  return is_target
 endfunction
 
 function! s:project_oldfile_list() abort
-  let l:target_files = []
-  let l:readable_filelist = filter(v:oldfiles, 'filereadable(v:val)')
-  let l:project_path_list = split(s:project_root(), '/')
+  let target_files = []
+  let readable_filelist = filter(v:oldfiles, 'filereadable(v:val)')
+  let project_path_list = split(s:project_root(), '/')
 
-  let l:readable_file = ''
-  for l:readable_file in l:readable_filelist
-    if s:is_project_file(l:readable_file, l:project_path_list)
-      let l:target_files = add(l:target_files, l:readable_file)
+  let readable_file = ''
+  for readable_file in readable_filelist
+    if s:is_project_file(readable_file, project_path_list)
+      let target_files = add(target_files, readable_file)
     endif
   endfor
-  return map(l:target_files, "fnamemodify(v:val, ':.')")
+  return map(target_files, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:project_mrufile_list() abort
-  let l:files = readfile(g:neomru#file_mru_path)
-  call remove(l:files, 0)
-  let l:target_files = []
-  let l:readable_filelist = filter(l:files, 'filereadable(v:val)')
-  let l:project_path_list = split(s:project_root(), '/')
+  let files = readfile(g:neomru#file_mru_path)
+  call remove(files, 0)
+  let target_files = []
+  let readable_filelist = filter(files, 'filereadable(v:val)')
+  let project_path_list = split(s:project_root(), '/')
 
-  let l:readable_file = ''
-  for l:readable_file in l:readable_filelist
-    if s:is_project_file(l:readable_file, l:project_path_list)
-      let l:target_files = add(l:target_files, l:readable_file)
+  let readable_file = ''
+  for readable_file in readable_filelist
+    if s:is_project_file(readable_file, project_path_list)
+      let target_files = add(target_files, readable_file)
     endif
   endfor
-  return map(l:target_files, "fnamemodify(v:val, ':.')")
+  return map(target_files, "fnamemodify(v:val, ':.')")
 endfunction
 
 function! s:map_fzf_keys() abort
@@ -112,8 +112,8 @@ function! s:map_fzf_keys() abort
 endfunction
 
 function! s:fzf_toggle_full_buffer() abort
-  let l:defaultsize = float2nr(g:fzf_preview_rate * &lines)
-  if l:defaultsize == winheight('%')
+  let defaultsize = float2nr(g:fzf_preview_rate * &lines)
+  if defaultsize == winheight('%')
     tab split
   else
     tabclose
@@ -156,8 +156,8 @@ function! fzf_preview#fzf_git_files() abort
   endif
 
   function! s:gitfile_open(line) abort
-    let l:file = a:line[3:]
-    execute 'edit' l:file
+    let file = a:line[3:]
+    execute 'edit' file
   endfunction
 
   call fzf#run({
@@ -228,13 +228,13 @@ function! fzf_preview#fzf_project_grep(...) abort
   endif
 
   if a:0 >= 1
-    let l:grep_command = g:fzf_preview_grep_cmd . ' ' . a:1
+    let grep_command = g:fzf_preview_grep_cmd . ' ' . a:1
   else
-    let l:grep_command = g:fzf_preview_grep_cmd . ' .'
+    let grep_command = g:fzf_preview_grep_cmd . ' .'
   end
 
   call fzf#run(fzf#wrap({
-  \ 'source':  l:grep_command,
+  \ 'source':  grep_command,
   \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
   \ 'window':  g:fzf_preview_layout,
   \ }))
