@@ -19,18 +19,6 @@ if !exists('g:fzf_preview_quit_map')
   let g:fzf_preview_quit_map = 1
 endif
 
-if !exists('g:fzf_preview_layout')
-  let g:fzf_preview_layout = 'top split new'
-endif
-
-if !exists('g:fzf_preview_rate')
-  let g:fzf_preview_rate = 0.3
-endif
-
-if !exists('g:fzf_full_preview_toggle_key')
-  let g:fzf_full_preview_toggle_key = '<C-s>'
-endif
-
 if !exists('g:fzf_preview_command')
   if executable('ccat')
     let g:fzf_preview_command = 'ccat --color=always {-1}'
@@ -66,6 +54,22 @@ endif
 if !exists('g:fzf_preview_default_key_bindings')
   let g:fzf_preview_default_key_bindings =
         \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+endif
+
+if !exists('g:fzf_preview_use_dev_icons')
+  let g:fzf_preview_use_dev_icons = 0
+endif
+
+if !exists('g:fzf_preview_layout')
+  let g:fzf_preview_layout = 'top split new'
+endif
+
+if !exists('g:fzf_preview_rate')
+  let g:fzf_preview_rate = 0.3
+endif
+
+if !exists('g:fzf_full_preview_toggle_key')
+  let g:fzf_full_preview_toggle_key = '<C-s>'
 endif
 
 let s:save_cpo = &cpoptions

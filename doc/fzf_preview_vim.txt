@@ -17,7 +17,7 @@ CONTENTS                                   *fzf-preview-contents*
 INTRODUCTION                              *fzf-preview-introduction*
 
 *fzf-preview* is a Neovim plugin to provide some fzf sources to with preview.
-You can see the preview of the file on a small or full window.
+Fzf can be operated using floating window (or any layout).
 
 Requirements:
 - Neovim
@@ -46,6 +46,10 @@ Optional
     https://github.com/Shougo/neomru.vim
     neomru is a plugin that manages the history of files.
     It does not depend on viminfo. It may be more convenient than oldfiles.
+
+- vim-devicons
+    https://github.com/ryanoasis/vim-devicons
+    vim-devicons can be displayed as fzf candidates
 
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
@@ -196,6 +200,12 @@ g:fzf_preview_default_key_bindings
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
+g:fzf_preview_use_dev_icons
+    If this value is 1, devicons is used as fzf candidate.
+
+    Default value is 0
+
+
 DEPRECATED: Works when floating window is not used
 g:fzf_preview_layout
     This value is the layout displayed when executing the fzf command.
@@ -224,8 +234,14 @@ g:fzf_full_preview_toggle_key
 ==============================================================================
 KEYMAP                                          *fzf-preview-keymap*
 
-<C-s>
-  - Toggle window size of fzf, normal size and full-screen
+<C-x>
+  - Open split
+
+<C-v>
+  - Open vsplit
+
+<C-t>
+  - Open tabedit
 
 <C-d>
   - Preview page down
@@ -233,9 +249,11 @@ KEYMAP                                          *fzf-preview-keymap*
 <C-u>
   - Preview page up
 
-<C-t> or ?
+?
   - Toggle Preview
 
+<C-s> # DEPRECATED
+  - Toggle window size of fzf, normal size and full-screen
 
 ==============================================================================
 EXAMPLE                                         *fzf-preview-mappings*

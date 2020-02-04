@@ -12,7 +12,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ## Demo
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/73776056-6f084400-47ca-11ea-9c94-c748d696dfed.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/73787634-0c6d7300-47df-11ea-9477-08b6bb965da8.gif "fzf-preview")
 
 ## Feature
 
@@ -36,7 +36,8 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 - **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
 - **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
 - ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
-- neomru.vim (require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
+- neomru.vim (Require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
+- vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 When ccat is installed you can highlight the preview and see it.
 
@@ -84,13 +85,22 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ## Keymap
 
 ```text
+<C-x>
+  Open split
+
+<C-v>
+  Open vsplit
+
+<C-t>
+  Open tabedit
+
 <C-d>
   Preview page down
 
 <C-u>
   Preview page up
 
-<C-t> or ?
+?
   Toggle display of preview screen
 
 DEPRECATED
@@ -141,6 +151,9 @@ let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 
 " Keyboard shortcuts while fzf preview is active
 let g:fzf_preview_default_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+" Use vim-devicons
+let g:fzf_preview_use_dev_icons = 1
 
 " DEPRECATED
 " fzf window layout
