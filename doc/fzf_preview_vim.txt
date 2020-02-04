@@ -20,7 +20,7 @@ INTRODUCTION                              *fzf-preview-introduction*
 You can see the preview of the file on a small or full window.
 
 Requirements:
-- neovim
+- Neovim
     https://neovim.io/
 - git
     https://git-scm.com/
@@ -117,32 +117,19 @@ COMMANDS                                        *fzf-preview-commands*
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
+g:fzf_preview_use_floating_window
+    If this value is 1, display fzf window using Floating Window
+    This value is for Neovim
+
+    Default value is 1
+    Ref: https://github.com/Blacksuan19/init.nvim
+
+
 g:fzf_preview_quit_map
     If this value is 1, mapping that will safely quit
     in fzf's normal mode and visual mode is added
 
     Default value is 1
-
-g:fzf_preview_layout
-    This value is the layout displayed when executing the fzf command.
-
-    Default value is 'top split new'
-
-
-g:fzf_preview_rate
-    Calculate the size of the fzf window based on this value.
-    In the case of 0.3, windows with 0.3 times the size of
-    &lines are generated.
-
-    Default value is 0.3
-
-
-g:fzf_full_preview_toggle_key
-    It is a mapping for switching the fzf window to full screen.
-    You press this key, the display changes with the value set
-    with g:fzf_preview_rate.
-
-    Default value is '<C-s>'
 
 
 g:fzf_preview_command
@@ -207,6 +194,31 @@ g:fzf_preview_default_key_bindings
     session. Options are a string passed directly to fzf's "--bind" option.
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+
+DEPRECATED: Works when floating window is not used
+g:fzf_preview_layout
+    This value is the layout displayed when executing the fzf command.
+
+    Default value is 'top split new'
+
+
+DEPRECATED: Works when floating window is not used
+g:fzf_preview_rate
+    Calculate the size of the fzf window based on this value.
+    In the case of 0.3, windows with 0.3 times the size of
+    &lines are generated.
+
+    Default value is 0.3
+
+
+DEPRECATED: Works when floating window is not used
+g:fzf_full_preview_toggle_key
+    It is a mapping for switching the fzf window to full screen.
+    You press this key, the display changes with the value set
+    with g:fzf_preview_rate.
+
+    Default value is '<C-s>'
 
 
 ==============================================================================

@@ -10,40 +10,20 @@ This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses
 Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf.vim) has a lot of functions.
 [fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep of the interactive project.
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/37551910-a6de0e52-29ed-11e8-950a-c16d164218de.gif "fzf-preview")
-
 ## Demo
 
-**Select files while watching the preview with fzf**
-
-![ProjectFilesPreview](https://user-images.githubusercontent.com/5423775/37551915-b0588a52-29ed-11e8-9bb6-3c892887fa28.gif "ProjectFilesPreview")
-
-**Select buffer with preview**
-
-![BuffersPreview](https://user-images.githubusercontent.com/5423775/37553007-bc5484a4-2a02-11e8-8af8-7589bf32adae.gif "BuffersPreview")
-
-**Select files from oldfiles in the project**
-
-![ProjectOldFiles](https://user-images.githubusercontent.com/5423775/37551924-c8c36972-29ed-11e8-97c4-133dd8a80870.gif "ProjectOldFiles")
-
-**Grep in project with preview and filtering**
-**Required [file-line](https://github.com/bogado/file-line) plugin**
-
-![ProjectGrep](https://user-images.githubusercontent.com/5423775/37552077-19619716-29f1-11e8-8cdb-f208d9c27a9c.gif "ProjectGrep")
-
-**Select files from all oldfiles**
-
-![OldFilesPreview](https://user-images.githubusercontent.com/5423775/37551927-d5e0eaee-29ed-11e8-869e-4cf4b70d4911.gif "OldfilesPreview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/73776056-6f084400-47ca-11ea-9c94-c748d696dfed.gif "fzf-preview")
 
 ## Feature
 
-1. Fast file and buffer search using fuzzy match and preview.
-2. All file and history search in the project.
-3. Real time preview of the selected file.
-4. Searching from file history file using oldfiles.
-5. Switch the buffer of fzf full-screen buffer and normal size buffer.
-6. It is possible to interactively execute grep from within the project by specifying the directory
-7. Highlight code in preview with ccat. (Optional)
+1. Fzf can be operated using floating window (or any layout).
+2. Fast file and buffer search using fuzzy match and preview.
+3. All file and history search in the project.
+4. Real time preview of the selected file.
+5. Searching from file history file using oldfiles or mru.
+6. File search from git status with diff preview.
+7. It is possible to interactively execute grep from within the project by specifying the directory
+8. Highlight code in preview with ccat. (Optional)
 
 ## Requirements
 
@@ -103,17 +83,20 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 ## Keymap
 
-    <C-s> (Neovim Only)
-      Toggle window size of fzf, normal size and full-screen
+```text
+<C-d>
+  Preview page down
 
-    <C-d>
-      Preview page down
+<C-u>
+  Preview page up
 
-    <C-u>
-      Preview page up
+<C-t> or ?
+  Toggle display of preview screen
 
-    <C-t> or ?
-      Toggle display of preview screen
+DEPRECATED
+<C-s> (Neovim Only)
+  Toggle window size of fzf, normal size and full-screen
+```
 
 ## Optional Configuration Tips
 
@@ -130,16 +113,10 @@ set viminfo='1000
 
 ```vim
 " Add fzf quit mapping
-g:fzf_preview_quit_map = 1
+let g:fzf_preview_quit_map = 1
 
-" fzf window layout
-let g:fzf_preview_layout = 'top split new'
-
-" Rate of fzf window
-let g:fzf_preview_rate = 0.3
-
-" Key to toggle fzf window size of normal size and full-screen
-let g:fzf_full_preview_toggle_key = '<C-s>'
+" Use floating window (for neovim)
+let g:fzf_preview_use_floating_window = 1
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
@@ -164,8 +141,24 @@ let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 
 " Keyboard shortcuts while fzf preview is active
 let g:fzf_preview_default_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+" DEPRECATED
+" fzf window layout
+let g:fzf_preview_layout = 'top split new'
+
+" DEPRECATED
+" Rate of fzf window
+let g:fzf_preview_rate = 0.3
+
+" DEPRECATED
+" Key to toggle fzf window size of normal size and full-screen
+let g:fzf_full_preview_toggle_key = '<C-s>'
 ```
 
-# License
+## Inspiration
+
+- [Blacksuan19/init.nvim: An Opinionated Minimalist Neovim Configuration](https://github.com/Blacksuan19/init.nvim)
+
+## License
 
 The MIT License (MIT)

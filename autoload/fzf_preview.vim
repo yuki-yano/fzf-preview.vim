@@ -106,8 +106,11 @@ function! s:project_mrufile_list() abort
 endfunction
 
 function! s:map_fzf_keys() abort
-  execute 'resize' float2nr(g:fzf_preview_rate * &lines)
+  if g:fzf_preview_use_floating_window
+    return
+  endif
 
+  execute 'resize' float2nr(g:fzf_preview_rate * &lines)
   execute 'tnoremap <silent> <buffer> ' . g:fzf_full_preview_toggle_key . ' <C-\><C-n>:<C-u>call <SID>fzf_toggle_full_buffer()<CR>'
 endfunction
 
@@ -128,6 +131,12 @@ function! s:fzf_command_common_option(console) abort
         \ . g:fzf_preview_default_key_bindings . ' --preview '
 endfunction
 
+function! s:fzf_preview_float_or_layout() abort
+  return g:fzf_preview_use_floating_window ?
+  \ 'call fzf_preview#window#create_centered_floating_window()' :
+  \ g:fzf_preview_layout
+endfunction
+
 let s:files_prompt     = 'ProjectFiles'
 let s:files_buffer     = 'Buffers'
 let s:project_oldfiles = 'ProjectOldFiles'
@@ -145,7 +154,7 @@ function! fzf_preview#fzf_files() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:project_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -163,7 +172,7 @@ function! fzf_preview#fzf_git_files() abort
   call fzf#run({
   \ 'source':  s:git_files(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . "--tiebreak=index --preview '[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command . "'",
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ 'sink':    function('<SID>gitfile_open'),
   \ })
   call s:map_fzf_keys()
@@ -173,7 +182,7 @@ function! fzf_preview#fzf_buffers() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:buffer_list(),
   \ 'options': s:fzf_command_common_option(s:files_buffer) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -182,7 +191,7 @@ function! fzf_preview#fzf_oldfiles() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -191,7 +200,7 @@ function! fzf_preview#fzf_mrufiles() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:mrufile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -204,7 +213,7 @@ function! fzf_preview#fzf_project_oldfiles() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:project_oldfile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -217,7 +226,7 @@ function! fzf_preview#fzf_project_mrufiles() abort
   call fzf#run(fzf#wrap({
   \ 'source':  s:project_mrufile_list(),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:project_mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
@@ -236,7 +245,7 @@ function! fzf_preview#fzf_project_grep(...) abort
   call fzf#run(fzf#wrap({
   \ 'source':  grep_command,
   \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
-  \ 'window':  g:fzf_preview_layout,
+  \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
   call s:map_fzf_keys()
 endfunction
