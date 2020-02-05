@@ -12,7 +12,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ## Demo
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/73787634-0c6d7300-47df-11ea-9477-08b6bb965da8.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/73814800-714cbb80-4827-11ea-8e70-093e14287453.gif "fzf-preview")
 
 ## Feature
 
