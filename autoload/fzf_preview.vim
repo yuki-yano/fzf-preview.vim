@@ -329,14 +329,14 @@ function! fzf_preview#fzf_files_from_resources(...) abort
   \ 'mru': function('s:mrufiles'),
   \ }
 
+  let List = vital#fzf_preview#import('Data.List')
   let files = []
   for resource in a:000
     let files = files + str2func[resource]()
   endfor
-  call uniq(sort(files))
 
   call fzf#run({
-  \ 'source':  files,
+  \ 'source':  List.uniq(files),
   \ 'sink*':   function('s:edit_file'),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:resource_from_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
