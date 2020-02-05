@@ -26,6 +26,17 @@ function! s:project_files() abort
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
 endfunction
 
+function! s:git_files() abort
+  silent !git rev-parse --show-toplevel
+  if v:shell_error
+    echomsg 'The current directory is not a git project'
+    return []
+  endif
+
+  let file = systemlist(g:fzf_preview_git_files_command)
+  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
+endfunction
+
 function! s:git_status() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
@@ -179,6 +190,20 @@ function! fzf_preview#fzf_files() abort
 
   call fzf#run({
   \ 'source':  s:project_files(),
+  \ 'sink*':   function('s:edit_file'),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'window':  s:fzf_preview_float_or_layout(),
+  \ })
+  call s:map_fzf_keys()
+endfunction
+
+function! fzf_preview#fzf_git_files() abort
+  if s:project_root() ==# ''
+    return
+  endif
+
+  call fzf#run({
+  \ 'source':  s:git_files(),
   \ 'sink*':   function('s:edit_file'),
   \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
