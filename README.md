@@ -23,7 +23,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 5. Searching from file history file using oldfiles or mru.
 6. File search from git status with diff preview.
 7. It is possible to interactively execute grep from within the project by specifying the directory
-8. Highlight code in preview with ccat. (Optional)
+8. Highlight code in preview with bat or ccat. (Optional)
 
 ## Requirements
 
@@ -33,13 +33,14 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ### Optional
 
+- **bat (A cat clone with syntax highlighting)** (Reccomended) <https://github.com/sharkdp/bat>
 - **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
 - **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
 - ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
-When ccat is installed you can highlight the preview and see it.
+When bat or ccat is installed you can highlight the preview and see it.
 
 If it is not installed, head will be used
 
@@ -130,8 +131,9 @@ let g:fzf_preview_use_floating_window = 1
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
-let g:fzf_preview_command = 'head -100 {-1}'           " Not installed ccat
-let g:fzf_preview_command = 'ccat --color=always {-1}' " Installed ccat
+let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed ccat and bat
+let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
+let g:fzf_preview_command = 'ccat --color=always {-1}'             " Installed ccat
 
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
