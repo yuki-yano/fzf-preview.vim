@@ -81,18 +81,20 @@ endif
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-command! FzfPreviewProjectFiles         :call fzf_preview#fzf_files()
-command! FzfPreviewGitFiles             :call fzf_preview#fzf_git_files()
-command! FzfPreviewGitStatus            :call fzf_preview#fzf_git_status()
-command! FzfPreviewBuffers              :call fzf_preview#fzf_buffers()
-command! FzfPreviewProjectOldFiles      :call fzf_preview#fzf_project_oldfiles()
-command! FzfPreviewProjectMruFiles      :call fzf_preview#fzf_project_mrufiles()
-command! FzfPreviewOldFiles             :call fzf_preview#fzf_oldfiles()
-command! FzfPreviewMruFiles             :call fzf_preview#fzf_mrufiles()
+command! FzfPreviewProjectFiles    :call fzf_preview#fzf_project_files()
+command! FzfPreviewGitFiles        :call fzf_preview#fzf_git_files()
+command! FzfPreviewGitStatus       :call fzf_preview#fzf_git_status()
+command! FzfPreviewBuffers         :call fzf_preview#fzf_buffers()
+command! FzfPreviewProjectOldFiles :call fzf_preview#fzf_project_oldfiles()
+command! FzfPreviewProjectMruFiles :call fzf_preview#fzf_project_mrufiles()
+command! FzfPreviewOldFiles        :call fzf_preview#fzf_oldfiles()
+command! FzfPreviewMruFiles        :call fzf_preview#fzf_mrufiles()
+
 command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#fzf_project_grep(<f-args>)
+command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#fzf_files_from_resources(<f-args>)
 
 " WARN: DEPRECATED
-command! ProjectFilesPreview         :call fzf_preview#fzf_files()                | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
+command! ProjectFilesPreview         :call fzf_preview#fzf_project_files()        | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
 command! GitFilesPreview             :call fzf_preview#fzf_git_files()            | echoerr 'Deprecated: move to FzfPreviewGitFiles'
 command! GitStatusPreview            :call fzf_preview#fzf_git_status()           | echoerr 'Deprecated: move to FzfPreviewGitStatus'
 command! BuffersPreview              :call fzf_preview#fzf_buffers()              | echoerr 'Deprecated: move to FzfPreviewBuffers'

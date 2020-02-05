@@ -83,6 +83,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewOldFiles                   " Select files from oldfiles
 
 :FzfPreviewMruFiles                   " Select mru files with neomru
+
+:FzfPreviewFromResources              " Select files from selected resources (project, git, buffer, project_old, project_mru, old, mru)
 ```
 
 ### DEPRECATED

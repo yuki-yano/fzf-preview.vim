@@ -48,7 +48,7 @@ function! s:git_status() abort
   return list
 endfunction
 
-function! s:buffer_list() abort
+function! s:buffers() abort
   let list = filter(range(1, bufnr('$')),
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
@@ -56,7 +56,7 @@ function! s:buffer_list() abort
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(buffers) : buffers
 endfunction
 
-function! s:oldfile_list() abort
+function! s:oldfiles() abort
   let copyfiles = deepcopy(v:oldfiles, 1)
   let files = filter(copyfiles, 'filereadable(v:val)')
 
@@ -64,7 +64,7 @@ function! s:oldfile_list() abort
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
-function! s:mrufile_list() abort
+function! s:mrufiles() abort
   let files = readfile(g:neomru#file_mru_path)
   call remove(files, 0)
   let files = filter(files, 'filereadable(v:val)')
@@ -88,7 +88,7 @@ function! s:is_project_file(file, project_path) abort
   return is_target
 endfunction
 
-function! s:project_oldfile_list() abort
+function! s:project_oldfiles() abort
   let target_files = []
   let readable_filelist = filter(v:oldfiles, 'filereadable(v:val)')
   let project_path_list = split(s:project_root(), '/')
@@ -103,7 +103,7 @@ function! s:project_oldfile_list() abort
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
-function! s:project_mrufile_list() abort
+function! s:project_mrufiles() abort
   let files = readfile(g:neomru#file_mru_path)
   call remove(files, 0)
   let target_files = []
@@ -174,16 +174,18 @@ function! s:fzf_preview_float_or_layout() abort
   \ g:fzf_preview_layout
 endfunction
 
-let s:files_prompt      = 'ProjectFiles'
-let s:files_buffer      = 'Buffers'
-let s:project_oldfiles  = 'ProjectOldFiles'
-let s:project_mrufiles  = 'ProjectMruFiles'
-let s:oldfiles          = 'OldFiles'
-let s:mrufiles          = 'MruFiles'
-let s:project_grep      = 'ProjectGrep'
-let s:git_status_prompt = 'GitStatus'
+let s:project_files_prompt    = 'ProjectFiles'
+let s:git_files_prompt        = 'GitFiles'
+let s:buffers_prompt          = 'Buffers'
+let s:project_oldfiles_prompt = 'ProjectOldFiles'
+let s:project_mrufiles_prompt = 'ProjectMruFiles'
+let s:oldfiles_prompt         = 'OldFiles'
+let s:mrufiles_prompt         = 'MruFiles'
+let s:project_grep_prompt     = 'ProjectGrep'
+let s:git_status_prompt       = 'GitStatus'
+let s:resource_from_prompt    = 'ResourceFrom'
 
-function! fzf_preview#fzf_files() abort
+function! fzf_preview#fzf_project_files() abort
   if s:project_root() ==# ''
     return
   endif
@@ -191,7 +193,7 @@ function! fzf_preview#fzf_files() abort
   call fzf#run({
   \ 'source':  s:project_files(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -205,7 +207,7 @@ function! fzf_preview#fzf_git_files() abort
   call fzf#run({
   \ 'source':  s:git_files(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -237,9 +239,9 @@ endfunction
 
 function! fzf_preview#fzf_buffers() abort
   call fzf#run({
-  \ 'source':  s:buffer_list(),
+  \ 'source':  s:buffers(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': s:fzf_command_common_option(s:files_buffer) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': s:fzf_command_common_option(s:buffers_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -247,9 +249,9 @@ endfunction
 
 function! fzf_preview#fzf_oldfiles() abort
   call fzf#run({
-  \ 'source':  s:oldfile_list(),
+  \ 'source':  s:oldfiles(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:oldfiles_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -257,9 +259,9 @@ endfunction
 
 function! fzf_preview#fzf_mrufiles() abort
   call fzf#run({
-  \ 'source':  s:mrufile_list(),
+  \ 'source':  s:mrufiles(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:mrufiles_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -271,9 +273,9 @@ function! fzf_preview#fzf_project_oldfiles() abort
   endif
 
   call fzf#run({
-  \ 'source':  s:project_oldfile_list(),
+  \ 'source':  s:project_oldfiles(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_oldfiles_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -285,9 +287,9 @@ function! fzf_preview#fzf_project_mrufiles() abort
   endif
 
   call fzf#run({
-  \ 'source':  s:project_mrufile_list(),
+  \ 'source':  s:project_mrufiles(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_mrufiles) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:project_mrufiles_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
@@ -306,9 +308,39 @@ function! fzf_preview#fzf_project_grep(...) abort
 
   call fzf#run(fzf#wrap({
   \ 'source':  grep_command,
-  \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
+  \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep_prompt) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ }))
+  call s:map_fzf_keys()
+endfunction
+
+function! fzf_preview#files_resources(lead, line, pos) abort
+  return ['project', 'git', 'buffer', 'project_old', 'project_mru', 'old', 'mru']
+endfunction
+
+function! fzf_preview#fzf_files_from_resources(...) abort
+  let str2func = {
+  \ 'project': function('s:project_files'),
+  \ 'git': function('s:git_files'),
+  \ 'buffer': function('s:buffers'),
+  \ 'project_old': function('s:project_oldfiles'),
+  \ 'project_mru': function('s:project_mrufiles'),
+  \ 'old': function('s:oldfiles'),
+  \ 'mru': function('s:mrufiles'),
+  \ }
+
+  let files = []
+  for resource in a:000
+    let files = files + str2func[resource]()
+  endfor
+  call uniq(sort(files))
+
+  call fzf#run({
+  \ 'source':  files,
+  \ 'sink*':   function('s:edit_file'),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:resource_from_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'window':  s:fzf_preview_float_or_layout(),
+  \ })
   call s:map_fzf_keys()
 endfunction
 

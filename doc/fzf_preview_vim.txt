@@ -114,9 +114,9 @@ COMMANDS                                        *fzf-preview-commands*
 
                                                 *:FzfPreviewProjectGrep*
 :FzfPreviewProjectGrep {dir or none}
-    Search text in the args dir from the project.
-    The retrieved result is displayed in file name, number of lines, preview
-    and can be opened with fzf interface.
+     Search text in the args dir from the project.
+     The retrieved result is displayed in file name, number of lines, preview
+     and can be opened with fzf interface.
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
@@ -129,6 +129,14 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the opened file with the fzf interface
      while watching the preview.
      For the target file, see |neomru|.
+
+                                                *:FzfPreviewFromResources*
+:FzfPreviewFromResources
+     Select a resource and generate a file list.
+     From there, select the file using the fzf interface.
+     Grep and git status are not supported.
+
+     Resources: [project, git, buffer, project_old, project_mru, old, mru]
 
 ==============================================================================
 DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
