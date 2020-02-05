@@ -11,6 +11,7 @@ CONTENTS                                   *fzf-preview-contents*
     Installation                           |fzf-preview-installation|
     Mappings                               |fzf-preview-mappings|
     Commands                               |fzf-preview-commands|
+    Deprecated Commands                    |fzf-preview-deprecated-commands|
     Keymap                                 |fzf-preview-keymap|
 
 ==============================================================================
@@ -60,7 +61,7 @@ Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
 
 ==============================================================================
-INSTRATTION                                     *fzf-preview-installation*
+INSTALLATION                                     *fzf-preview-installation*
 
 Use Dein, vim-plug or any Vim plugin manager of your choice.
 
@@ -81,47 +82,82 @@ you install fzf as well using Dein
 ==============================================================================
 COMMANDS                                        *fzf-preview-commands*
 
-                                                *:ProjectFilesPreview*
-:ProjectFilesPreview
+                                                *:FzfPreviewProjectFiles*
+:FzfPreviewProjectFiles
      Select and open git repository files with fzf interface
      while watching preview.
 
-                                                *:GitFilesPreview*
-:GitFilesPreview
+                                                *:FzfPreviewGitFiles*
+:FzfPreviewGitFiles
      Select files that have been changed with git.
      Use fzf interface while watching git diff preview.
 
-                                                *:BuffersPreview*
-:BuffersPreview
+                                                *:FzfPreviewBuffers*
+:FzfPreviewBuffers
      Select and open opened buffers with fzf interface while watching preview.
 
-                                                *:ProjectOldFilesPreview*
-:ProjectOldFilesPreview
+                                                *:FzfPreviewProjectOldFiles*
+:FzfPreviewProjectOldFiles
      Select and open the past open files in the project using fzf.
      The target file is selected from  |v:oldfiles|.
 
-                                                *:ProjectMruFilesPreview*
-:ProjectMruFilesPreview
+                                                *:FzfPreviewProjectMruFiles*
+:FzfPreviewProjectMruFiles
      Select and open the past open files in the project using fzf.
      The target file is selected from  |neomru|.
 
-                                                *:ProjectGrepPreview*
-:ProjectGrepPreview {dir or none}
+                                                *:FzfPreviewProjectGrep*
+:FzfPreviewProjectGrep {dir or none}
     Search text in the args dir from the project.
     The retrieved result is displayed in file name, number of lines, preview
     and can be opened with fzf interface.
 
-                                                *:OldFilesPreview*
-:OldFilesPreview
+                                                *:FzfPreviewOldFiles*
+:FzfPreviewOldFiles
      Select and open the opened file with the fzf interface
      while watching the preview.
      For the target file, see |v:oldfiles|.
 
-                                                *:MruFilesPreview*
-:MruFilesPreview
+                                                *:FzfPreviewMruFiles*
+:FzfPreviewMruFiles
      Select and open the opened file with the fzf interface
      while watching the preview.
      For the target file, see |neomru|.
+
+==============================================================================
+DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
+
+                                                *:ProjectFilesPreview*
+:ProjectFilesPreview
+     Move to FzfPreviewProjectFiles
+
+                                                *:GitFilesPreview*
+:GitFilesPreview
+     Move to FzfPreviewGitFiles
+
+                                                *:BuffersPreview*
+:BuffersPreview
+     Move to FzfPreviewBuffers
+
+                                                *:ProjectOldFilesPreview*
+:ProjectOldFilesPreview
+     Move to FzfPreviewProjectOldFiles
+
+                                                *:ProjectMruFilesPreview*
+:ProjectMruFilesPreview
+     Move to FzfPreviewProjectMruFiles
+
+                                                *:ProjectGrepPreview*
+:ProjectGrepPreview {dir or none}
+    Move to FzfPreviewProjectGrep
+
+                                                *:OldFilesPreview*
+:OldFilesPreview
+     Move to FzfPreviewOldFiles
+
+                                                *:MruFilesPreview*
+:MruFilesPreview
+     Move to FzfPreviewMruFiles
 
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
@@ -268,9 +304,9 @@ EXAMPLE                                         *fzf-preview-mappings*
 
 Here is mapping example.
 >
-    nnoremap <silent> <Leader>p :<C-u>ProjectFilesPreview<CR>
-    nnoremap <silent> <Leader>b :<C-u>BuffersPreview<CR>
-    nnoremap <silent> <Leader>m :<C-u>ProjectOldFilesPreview<CR>
-    nnoremap <silent> <Leader>M :<C-u>OldFilesPreview<CR>
+    nnoremap <silent> <Leader>p :<C-u>FzfPreviewProjectFiles<CR>
+    nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers<CR>
+    nnoremap <silent> <Leader>m :<C-u>FzfPreviewProjectOldFiles<CR>
+    nnoremap <silent> <Leader>M :<C-u>FzfPreviewOldFiles<CR>
 <
 vim:tw=78:sw=2:ts=2:ft=help:norl:nowrap:

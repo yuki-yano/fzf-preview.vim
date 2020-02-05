@@ -77,14 +77,24 @@ endif
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-command! ProjectFilesPreview         :call fzf_preview#fzf_files()
-command! GitFilesPreview             :call fzf_preview#fzf_git_files()
-command! BuffersPreview              :call fzf_preview#fzf_buffers()
-command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()
-command! MruFilesPreview             :call fzf_preview#fzf_mrufiles()
-command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()
-command! ProjectMruFilesPreview      :call fzf_preview#fzf_project_mrufiles()
-command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>)
+command! FzfPreviewProjectFiles         :call fzf_preview#fzf_files()
+command! FzfPreviewGitFiles             :call fzf_preview#fzf_git_files()
+command! FzfPreviewBuffers              :call fzf_preview#fzf_buffers()
+command! FzfPreviewProjectOldFiles      :call fzf_preview#fzf_project_oldfiles()
+command! FzfPreviewProjectMruFiles      :call fzf_preview#fzf_project_mrufiles()
+command! FzfPreviewOldFiles             :call fzf_preview#fzf_oldfiles()
+command! FzfPreviewMruFiles             :call fzf_preview#fzf_mrufiles()
+command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#fzf_project_grep(<f-args>)
+
+" WARN: DEPRECATED
+command! ProjectFilesPreview         :call fzf_preview#fzf_files()                | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
+command! GitFilesPreview             :call fzf_preview#fzf_git_files()            | echoerr 'Deprecated: move to FzfPreviewGitFiles'
+command! BuffersPreview              :call fzf_preview#fzf_buffers()              | echoerr 'Deprecated: move to FzfPreviewBuffers'
+command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()     | echoerr 'Deprecated: move to FzfPreviewProjectOldFiles'
+command! ProjectMruFilesPreview      :call fzf_preview#fzf_project_mrufiles()     | echoerr 'Deprecated: move to FzfPreviewProjectMruFiles'
+command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()             | echoerr 'Deprecated: move to FzfPreviewOldFiles'
+command! MruFilesPreview             :call fzf_preview#fzf_mrufiles()             | echoerr 'Deprecated: move to FzfPreviewMruFiles'
+command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>) | echoerr 'Deprecated: move to FzfPreviewProjectGrep'
 
 augroup fzf_preview_buffers
   autocmd!

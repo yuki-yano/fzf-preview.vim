@@ -66,21 +66,41 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ## Usage
 
 ```vim
-:ProjectFilesPreview              " Select project files
+:FzfPreviewProjectFiles               " Select project files
 
-:GitFilesPreview                  " Select git status listed file
+:FzfPreviewGitFiles                   " Select git status listed file
 
-:BuffersPreview                   " Select buffers
+:FzfPreviewBuffers                    " Select buffers
 
-:ProjectOldFilesPreview           " Select project files from oldfiles
+:FzfPreviewProjectOldFiles            " Select project files from oldfiles
 
-:ProjectMruFilesPreview           " Select project mru files with neomru
+:FzfPreviewProjectMruFiles            " Select project mru files with neomru
 
-:ProjectGrepPreview {dir or none} " Grep project files from args dir (Required [file-line](https://github.com/bogado/file-line) plugin)
+:FzfPreviewProjectGrep {word or none} " Grep project files from args word (Required [file-line](https://github.com/bogado/file-line) plugin)
 
-:OldFilesPreview                  " Select files from oldfiles
+:FzfPreviewOldFiles                   " Select files from oldfiles
 
-:MruFilesPreview                  " Select mru files with neomru
+:FzfPreviewMruFiles                   " Select mru files with neomru
+```
+
+### DEPRECATED
+
+```vim
+:ProjectFilesPreview               " Select project files
+
+:GitFilesPreview                   " Select git status listed file
+
+:BuffersPreview                    " Select buffers
+
+:ProjectOldFilesPreview            " Select project files from oldfiles
+
+:ProjectMruFilesPreview            " Select project mru files with neomru
+
+:ProjectGrepPreview {word or none} " Grep project files from args word (Required [file-line](https://github.com/bogado/file-line) plugin)
+
+:OldFilesPreview                   " Select files from oldfiles
+
+:MruFilesPreview                   " Select mru files with neomru
 ```
 
 ## Keymap
