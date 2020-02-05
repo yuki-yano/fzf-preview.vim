@@ -68,7 +68,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ```vim
 :FzfPreviewProjectFiles               " Select project files
 
-:FzfPreviewGitFiles                   " Select git status listed file
+:FzfPreviewGitStatus                  " Select git status listed file
 
 :FzfPreviewBuffers                    " Select buffers
 
@@ -88,7 +88,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ```vim
 :ProjectFilesPreview               " Select project files
 
-:GitFilesPreview                   " Select git status listed file
+:GitStatusPreview                  " Select git status listed file
 
 :BuffersPreview                    " Select buffers
 
@@ -163,7 +163,7 @@ let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'          
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git/*"' " Installed ripgrep
 
 " Commands used to get the git status file list
-let g:fzf_preview_gitfiles_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
 
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'

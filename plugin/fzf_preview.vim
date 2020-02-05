@@ -41,8 +41,8 @@ if !exists('g:fzf_preview_filelist_command')
   endif
 endif
 
-if !exists('g:fzf_preview_gitfiles_command')
-  let g:fzf_preview_gitfiles_command = 'git -c color.status=always status --short --untracked-files=all'
+if !exists('g:fzf_preview_git_status_command')
+  let g:fzf_preview_git_status_command = 'git -c color.status=always status --short --untracked-files=all'
 endif
 
 if !exists('g:fzf_preview_grep_cmd')
@@ -78,7 +78,7 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 command! FzfPreviewProjectFiles         :call fzf_preview#fzf_files()
-command! FzfPreviewGitFiles             :call fzf_preview#fzf_git_files()
+command! FzfPreviewGitStatus            :call fzf_preview#fzf_git_status()
 command! FzfPreviewBuffers              :call fzf_preview#fzf_buffers()
 command! FzfPreviewProjectOldFiles      :call fzf_preview#fzf_project_oldfiles()
 command! FzfPreviewProjectMruFiles      :call fzf_preview#fzf_project_mrufiles()
@@ -88,7 +88,7 @@ command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#fzf_project_grep(<f-ar
 
 " WARN: DEPRECATED
 command! ProjectFilesPreview         :call fzf_preview#fzf_files()                | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
-command! GitFilesPreview             :call fzf_preview#fzf_git_files()            | echoerr 'Deprecated: move to FzfPreviewGitFiles'
+command! GitStatusPreview            :call fzf_preview#fzf_git_status()           | echoerr 'Deprecated: move to FzfPreviewGitStatus'
 command! BuffersPreview              :call fzf_preview#fzf_buffers()              | echoerr 'Deprecated: move to FzfPreviewBuffers'
 command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()     | echoerr 'Deprecated: move to FzfPreviewProjectOldFiles'
 command! ProjectMruFilesPreview      :call fzf_preview#fzf_project_mrufiles()     | echoerr 'Deprecated: move to FzfPreviewProjectMruFiles'

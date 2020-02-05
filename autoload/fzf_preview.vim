@@ -26,14 +26,14 @@ function! s:project_files() abort
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
 endfunction
 
-function! s:git_files() abort
+function! s:git_status() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
     echomsg 'The current directory is not a git project'
     return []
   endif
 
-  let list = systemlist(g:fzf_preview_gitfiles_command)
+  let list = systemlist(g:fzf_preview_git_status_command)
   return list
 endfunction
 
@@ -163,14 +163,14 @@ function! s:fzf_preview_float_or_layout() abort
   \ g:fzf_preview_layout
 endfunction
 
-let s:files_prompt     = 'ProjectFiles'
-let s:files_buffer     = 'Buffers'
-let s:project_oldfiles = 'ProjectOldFiles'
-let s:project_mrufiles = 'ProjectMruFiles'
-let s:oldfiles         = 'OldFiles'
-let s:mrufiles         = 'MruFiles'
-let s:project_grep     = 'ProjectGrep'
-let s:git_files_prompt = 'GitFiles'
+let s:files_prompt      = 'ProjectFiles'
+let s:files_buffer      = 'Buffers'
+let s:project_oldfiles  = 'ProjectOldFiles'
+let s:project_mrufiles  = 'ProjectMruFiles'
+let s:oldfiles          = 'OldFiles'
+let s:mrufiles          = 'MruFiles'
+let s:project_grep      = 'ProjectGrep'
+let s:git_status_prompt = 'GitStatus'
 
 function! fzf_preview#fzf_files() abort
   if s:project_root() ==# ''
@@ -186,12 +186,12 @@ function! fzf_preview#fzf_files() abort
   call s:map_fzf_keys()
 endfunction
 
-function! fzf_preview#fzf_git_files() abort
+function! fzf_preview#fzf_git_status() abort
   if s:project_root() ==# ''
     return
   endif
 
-  function! s:gitfile_open(lines) abort
+  function! s:gitstatus_open(lines) abort
     let cmd = get({'ctrl-x': 'split',
                    \ 'ctrl-v': 'vertical split',
                    \ 'ctrl-t': 'tabedit'}, a:lines[0], 'e')
@@ -202,9 +202,9 @@ function! fzf_preview#fzf_git_files() abort
   endfunction
 
   call fzf#run({
-  \ 'source':  s:git_files(),
-  \ 'sink*':    function('s:gitfile_open'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . "--tiebreak=index --preview '[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command . "'",
+  \ 'source':  s:git_status(),
+  \ 'sink*':    function('s:gitstatus_open'),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_status_prompt) . "--tiebreak=index --preview '[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command . "'",
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()

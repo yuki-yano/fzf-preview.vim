@@ -87,8 +87,8 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open git repository files with fzf interface
      while watching preview.
 
-                                                *:FzfPreviewGitFiles*
-:FzfPreviewGitFiles
+                                                *:FzfPreviewGitStatus*
+:FzfPreviewGitStatus
      Select files that have been changed with git.
      Use fzf interface while watching git diff preview.
 
@@ -131,9 +131,9 @@ DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
 :ProjectFilesPreview
      Move to FzfPreviewProjectFiles
 
-                                                *:GitFilesPreview*
-:GitFilesPreview
-     Move to FzfPreviewGitFiles
+                                                *:GitStatusPreview*
+:GitStatusPreview
+     Move to FzfPreviewGitStatus
 
                                                 *:BuffersPreview*
 :BuffersPreview
@@ -211,7 +211,7 @@ g:fzf_preview_filelist_command
         Default value is 'git ls-files --exclude-standard'
 
 
-g:fzf_preview_gitfiles_command
+g:fzf_preview_git_status_command
     This is the command used to git status files
 
     Default value is "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
