@@ -62,6 +62,10 @@ if !exists('g:fzf_preview_default_key_bindings')
         \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 endif
 
+if !exists('g:fzf_preview_filelist_postprocess_command')
+  let g:fzf_preview_filelist_postprocess_command = ''
+endif
+
 if !exists('g:fzf_preview_use_dev_icons')
   let g:fzf_preview_use_dev_icons = 0
 endif

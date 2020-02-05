@@ -267,6 +267,13 @@ g:fzf_preview_default_key_bindings
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
+g:fzf_preview_filelist_postprocess_command
+    You can execute piped commands before the file list is passed to fzf
+    For example, you can add color to the file list by setting 'xargs ls —color' .
+
+    Default value is ""
+
+
 g:fzf_preview_use_dev_icons
     If this value is 1, devicons is used as fzf candidate.
 

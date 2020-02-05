@@ -22,8 +22,12 @@ function! s:project_files() abort
     return []
   endif
 
-  let file = systemlist(g:fzf_preview_filelist_command)
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
+  let files = systemlist(g:fzf_preview_filelist_command)
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
+  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
 function! s:git_files() abort
@@ -33,8 +37,12 @@ function! s:git_files() abort
     return []
   endif
 
-  let file = systemlist(g:fzf_preview_git_files_command)
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
+  let files = systemlist(g:fzf_preview_git_files_command)
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
+  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
 function! s:git_status() abort
@@ -53,6 +61,10 @@ function! s:buffers() abort
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
   let buffers = map(list, 'bufname(v:val)')
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let buffers = s:postprocess_filename(buffers)
+  endif
+
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(buffers) : buffers
 endfunction
 
@@ -61,6 +73,10 @@ function! s:oldfiles() abort
   let files = filter(copyfiles, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':~')")
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
@@ -70,6 +86,10 @@ function! s:mrufiles() abort
   let files = filter(files, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':.')")
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
@@ -100,6 +120,10 @@ function! s:project_oldfiles() abort
     endif
   endfor
   let files = map(target_files, "fnamemodify(v:val, ':.')")
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
@@ -117,15 +141,28 @@ function! s:project_mrufiles() abort
     endif
   endfor
   let files = map(target_files, "fnamemodify(v:val, ':.')")
+  if g:fzf_preview_filelist_postprocess_command !=# ""
+    let files = s:postprocess_filename(files)
+  endif
+
   return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
 endfunction
 
+function! s:postprocess_filename(files) abort
+  let files = []
+  while len(a:files) > 0
+    let slice = remove(a:files, 0, len(a:files) > 2500 ? 2500 : len(a:files) - 1)
+    let files = files + systemlist('echo -e "' . join(slice, '\n') . '" | ' . g:fzf_preview_filelist_postprocess_command)
+  endwhile
+  return files
+endfunction
+
 function! s:prepend_dev_icon(candidates) abort
-  let l:result = []
-  for l:candidate in a:candidates
-    let l:filename = fnamemodify(l:candidate, ':p:t')
-    let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-    call add(l:result, printf('%s  %s', l:icon, l:candidate))
+  let result = []
+  for candidate in a:candidates
+    let filename = fnamemodify(candidate, ':p:t')
+    let icon = WebDevIconsGetFileTypeSymbol(filename, isdirectory(filename))
+    call add(result, printf('%s  %s', icon, candidate))
   endfor
 
   return l:result
