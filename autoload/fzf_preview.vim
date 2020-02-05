@@ -22,10 +22,8 @@ function! s:project_files() abort
     return []
   endif
 
-  let list = systemlist(g:fzf_preview_filelist_command)
-
-  let files = map(list, "fnamemodify(v:val, ':.')")
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  let file = systemlist(g:fzf_preview_filelist_command)
+  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(file) : file
 endfunction
 
 function! s:git_files() abort
