@@ -121,7 +121,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 <C-t>
   Open tabedit
 
-<C-t>
+<C-q>
   Build QuickFix
 
 <C-d>

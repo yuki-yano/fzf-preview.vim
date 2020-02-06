@@ -317,7 +317,7 @@ KEYMAP                                          *fzf-preview-keymap*
 <C-t>
   - Open tabedit
 
-<C-t>
+<C-q>
   - Build QuickFix
 
 <C-d>
