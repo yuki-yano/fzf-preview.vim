@@ -121,6 +121,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 <C-t>
   Open tabedit
 
+<C-t>
+  Build QuickFix
+
 <C-d>
   Preview page down
 

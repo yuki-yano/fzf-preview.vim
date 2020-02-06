@@ -168,15 +168,34 @@ function! s:prepend_dev_icon(candidates) abort
   return l:result
 endfunction
 
-function! s:edit_file(lines) abort
-  let cmd = get({'ctrl-x': 'split',
-                 \ 'ctrl-v': 'vertical split',
-                 \ 'ctrl-t': 'tabedit'}, a:lines[0], 'e')
+function! s:edit_file(lines, ...) abort
+  let force_disable_dev_icons = get(a:, 1, 0)
+  let optional_discard_prefix_num = get(a:, 2, 0)
 
-  for item in a:lines[1:]
-    let file_path = g:fzf_preview_use_dev_icons ? item[4:] : item
-    execute 'silent '. cmd . ' ' . file_path
-  endfor
+  let use_dev_icons = force_disable_dev_icons ? 0 : g:fzf_preview_use_dev_icons
+  let discard_prefix_num = optional_discard_prefix_num + (use_dev_icons ? 5 : 0)
+
+  let cmd = get({
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vertical split',
+  \ 'ctrl-t': 'tabedit',
+  \ },
+  \ a:lines[0],
+  \ 'edit')
+
+  let file_paths = map(copy(a:lines[1:]), 'g:fzf_preview_use_dev_icons ? v:val[discard_prefix_num:] : v:val')
+  if a:lines[0] ==# 'ctrl-q'
+    call s:build_quickfix_list(file_paths)
+  else
+    for file_path in file_paths
+      execute 'silent '. cmd . ' ' . file_path
+    endfor
+  endif
+endfunction
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
 endfunction
 
 function! s:map_fzf_keys() abort
