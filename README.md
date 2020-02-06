@@ -187,10 +187,11 @@ let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 let g:fzf_preview_default_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 " Command to be executed after file list creation
-let g:fzf_preview_filelist_postprocess_command = 'xargs ls —color'
+let g:fzf_preview_filelist_postprocess_command = ''
+" let g:fzf_preview_filelist_postprocess_command = 'xargs ls —color'
 
 " Use vim-devicons
-let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_use_dev_icons = 0
 
 " DEPRECATED
 " fzf window layout
