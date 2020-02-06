@@ -221,7 +221,7 @@ endfunction
 
 function! s:fzf_command_common_option(console) abort
   return '--reverse --ansi --prompt="' . a:console . '> " --bind '
-        \ . g:fzf_preview_default_key_bindings . ' --expect=ctrl-v,ctrl-x,ctrl-t --preview '
+        \ . g:fzf_preview_default_key_bindings . ' --expect=ctrl-v,ctrl-x,ctrl-t,ctrl-q --preview '
 endfunction
 
 function! s:fzf_preview_float_or_layout() abort
@@ -275,13 +275,7 @@ function! fzf_preview#fzf_git_status() abort
   endif
 
   function! s:gitstatus_open(lines) abort
-    let cmd = get({'ctrl-x': 'split',
-                   \ 'ctrl-v': 'vertical split',
-                   \ 'ctrl-t': 'tabedit'}, a:lines[0], 'e')
-
-    for item in a:lines[1:]
-      execute 'silent '. cmd . ' ' . item[3:]
-    endfor
+    call s:edit_file(a:lines, 1, 3)
   endfunction
 
   call fzf#run({
@@ -362,11 +356,16 @@ function! fzf_preview#fzf_project_grep(...) abort
     let grep_command = g:fzf_preview_grep_cmd . ' .'
   end
 
-  call fzf#run(fzf#wrap({
+  function! s:grep_open(lines) abort
+    call s:edit_file(a:lines, 1)
+  endfunction
+
+  call fzf#run({
   \ 'source':  grep_command,
+  \ 'sink*':   function('s:grep_open'),
   \ 'options': '--delimiter : --nth 3.. --multi ' . s:fzf_command_common_option(s:project_grep_prompt) . "'" . g:fzf_preview_grep_preview_cmd . " {}'",
   \ 'window':  s:fzf_preview_float_or_layout(),
-  \ }))
+  \ })
   call s:map_fzf_keys()
 endfunction
 
