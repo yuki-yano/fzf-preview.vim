@@ -317,6 +317,9 @@ KEYMAP                                          *fzf-preview-keymap*
 <C-t>
   - Open tabedit
 
+<C-t>
+  - Build QuickFix
+
 <C-d>
   - Preview page down
 
