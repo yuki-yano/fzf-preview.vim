@@ -57,9 +57,25 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 endif
 
-if !exists('g:fzf_preview_default_key_bindings')
-  let g:fzf_preview_default_key_bindings =
+if !exists('g:fzf_preview_preview_key_bindings')
+  let g:fzf_preview_preview_key_bindings =
         \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+endif
+
+if !exists('g:fzf_preview_split_key_map')
+  let g:fzf_preview_split_key_map = 'ctrl-x'
+endif
+
+if !exists('g:fzf_preview_vsplit_key_map')
+  let g:fzf_preview_vsplit_key_map = 'ctrl-v'
+endif
+
+if !exists('g:fzf_preview_tabedit_key_map')
+  let g:fzf_preview_tabedit_key_map = 'ctrl-t'
+endif
+
+if !exists('g:fzf_preview_build_quickfix_key_map')
+  let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 endif
 
 if !exists('g:fzf_preview_filelist_postprocess_command')

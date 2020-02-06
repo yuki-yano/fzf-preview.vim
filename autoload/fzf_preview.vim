@@ -175,16 +175,15 @@ function! s:edit_file(lines, ...) abort
   let use_dev_icons = force_disable_dev_icons ? 0 : g:fzf_preview_use_dev_icons
   let discard_prefix_num = optional_discard_prefix_num + (use_dev_icons ? 5 : 0)
 
-  let cmd = get({
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vertical split',
-  \ 'ctrl-t': 'tabedit',
-  \ },
-  \ a:lines[0],
-  \ 'edit')
+  let cmd_hash = {}
+  let cmd_hash[g:fzf_preview_split_key_map] = 'split'
+  let cmd_hash[g:fzf_preview_vsplit_key_map] = 'vertical split'
+  let cmd_hash[g:fzf_preview_tabedit_key_map] = 'tabedit'
+
+  let cmd = get(cmd_hash, a:lines[0], 'edit')
 
   let file_paths = map(copy(a:lines[1:]), 'g:fzf_preview_use_dev_icons ? v:val[discard_prefix_num:] : v:val')
-  if a:lines[0] ==# 'ctrl-q'
+  if a:lines[0] ==# g:fzf_preview_build_quickfix_key_map
     call s:build_quickfix_list(file_paths)
   else
     for file_path in file_paths
@@ -220,8 +219,9 @@ function! s:fzf_toggle_full_buffer() abort
 endfunction
 
 function! s:fzf_command_common_option(console) abort
-  return '--reverse --ansi --prompt="' . a:console . '> " --bind '
-        \ . g:fzf_preview_default_key_bindings . ' --expect=ctrl-v,ctrl-x,ctrl-t,ctrl-q --preview '
+  return '--reverse --ansi --prompt="' . a:console . '> " --bind ' . g:fzf_preview_preview_key_bindings .
+           \ ' --expect=' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_vsplit_key_map . ',' . g:fzf_preview_tabedit_key_map . ',' . g:fzf_preview_build_quickfix_key_map .
+           \ ' --preview '
 endfunction
 
 function! s:fzf_preview_float_or_layout() abort

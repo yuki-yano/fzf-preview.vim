@@ -260,12 +260,35 @@ g:fzf_preview_grep_preview_cmd
     Default value is 'expand("<sfile>:h:h") . "/bin/preview.rb"'
 
 
-g:fzf_preview_default_key_bindings
+g:fzf_preview_preview_key_bindings
     This command determines keyboard shortcuts during an interactive FZF
     session. Options are a string passed directly to fzf's "--bind" option.
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
+g:fzf_preview_split_key_map
+    This map is used when splitting and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-x'
+
+g:fzf_preview_vsplit_key_map
+    This map is used when vertical splitting and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-v'
+
+g:fzf_preview_tabedit_key_map
+    This map is used when new tabpage and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-t'
+
+g:fzf_preview_build_quickfix_key_map
+    This map is used when building QuickFix from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-q'
 
 g:fzf_preview_filelist_postprocess_command
     You can execute piped commands before the file list is passed to fzf
