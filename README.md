@@ -184,7 +184,19 @@ let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
 
 " Keyboard shortcuts while fzf preview is active
-let g:fzf_preview_default_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+" Keyboard shortcut for opening files with split
+let g:fzf_preview_split_key_map = 'ctrl-x'
+
+" Keyboard shortcut for opening files with vsplit
+let g:fzf_preview_vsplit_key_map = 'ctrl-v'
+
+" Keyboard shortcut for opening files with tabedit
+let g:fzf_preview_tabedit_key_map = 'ctrl-t'
+
+" Keyboard shortcut for building quickfix
+let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 
 " Command to be executed after file list creation
 let g:fzf_preview_filelist_postprocess_command = ''
