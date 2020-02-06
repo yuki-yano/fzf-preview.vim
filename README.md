@@ -102,7 +102,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :ProjectMruFilesPreview            " Select project mru files with neomru
 
-:ProjectGrepPreview {word or none} " Grep project files from args word (Required [file-line](https://github.com/bogado/file-line) plugin)
+:ProjectGrepPreview                " Grep project files from args word (Required [file-line](https://github.com/bogado/file-line) plugin)
 
 :OldFilesPreview                   " Select files from oldfiles
 

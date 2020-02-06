@@ -113,8 +113,8 @@ COMMANDS                                        *fzf-preview-commands*
      The target file is selected from  |neomru|.
 
                                                 *:FzfPreviewProjectGrep*
-:FzfPreviewProjectGrep {dir or none}
-     Search text in the args dir from the project.
+:FzfPreviewProjectGrep
+     Search text from the project.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
 
@@ -167,7 +167,7 @@ DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
      Move to FzfPreviewProjectMruFiles
 
                                                 *:ProjectGrepPreview*
-:ProjectGrepPreview {dir or none}
+:ProjectGrepPreview
     Move to FzfPreviewProjectGrep
 
                                                 *:OldFilesPreview*
