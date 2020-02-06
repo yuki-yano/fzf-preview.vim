@@ -34,6 +34,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 6. File search from git status with diff preview.
 7. It is possible to interactively execute grep from within the project by specifying the directory
 8. Highlight code in preview with bat or ccat. (Optional)
+9. Export fzf candidates to QuickFix
 
 ## Requirements
 
