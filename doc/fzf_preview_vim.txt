@@ -53,6 +53,10 @@ Optional
     neomru is a plugin that manages the history of files.
     It does not depend on viminfo. It may be more convenient than oldfiles.
 
+- exa (exa is a replacement for ls written in Rust.)
+    https://github.com/ogham/exa
+    By installing exa you can use exa instead of ls to color the file list
+
 - vim-devicons
     https://github.com/ryanoasis/vim-devicons
     vim-devicons can be displayed as fzf candidates

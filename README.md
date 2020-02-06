@@ -49,6 +49,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 - **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
 - ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
+- exa (Can be used to color the file list) <https://github.com/ogham/exa>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 When bat or ccat is installed you can highlight the preview and see it.
@@ -211,7 +212,8 @@ let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 
 " Command to be executed after file list creation
 let g:fzf_preview_filelist_postprocess_command = ''
-" let g:fzf_preview_filelist_postprocess_command = 'xargs ls —color'
+" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls —color'          " Use dircolors
+" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" exa --color=always' " Use exa
 
 " Use vim-devicons
 let g:fzf_preview_use_dev_icons = 0
