@@ -77,6 +77,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 ## Usage
 
+### Command
+
 ```vim
 :FzfPreviewProjectFiles               " Select project files
 
@@ -97,6 +99,19 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewMruFiles                   " Select mru files with neomru
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, buffer, project_old, project_mru, old, mru)
+```
+
+### Function
+
+```vim
+call fzf_preview#window#create_centered_floating_window() " Function to display the floating window used by this plugin
+
+" Example
+call fzf#run({
+\ 'source':  files,
+\ 'sink':   'edit',
+\ 'window': 'call fzf_preview#window#create_centered_floating_window()',
+\ })
 ```
 
 ### DEPRECATED
