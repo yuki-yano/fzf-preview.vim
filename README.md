@@ -1,10 +1,10 @@
 # fzf-preview.vim
 
-fzf-preview is a Neovim plugin to provide **some fzf sources to with preview.**
+fzf-preview is a Neovim plugin that provides a preset of commands using fzf.  
+Provides multiple resources and a preview command for it.
 
-Neovim can operate fzf in terminal mode in Neovim.
-By doing this, Neovim can manage the size of fzf's window.
-Be careful when using it as vim may cause unstable behavior. Operation with vim can not be guaranteed.
+fzf-preview mainly uses neovim floating window.
+vim may work depending on the setting, but it is not recommended.
 
 This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses the library attached to fzf.
 Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf.vim) has a lot of functions.
