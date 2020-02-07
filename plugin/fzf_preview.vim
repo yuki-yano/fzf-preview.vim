@@ -35,7 +35,7 @@ endif
 
 if !exists('g:fzf_preview_filelist_command')
   if executable('rg')
-    let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git/*"'
+    let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
   else
     let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'
   endif

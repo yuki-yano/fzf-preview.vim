@@ -228,7 +228,7 @@ g:fzf_preview_filelist_command
     If ripgrep is not included, git ls-files will be used.
 
     Installed ripgrep:
-        Default value is 'rg --files --hidden --follow --glob "!.git/*"'
+        Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
     Not installed ripgrep:
         Default value is 'git ls-files --exclude-standard'
