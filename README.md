@@ -208,7 +208,7 @@ let g:fzf_preview_git_status_command = "git status --short --untracked-files=all
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 
 " Commands used for preview of the grep result
-let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
+let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 
 " Keyboard shortcuts while fzf preview is active
 let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
