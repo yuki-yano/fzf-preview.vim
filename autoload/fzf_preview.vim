@@ -182,7 +182,7 @@ function! s:edit_file(lines, ...) abort
 
   let cmd = get(cmd_hash, a:lines[0], 'edit')
 
-  let file_paths = map(copy(a:lines[1:]), 'g:fzf_preview_use_dev_icons ? v:val[discard_prefix_num:] : v:val')
+  let file_paths = map(copy(a:lines[1:]), 'v:val[discard_prefix_num:]')
   if a:lines[0] ==# g:fzf_preview_build_quickfix_key_map
     call s:build_quickfix_list(file_paths)
   else
