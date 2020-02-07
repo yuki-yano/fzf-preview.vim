@@ -12,8 +12,9 @@ cmd = [
   'ccat --color=always',
   'cat'
 ].find { |c| `which #{c.split(' ').first}` != '' }
+sed = %w[gsed sed].find { |c| `which #{c}` != '' }
 
-result = `#{cmd} #{file} | gsed -n #{start},#{last}p`
+result = `#{cmd} #{file} | #{sed} -n #{start},#{last}p`
 
 result.split("\n").each.with_index do |line, index|
   if line_num.to_i - start == index
