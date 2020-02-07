@@ -45,6 +45,10 @@ if !exists('g:fzf_preview_git_files_command')
   let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
 endif
 
+if !exists('g:fzf_preview_directory_files_command')
+  let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
+endif
+
 if !exists('g:fzf_preview_git_status_command')
   let g:fzf_preview_git_status_command = 'git -c color.status=always status --short --untracked-files=all'
 endif
@@ -107,6 +111,7 @@ set cpoptions&vim
 
 command! FzfPreviewProjectFiles    :call fzf_preview#fzf_project_files()
 command! FzfPreviewGitFiles        :call fzf_preview#fzf_git_files()
+command! FzfPreviewDirectoryFiles  :call fzf_preview#fzf_directory_files()
 command! FzfPreviewGitStatus       :call fzf_preview#fzf_git_status()
 command! FzfPreviewBuffers         :call fzf_preview#fzf_buffers()
 command! FzfPreviewProjectOldFiles :call fzf_preview#fzf_project_oldfiles()

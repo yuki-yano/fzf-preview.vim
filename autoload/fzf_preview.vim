@@ -37,6 +37,11 @@ function! s:git_files() abort
   return s:convert_for_fzf(files)
 endfunction
 
+function! s:directory_files() abort
+  let files = systemlist(g:fzf_preview_directory_files_command)
+  return s:convert_for_fzf(files)
+endfunction
+
 function! s:git_status() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error
@@ -260,6 +265,16 @@ function! fzf_preview#fzf_git_files() abort
   call s:map_fzf_keys()
 endfunction
 
+function! fzf_preview#fzf_directory_files() abort
+  call fzf#run({
+  \ 'source':  s:directory_files(),
+  \ 'sink*':   function('s:edit_file'),
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'window':  s:fzf_preview_float_or_layout(),
+  \ })
+  call s:map_fzf_keys()
+endfunction
+
 function! fzf_preview#fzf_git_status() abort
   if s:project_root() ==# ''
     return
@@ -361,13 +376,14 @@ function! fzf_preview#fzf_project_grep(...) abort
 endfunction
 
 function! fzf_preview#files_resources(lead, line, pos) abort
-  return ['project', 'git', 'buffer', 'project_old', 'project_mru', 'old', 'mru']
+  return ['project', 'git', 'directory', 'buffer', 'project_old', 'project_mru', 'old', 'mru']
 endfunction
 
 function! fzf_preview#fzf_files_from_resources(...) abort
   let str2func = {
   \ 'project': function('s:project_files'),
   \ 'git': function('s:git_files'),
+  \ 'directory': function('s:directory_files'),
   \ 'buffer': function('s:buffers'),
   \ 'project_old': function('s:project_oldfiles'),
   \ 'project_mru': function('s:project_mrufiles'),
