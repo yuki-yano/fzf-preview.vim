@@ -101,6 +101,12 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open git repository files from git ls-files with fzf interface
      while watching preview.
 
+                                                *:FzfPreviewDirectoryFiles*
+:FzfPreviewDirectoryFiles
+     Select and open current directory files from ripgrep with fzf interface
+     while watching preview.
+     Require ripgrep.
+
                                                 *:FzfPreviewGitStatus*
 :FzfPreviewGitStatus
      Select files that have been changed with git.
@@ -144,7 +150,8 @@ COMMANDS                                        *fzf-preview-commands*
      From there, select the file using the fzf interface.
      Grep and git status are not supported.
 
-     Resources: [project, git, buffer, project_old, project_mru, old, mru]
+     Resources: [project, git, directory, buffer, project_old,
+                 project_mru, old, mru]
 
 ==============================================================================
 DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
@@ -241,6 +248,11 @@ g:fzf_preview_git_files_command
     This is the command used to search for files in the git repository.
 
     Default value is 'git ls-files --exclude-standard'
+
+g:fzf_preview_directory_files_command
+    This is the command used to search for files in the current directory.
+
+    Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
 g:fzf_preview_git_status_command
     This is the command used to git status files

@@ -52,8 +52,8 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 - **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
 - **Ruby (Used grep preview)** (Reccomended) <https://www.ruby-lang.org/>
 - **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
-- ripgrep (Use ProjectGrepPreview command and default settings ProjectSearch commands and fast search) <https://github.com/BurntSushi/ripgrep>
-- neomru.vim (Require ProjectMruFilesPreview and MruFilesPreview) <https://github.com/Shougo/neomru.vim>
+- **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
+- neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - exa (Can be used to color the file list) <https://github.com/ogham/exa>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
@@ -89,6 +89,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewGitFiles                   " Select file from git ls-files
 
+:FzfPreviewDirectoryFiles             " Select file from current directory files (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+
 :FzfPreviewGitStatus                  " Select git status listed file
 
 :FzfPreviewBuffers                    " Select buffers
@@ -103,7 +105,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMruFiles                   " Select mru files with neomru
 
-:FzfPreviewFromResources              " Select files from selected resources (project, git, buffer, project_old, project_mru, old, mru)
+:FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
 
 ### Function
@@ -205,6 +207,9 @@ let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'          
 
 " Commands used to get the file list from git reposiroty
 let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
+
+" Commands used to get the file list from current directory
+let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
 " Commands used to get the git status file list
 let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
