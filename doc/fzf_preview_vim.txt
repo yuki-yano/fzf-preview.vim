@@ -39,6 +39,10 @@ Optional
     When ccat is installed you can highlight the preview and see it.
     If bat and ccat is not installed, head will be used
 
+- Ruby (Enable grep preview)
+    https://www.ruby-lang.org/
+    Required for ProjectGrepPreview preview script.
+
 - file-line (Enable opening a file in a given line)
     https://github.com/bogado/file-line
     It is also necessary to use the ProjectGrepPreview command.
