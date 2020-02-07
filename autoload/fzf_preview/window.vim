@@ -26,6 +26,6 @@ function! fzf_preview#window#create_centered_floating_window() abort
     let opts.width -= 4
     let s:f_buf = nvim_create_buf(v:false, v:true)
     call nvim_open_win(s:f_buf, v:true, opts)
-    set nocursorline
+    setlocal nocursorcolumn
     autocmd WinLeave <buffer> silent! execute 'bwipeout! ' . s:f_buf . ' ' . s:b_buf
 endfunction
