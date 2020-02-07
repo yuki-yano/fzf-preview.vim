@@ -11,8 +11,8 @@ cmd = [
   'bat --color=always --style=grid --theme=ansi-dark',
   'ccat --color=always',
   'cat'
-].find { |c| `which #{c.split(' ').first}` != '' }
-sed = %w[gsed sed].find { |c| `which #{c}` != '' }
+].find { |c| `which #{c.split(' ').first} 2>/dev/null` != '' }
+sed = %w[gsed sed].find { |c| `which #{c} 2>/dev/null` != '' }
 
 result = `#{cmd} #{file} | #{sed} -n #{start},#{last}p`
 
