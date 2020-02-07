@@ -249,10 +249,12 @@ g:fzf_preview_git_files_command
 
     Default value is 'git ls-files --exclude-standard'
 
+
 g:fzf_preview_directory_files_command
     This is the command used to search for files in the current directory.
 
     Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
+
 
 g:fzf_preview_git_status_command
     This is the command used to git status files
@@ -286,11 +288,13 @@ g:fzf_preview_preview_key_bindings
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
+
 g:fzf_preview_fzf_color_option
     Specify the color option to be passed to the fzf command.
     Options are a string passed directly to fzf's "--color" option.
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
 
 g:fzf_preview_split_key_map
     This map is used when splitting and opening files from fzf.
@@ -298,11 +302,13 @@ g:fzf_preview_split_key_map
 
     Default value is 'ctrl-x'
 
+
 g:fzf_preview_vsplit_key_map
     This map is used when vertical splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
     Default value is 'ctrl-v'
+
 
 g:fzf_preview_tabedit_key_map
     This map is used when new tabpage and opening files from fzf.
@@ -310,11 +316,13 @@ g:fzf_preview_tabedit_key_map
 
     Default value is 'ctrl-t'
 
+
 g:fzf_preview_build_quickfix_key_map
     This map is used when building QuickFix from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
     Default value is 'ctrl-q'
+
 
 g:fzf_preview_filelist_postprocess_command
     You can execute piped commands before the file list is passed to fzf
