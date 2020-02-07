@@ -270,6 +270,12 @@ g:fzf_preview_preview_key_bindings
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
+g:fzf_preview_fzf_color_option
+    Specify the color option to be passed to the fzf command.
+    Options are a string passed directly to fzf's "--color" option.
+
+    Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
 g:fzf_preview_split_key_map
     This map is used when splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.

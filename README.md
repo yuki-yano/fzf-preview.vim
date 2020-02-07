@@ -217,6 +217,9 @@ let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_g
 " Keyboard shortcuts while fzf preview is active
 let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
+" Specify the color of fzf
+let g:fzf_preview_fzf_color_option = ''
+
 " Keyboard shortcut for opening files with split
 let g:fzf_preview_split_key_map = 'ctrl-x'
 
