@@ -58,7 +58,7 @@ function! s:buffers() abort
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
   let buffers = map(list, 'bufname(v:val)')
-  return s:convert_for_fzf(files)
+  return s:convert_for_fzf(buffers)
 endfunction
 
 function! s:oldfiles() abort
