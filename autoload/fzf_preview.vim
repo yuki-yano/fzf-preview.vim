@@ -219,8 +219,10 @@ function! s:fzf_toggle_full_buffer() abort
 endfunction
 
 function! s:fzf_command_common_option(console) abort
+  let color = g:fzf_preview_fzf_color_option !=# '' ? ' --color=' . g:fzf_preview_fzf_color_option : ''
   return '--reverse --ansi --prompt="' . a:console . '> " --bind ' . g:fzf_preview_preview_key_bindings .
            \ ' --expect=' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_vsplit_key_map . ',' . g:fzf_preview_tabedit_key_map . ',' . g:fzf_preview_build_quickfix_key_map .
+           \ color .
            \ ' --preview '
 endfunction
 

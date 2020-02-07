@@ -62,6 +62,10 @@ if !exists('g:fzf_preview_preview_key_bindings')
         \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 endif
 
+if !exists('g:fzf_preview_fzf_color_option')
+  let g:fzf_preview_fzf_color_option = ''
+endif
+
 if !exists('g:fzf_preview_split_key_map')
   let g:fzf_preview_split_key_map = 'ctrl-x'
 endif
