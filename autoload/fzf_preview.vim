@@ -228,6 +228,7 @@ endfunction
 
 let s:project_files_prompt    = 'ProjectFiles'
 let s:git_files_prompt        = 'GitFiles'
+let s:directory_files_prompt  = 'DirectoryFiles'
 let s:buffers_prompt          = 'Buffers'
 let s:project_oldfiles_prompt = 'ProjectOldFiles'
 let s:project_mrufiles_prompt = 'ProjectMruFiles'
@@ -269,7 +270,7 @@ function! fzf_preview#fzf_directory_files() abort
   call fzf#run({
   \ 'source':  s:directory_files(),
   \ 'sink*':   function('s:edit_file'),
-  \ 'options': '--multi ' . s:fzf_command_common_option(s:git_files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
+  \ 'options': '--multi ' . s:fzf_command_common_option(s:directory_files_prompt) . '''[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command . '''',
   \ 'window':  s:fzf_preview_float_or_layout(),
   \ })
   call s:map_fzf_keys()
