@@ -54,7 +54,7 @@ if !exists('g:fzf_preview_grep_cmd')
 endif
 
 if !exists('g:fzf_preview_grep_preview_cmd')
-  let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview.rb'
+  let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
 
 if !exists('g:fzf_preview_preview_key_bindings')

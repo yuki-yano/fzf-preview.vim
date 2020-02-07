@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+file, line_num = ARGV[0].split(':')
+target = ARGV[0].split(':')[2..-1].join(':')
+
+start = [line_num.to_i - 10, 1].max
+last = line_num.to_i + 100
+
+cmd = [
+  'bat --color=always --style=grid --theme=ansi-dark',
+  'ccat --color=always',
+  'cat'
+].find { |c| `which #{c.split(' ').first}` != '' }
+
+result = `#{cmd} #{file} | gsed -n #{start},#{last}p`
+
+result.split("\n").each.with_index do |line, index|
+  if line_num.to_i - start == index
+    puts "\e[7m#{target}\e[0m"
+  else
+    puts line
+  end
+end
