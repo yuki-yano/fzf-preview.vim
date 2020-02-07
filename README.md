@@ -24,6 +24,10 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/73932630-1ea1fb00-491e-11ea-8547-4fd68e45857b.gif "fzf-preview")
 
+### Export QuickFix
+
+![fzf-preview](https://user-images.githubusercontent.com/5423775/74020208-68e9b180-49dc-11ea-9cbb-6e7423d065df.gif "fzf-preview")
+
 ## Feature
 
 1. Fzf can be operated using floating window (or any layout).
