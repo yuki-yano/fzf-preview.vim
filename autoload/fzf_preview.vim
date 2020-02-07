@@ -23,11 +23,7 @@ function! s:project_files() abort
   endif
 
   let files = systemlist(g:fzf_preview_filelist_command)
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:git_files() abort
@@ -37,12 +33,8 @@ function! s:git_files() abort
     return []
   endif
 
-  let files = systemlist(g:fzf_preview_git_files_command)
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  let files = filter(systemlist(g:fzf_preview_git_files_command), 'filereadable(v:val)')
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:git_status() abort
@@ -61,11 +53,7 @@ function! s:buffers() abort
   \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
   \ )
   let buffers = map(list, 'bufname(v:val)')
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let buffers = s:postprocess_filename(buffers)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(buffers) : buffers
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:oldfiles() abort
@@ -73,11 +61,7 @@ function! s:oldfiles() abort
   let files = filter(copyfiles, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':~')")
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:mrufiles() abort
@@ -86,11 +70,7 @@ function! s:mrufiles() abort
   let files = filter(files, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':.')")
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:is_project_file(file, project_path) abort
@@ -120,11 +100,7 @@ function! s:project_oldfiles() abort
     endif
   endfor
   let files = map(target_files, "fnamemodify(v:val, ':.')")
-  if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
-  endif
-
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  return s:convert_for_fzf(files)
 endfunction
 
 function! s:project_mrufiles() abort
@@ -141,31 +117,44 @@ function! s:project_mrufiles() abort
     endif
   endfor
   let files = map(target_files, "fnamemodify(v:val, ':.')")
+  return s:convert_for_fzf(files)
+endfunction
+
+function s:convert_for_fzf(files) abort
   if g:fzf_preview_filelist_postprocess_command !=# ""
-    let files = s:postprocess_filename(files)
+    let filenames = s:postprocess_filename(a:files)
+  else
+    let filenames = copy(a:files)
   endif
 
-  return g:fzf_preview_use_dev_icons ? s:prepend_dev_icon(files) : files
+  if g:fzf_preview_use_dev_icons
+    let devicons = s:create_dev_icon_list(a:files)
+  else
+    let devicons = map(copy(a:files), "''")
+  endif
+
+  return map(filenames, "devicons[v:key] . v:val")
 endfunction
 
 function! s:postprocess_filename(files) abort
-  let files = []
-  while len(a:files) > 0
-    let slice = remove(a:files, 0, len(a:files) > 2500 ? 2500 : len(a:files) - 1)
-    let files = files + systemlist('echo -e "' . join(slice, '\n') . '" | ' . g:fzf_preview_filelist_postprocess_command)
+  let files = copy(a:files)
+  let result = []
+  while len(files) > 0
+    let slice = remove(files, 0, len(files) > 2500 ? 2500 : len(files) - 1)
+    let result = result + systemlist('echo -e "' . join(slice, '\n') . '" | ' . g:fzf_preview_filelist_postprocess_command)
   endwhile
-  return files
+  return result
 endfunction
 
-function! s:prepend_dev_icon(candidates) abort
+function! s:create_dev_icon_list(files) abort
   let result = []
-  for candidate in a:candidates
-    let filename = fnamemodify(candidate, ':p:t')
+  for file in copy(a:files)
+    let filename = fnamemodify(file, ':p:t')
     let icon = WebDevIconsGetFileTypeSymbol(filename, isdirectory(filename))
-    call add(result, printf('%s  %s', icon, candidate))
+    call add(result, printf('%s  ', icon))
   endfor
 
-  return l:result
+  return result
 endfunction
 
 function! s:edit_file(lines, ...) abort
