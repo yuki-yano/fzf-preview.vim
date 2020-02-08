@@ -127,17 +127,6 @@ command! FzfPreviewBookmarks       :call fzf_preview#runner#fzf_run(fzf_preview#
 command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_grep(<f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#runner#fzf_run(fzf_preview#parameter#files_from_resources(<f-args>))
 
-" WARN: DEPRECATED
-command! ProjectFilesPreview         :call fzf_preview#fzf_project_files()        | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
-command! GitFilesPreview             :call fzf_preview#fzf_git_files()            | echoerr 'Deprecated: move to FzfPreviewGitFiles'
-command! GitStatusPreview            :call fzf_preview#fzf_git_status()           | echoerr 'Deprecated: move to FzfPreviewGitStatus'
-command! BuffersPreview              :call fzf_preview#fzf_buffers()              | echoerr 'Deprecated: move to FzfPreviewBuffers'
-command! ProjectOldFilesPreview      :call fzf_preview#fzf_project_oldfiles()     | echoerr 'Deprecated: move to FzfPreviewProjectOldFiles'
-command! ProjectMruFilesPreview      :call fzf_preview#fzf_project_mrufiles()     | echoerr 'Deprecated: move to FzfPreviewProjectMruFiles'
-command! OldFilesPreview             :call fzf_preview#fzf_oldfiles()             | echoerr 'Deprecated: move to FzfPreviewOldFiles'
-command! MruFilesPreview             :call fzf_preview#fzf_mrufiles()             | echoerr 'Deprecated: move to FzfPreviewMruFiles'
-command! -nargs=? ProjectGrepPreview :call fzf_preview#fzf_project_grep(<f-args>) | echoerr 'Deprecated: move to FzfPreviewProjectGrep'
-
 augroup fzf_preview_buffers
   autocmd!
   if g:fzf_preview_quit_map

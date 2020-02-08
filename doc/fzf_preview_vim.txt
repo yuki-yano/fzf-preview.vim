@@ -166,46 +166,6 @@ COMMANDS                                        *fzf-preview-commands*
                  project_mru, old, mru]
 
 ==============================================================================
-DEPRECATED COMMANDS                           *fzf-preview-deprecated-commands*
-
-                                                *:ProjectFilesPreview*
-:ProjectFilesPreview
-     Move to FzfPreviewProjectFiles
-
-
-                                                *:GitFilesPreview*
-:GitFilesPreview
-     Move to FzfPreviewGitFiles
-
-                                                *:GitStatusPreview*
-:GitStatusPreview
-     Move to FzfPreviewGitStatus
-
-                                                *:BuffersPreview*
-:BuffersPreview
-     Move to FzfPreviewBuffers
-
-                                                *:ProjectOldFilesPreview*
-:ProjectOldFilesPreview
-     Move to FzfPreviewProjectOldFiles
-
-                                                *:ProjectMruFilesPreview*
-:ProjectMruFilesPreview
-     Move to FzfPreviewProjectMruFiles
-
-                                                *:ProjectGrepPreview*
-:ProjectGrepPreview
-    Move to FzfPreviewProjectGrep
-
-                                                *:OldFilesPreview*
-:OldFilesPreview
-     Move to FzfPreviewOldFiles
-
-                                                *:MruFilesPreview*
-:MruFilesPreview
-     Move to FzfPreviewMruFiles
-
-==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
 g:fzf_preview_use_floating_window
