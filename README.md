@@ -54,6 +54,7 @@ Though it is different from this plugin and has a lot of functions,
 - **file-line (Enable opening a file in a given line)** (Recomended) <https://github.com/bogado/file-line>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
+- vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - exa (Can be used to color the file list) <https://github.com/ogham/exa>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
@@ -103,7 +104,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewOldFiles                   " Select files from oldfiles
 
-:FzfPreviewMruFiles                   " Select mru files with neomru
+:FzfPreviewMruFiles                   " Select mru files from neomru
+
+:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```

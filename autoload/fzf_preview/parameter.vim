@@ -75,6 +75,18 @@ function! fzf_preview#parameter#project_grep(...) abort
   \ }
 endfunction
 
+function! fzf_preview#parameter#bookmarks() abort
+  let optional = '--delimiter :'
+  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
+  PP preview
+
+  return {
+  \ 'source': fzf_preview#resource#bookmarks(),
+  \ 'sink': function('fzf_preview#opener#edit_bookmarks'),
+  \ 'options': fzf_preview#command#command_options('Bookmarks', preview, optional)
+  \ }
+endfunction
+
 function! fzf_preview#parameter#files_from_resources(...) abort
   return {
   \ 'source': fzf_preview#resource#files_from_resources(a:000),

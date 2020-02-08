@@ -57,6 +57,11 @@ Optional
     neomru is a plugin that manages the history of files.
     It does not depend on viminfo. It may be more convenient than oldfiles.
 
+- vim-bookmarks
+    https://github.com/MattesGroeger/vim-bookmarks
+    vim-bookmarks is a plugin that manages the bookmarks per line.
+    It is also necessary to use the FzfPreviewBookmarks command.
+
 - exa (exa is a replacement for ls written in Rust.)
     https://github.com/ogham/exa
     By installing exa you can use exa instead of ls to color the file list
@@ -143,6 +148,13 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the opened file with the fzf interface
      while watching the preview.
      For the target file, see |neomru|.
+
+                                                *:FzfPreviewBookmarks*
+:FzfPreviewBookmarks
+     List bookmarks from the project.
+     The retrieved result is displayed in file name, number of lines.
+     The same script as FzfPreviewProjectGrep is used for preview.
+     Required |vim-bookmarks|.
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources

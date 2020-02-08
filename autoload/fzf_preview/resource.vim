@@ -73,6 +73,10 @@ function! fzf_preview#resource#mrufiles() abort
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
+function! fzf_preview#resource#bookmarks() abort
+  return filter(map(bm#location_list(), { _, b -> s:bookmarks_format_line(b) }), { _, b -> b !=# '' })
+endfunction
+
 function! fzf_preview#resource#files_from_resources(resources) abort
   let resource_map = {
   \ 'project': function('fzf_preview#resource#project_files'),
@@ -108,3 +112,27 @@ function! s:filter_history_file_to_project_file(files) abort
 
   return map(project_files, "fnamemodify(v:val, ':.')")
 endfunction
+
+function! s:bookmarks_format_line(line) abort
+  let line = split(a:line, ':')
+  let filename = fnamemodify(line[0], ':.')
+  if !filereadable(filename)
+    return ''
+  endif
+
+  let line_number = line[1]
+  let text = line[2]
+
+  if text ==# 'Annotation'
+    let comment = line[3]
+  else
+    let text = join(line[2:], ':')
+  endif
+
+  if text !=# 'Annotation'
+    return filename . ':' . line_number . ':' . text
+  else
+    return filename . ':' . line_number . ':' . text . ':' . comment
+  endif
+endfunction
+
