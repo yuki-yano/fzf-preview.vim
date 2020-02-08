@@ -7,14 +7,14 @@ fzf-preview mainly uses neovim floating window.
 vim may work depending on the setting, but it is not recommended.
 
 This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses the library attached to fzf.
-Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf.vim) has a lot of functions.
-[fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep of the interactive project.
+Though it is different from this plugin and has a lot of functions, 
+[fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep on the interactive project.
 
-## Feature
+## Features
 
 1. Fzf can be operated using floating window (or any layout).
 2. Fast file and buffer search using fuzzy match and preview.
-3. All file and history search in the project.
+3. Search through all the project files and history.
 4. Real time preview of the selected file.
 5. Searching from file history file using oldfiles or mru.
 6. File search from git status with diff preview.
@@ -48,10 +48,10 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 ### Optional
 
-- **bat (A cat clone with syntax highlighting)** (Reccomended) <https://github.com/sharkdp/bat>
-- **ccat (Colorizing cat)** (Reccomended) <https://github.com/jingweno/ccat>
-- **Ruby (Used grep preview)** (Reccomended) <https://www.ruby-lang.org/>
-- **file-line (Enable opening a file in a given line)** (Reccomended) <https://github.com/bogado/file-line>
+- **bat (A cat clone with syntax highlighting)** (Recomended) <https://github.com/sharkdp/bat>
+- **ccat (Colorizing cat)** (Recomended) <https://github.com/jingweno/ccat>
+- **Ruby (Used grep preview)** (Recomended) <https://www.ruby-lang.org/>
+- **file-line (Enable opening a file in a given line)** (Recomended) <https://github.com/bogado/file-line>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - exa (Can be used to color the file list) <https://github.com/ogham/exa>
@@ -59,7 +59,7 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 
 When bat or ccat is installed you can highlight the preview and see it.
 
-If it is not installed, head will be used
+Otherwise, head will be used
 
 ## Installation
 
@@ -174,7 +174,7 @@ DEPRECATED
 
 ## Optional Configuration Tips
 
-- Increase the number of file history:
+- Increase the size of file history:
 
 ```vim
 " oldfiles uses viminfo, but the default setting is 100
