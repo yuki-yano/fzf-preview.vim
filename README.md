@@ -124,28 +124,6 @@ call fzf#run({
 \ })
 ```
 
-### DEPRECATED
-
-```vim
-:ProjectFilesPreview               " Select project files
-
-:GitFilesPreview                   " Select file from git ls-files
-
-:GitStatusPreview                  " Select git status listed file
-
-:BuffersPreview                    " Select buffers
-
-:ProjectOldFilesPreview            " Select project files from oldfiles
-
-:ProjectMruFilesPreview            " Select project mru files with neomru
-
-:ProjectGrepPreview                " Grep project files from args word (Required [Ruby](https://www.ruby-lang.org/) and [file-line](https://github.com/bogado/file-line) plugin)
-
-:OldFilesPreview                   " Select files from oldfiles
-
-:MruFilesPreview                   " Select mru files with neomru
-```
-
 ## Keymap
 
 ```text
