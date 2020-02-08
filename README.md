@@ -10,6 +10,18 @@ This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses
 Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf.vim) has a lot of functions.
 [fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep of the interactive project.
 
+## Feature
+
+1. Fzf can be operated using floating window (or any layout).
+2. Fast file and buffer search using fuzzy match and preview.
+3. All file and history search in the project.
+4. Real time preview of the selected file.
+5. Searching from file history file using oldfiles or mru.
+6. File search from git status with diff preview.
+7. It is possible to interactively execute grep from within the project by specifying the directory
+8. Highlight code in preview with bat or ccat. (Optional)
+9. Export fzf candidates to QuickFix
+
 ## Demo
 
 ### Project Files
@@ -27,18 +39,6 @@ Thought is different from this plugin, [fzf.vim](https://github.com/junegunn/fzf
 ### Export QuickFix
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/74020208-68e9b180-49dc-11ea-9cbb-6e7423d065df.gif "fzf-preview")
-
-## Feature
-
-1. Fzf can be operated using floating window (or any layout).
-2. Fast file and buffer search using fuzzy match and preview.
-3. All file and history search in the project.
-4. Real time preview of the selected file.
-5. Searching from file history file using oldfiles or mru.
-6. File search from git status with diff preview.
-7. It is possible to interactively execute grep from within the project by specifying the directory
-8. Highlight code in preview with bat or ccat. (Optional)
-9. Export fzf candidates to QuickFix
 
 ## Requirements
 
