@@ -8,7 +8,7 @@ start = [line_num.to_i - 10, 1].max
 last = line_num.to_i + 100
 
 cmd = [
-  'bat --color=always --style=grid --theme=ansi-dark',
+  'bat --color=always --style=grid --theme=ansi-dark --plain',
   'ccat --color=always',
   'cat'
 ].find { |c| `which #{c.split(' ').first} 2>/dev/null` != '' }
