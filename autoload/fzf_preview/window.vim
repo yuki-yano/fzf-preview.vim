@@ -1,8 +1,10 @@
-"=============================================================================
-" File: plugin/fzf-preview/window.vim
-" Author: yuki-ycino
-" Created: 2020-02-05
-"=============================================================================
+scriptencoding utf-8
+
+function! fzf_preview#window#float_or_normal_layout() abort
+  return g:fzf_preview_use_floating_window ?
+  \ 'call fzf_preview#window#create_centered_floating_window()' :
+  \ g:fzf_preview_layout
+endfunction
 
 " Ref: https://github.com/Blacksuan19/init.nvim
 function! fzf_preview#window#create_centered_floating_window() abort
@@ -12,9 +14,9 @@ function! fzf_preview#window#create_centered_floating_window() abort
     let left = (&columns - width) / 2
     let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
 
-    let top = "╭" . repeat("─", width - 2) . "╮"
-    let mid = "│" . repeat(" ", width - 2) . "│"
-    let bot = "╰" . repeat("─", width - 2) . "╯"
+    let top = '╭' . repeat('─', width - 2) . '╮'
+    let mid = '│' . repeat(' ', width - 2) . '│'
+    let bot = '╰' . repeat('─', width - 2) . '╯'
     let lines = [top] + repeat([mid], height - 2) + [bot]
     let s:b_buf = nvim_create_buf(v:false, v:true)
     call nvim_buf_set_lines(s:b_buf, 0, -1, v:true, lines)
@@ -27,5 +29,7 @@ function! fzf_preview#window#create_centered_floating_window() abort
     let s:f_buf = nvim_create_buf(v:false, v:true)
     call nvim_open_win(s:f_buf, v:true, opts)
     setlocal nocursorcolumn
-    autocmd WinLeave <buffer> silent! execute 'bwipeout! ' . s:f_buf . ' ' . s:b_buf
+    augroup fzf_preview_floating_window
+      autocmd WinLeave <buffer> silent! execute 'bwipeout! ' . s:f_buf . ' ' . s:b_buf
+    augroup END
 endfunction

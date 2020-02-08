@@ -94,6 +94,10 @@ if !exists('g:fzf_preview_use_dev_icons')
   let g:fzf_preview_use_dev_icons = 0
 endif
 
+if !exists('g:fzf_preview_dev_icon_prefix_length')
+  let g:fzf_preview_dev_icon_prefix_length = 5
+endif
+
 if !exists('g:fzf_preview_layout')
   let g:fzf_preview_layout = 'top split new'
 endif
@@ -109,18 +113,18 @@ endif
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-command! FzfPreviewProjectFiles    :call fzf_preview#fzf_project_files()
-command! FzfPreviewGitFiles        :call fzf_preview#fzf_git_files()
-command! FzfPreviewDirectoryFiles  :call fzf_preview#fzf_directory_files()
-command! FzfPreviewGitStatus       :call fzf_preview#fzf_git_status()
-command! FzfPreviewBuffers         :call fzf_preview#fzf_buffers()
-command! FzfPreviewProjectOldFiles :call fzf_preview#fzf_project_oldfiles()
-command! FzfPreviewProjectMruFiles :call fzf_preview#fzf_project_mrufiles()
-command! FzfPreviewOldFiles        :call fzf_preview#fzf_oldfiles()
-command! FzfPreviewMruFiles        :call fzf_preview#fzf_mrufiles()
+command! FzfPreviewProjectFiles    :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_files())
+command! FzfPreviewGitFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#git_files())
+command! FzfPreviewDirectoryFiles  :call fzf_preview#runner#fzf_run(fzf_preview#parameter#directory_files())
+command! FzfPreviewGitStatus       :call fzf_preview#runner#fzf_run(fzf_preview#parameter#git_status())
+command! FzfPreviewBuffers         :call fzf_preview#runner#fzf_run(fzf_preview#parameter#buffers())
+command! FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_oldfiles())
+command! FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_mrufiles())
+command! FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#oldfiles())
+command! FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#mrufiles())
 
-command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#fzf_project_grep(<f-args>)
-command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#fzf_files_from_resources(<f-args>)
+command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_grep(<f-args>))
+command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#runner#fzf_run(fzf_preview#parameter#files_from_resources(<f-args>))
 
 " WARN: DEPRECATED
 command! ProjectFilesPreview         :call fzf_preview#fzf_project_files()        | echoerr 'Deprecated: move to FzfPreviewProjectFiles'
