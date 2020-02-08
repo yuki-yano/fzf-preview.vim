@@ -41,16 +41,16 @@ Optional
 
 - Ruby (Enable grep preview)
     https://www.ruby-lang.org/
-    Required for ProjectGrepPreview preview script.
+    Required for FzfPreviewProjectGrep preview script.
 
 - file-line (Enable opening a file in a given line)
     https://github.com/bogado/file-line
-    It is also necessary to use the ProjectGrepPreview command.
+    It is also necessary to use the FzfPreviewProjectGrep command.
 
 - ripgrep
     https://github.com/BurntSushi/ripgrep
     If ripgrep is installed, it will be possible to obtain a faster file list.
-    It is also necessary to use the ProjectGrepPreview command.
+    It is also necessary to use the FzfPreviewProjectGrep command.
 
 - neomru.vim
     https://github.com/Shougo/neomru.vim
@@ -335,6 +335,12 @@ g:fzf_preview_use_dev_icons
     If this value is 1, devicons is used as fzf candidate.
 
     Default value is 0
+
+
+g:fzf_preview_dev_icon_prefix_length
+    Set how many bytes devicon is represented.
+
+    Default value is 2
 
 
 DEPRECATED: Works when floating window is not used

@@ -7,7 +7,7 @@ fzf-preview mainly uses neovim floating window.
 vim may work depending on the setting, but it is not recommended.
 
 This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses the library attached to fzf.
-Though it is different from this plugin and has a lot of functions, 
+Though it is different from this plugin and has a lot of functions,
 [fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep on the interactive project.
 
 ## Features
@@ -245,6 +245,9 @@ let g:fzf_preview_filelist_postprocess_command = ''
 
 " Use vim-devicons
 let g:fzf_preview_use_dev_icons = 0
+
+" devicons character width
+let g:fzf_preview_dev_icon_prefix_length = 2
 
 " DEPRECATED
 " fzf window layout
