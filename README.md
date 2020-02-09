@@ -107,6 +107,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMruFiles                   " Select mru files from neomru
 
+:FzfPreviewLocationList               " Select line from LocationList
+
 :FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks
 
 :FzfPreviewJumpToLine                 " Select the window to open from quickfix using vim-jumptoline
