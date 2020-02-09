@@ -28,6 +28,14 @@ function! fzf_preview#opener#edit_grep(lines) abort
   call fzf_preview#opener#edit_file(a:lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
 endfunction
 
+function! fzf_preview#opener#edit_jumptoline(lines) abort
+  let line = a:lines[1]
+  let bnr = split(line)[0]
+  let d = jumptoline#matches(getline('.'))[0]
+  let fullpath = jumptoline#utils#find_thefile(d['path'])
+  call jumptoline#callback(line, -1, fullpath[0], d['lnum'], d['col'])
+endfunction
+
 function! fzf_preview#opener#edit_bookmarks(lines) abort
   call fzf_preview#opener#edit_file(a:lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
 endfunction

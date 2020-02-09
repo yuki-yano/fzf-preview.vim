@@ -55,6 +55,7 @@ Though it is different from this plugin and has a lot of functions,
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
+- vim-jumptoline (Require FzfPreviewJumpToLine) <https://github.com/rbtnn/vim-jumptoline>
 - exa (Can be used to color the file list) <https://github.com/ogham/exa>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
@@ -107,6 +108,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewMruFiles                   " Select mru files from neomru
 
 :FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks
+
+:FzfPreviewJumpToLine                 " Select the window to open from quickfix using vim-jumptoline
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```

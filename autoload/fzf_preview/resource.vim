@@ -73,6 +73,10 @@ function! fzf_preview#resource#mrufiles() abort
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
+function! fzf_preview#resource#jumptoline() abort
+  return jumptoline#winnrlist(-1, '') + [g:jumptoline#new_window, g:jumptoline#new_tabpage]
+endfunction
+
 function! fzf_preview#resource#bookmarks() abort
   return filter(map(bm#location_list(), { _, b -> s:bookmarks_format_line(b) }), { _, b -> b !=# '' })
 endfunction

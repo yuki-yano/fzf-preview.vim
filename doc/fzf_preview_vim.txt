@@ -156,6 +156,12 @@ COMMANDS                                        *fzf-preview-commands*
      The same script as FzfPreviewProjectGrep is used for preview.
      Required |vim-bookmarks|.
 
+                                                *:FzfPreviewJumpToLine*
+:FzfPreviewJumpToLine
+     List windows from current tabpage.
+     Jump to quickfix results in selected window.
+     Required |vim-jumptoline|.
+
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
      Select a resource and generate a file list.
