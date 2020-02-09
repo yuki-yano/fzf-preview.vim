@@ -63,6 +63,16 @@ function! fzf_preview#parameter#mrufiles() abort
   \ }
 endfunction
 
+function! fzf_preview#parameter#locationlist() abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
+  let optional = '--delimiter : '
+  return {
+  \ 'source': fzf_preview#resource#locationlist(),
+  \ 'sink': function('fzf_preview#opener#edit_grep'),
+  \ 'options': fzf_preview#command#command_options('LocationList', preview, optional)
+  \ }
+endfunction
+
 function! fzf_preview#parameter#project_grep(...) abort
   let grep_command = fzf_preview#command#grep_command(a:000)
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'

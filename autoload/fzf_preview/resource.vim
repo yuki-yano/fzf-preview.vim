@@ -73,6 +73,17 @@ function! fzf_preview#resource#mrufiles() abort
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
+function! fzf_preview#resource#locationlist() abort
+  let locationlist_lines = s:get_locationlist_lines()
+
+  if !empty(locationlist_lines)
+    let matches = map(locationlist_lines, { _, line -> matchlist(line, '^\([^|]*\)|\(\(\d\+\)\( col \(\d\+\)\)\?[^|]*\)\?|\(.*\)') })
+    return map(matches, { _, m -> m[1] . ':' . m[3] . ':' . m[6] })
+  else
+    return []
+  endif
+endfunction
+
 function! fzf_preview#resource#jumptoline() abort
   return jumptoline#winnrlist(-1, '') + [g:jumptoline#new_window, g:jumptoline#new_tabpage]
 endfunction
@@ -115,6 +126,26 @@ function! s:filter_history_file_to_project_file(files) abort
   endfor
 
   return map(project_files, "fnamemodify(v:val, ':.')")
+endfunction
+
+function s:get_locationlist_lines() abort
+  let locationlists = filter(getwininfo(), { _, w ->
+    \ w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w['loclist']})
+
+  if len(locationlists) != 0
+    return len(locationlists) > 0 ? getbufline(locationlists[0]['bufnr'], 1, '$') : []
+  else
+    let winid = win_getid()
+    lopen
+    call win_gotoid(winid)
+
+    let locationlists = filter(getwininfo(), { _, w ->
+      \ w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w['loclist']})
+    let lines = len(locationlists) > 0 ? getbufline(locationlists[0]['bufnr'], 1, '$') : []
+
+    lclose
+    return lines
+ endif
 endfunction
 
 function! s:bookmarks_format_line(line) abort
