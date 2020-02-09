@@ -76,7 +76,7 @@ endfunction
 function! fzf_preview#parameter#project_grep(...) abort
   let grep_command = fzf_preview#command#grep_command(a:000)
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
-  let optional = '--delimiter : --nth 3.. '
+  let optional = '--delimiter : '
 
   return {
   \ 'source': grep_command,
