@@ -75,6 +75,14 @@ function! fzf_preview#parameter#project_grep(...) abort
   \ }
 endfunction
 
+function! fzf_preview#parameter#jumptoline() abort
+  return {
+  \ 'source': fzf_preview#resource#jumptoline(),
+  \ 'sink': function('fzf_preview#opener#edit_jumptoline'),
+  \ 'options': fzf_preview#command#command_options('JumpToLine', g:fzf_preview_command . ' 2>/dev/null || echo {}'),
+  \ }
+endfunction
+
 function! fzf_preview#parameter#bookmarks() abort
   let optional = '--delimiter :'
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'

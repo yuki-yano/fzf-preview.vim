@@ -123,6 +123,7 @@ command! FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#
 command! FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#oldfiles())
 command! FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#mrufiles())
 command! FzfPreviewBookmarks       :call fzf_preview#runner#fzf_run(fzf_preview#parameter#bookmarks())
+command! FzfPreviewJumpToLine      :call fzf_preview#runner#fzf_run(fzf_preview#parameter#jumptoline())
 
 command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_grep(<f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#runner#fzf_run(fzf_preview#parameter#files_from_resources(<f-args>))
