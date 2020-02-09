@@ -136,6 +136,7 @@ COMMANDS                                        *fzf-preview-commands*
      Search text from the project.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
+     Required: |Ruby|, |file-line|
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
@@ -152,14 +153,14 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewLocationList*
 :FzfPreviewLocationList
      Select and open the LocationList item with the fzf interface
-
+     Required: |Ruby|, |file-line|
 
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
      List bookmarks from the project.
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required |vim-bookmarks|.
+     Required |Ruby|, |vim-bookmarks|, |file-line|
 
                                                 *:FzfPreviewJumpToLine*
 :FzfPreviewJumpToLine

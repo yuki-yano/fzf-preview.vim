@@ -107,11 +107,11 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMruFiles                   " Select mru files from neomru
 
-:FzfPreviewLocationList               " Select line from LocationList
+:FzfPreviewLocationList               " Select line from LocationList (Required [Ruby](https://www.ruby-lang.org/ ) and [file-line](https://github.com/bogado/file-line) plugin)
 
-:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks
+:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Ruby](https://www.ruby-lang.org/ ) and [file-line](https://github.com/bogado/file-line) plugin)
 
-:FzfPreviewJumpToLine                 " Select the window to open from quickfix using vim-jumptoline
+:FzfPreviewJumpToLine                 " Select the window to open from quickfix using [vim-jumptoline](https://github.com/rbtnn/vim-jumptoline)
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
