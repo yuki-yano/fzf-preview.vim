@@ -74,12 +74,11 @@ function! fzf_preview#parameter#locationlist() abort
 endfunction
 
 function! fzf_preview#parameter#project_grep(...) abort
-  let grep_command = fzf_preview#command#grep_command(a:000)
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
   let optional = '--delimiter : '
 
   return {
-  \ 'source': grep_command,
+  \ 'source': fzf_preview#resource#grep(a:000),
   \ 'sink': function('fzf_preview#opener#edit_grep'),
   \ 'options': fzf_preview#command#command_options('ProjectGrep', preview, optional)
   \ }

@@ -1,6 +1,6 @@
 function! fzf_preview#command#file_list_command_options(console) abort
-  return fzf_preview#command#command_options(a:console, '[[ "$(file --mime {})" =~ binary ]] && ' .
-       \ g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command)
+  let preview = '[[ "$(file --mime {})" =~ binary ]] && ' . g:fzf_binary_preview_command . ' || ' . g:fzf_preview_command
+  return fzf_preview#command#command_options(a:console, preview)
 endfunction
 
 function! fzf_preview#command#command_options(console, preview, ...) abort

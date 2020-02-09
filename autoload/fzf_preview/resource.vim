@@ -84,6 +84,10 @@ function! fzf_preview#resource#locationlist() abort
   endif
 endfunction
 
+function! fzf_preview#resource#grep(args) abort
+  return  fzf_preview#command#grep_command(a:args)
+endfunction
+
 function! fzf_preview#resource#jumptoline() abort
   return jumptoline#winnrlist(-1, '') + [g:jumptoline#new_window, g:jumptoline#new_tabpage]
 endfunction
