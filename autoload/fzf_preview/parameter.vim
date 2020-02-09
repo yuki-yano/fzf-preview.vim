@@ -78,7 +78,6 @@ endfunction
 function! fzf_preview#parameter#bookmarks() abort
   let optional = '--delimiter :'
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
-  PP preview
 
   return {
   \ 'source': fzf_preview#resource#bookmarks(),
