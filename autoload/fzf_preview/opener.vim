@@ -36,10 +36,6 @@ function! fzf_preview#opener#edit_jumptoline(lines) abort
   call jumptoline#callback(line, -1, fullpath[0], d['lnum'], d['col'])
 endfunction
 
-function! fzf_preview#opener#edit_bookmarks(lines) abort
-  call fzf_preview#opener#edit_file(a:lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
-endfunction
-
 function! s:discard_prefix_size(use_dev_icons, optional_discard_prefix_size) abort
   let discard_size_from_devicons_status = (a:use_dev_icons ? g:fzf_preview_dev_icon_prefix_length : 0)
   return a:optional_discard_prefix_size + discard_size_from_devicons_status

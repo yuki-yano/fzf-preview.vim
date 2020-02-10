@@ -98,7 +98,7 @@ function! fzf_preview#parameter#bookmarks() abort
 
   return {
   \ 'source': fzf_preview#resource#bookmarks(),
-  \ 'sink': function('fzf_preview#opener#edit_bookmarks'),
+  \ 'sink': function('fzf_preview#opener#edit_grep'),
   \ 'options': fzf_preview#command#command_options('Bookmarks', preview, optional)
   \ }
 endfunction
