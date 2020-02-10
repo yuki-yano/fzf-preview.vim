@@ -63,13 +63,13 @@ function! fzf_preview#parameter#mrufiles() abort
   \ }
 endfunction
 
-function! fzf_preview#parameter#locationlist() abort
+function! fzf_preview#parameter#locationlist(type) abort
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
   let optional = '--delimiter : '
   return {
-  \ 'source': fzf_preview#resource#locationlist(),
+  \ 'source': fzf_preview#resource#quickfix_or_locationlist(a:type),
   \ 'sink': function('fzf_preview#opener#edit_grep'),
-  \ 'options': fzf_preview#command#command_options('LocationList', preview, optional)
+  \ 'options': fzf_preview#command#command_options(a:type, preview, optional)
   \ }
 endfunction
 

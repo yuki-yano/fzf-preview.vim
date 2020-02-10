@@ -73,11 +73,11 @@ function! fzf_preview#resource#mrufiles() abort
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
-function! fzf_preview#resource#locationlist() abort
-  let locationlist_lines = s:get_locationlist_lines()
+function! fzf_preview#resource#quickfix_or_locationlist(type) abort
+  let lines = s:get_quickfix_or_locationlist_lines(a:type)
 
-  if !empty(locationlist_lines)
-    let matches = map(locationlist_lines, { _, line -> matchlist(line, '^\([^|]*\)|\(\(\d\+\)\( col \(\d\+\)\)\?[^|]*\)\?|\(.*\)') })
+  if !empty(filter(lines, { _, line -> line !=# '' }))
+    let matches = map(lines, { _, line -> matchlist(line, '^\([^|]*\)|\(\(\d\+\)\( col \(\d\+\)\)\?[^|]*\)\?|\(.*\)') })
     return map(matches, { _, m -> m[1] . ':' . m[3] . ':' . m[6] })
   else
     return []
@@ -132,24 +132,46 @@ function! s:filter_history_file_to_project_file(files) abort
   return map(project_files, "fnamemodify(v:val, ':.')")
 endfunction
 
-function s:get_locationlist_lines() abort
-  let locationlists = filter(getwininfo(), { _, w ->
-    \ w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w['loclist']})
+function! s:get_quickfix_or_locationlist_lines(type) abort
+  let qf_or_loc_lists = s:get_quickfix_or_loclist(a:type)
 
-  if len(locationlists) != 0
-    return len(locationlists) > 0 ? getbufline(locationlists[0]['bufnr'], 1, '$') : []
+  if len(qf_or_loc_lists) != 0
+    return len(qf_or_loc_lists) > 0 ? getbufline(qf_or_loc_lists[0]['bufnr'], 1, '$') : []
+  endif
+
+  return s:open_process_with_qf_and_close(a:type, { type -> s:get_quickfix_or_locationlist_lines(type) })
+endfunction
+
+function! s:get_quickfix_or_loclist(type) abort
+  return filter(getwininfo(), { _, w -> w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w[a:type]})
+endfunction
+
+function! s:open_process_with_qf_and_close(type, F) abort
+  let winid = win_getid()
+
+  if a:type ==# 'quickfix'
+    copen
+  elseif a:type ==# 'loclist'
+    try
+      lopen
+    catch
+      return []
+    endtry
   else
-    let winid = win_getid()
-    lopen
-    call win_gotoid(winid)
+    return []
+  endif
 
-    let locationlists = filter(getwininfo(), { _, w ->
-      \ w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w['loclist']})
-    let lines = len(locationlists) > 0 ? getbufline(locationlists[0]['bufnr'], 1, '$') : []
+  call win_gotoid(winid)
 
+  let result = a:F(a:type)
+
+  if a:type ==# 'quickfix'
+    cclose
+  elseif a:type ==# 'loclist'
     lclose
-    return lines
- endif
+  endif
+
+  return result
 endfunction
 
 function! s:bookmarks_format_line(line) abort
