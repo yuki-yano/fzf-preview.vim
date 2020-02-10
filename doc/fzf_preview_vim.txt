@@ -150,6 +150,11 @@ COMMANDS                                        *fzf-preview-commands*
      while watching the preview.
      For the target file, see |neomru|.
 
+                                                *:FzfPreviewQuickFix*
+:FzfPreviewQuickFix
+     Select and open the QuickFix item with the fzf interface
+     Required: |Ruby|, |file-line|
+
                                                 *:FzfPreviewLocationList*
 :FzfPreviewLocationList
      Select and open the LocationList item with the fzf interface
