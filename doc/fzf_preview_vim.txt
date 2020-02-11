@@ -44,10 +44,6 @@ Optional
     Checked with Python3.6
     Required for FzfPreviewProjectGrep preview script.
 
-- file-line (Enable opening a file in a given line)
-    https://github.com/bogado/file-line
-    It is also necessary to use the FzfPreviewProjectGrep command.
-
 - ripgrep
     https://github.com/BurntSushi/ripgrep
     If ripgrep is installed, it will be possible to obtain a faster file list.
@@ -137,7 +133,7 @@ COMMANDS                                        *fzf-preview-commands*
      Search text from the project.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
-     Required: |Python3|, |file-line|
+     Required: |Python3|
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
@@ -154,19 +150,19 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewQuickFix*
 :FzfPreviewQuickFix
      Select and open the QuickFix item with the fzf interface
-     Required: |Python3|, |file-line|
+     Required: |Python3|
 
                                                 *:FzfPreviewLocationList*
 :FzfPreviewLocationList
      Select and open the LocationList item with the fzf interface
-     Required: |Python3|, |file-line|
+     Required: |Python3|
 
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
      List bookmarks from the project.
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required |Python3|, |vim-bookmarks|, |file-line|
+     Required |Python3|, |vim-bookmarks|
 
                                                 *:FzfPreviewJumpToLine*
 :FzfPreviewJumpToLine

@@ -69,7 +69,13 @@ endfunction
 
 function! s:open_file(open_command, file_paths) abort
   for file_path in a:file_paths
+    let filepath_and_line_number = split(file_path, ':')
+    let file_path = filepath_and_line_number[0]
+    let line_number = len(filepath_and_line_number) >= 2 ? filepath_and_line_number[1] : v:false
     execute 'silent '. a:open_command . ' ' . file_path
+    if line_number
+      call cursor(line_number, 0)
+    endif
   endfor
 endfunction
 
