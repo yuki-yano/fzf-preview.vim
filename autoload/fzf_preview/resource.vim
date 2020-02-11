@@ -85,7 +85,7 @@ function! fzf_preview#resource#quickfix_or_locationlist(type) abort
 endfunction
 
 function! fzf_preview#resource#grep(args) abort
-  return  fzf_preview#command#grep_command(a:args)
+  return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#grep_command(a:args)), 1)
 endfunction
 
 function! fzf_preview#resource#jumptoline() abort

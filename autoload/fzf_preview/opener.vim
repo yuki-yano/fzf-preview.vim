@@ -25,7 +25,8 @@ function! fzf_preview#opener#edit_git_status(lines) abort
 endfunction
 
 function! fzf_preview#opener#edit_grep(lines) abort
-  call fzf_preview#opener#edit_file(a:lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
+  let optional_discard_prefix_size = g:fzf_preview_use_dev_icons ? g:fzf_preview_dev_icon_prefix_length : 0
+  call fzf_preview#opener#edit_file(a:lines, 1, optional_discard_prefix_size, function('s:extract_filename_and_line_number_from_grep'))
 endfunction
 
 function! fzf_preview#opener#edit_jumptoline(lines) abort

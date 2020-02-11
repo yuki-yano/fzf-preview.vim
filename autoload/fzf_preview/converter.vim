@@ -1,5 +1,6 @@
-function! fzf_preview#converter#convert_for_fzf(files) abort
-  if g:fzf_preview_filelist_postprocess_command !=# ''
+function! fzf_preview#converter#convert_for_fzf(files, ...) abort
+  let disable_postprocess_command = get(a:, 1, 0)
+  if g:fzf_preview_filelist_postprocess_command !=# '' && !disable_postprocess_command
     let filenames = s:postprocess_filename(a:files)
   else
     let filenames = copy(a:files)
@@ -31,6 +32,7 @@ function! s:create_dev_icon_list(files) abort
   let result = []
 
   for file in copy(a:files)
+    let file = split(file, ':')[0]
     let filename = fnamemodify(file, ':p:t')
     let icon = WebDevIconsGetFileTypeSymbol(filename, isdirectory(filename))
     call add(result, s:dev_icon_format(icon))
