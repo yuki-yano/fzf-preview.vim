@@ -51,7 +51,6 @@ Though it is different from this plugin and has a lot of functions,
 - **bat (A cat clone with syntax highlighting)** (Recomended) <https://github.com/sharkdp/bat>
 - **ccat (Colorizing cat)** (Recomended) <https://github.com/jingweno/ccat>
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
-- **file-line (Enable opening a file in a given line)** (Recomended) <https://github.com/bogado/file-line>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
@@ -101,17 +100,17 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectMruFiles            " Select project mru files with neomru
 
-:FzfPreviewProjectGrep {word or none} " Grep project files from args word (Required [Python3](https://www.python.org/) and [file-line](https://github.com/bogado/file-line) plugin)
+:FzfPreviewProjectGrep {word or none} " Grep project files from args word (Required [Python3](https://www.python.org/))
 
 :FzfPreviewOldFiles                   " Select files from oldfiles
 
 :FzfPreviewMruFiles                   " Select mru files from neomru
 
-:FzfPreviewQuickFix                   " Select line from QuickFix (Required [Python3](https://www.python.org/) and [file-line](https://github.com/bogado/file-line) plugin)
+:FzfPreviewQuickFix                   " Select line from QuickFix (Required [Python3](https://www.python.org/))
 
-:FzfPreviewLocationList               " Select line from LocationList (Required [Python3](https://www.python.org/) and [file-line](https://github.com/bogado/file-line) plugin)
+:FzfPreviewLocationList               " Select line from LocationList (Required [Python3](https://www.python.org/))
 
-:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Python3](https://www.python.org/) and [file-line](https://github.com/bogado/file-line) plugin)
+:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Python3](https://www.python.org/))
 
 :FzfPreviewJumpToLine                 " Select the window to open from quickfix using [vim-jumptoline](https://github.com/rbtnn/vim-jumptoline)
 
