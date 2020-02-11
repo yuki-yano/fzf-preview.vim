@@ -100,7 +100,7 @@ function! fzf_preview#resource#jumptoline() abort
 endfunction
 
 function! fzf_preview#resource#bookmarks() abort
-  return filter(map(bm#location_list(), { _, b -> s:bookmarks_format_line(b) }), { _, b -> b !=# '' })
+  return fzf_preview#converter#convert_for_fzf(filter(map(bm#location_list(), { _, b -> s:bookmarks_format_line(b) }), { _, b -> b !=# '' }), 1)
 endfunction
 
 function! fzf_preview#resource#files_from_resources(resources) abort
