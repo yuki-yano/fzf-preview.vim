@@ -102,6 +102,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectGrep {word or none} " Grep project files from args word (Required [Python3](https://www.python.org/))
 
+:FzfPreviewBufferTags                 " Select tags from current files (Required [Python3](https://www.python.org/))
+
 :FzfPreviewOldFiles                   " Select files from oldfiles
 
 :FzfPreviewMruFiles                   " Select mru files from neomru

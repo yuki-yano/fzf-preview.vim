@@ -135,6 +135,12 @@ COMMANDS                                        *fzf-preview-commands*
      and can be opened with fzf interface.
      Required: |Python3|
 
+                                                *:FzfPreviewBufferTags*
+:FzfPreviewBufferTags
+     Select from tags of currently open buffer
+     The same script as FzfPreviewProjectGrep is used for preview.
+     Required: |Python3|
+
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
      Select and open the opened file with the fzf interface
