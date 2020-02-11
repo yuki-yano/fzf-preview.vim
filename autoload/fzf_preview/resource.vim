@@ -81,7 +81,11 @@ function! fzf_preview#resource#quickfix_or_locationlist(type) abort
 
   if !empty(filter(lines, { _, line -> line !=# '' }))
     let matches = map(lines, { _, line -> matchlist(line, '^\([^|]*\)|\(\(\d\+\)\( col \(\d\+\)\)\?[^|]*\)\?|\(.*\)') })
-    return map(matches, { _, m -> m[1] . ':' . m[3] . ':' . m[6] })
+    return fzf_preview#converter#convert_for_fzf(map(matches, { _, m ->
+    \ m[3] !=# '' ?
+    \   m[1] . ':' . m[3] . ':' . m[6] :
+    \   m[1]
+    \ }), 1)
   else
     return []
   endif
