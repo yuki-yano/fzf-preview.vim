@@ -62,14 +62,9 @@ function! s:sink_functions() abort
   return key2func
 endfunction
 
-function! s:export_quickfix(file_paths) abort
-  call setqflist(map(copy(a:file_paths), '{ "filename": v:val }'))
-  copen
-endfunction
-
-function! s:open_file(open_command, file_paths) abort
-  for file_path in a:file_paths
-    let filepath_and_line_number = split(file_path, ':')
+function! s:open_file(open_command, paths) abort
+  for path in copy(a:paths)
+    let filepath_and_line_number = s:split_path_into_filename_line_number_and_text(path)
     let file_path = filepath_and_line_number[0]
     let line_number = len(filepath_and_line_number) >= 2 ? filepath_and_line_number[1] : v:false
     execute 'silent '. a:open_command . ' ' . file_path
@@ -79,6 +74,33 @@ function! s:open_file(open_command, file_paths) abort
   endfor
 endfunction
 
+function! s:export_quickfix(paths) abort
+  let items = []
+  for path in copy(a:paths)
+    let filepath_and_line_number_and_text = s:split_path_into_filename_line_number_and_text(path)
+    let item = {}
+    let item['filename'] = filepath_and_line_number_and_text[0]
+    if filepath_and_line_number_and_text[1]
+      let item['lnum'] = filepath_and_line_number_and_text[1]
+      let item['text'] = filepath_and_line_number_and_text[2]
+    end
+
+    call add(items, item)
+  endfor
+
+  call setqflist(items)
+  copen
+endfunction
+
 function! s:extract_filename_and_line_number_from_grep(line) abort
   return join(split(a:line, ':')[:1], ':')
+endfunction
+
+function! s:split_path_into_filename_line_number_and_text(path) abort
+  let filepath_and_line_number_and_text = split(a:path, ':')
+  let file_path = filepath_and_line_number_and_text[0]
+  let line_number = len(filepath_and_line_number_and_text) >= 2 ? filepath_and_line_number_and_text[1] : v:false
+  let text = len(filepath_and_line_number_and_text) >= 3 ? filepath_and_line_number_and_text[2] : ''
+
+  return [file_path, line_number, text]
 endfunction
