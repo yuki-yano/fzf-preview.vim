@@ -43,7 +43,9 @@ function! fzf_preview#resource#project_oldfiles() abort
     return []
   endif
 
-  return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(v:oldfiles))
+  let copyfiles = deepcopy(v:oldfiles, 1)
+  call filter(files, { _, file -> file !=# expand('%:p') })
+  return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(copyfiles))
 endfunction
 
 function! fzf_preview#resource#project_mrufiles() abort
@@ -53,6 +55,7 @@ function! fzf_preview#resource#project_mrufiles() abort
 
   let files = readfile(g:neomru#file_mru_path)
   call remove(files, 0)
+  call filter(files, { _, file -> file !=# expand('%:p') })
   return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(files))
 endfunction
 
