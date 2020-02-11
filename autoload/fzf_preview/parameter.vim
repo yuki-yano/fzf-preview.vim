@@ -66,7 +66,7 @@ endfunction
 function! fzf_preview#parameter#locationlist(type) abort
   let resource = fzf_preview#resource#quickfix_or_locationlist(a:type)
   if len(split(resource[0], ':')) == 1
-    let preview = g:fzf_preview_command . ' {}'
+    let preview = g:fzf_preview_command
     let optional = ''
   else
     let preview = g:fzf_preview_grep_preview_cmd . ' {}'
