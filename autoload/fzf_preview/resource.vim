@@ -60,7 +60,7 @@ function! fzf_preview#resource#oldfiles() abort
   let copyfiles = deepcopy(v:oldfiles, 1)
   let files = filter(copyfiles, 'filereadable(v:val)')
 
-  let files = map(files, "fnamemodify(v:val, ':~')")
+  let files = map(files, "fnamemodify(v:val, ':.')")
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
