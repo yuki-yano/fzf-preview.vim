@@ -11,9 +11,10 @@ def is_installed(cmd):
     return os.system(f'which {cmd} >/dev/null 2>&1') == 0
 
 
-file_and_line = re.match(r'(.\s\s)?(.+):(\d+):.*', sys.argv[1])
-file = file_and_line.group(2)
-line_num = file_and_line.group(3)
+file_and_line = re.match(
+    r'(.\s\s)?(?P<file>\S+):(?P<line_num>\d+):?.*', sys.argv[1])
+file = file_and_line.group('file')
+line_num = file_and_line.group('line_num')
 
 start = max([int(line_num) - 10, 1])
 last = int(line_num) + 100

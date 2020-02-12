@@ -120,6 +120,7 @@ command! FzfPreviewGitStatus       :call fzf_preview#runner#fzf_run(fzf_preview#
 command! FzfPreviewBuffers         :call fzf_preview#runner#fzf_run(fzf_preview#parameter#buffers())
 command! FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_oldfiles())
 command! FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_mrufiles())
+command! FzfPreviewBufferTags      :call fzf_preview#runner#fzf_run(fzf_preview#parameter#buffer_tags())
 command! FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#oldfiles())
 command! FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#mrufiles())
 command! FzfPreviewQuickFix        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#locationlist('quickfix'))

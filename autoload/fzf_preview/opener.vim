@@ -29,6 +29,14 @@ function! fzf_preview#opener#edit_grep(lines) abort
   call fzf_preview#opener#edit_file(a:lines, 1, optional_discard_prefix_size, function('s:extract_filename_and_line_number_from_grep'))
 endfunction
 
+function! fzf_preview#opener#edit_buffer_tags(lines) abort
+  let key = a:lines[0]
+  let open_command = s:get_open_command(key)
+  let file_paths = map(copy(a:lines[1:]), { _, line -> expand('%') . ':' . split(line, ' ')[0] })
+
+  call s:open_file(open_command, file_paths)
+endfunction
+
 function! fzf_preview#opener#edit_jumptoline(lines) abort
   let line = a:lines[1]
   let bnr = split(line)[0]

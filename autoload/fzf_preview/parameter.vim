@@ -90,6 +90,17 @@ function! fzf_preview#parameter#project_grep(...) abort
   \ }
 endfunction
 
+function! fzf_preview#parameter#buffer_tags(...) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{}'
+  let optional = '--delimiter : '
+
+  return {
+  \ 'source': fzf_preview#resource#buffer_tags(),
+  \ 'sink': function('fzf_preview#opener#edit_buffer_tags'),
+  \ 'options': fzf_preview#command#command_options('BufferTags', preview, optional)
+  \ }
+endfunction
+
 function! fzf_preview#parameter#jumptoline() abort
   return {
   \ 'source': fzf_preview#resource#jumptoline(),

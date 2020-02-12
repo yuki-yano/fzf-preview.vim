@@ -24,3 +24,7 @@ function! fzf_preview#command#grep_command(args) abort
     return g:fzf_preview_grep_cmd . ' .'
   end
 endfunction
+
+function! fzf_preview#command#buffer_tags_command(file) abort
+  return 'ctags -f - --sort=yes --excmd=number ' . a:file
+endfunction
