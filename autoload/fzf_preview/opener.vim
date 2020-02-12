@@ -10,7 +10,7 @@ function! fzf_preview#opener#edit_file(lines, ...) abort
   let open_command = s:get_open_command(key)
 
   let file_paths = map(copy(a:lines[1:]), { _, path -> path[discard_prefix_size :] })
-  if type(open_command) == 1
+  if type(open_command) == v:t_string
     if Extract_filename_func != 0
       call map(file_paths, 'Extract_filename_func(v:val)')
     endif
@@ -32,9 +32,18 @@ endfunction
 function! fzf_preview#opener#edit_buffer_tags(lines) abort
   let key = a:lines[0]
   let open_command = s:get_open_command(key)
-  let file_paths = map(copy(a:lines[1:]), { _, line -> expand('%') . ':' . split(line, ' ')[0] })
+  let file_paths = []
 
-  call s:open_file(open_command, file_paths)
+  for line in a:lines[1:]
+    let elem = split(line, '\s\+')
+    call add(file_paths, expand('%') . ':' . elem[0] . ':' . elem[1])
+  endfor
+
+  if type(open_command) == v:t_string
+    call s:open_file(open_command, file_paths)
+  else
+    call s:sink_functions()[key](file_paths)
+  endif
 endfunction
 
 function! fzf_preview#opener#edit_jumptoline(lines) abort
