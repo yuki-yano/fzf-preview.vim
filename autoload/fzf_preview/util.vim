@@ -33,3 +33,18 @@ function! fzf_preview#util#is_project_file(file, splited_project_path) abort
 
   return is_project_file
 endfunction
+
+function! fzf_preview#util#align_lists(lists)
+  let maxes = {}
+  for list in a:lists
+    let i = 0
+    while i < len(list)
+      let maxes[i] = max([get(maxes, i, 0), len(list[i])])
+      let i += 1
+    endwhile
+  endfor
+  for list in a:lists
+    call map(list, { key, v -> printf('%-' . maxes[key] . 's', v) })
+  endfor
+  return a:lists
+endfunction
