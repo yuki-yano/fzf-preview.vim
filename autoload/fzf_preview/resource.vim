@@ -131,10 +131,8 @@ function! fzf_preview#resource#files_from_resources(resources) abort
     let files = files + resource_map[resource]()
   endfor
 
-  let List = vital#fzf_preview#import('Data.List')
-  return List.uniq(files)
+  return fzf_preview#util#uniq(files)
 endfunction
-
 
 function! s:filter_history_file_to_project_file(files) abort
   let readable_filelist = filter(a:files, 'filereadable(v:val)')
@@ -214,4 +212,3 @@ function! s:bookmarks_format_line(line) abort
     return filename . ':' . line_number . ':' . text . ':' . comment
   endif
 endfunction
-
