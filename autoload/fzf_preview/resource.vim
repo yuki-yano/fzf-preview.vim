@@ -102,6 +102,7 @@ function! fzf_preview#resource#buffer_tags() abort
 
   let lines = fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#buffer_tags_command(expand('%'))), 1)
   let matches = map(lines, { _, line -> matchlist(line, '^\([^\t]\+\)\t\(\S\+\)\t\(\d\+\);"\t\(.\+\)') })
+  call filter(matches, {_, m -> !empty(m)})
   let lists = map(sort(matches, { a, b -> a[3] - b[3] }), { _, m -> [m[3], m[1], m[4]] })
   return fzf_preview#converter#convert_for_fzf(map(fzf_preview#util#align_lists(lists), { _, v -> join(v, '  ') }), 1)
 endfunction
