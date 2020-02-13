@@ -29,41 +29,36 @@ Requirements:
     https://github.com/junegunn/fzf
 
 Optional
-- bat (A cat clone with syntax highlighting)
-    https://github.com/sharkdp/bat
-    When bat is installed you can highlight the preview and see it.
-    If bat and ccat is not installed, head will be used
-
-- ccat (Colorizing cat)
-    https://github.com/jingweno/ccat
-    When ccat is installed you can highlight the preview and see it.
-    If bat and ccat is not installed, head will be used
-
-- Python3 (Enable grep preview)
+- Python3 (Used grep preview)
     https://www.python.org/
     Checked with Python3.6
     Required for FzfPreviewProjectGrep preview script.
 
-- ripgrep
+- ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)
     https://github.com/BurntSushi/ripgrep
     If ripgrep is installed, it will be possible to obtain a faster file list.
     It is also necessary to use the FzfPreviewProjectGrep command.
 
-- neomru.vim
+- neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles)
     https://github.com/Shougo/neomru.vim
     neomru is a plugin that manages the history of files.
     It does not depend on viminfo. It may be more convenient than oldfiles.
 
-- vim-bookmarks
+- vim-bookmarks (Require FzfPreviewBookmarks)
     https://github.com/MattesGroeger/vim-bookmarks
     vim-bookmarks is a plugin that manages the bookmarks per line.
     It is also necessary to use the FzfPreviewBookmarks command.
 
-- exa (exa is a replacement for ls written in Rust.)
+- bat (Add color to the preview)
+    https://github.com/sharkdp/bat
+    When bat is installed you can highlight the preview and see it.
+    If bat is not installed, head will be used
+
+- exa (Use color to the file list)
     https://github.com/ogham/exa
     By installing exa you can use exa instead of ls to color the file list
 
-- vim-devicons
+- vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
     vim-devicons can be displayed as fzf candidates
 
@@ -205,17 +200,14 @@ g:fzf_preview_quit_map
 
 g:fzf_preview_command
     Shell command used for fzf preview. The head command is used by default.
-    If the bat or ccat command is installed, the bat or ccat command is used by default and
+    If the bat command is installed, the bat is used by default and
     the preview is syntax highlighted.
 
-    Not installed bat and ccat:
+    Not installed bat:
         Default value is 'head -100 {-1}'
 
     Installed bat:
         Default value is 'bat --color=always --style=grid {-1}'
-
-    Installed ccat:
-        Default value is 'ccat --color=always {-1}'
 
 
 g:fzf_binary_preview_command

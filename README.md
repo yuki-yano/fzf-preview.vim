@@ -19,7 +19,7 @@ Though it is different from this plugin and has a lot of functions,
 5. Searching from file history file using oldfiles or mru.
 6. File search from git status with diff preview.
 7. It is possible to interactively execute grep from within the project by specifying the directory
-8. Highlight code in preview with bat or ccat. (Optional)
+8. Highlight code in preview with bat. (Optional)
 9. Export fzf candidates to QuickFix
 
 ## Demo
@@ -48,17 +48,21 @@ Though it is different from this plugin and has a lot of functions,
 
 ### Optional
 
-- **bat (A cat clone with syntax highlighting)** (Recomended) <https://github.com/sharkdp/bat>
-- **ccat (Colorizing cat)** (Recomended) <https://github.com/jingweno/ccat>
+#### Functional
+
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - vim-jumptoline (Require FzfPreviewJumpToLine) <https://github.com/rbtnn/vim-jumptoline>
-- exa (Can be used to color the file list) <https://github.com/ogham/exa>
+
+#### Appearance
+
+- **bat (Add color to the preview)** (Recomended) <https://github.com/sharkdp/bat>
+- exa (Use color to the file list) <https://github.com/ogham/exa>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
-When bat or ccat is installed you can highlight the preview and see it.
+When bat is installed you can highlight the preview and see it.
 
 Otherwise, head will be used
 
@@ -183,9 +187,8 @@ let g:fzf_preview_use_floating_window = 1
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
-let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed ccat and bat
+let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed bat
 " let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
-" let g:fzf_preview_command = 'ccat --color=always {-1}'             " Installed ccat
 
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
