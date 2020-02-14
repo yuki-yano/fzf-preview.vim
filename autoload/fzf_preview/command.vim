@@ -6,11 +6,16 @@ endfunction
 function! fzf_preview#command#command_options(console, preview, ...) abort
   let optional = get(a:, 1, 0) !=# '' ? get(a:, 1, 0) : ''
 
+  let processor = copy(fzf_preview#resource_processor#get_processor())
+  call remove(processor, '')
+  let expect_keys = keys(processor)
+
   let multi = '--multi'
   let fix = '--reverse --ansi'
   let prompt = '--prompt="' . a:console . '> "'
   let bind = '--bind=' . g:fzf_preview_preview_key_bindings
-  let expect = '--expect=' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_vsplit_key_map . ',' . g:fzf_preview_tabedit_key_map . ',' . g:fzf_preview_build_quickfix_key_map
+  " alt-enter is workaround
+  let expect = len(expect_keys) >= 1 ? '--expect=' . join(expect_keys, ',') : '--expect="alt-enter"'
   let color = g:fzf_preview_fzf_color_option !=# '' ? '--color=' . g:fzf_preview_fzf_color_option : ''
   let preview = "--preview='" . a:preview . "'"
   let preview_window = g:fzf_preview_fzf_preview_window_option !=# '' ? '--preview-window="' . g:fzf_preview_fzf_preview_window_option . '"' : ''

@@ -31,5 +31,7 @@ function! fzf_preview#window#create_centered_floating_window() abort
     setlocal nocursorcolumn
     augroup fzf_preview_floating_window
       autocmd WinLeave <buffer> silent! execute 'bwipeout! ' . s:f_buf . ' ' . s:b_buf
+      " timer is workaround
+      autocmd WinLeave <buffer> call timer_start(1000, function('fzf_preview#resource_processor#reset_processor'))
     augroup END
 endfunction

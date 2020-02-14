@@ -23,7 +23,7 @@ function! fzf_preview#parameter#git_status() abort
   let preview = "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command
   return {
   \ 'source': fzf_preview#resource#git_status(),
-  \ 'sink': function('fzf_preview#opener#edit_git_status'),
+  \ 'sink': function('fzf_preview#handler#handle_git_status'),
   \ 'options': fzf_preview#command#command_options('GitStatus', preview)
   \ }
 endfunction
@@ -74,7 +74,7 @@ function! fzf_preview#parameter#locationlist(type) abort
   endif
   return {
   \ 'source': resource,
-  \ 'sink': function('fzf_preview#opener#edit_grep'),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
   \ 'options': fzf_preview#command#command_options(a:type, preview, optional)
   \ }
 endfunction
@@ -85,7 +85,7 @@ function! fzf_preview#parameter#project_grep(...) abort
 
   return {
   \ 'source': fzf_preview#resource#grep(a:000),
-  \ 'sink': function('fzf_preview#opener#edit_grep'),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
   \ 'options': fzf_preview#command#command_options('ProjectGrep', preview, optional)
   \ }
 endfunction
@@ -96,7 +96,7 @@ function! fzf_preview#parameter#buffer_tags(...) abort
 
   return {
   \ 'source': fzf_preview#resource#buffer_tags(),
-  \ 'sink': function('fzf_preview#opener#edit_buffer_tags'),
+  \ 'sink': function('fzf_preview#handler#handle_buffer_tags'),
   \ 'options': fzf_preview#command#command_options('BufferTags', preview, optional)
   \ }
 endfunction
@@ -104,7 +104,7 @@ endfunction
 function! fzf_preview#parameter#jumptoline() abort
   return {
   \ 'source': fzf_preview#resource#jumptoline(),
-  \ 'sink': function('fzf_preview#opener#edit_jumptoline'),
+  \ 'sink': function('fzf_preview#handler#handle_jumptoline'),
   \ 'options': fzf_preview#command#command_options('JumpToLine', g:fzf_preview_command . ' 2>/dev/null || echo {}'),
   \ }
 endfunction
@@ -115,7 +115,7 @@ function! fzf_preview#parameter#bookmarks() abort
 
   return {
   \ 'source': fzf_preview#resource#bookmarks(),
-  \ 'sink': function('fzf_preview#opener#edit_grep'),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
   \ 'options': fzf_preview#command#command_options('Bookmarks', preview, optional)
   \ }
 endfunction
