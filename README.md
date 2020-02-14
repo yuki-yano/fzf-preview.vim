@@ -230,6 +230,10 @@ let g:fzf_preview_tabedit_key_map = 'ctrl-t'
 " Keyboard shortcut for building quickfix
 let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 
+" Use as fzf preview-window option
+let g:fzf_preview_fzf_preview_window_option = ''
+" let g:fzf_preview_fzf_preview_window_option = 'up:30%'
+
 " Command to be executed after file list creation
 let g:fzf_preview_filelist_postprocess_command = ''
 " let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls —color'          " Use dircolors

@@ -86,6 +86,10 @@ if !exists('g:fzf_preview_build_quickfix_key_map')
   let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 endif
 
+if !exists('g:fzf_preview_fzf_preview_window_option')
+  let g:fzf_preview_fzf_preview_window_option = ''
+endif
+
 if !exists('g:fzf_preview_filelist_postprocess_command')
   let g:fzf_preview_filelist_postprocess_command = ''
 endif
