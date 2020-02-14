@@ -13,8 +13,9 @@ function! fzf_preview#command#command_options(console, preview, ...) abort
   let expect = '--expect=' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_vsplit_key_map . ',' . g:fzf_preview_tabedit_key_map . ',' . g:fzf_preview_build_quickfix_key_map
   let color = g:fzf_preview_fzf_color_option !=# '' ? '--color=' . g:fzf_preview_fzf_color_option : ''
   let preview = "--preview='" . a:preview . "'"
+  let preview_window = g:fzf_preview_fzf_preview_window_option !=# '' ? '--preview-window="' . g:fzf_preview_fzf_preview_window_option . '"' : ''
 
-  return join([multi, fix, prompt, bind, expect, color, preview, optional], ' ')
+  return join([multi, fix, prompt, bind, expect, color, preview, preview_window, optional], ' ')
 endfunction
 
 function! fzf_preview#command#grep_command(args) abort

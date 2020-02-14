@@ -309,10 +309,17 @@ g:fzf_preview_build_quickfix_key_map
 
 
 g:fzf_preview_filelist_postprocess_command
-    You can execute piped commands before the file list is passed to fzf
+    Used as fzf preview-window option
+    For example, 'up:30%'
+
+    Default value is ''
+
+
+g:fzf_preview_filelist_postprocess_command
+    Can execute piped commands before the file list is passed to fzf
     For example, you can add color to the file list by setting 'xargs ls —color' .
 
-    Default value is ""
+    Default value is ''
 
 
 g:fzf_preview_use_dev_icons
