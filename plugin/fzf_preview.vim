@@ -133,6 +133,7 @@ command! -nargs=* -complete=customlist,fzf_preview#args#complete_options        
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:mru_files', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewQuickFix        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:locationlist', {'type': 'quickfix'}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewLocationList    :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:locationlist', {'type': 'loclist'}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewJumps           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:jumps', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBookmarks       :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:bookmarks', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewJumpToLine      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:jumptoline', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectGrep     :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_grep', {}, <f-args>))

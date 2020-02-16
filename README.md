@@ -116,6 +116,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewLocationList               " Select line from LocationList (Required [Python3](https://www.python.org/))
 
+:FzfPreviewJumps                      " Select jumplist item (Required [Python3](https://www.python.org/))
+
 :FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Python3](https://www.python.org/))
 
 :FzfPreviewJumpToLine                 " Select the window to open from quickfix using [vim-jumptoline](https://github.com/rbtnn/vim-jumptoline)

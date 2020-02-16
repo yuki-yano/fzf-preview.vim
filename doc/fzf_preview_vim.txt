@@ -158,6 +158,11 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the LocationList item with the fzf interface
      Required: |Python3|
 
+                                                *:FzfPreviewJumps*
+:FzfPreviewJumps
+     Select and open the jumplist
+     Required: |Python3|
+
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
      List bookmarks from the project.

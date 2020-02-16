@@ -106,6 +106,37 @@ function! fzf_preview#resource#buffer_tags() abort
   return map(fzf_preview#util#align_lists(lists), { _, v -> join(v, '  ') })
 endfunction
 
+function! fzf_preview#resource#jumps() abort
+  let splited_project_path = split(fzf_preview#util#project_root(), '/')
+
+  let jumps = []
+  for jump in getjumplist()[0]
+    let bufinfos = getbufinfo(jump['bufnr'])
+    if len(bufinfos) > 0
+      let bufinfo = bufinfos[0]
+      let file = bufinfo['name']
+
+      if fzf_preview#util#is_project_file(file, splited_project_path) && filereadable(file)
+        let info = {}
+        let file = fnamemodify(file, ':.')
+        let line_number = jump['lnum']
+        let lines = getbufline(bufname(jump['bufnr']), jump['lnum'])
+
+        if len(lines) > 0
+          let text = lines[0]
+        else
+          let text = ''
+        endif
+
+        call add(jumps, file . ':' . line_number . ':' . text)
+      endif
+    endif
+  endfor
+
+  call reverse(jumps)
+  return fzf_preview#converter#convert_for_fzf(jumps, 1)
+endfunction
+
 function! fzf_preview#resource#jumptoline() abort
   return jumptoline#winnrlist(-1, '') + [g:jumptoline#new_window, g:jumptoline#new_tabpage]
 endfunction
