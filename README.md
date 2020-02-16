@@ -123,6 +123,32 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
 
+### Command Options
+
+```vim
+-processors
+" Set processor when selecting element with fzf started by this command.
+" Value must be a global variable name.
+" Variable is dictionary and format is same as g:fzf_preview_custom_default_processors.
+"
+" Value example: let g:foo_processors = {
+"                \ '':       function('fzf_preview#resource_processor#edit'),
+"                \ 'ctrl-x': function('s:foo_function'),
+"                \ }
+"
+
+" Example: 'bdelete!' buffers
+function! s:buffers_delete_from_paths(paths) abort
+  for path in a:paths
+    execute 'bdelete! ' . path
+  endfor
+endfunction
+let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
+let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
+
+nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+```
+
 ### Function
 
 ```vim
@@ -218,17 +244,13 @@ let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:previe
 " Specify the color of fzf
 let g:fzf_preview_fzf_color_option = ''
 
-" Keyboard shortcut for opening files with split
-let g:fzf_preview_split_key_map = 'ctrl-x'
-
-" Keyboard shortcut for opening files with vsplit
-let g:fzf_preview_vsplit_key_map = 'ctrl-v'
-
-" Keyboard shortcut for opening files with tabedit
-let g:fzf_preview_tabedit_key_map = 'ctrl-t'
-
-" Keyboard shortcut for building quickfix
-let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
+" Set the processors when selecting an element with fzf
+" Do not use with g:fzf_preview_*_key_map
+let g:fzf_preview_custom_default_processors = {}
+" For example, set split to ctrl-s
+" let g:fzf_preview_custom_default_processors = fzf_preview#resource_processor#get_default_processors()
+" call remove(g:fzf_preview_custom_default_processors, 'ctrl-x')
+" let g:fzf_preview_custom_default_processors['ctrl-s'] = function('fzf_preview#resource_processor#split')
 
 " Use as fzf preview-window option
 let g:fzf_preview_fzf_preview_window_option = ''
@@ -246,6 +268,22 @@ let g:fzf_preview_use_dev_icons = 0
 let g:fzf_preview_dev_icon_prefix_length = 2
 
 " DEPRECATED
+" Keyboard shortcut for opening files with split
+let g:fzf_preview_split_key_map = 'ctrl-x'
+
+" DEPRECATED
+" Keyboard shortcut for opening files with vsplit
+let g:fzf_preview_vsplit_key_map = 'ctrl-v'
+
+" DEPRECATED
+" Keyboard shortcut for opening files with tabedit
+let g:fzf_preview_tabedit_key_map = 'ctrl-t'
+
+" DEPRECATED
+" Keyboard shortcut for building quickfix
+let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
+
+" DEPRECATED
 " fzf window layout
 let g:fzf_preview_layout = 'top split new'
 
@@ -256,6 +294,16 @@ let g:fzf_preview_rate = 0.3
 " DEPRECATED
 " Key to toggle fzf window size of normal size and full-screen
 let g:fzf_full_preview_toggle_key = '<C-s>'
+```
+
+## Functions
+
+```vim
+" Get the initial value of the process executed when selecting the element of fzf
+call fzf_preview#resource_processor#get_default_processors()
+
+" Get the current value of the process executed when selecting the element of fzf
+call fzf_preview#resource_processor#get_processors()
 ```
 
 ## Inspiration
