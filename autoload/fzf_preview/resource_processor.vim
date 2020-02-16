@@ -15,16 +15,12 @@ function! fzf_preview#resource_processor#get_processors() abort
 endfunction
 
 function! fzf_preview#resource_processor#get_default_processors() abort
-  if g:fzf_preview#custom_processors == {}
-    let processors = {}
-    let processors[''] = function('fzf_preview#resource_processor#edit')
-    let processors[g:fzf_preview#split_key_map] = function('fzf_preview#resource_processor#split')
-    let processors[g:fzf_preview#vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
-    let processors[g:fzf_preview#tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
-    let processors[g:fzf_preview#build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
-  else
-    let processors = g:fzf_preview_custom_processors
-  endif
+  let processors = {}
+  let processors[''] = function('fzf_preview#resource_processor#edit')
+  let processors[g:fzf_preview#split_key_map] = function('fzf_preview#resource_processor#split')
+  let processors[g:fzf_preview#vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
+  let processors[g:fzf_preview#tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
+  let processors[g:fzf_preview#build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
 
   return processors
 endfunction
@@ -74,7 +70,11 @@ function! fzf_preview#resource_processor#export_quickfix(paths) abort
 endfunction
 
 function! s:initialize_processors() abort
-  let s:processors = fzf_preview#resource_processor#get_default_processors()
+  if g:fzf_preview_custom_default_processors != {}
+    let s:processors = copy(g:fzf_preview_custom_default_processors)
+  else
+    let s:processors = fzf_preview#resource_processor#get_default_processors()
+  endif
 endfunction
 
 function! s:open_file(open_command, paths) abort
