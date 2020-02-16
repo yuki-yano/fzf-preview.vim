@@ -23,4 +23,3 @@ endfunction
 function! fzf_preview#args#complete_options(lead, line, pos) abort
   return ['-processors=']
 endfunction
-
