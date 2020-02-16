@@ -25,7 +25,7 @@ endfunction
 
 function! fzf_preview#command#grep_command(args) abort
   if len(a:args) >= 1
-    return g:fzf_preview_grep_cmd . ' ' . a:args[0]
+    return g:fzf_preview_grep_cmd . ' ' . a:args
   else
     return g:fzf_preview_grep_cmd . ' .'
   end
