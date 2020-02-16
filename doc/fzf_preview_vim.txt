@@ -309,9 +309,9 @@ g:fzf_preview_fzf_color_option
 
 g:fzf_preview_custom_default_processors
     Set the processors when selecting an element with fzf in dictionary.
-    Dictionary format is { 'input key': Funcref }
+    Dictionary format is { 'input key': |Funcref| }
     An empty key corresponds to the return key.
-    Default values can be get with |fzf_preview#resource_processor#get_default_processors|
+    Default |Funcref| can be get with |fzf_preview#resource_processor#get_default_processors|
     Do not use with g:fzf_preview_*_key_map
 
     Default value is {}
