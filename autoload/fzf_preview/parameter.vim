@@ -1,15 +1,3 @@
-function! fzf_preview#parameter#initialize(name, additional, ...) abort
-  let args = fzf_preview#args#parse(a:000)
-
-  call fzf_preview#resource_processor#reset_processor()
-  if args['processor'] != v:false
-    let processor = eval(args['processor'])
-    call fzf_preview#resource_processor#set_processor(processor)
-  endif
-
-  return fzf_preview#parameter#build_parameter(a:name, a:additional, args['extra'])
-endfunction
-
 function! fzf_preview#parameter#build_parameter(name, additional, args) abort
   return function('s:' . a:name)(a:additional, a:args)
 endfunction
