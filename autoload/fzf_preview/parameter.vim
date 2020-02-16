@@ -1,5 +1,5 @@
-function! fzf_preview#parameter#build_parameter(name, additional, args) abort
-  return function('s:' . a:name)(a:additional, a:args)
+function! fzf_preview#parameter#build_parameter(func_name, additional, args) abort
+  return function(a:func_name)(a:additional, a:args)
 endfunction
 
 function! s:project_files(additional, args) abort
