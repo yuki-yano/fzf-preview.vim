@@ -320,7 +320,7 @@ g:fzf_preview_custom_default_processors
                '':       function('fzf_preview#resource_processor#edit'),
                'ctrl-x': function('fzf_preview#resource_processor#split'),
                'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
-               'ctrl-t': function('fzf_preview#resource_processor#vsplit'),
+               'ctrl-t': function('fzf_preview#resource_processor#tabedit'),
                'ctrl-q': function('fzf_preview#resource_processor#export_quickfix')
              }
 
