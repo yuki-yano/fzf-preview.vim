@@ -267,18 +267,22 @@ let g:fzf_preview_use_dev_icons = 0
 let g:fzf_preview_dev_icon_prefix_length = 2
 
 " DEPRECATED
+" Use g:fzf_preview_custom_default_processors
 " Keyboard shortcut for opening files with split
 let g:fzf_preview_split_key_map = 'ctrl-x'
 
 " DEPRECATED
+" Use g:fzf_preview_custom_default_processors
 " Keyboard shortcut for opening files with vsplit
 let g:fzf_preview_vsplit_key_map = 'ctrl-v'
 
 " DEPRECATED
+" Use g:fzf_preview_custom_default_processors
 " Keyboard shortcut for opening files with tabedit
 let g:fzf_preview_tabedit_key_map = 'ctrl-t'
 
 " DEPRECATED
+" Use g:fzf_preview_custom_default_processors
 " Keyboard shortcut for building quickfix
 let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 

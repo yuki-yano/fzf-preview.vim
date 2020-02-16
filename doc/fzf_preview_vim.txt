@@ -350,28 +350,32 @@ g:fzf_preview_dev_icon_prefix_length
     Default value is 2
 
 
-DEPRECATED: g:fzf_preview_split_key_map
+DEPRECATED: Use g:fzf_preview_custom_default_processors
+g:fzf_preview_split_key_map
     This map is used when splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
     Default value is 'ctrl-x'
 
 
-DEPRECATED: g:fzf_preview_vsplit_key_map
+DEPRECATED: Use g:fzf_preview_custom_default_processors
+g:fzf_preview_vsplit_key_map
     This map is used when vertical splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
     Default value is 'ctrl-v'
 
 
-DEPRECATED: g:fzf_preview_tabedit_key_map
+DEPRECATED: Use g:fzf_preview_custom_default_processors
+g:fzf_preview_tabedit_key_map
     This map is used when new tabpage and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
     Default value is 'ctrl-t'
 
 
-DEPRECATED: g:fzf_preview_build_quickfix_key_map
+DEPRECATED: Use g:fzf_preview_custom_default_processors
+g:fzf_preview_build_quickfix_key_map
     This map is used when building QuickFix from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
