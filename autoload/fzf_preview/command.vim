@@ -6,11 +6,16 @@ endfunction
 function! fzf_preview#command#command_options(console, preview, ...) abort
   let optional = get(a:, 1, 0) !=# '' ? get(a:, 1, 0) : ''
 
+  let processors = copy(fzf_preview#resource_processor#get_processors())
+  call remove(processors, '')
+  let expect_keys = keys(processors)
+
   let multi = '--multi'
   let fix = '--reverse --ansi'
   let prompt = '--prompt="' . a:console . '> "'
   let bind = '--bind=' . g:fzf_preview_preview_key_bindings
-  let expect = '--expect=' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_split_key_map . ',' . g:fzf_preview_vsplit_key_map . ',' . g:fzf_preview_tabedit_key_map . ',' . g:fzf_preview_build_quickfix_key_map
+  " alt-enter is workaround
+  let expect = len(expect_keys) >= 1 ? '--expect=' . join(expect_keys, ',') : '--expect="alt-enter"'
   let color = g:fzf_preview_fzf_color_option !=# '' ? '--color=' . g:fzf_preview_fzf_color_option : ''
   let preview = "--preview='" . a:preview . "'"
   let preview_window = g:fzf_preview_fzf_preview_window_option !=# '' ? '--preview-window="' . g:fzf_preview_fzf_preview_window_option . '"' : ''
@@ -20,7 +25,7 @@ endfunction
 
 function! fzf_preview#command#grep_command(args) abort
   if len(a:args) >= 1
-    return g:fzf_preview_grep_cmd . ' ' . a:args[0]
+    return g:fzf_preview_grep_cmd . ' ' . a:args
   else
     return g:fzf_preview_grep_cmd . ' .'
   end

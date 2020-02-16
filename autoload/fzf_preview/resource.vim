@@ -159,7 +159,7 @@ function! s:get_quickfix_or_locationlist_lines(type) abort
 endfunction
 
 function! s:get_quickfix_or_loclist(type) abort
-  return filter(getwininfo(), { _, w -> w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') == 'qf' && w[a:type]})
+  return filter(getwininfo(), { _, w -> w['tabnr'] == tabpagenr() && getwinvar(w['winnr'], '&filetype') ==# 'qf' && w[a:type]})
 endfunction
 
 function! s:open_process_with_qf_and_close(type, F) abort

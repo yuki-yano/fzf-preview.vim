@@ -86,6 +86,10 @@ if !exists('g:fzf_preview_build_quickfix_key_map')
   let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 endif
 
+if !exists('g:fzf_preview_custom_default_processors')
+  let g:fzf_preview_custom_default_processors = {}
+endif
+
 if !exists('g:fzf_preview_fzf_preview_window_option')
   let g:fzf_preview_fzf_preview_window_option = ''
 endif
@@ -117,23 +121,22 @@ endif
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-command! FzfPreviewProjectFiles    :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_files())
-command! FzfPreviewGitFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#git_files())
-command! FzfPreviewDirectoryFiles  :call fzf_preview#runner#fzf_run(fzf_preview#parameter#directory_files())
-command! FzfPreviewGitStatus       :call fzf_preview#runner#fzf_run(fzf_preview#parameter#git_status())
-command! FzfPreviewBuffers         :call fzf_preview#runner#fzf_run(fzf_preview#parameter#buffers())
-command! FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_oldfiles())
-command! FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_mrufiles())
-command! FzfPreviewBufferTags      :call fzf_preview#runner#fzf_run(fzf_preview#parameter#buffer_tags())
-command! FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#oldfiles())
-command! FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#mrufiles())
-command! FzfPreviewQuickFix        :call fzf_preview#runner#fzf_run(fzf_preview#parameter#locationlist('quickfix'))
-command! FzfPreviewLocationList    :call fzf_preview#runner#fzf_run(fzf_preview#parameter#locationlist('loclist'))
-command! FzfPreviewBookmarks       :call fzf_preview#runner#fzf_run(fzf_preview#parameter#bookmarks())
-command! FzfPreviewJumpToLine      :call fzf_preview#runner#fzf_run(fzf_preview#parameter#jumptoline())
-
-command! -nargs=? FzfPreviewProjectGrep :call fzf_preview#runner#fzf_run(fzf_preview#parameter#project_grep(<f-args>))
-command! -nargs=+ -complete=customlist,fzf_preview#files_resources FzfPreviewFromResources :call fzf_preview#runner#fzf_run(fzf_preview#parameter#files_from_resources(<f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectFiles    :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('project_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewGitFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('git_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewDirectoryFiles  :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('directory_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewGitStatus       :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('git_status', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBuffers         :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('buffers', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('project_old_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('project_mru_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBufferTags      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('buffer_tags', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('old_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('mru_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewQuickFix        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('locationlist', {'type': 'quickfix'}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewLocationList    :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('locationlist', {'type': 'loclist'}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBookmarks       :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('bookmarks', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewJumpToLine      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('jumptoline', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectGrep     :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('project_grep', {}, <f-args>))
+command! -nargs=+ -complete=customlist,fzf_preview#args#complete_files_resources FzfPreviewFromResources   :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('files_from_resources', {}, <f-args>))
 
 augroup fzf_preview_buffers
   autocmd!

@@ -181,6 +181,33 @@ COMMANDS                                        *fzf-preview-commands*
                  project_mru, old, mru]
 
 ==============================================================================
+COMMAND OPTIONS                                 *fzf-preview-command-options*
+
+-processors
+    Set processor when selecting element with fzf started by this command.
+    Value must be a global variable name.
+    Variable is dictionary and format is
+    same as |g:fzf_preview_custom_default_processors|.
+
+    Value example: let g:foo_processors = {
+                   \ '':       function('fzf_preview#resource_processor#edit'),
+                   \ 'ctrl-x': function('s:foo_function'),
+                   \ }
+
+    Usage example: 'bdelete!' buffers
+>
+    function! s:buffers_delete_from_paths(paths) abort
+      for path in a:paths
+        execute 'bdelete! ' . path
+      endfor
+    endfunction
+    let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
+    let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
+
+    nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+<
+
+==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
 g:fzf_preview_use_floating_window
@@ -280,32 +307,22 @@ g:fzf_preview_fzf_color_option
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
-g:fzf_preview_split_key_map
-    This map is used when splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
+g:fzf_preview_custom_default_processors
+    Set the processors when selecting an element with fzf in dictionary.
+    Dictionary format is { 'input key': Funcref }
+    An empty key corresponds to the return key.
+    Default values can be get with |fzf_preview#resource_processor#get_default_processors|
+    Do not use with g:fzf_preview_*_key_map
 
-    Default value is 'ctrl-x'
+    Default value is {}
 
-
-g:fzf_preview_vsplit_key_map
-    This map is used when vertical splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-v'
-
-
-g:fzf_preview_tabedit_key_map
-    This map is used when new tabpage and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-t'
-
-
-g:fzf_preview_build_quickfix_key_map
-    This map is used when building QuickFix from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-q'
+    Example: {
+               '':       function('fzf_preview#resource_processor#edit'),
+               'ctrl-x': function('fzf_preview#resource_processor#split'),
+               'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
+               'ctrl-t': function('fzf_preview#resource_processor#vsplit'),
+               'ctrl-q': function('fzf_preview#resource_processor#export_quickfix')
+             }
 
 
 g:fzf_preview_filelist_postprocess_command
@@ -334,6 +351,34 @@ g:fzf_preview_dev_icon_prefix_length
     Default value is 2
 
 
+DEPRECATED: g:fzf_preview_split_key_map
+    This map is used when splitting and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-x'
+
+
+DEPRECATED: g:fzf_preview_vsplit_key_map
+    This map is used when vertical splitting and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-v'
+
+
+DEPRECATED: g:fzf_preview_tabedit_key_map
+    This map is used when new tabpage and opening files from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-t'
+
+
+DEPRECATED: g:fzf_preview_build_quickfix_key_map
+    This map is used when building QuickFix from fzf.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-q'
+
+
 DEPRECATED: Works when floating window is not used
 g:fzf_preview_layout
     This value is the layout displayed when executing the fzf command.
@@ -358,9 +403,28 @@ g:fzf_full_preview_toggle_key
 
     Default value is '<C-s>'
 
+==============================================================================
+FUNCTIONS                                       *fzf-preview-functions*
+
+*fzf_preview#resource_processor#get_default_processors*
+    Get the initial value of the process executed
+    when selecting the element of fzf
+
+    value is {
+               '':       function('fzf_preview#resource_processor#edit'),
+               'ctrl-x': function('fzf_preview#resource_processor#split'),
+               'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
+               'ctrl-t': function('fzf_preview#resource_processor#vsplit'),
+               'ctrl-q': function('fzf_preview#resource_processor#export_quickfix')
+             }
+
+
+*fzf_preview#resource_processor#get_processors*
+    Get the current value of the process executed
+    when selecting the element of fzf
 
 ==============================================================================
-KEYMAP                                          *fzf-preview-keymap*
+DEFAULT KEYMAP                                  *fzf-preview-keymap*
 
 <C-x>
   - Open split
