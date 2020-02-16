@@ -105,14 +105,6 @@ function! s:buffer_tags(additional, args) abort
   \ }
 endfunction
 
-function! s:jumptoline(additional, args) abort
-  return {
-  \ 'source': fzf_preview#resource#jumptoline(),
-  \ 'sink': function('fzf_preview#handler#handle_jumptoline'),
-  \ 'options': fzf_preview#command#command_options('JumpToLine', g:fzf_preview_command . ' 2>/dev/null || echo {}'),
-  \ }
-endfunction
-
 function! s:jumps(additional, args) abort
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
   let optional = '--delimiter : '

@@ -54,7 +54,6 @@ Though it is different from this plugin and has a lot of functions,
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
-- vim-jumptoline (Require FzfPreviewJumpToLine) <https://github.com/rbtnn/vim-jumptoline>
 
 #### Appearance
 
@@ -119,8 +118,6 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewJumps                      " Select jumplist item (Required [Python3](https://www.python.org/))
 
 :FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Python3](https://www.python.org/))
-
-:FzfPreviewJumpToLine                 " Select the window to open from quickfix using [vim-jumptoline](https://github.com/rbtnn/vim-jumptoline)
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
