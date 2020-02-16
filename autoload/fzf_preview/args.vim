@@ -1,13 +1,13 @@
 function! fzf_preview#args#parse(args) abort
   let args = {
-  \ 'processor': v:false,
+  \ 'processors': v:false,
   \ 'extra': []
   \ }
 
   for arg in a:args
-    let matches = matchlist(arg, '^-processor=\(\(\w\|:\)\+\)$')
+    let matches = matchlist(arg, '^-processors=\(\(\w\|:\)\+\)$')
     if len(matches) >= 1
-      let args['processor'] = matches[1]
+      let args['processors'] = matches[1]
     else
       call add(args['extra'], arg)
     endif
@@ -21,6 +21,6 @@ function! fzf_preview#args#complete_files_resources(lead, line, pos) abort
 endfunction
 
 function! fzf_preview#args#complete_options(lead, line, pos) abort
-  return ['-processor=']
+  return ['-processors=']
 endfunction
 

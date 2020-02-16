@@ -1,24 +1,39 @@
 function! fzf_preview#resource_processor#key2processor(key) abort
   if !exists('s:processors')
-    call s:initialize_processor()
+    call s:initialize_processors()
   endif
   let Processor = s:processors[a:key]
 
   return Processor
 endfunction
 
-function! fzf_preview#resource_processor#get_processor() abort
+function! fzf_preview#resource_processor#get_processors() abort
   if !exists('s:processors')
-    call s:initialize_processor()
+    call s:initialize_processors()
   endif
   return s:processors
 endfunction
 
-function! fzf_preview#resource_processor#set_processor(processors) abort
+function! fzf_preview#resource_processor#get_default_processors() abort
+  if g:fzf_preview#custom_processors == {}
+    let processors = {}
+    let processors[''] = function('fzf_preview#resource_processor#edit')
+    let processors[g:fzf_preview#split_key_map] = function('fzf_preview#resource_processor#split')
+    let processors[g:fzf_preview#vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
+    let processors[g:fzf_preview#tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
+    let processors[g:fzf_preview#build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
+  else
+    let processors = g:fzf_preview_custom_processors
+  endif
+
+  return processors
+endfunction
+
+function! fzf_preview#resource_processor#set_processors(processors) abort
   let s:processors = a:processors
 endfunction
 
-function! fzf_preview#resource_processor#reset_processor(...) abort
+function! fzf_preview#resource_processor#reset_processors(...) abort
   if exists('s:processors')
     unlet s:processors
   endif
@@ -58,13 +73,8 @@ function! fzf_preview#resource_processor#export_quickfix(paths) abort
   copen
 endfunction
 
-function! s:initialize_processor() abort
-  let s:processors = {}
-  let s:processors[''] = function('fzf_preview#resource_processor#edit')
-  let s:processors[g:fzf_preview_split_key_map] = function('fzf_preview#resource_processor#split')
-  let s:processors[g:fzf_preview_vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
-  let s:processors[g:fzf_preview_tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
-  let s:processors[g:fzf_preview_build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
+function! s:initialize_processors() abort
+  let s:processors = fzf_preview#resource_processor#get_default_processors()
 endfunction
 
 function! s:open_file(open_command, paths) abort

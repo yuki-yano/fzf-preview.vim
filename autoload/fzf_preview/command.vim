@@ -6,9 +6,9 @@ endfunction
 function! fzf_preview#command#command_options(console, preview, ...) abort
   let optional = get(a:, 1, 0) !=# '' ? get(a:, 1, 0) : ''
 
-  let processor = copy(fzf_preview#resource_processor#get_processor())
-  call remove(processor, '')
-  let expect_keys = keys(processor)
+  let processors = copy(fzf_preview#resource_processor#get_processors())
+  call remove(processors, '')
+  let expect_keys = keys(processors)
 
   let multi = '--multi'
   let fix = '--reverse --ansi'

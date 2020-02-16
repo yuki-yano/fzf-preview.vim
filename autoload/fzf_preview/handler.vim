@@ -8,7 +8,7 @@ function! fzf_preview#handler#handle_resource(lines, ...) abort
 
   let key = a:lines[0]
 
-  let lines = map(copy(a:lines[1:]), { _, line -> line[discard_prefix_size:] })
+  let lines = map(copy(a:lines[1:]), { _, line -> line[discard_prefix_size :] })
   if Extract_filename_func != v:false
     call map(lines, { _, line -> Extract_filename_func(line) })
   endif
