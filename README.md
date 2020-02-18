@@ -162,9 +162,9 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_bu
 "
 
 " Example: Exclude filename with FzfPreviewProjectGrep
-AutoCmd VimEnter * let g:fzf_preview_command_options = fzf_preview#command#get_common_command_options() |
-  \ let g:fzf_preview_command_options = g:fzf_preview_command_options . ' --nth=3'
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_command_options<Space>
+AutoCmd VimEnter * let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options() |
+  \ let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_grep_command_options<Space>
 ```
 
 ### Function
