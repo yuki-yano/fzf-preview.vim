@@ -22,8 +22,6 @@ endif
 if !exists('g:fzf_preview_command')
   if executable('bat')
     let g:fzf_preview_command = 'bat --color=always --style=grid {-1}'
-  elseif executable('ccat')
-    let g:fzf_preview_command = 'ccat --color=always {-1}'
   else
     let g:fzf_preview_command = 'head -100 {-1}'
   endif
