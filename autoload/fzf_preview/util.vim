@@ -44,7 +44,7 @@ function! fzf_preview#util#uniq(list)
   return result
 endfunction
 
-function! fzf_preview#util#align_lists(lists)
+function! fzf_preview#util#align_lists(lists) abort
   let maxes = {}
   for list in a:lists
     let i = 0
