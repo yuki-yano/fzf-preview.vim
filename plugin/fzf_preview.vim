@@ -29,6 +29,10 @@ if !exists('g:fzf_preview_command')
   endif
 endif
 
+if !exists('g:fzf_preview_if_binary_command')
+  let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
+endif
+
 if !exists('g:fzf_binary_preview_command')
   let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
 endif
