@@ -146,12 +146,32 @@ let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_
 let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
 
 nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+
+
+" EXPERIMENTAL: Specifications may change.
+-fzf-args
+" Set the arguments to be passed when executing fzf.
+" Value must be a global variable name.
+" Variable is string and format is shell command options.
+" This option is experimental.
+"
+" Value example: let g:foo_processors = {
+"                \ '':       function('fzf_preview#resource_processor#edit'),
+"                \ 'ctrl-x': function('s:foo_function'),
+"                \ }
+"
+
+" Example: Exclude filename with FzfPreviewProjectGrep
+AutoCmd VimEnter * let g:fzf_preview_command_options = fzf_preview#command#get_common_command_options() |
+  \ let g:fzf_preview_command_options = g:fzf_preview_command_options . ' --nth=3'
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_command_options<Space>
 ```
 
 ### Function
 
 ```vim
-call fzf_preview#window#create_centered_floating_window() " Function to display the floating window used by this plugin
+" Function to display the floating window used by this plugin
+call fzf_preview#window#create_centered_floating_window()
 
 " Example
 call fzf#run({
@@ -159,6 +179,17 @@ call fzf#run({
 \ 'sink':   'edit',
 \ 'window': 'call fzf_preview#window#create_centered_floating_window()',
 \ })
+
+" Get the initial value of the process executed when selecting the element of fzf
+call fzf_preview#resource_processor#get_default_processors()
+
+" Get the current value of the process executed when selecting the element of fzf
+call fzf_preview#resource_processor#get_processors()
+
+" EXPERIMENTAL: Specifications may change.
+" Get the common value of the passed when executed fzf.
+" Use after VimEnter.
+call fzf_preview#command#get_common_command_options()
 ```
 
 ## Keymap
@@ -300,16 +331,6 @@ let g:fzf_preview_rate = 0.3
 " DEPRECATED
 " Key to toggle fzf window size of normal size and full-screen
 let g:fzf_full_preview_toggle_key = '<C-s>'
-```
-
-## Functions
-
-```vim
-" Get the initial value of the process executed when selecting the element of fzf
-call fzf_preview#resource_processor#get_default_processors()
-
-" Get the current value of the process executed when selecting the element of fzf
-call fzf_preview#resource_processor#get_processors()
 ```
 
 ## Inspiration

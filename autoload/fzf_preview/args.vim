@@ -1,14 +1,29 @@
 function! fzf_preview#args#parse(args) abort
+  let types = [
+  \ 'processors',
+  \ 'fzf-args',
+  \ ]
+
   let args = {
-  \ 'processors': v:false,
-  \ 'extra': []
+  \ 'extra': [],
   \ }
 
+  for type in types
+    let args[type] = v:false
+  endfor
+
   for arg in a:args
-    let matches = matchlist(arg, '^-processors=\(\(\w\|:\)\+\)$')
-    if len(matches) >= 1
-      let args['processors'] = matches[1]
-    else
+    let if_match = v:false
+
+    for type in types
+      let matches = matchlist(arg, '^-' . type . '=\(\(\w\|:\)\+\)$')
+      if len(matches) >= 1
+        let args[type] = matches[1]
+        let if_match = v:true
+      endif
+    endfor
+
+    if !if_match
       call add(args['extra'], arg)
     endif
   endfor

@@ -28,7 +28,7 @@ function! s:git_status(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#git_status(),
   \ 'sink': function('fzf_preview#handler#handle_git_status'),
-  \ 'options': fzf_preview#command#command_options('GitStatus', preview)
+  \ 'options': fzf_preview#command#get_command_options('GitStatus', preview)
   \ }
 endfunction
 
@@ -79,7 +79,7 @@ function! s:locationlist(additional, args) abort
   return {
   \ 'source': resource,
   \ 'sink': function('fzf_preview#handler#handle_grep'),
-  \ 'options': fzf_preview#command#command_options(a:additional['type'], preview, optional)
+  \ 'options': fzf_preview#command#get_command_options(a:additional['type'], preview, optional)
   \ }
 endfunction
 
@@ -90,7 +90,7 @@ function! s:project_grep(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#grep(join(a:args, ' ')),
   \ 'sink': function('fzf_preview#handler#handle_grep'),
-  \ 'options': fzf_preview#command#command_options('ProjectGrep', preview, optional)
+  \ 'options': fzf_preview#command#get_command_options('ProjectGrep', preview, optional)
   \ }
 endfunction
 
@@ -101,7 +101,7 @@ function! s:buffer_tags(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#buffer_tags(),
   \ 'sink': function('fzf_preview#handler#handle_buffer_tags'),
-  \ 'options': fzf_preview#command#command_options('BufferTags', preview, optional)
+  \ 'options': fzf_preview#command#get_command_options('BufferTags', preview, optional)
   \ }
 endfunction
 
@@ -112,7 +112,7 @@ function! s:jumps(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#jumps(),
   \ 'sink': function('fzf_preview#handler#handle_grep'),
-  \ 'options': fzf_preview#command#command_options('Jumps', preview, optional)
+  \ 'options': fzf_preview#command#get_command_options('Jumps', preview, optional)
   \ }
 endfunction
 
@@ -123,7 +123,7 @@ function! s:bookmarks(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#bookmarks(),
   \ 'sink': function('fzf_preview#handler#handle_grep'),
-  \ 'options': fzf_preview#command#command_options('Bookmarks', preview, optional)
+  \ 'options': fzf_preview#command#get_command_options('Bookmarks', preview, optional)
   \ }
 endfunction
 

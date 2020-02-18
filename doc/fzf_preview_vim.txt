@@ -206,6 +206,22 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
 <
 
+EXPERIMENTAL: Specifications may change.
+-fzf-args
+    Set the arguments to be passed when executing fzf.
+    Value must be a global variable name.
+    Variable is string and format is shell command options.
+    This option is experimental.
+
+    Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+
+    Usage example: Exclude filename with FzfPreviewProjectGrep
+>
+    AutoCmd VimEnter * let g:fzf_preview_command_options = fzf_preview#command#get_common_command_options() |
+      \ let g:fzf_preview_command_options = g:fzf_preview_command_options . ' --nth=3'
+    nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_command_options<Space>
+<
+
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
@@ -432,6 +448,14 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#resource_processor#get_processors*
     Get the current value of the process executed
     when selecting the element of fzf
+
+
+EXPERIMENTAL: Specifications may change.
+*fzf_preview#command#get_common_command_options*
+    Get the common value of the passed when executed fzf.
+    Use after VimEnter.
+
+    value is: '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 ==============================================================================
 DEFAULT KEYMAP                                  *fzf-preview-keymap*
