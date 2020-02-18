@@ -36,7 +36,7 @@ function! fzf_preview#resource_processor#set_processors(processors) abort
   let s:processors = a:processors
 endfunction
 
-function! fzf_preview#resource_processor#reset_processors(...) abort
+function! fzf_preview#resource_processor#reset_processors() abort
   if exists('s:processors')
     unlet s:processors
   endif
