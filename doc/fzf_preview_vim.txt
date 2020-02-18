@@ -236,6 +236,13 @@ g:fzf_preview_command
         Default value is 'bat --color=always --style=grid {-1}'
 
 
+g:fzf_preview_if_binary_command
+    g:fzf_binary_preview_command is executed if this command succeeds,
+    and g:fzf_preview_command is executed if it fails
+
+    Default value is '[[ "$(file --mime {})" =~ binary ]]'
+
+
 g:fzf_binary_preview_command
     Shell command used for binary file preview.
     Since it is heavy to display in text, if there is no particular reason,

@@ -215,6 +215,9 @@ let g:fzf_preview_use_floating_window = 1
 let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed bat
 " let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
 
+" g:fzf_binary_preview_command is executed if this command succeeds, and g:fzf_preview_command is executed if it fails
+let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
+
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
 
