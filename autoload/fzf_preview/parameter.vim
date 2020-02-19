@@ -46,7 +46,7 @@ function! s:project_oldfiles(additional, args) abort
   \ }
 endfunction
 
-function! s:project_mrufiles(additional, args) abort
+function! s:project_mru_files(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#project_mrufiles(),
   \ 'prompt': 'ProjectMruFiles',
@@ -60,7 +60,7 @@ function! s:oldfiles(additional, args) abort
   \ }
 endfunction
 
-function! s:mrufiles(additional, args) abort
+function! s:mru_files(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#mrufiles(),
   \ 'prompt': 'MruFiles',
