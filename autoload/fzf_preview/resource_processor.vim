@@ -11,7 +11,7 @@ function! fzf_preview#resource_processor#get_processors() abort
   if !exists('s:processors')
     call s:initialize_processors()
   endif
-  return s:processors
+  return copy(s:processors)
 endfunction
 
 function! fzf_preview#resource_processor#get_default_processors() abort
