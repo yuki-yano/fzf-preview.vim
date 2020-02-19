@@ -38,6 +38,23 @@ function! fzf_preview#resource#buffers() abort
   return fzf_preview#converter#convert_for_fzf(buffers)
 endfunction
 
+function! fzf_preview#resource#all_buffers() abort
+  let buffers = []
+  for bufinfo in copy(getbufinfo())
+    let buffer = {
+    \ 'name': fnamemodify(bufinfo['name'], ':.'),
+    \ 'bufnr': bufinfo['bufnr'],
+    \ }
+    call add(buffers, buffer)
+  endfor
+
+  let buffers = map(copy(getbufinfo({ 'buflisted': 1 })),
+  \ { _, buffer -> [buffer['bufnr'], fnamemodify(buffer['name'], ':.')] }
+  \ )
+
+  return map(copy(fzf_preview#util#align_lists(buffers)), { _, buffer -> join(buffer, ' ') })
+endfunction
+
 function! fzf_preview#resource#project_oldfiles() abort
   if !fzf_preview#util#is_git_directory()
     return []

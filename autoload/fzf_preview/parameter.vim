@@ -39,6 +39,15 @@ function! s:buffers(additional, args) abort
   \ }
 endfunction
 
+function! s:all_buffers(additional, args) abort
+  let preview = '[[ -f {2..} ]] && ' . g:fzf_preview_command . ' || echo "{2..} is not file."'
+  return {
+  \ 'source': fzf_preview#resource#all_buffers(),
+  \ 'sink': function('fzf_preview#handler#handle_all_buffers'),
+  \ 'options': fzf_preview#command#get_command_options('AllBuffers', preview)
+  \ }
+endfunction
+
 function! s:project_oldfiles(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#project_oldfiles(),

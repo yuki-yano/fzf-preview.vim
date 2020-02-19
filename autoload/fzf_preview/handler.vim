@@ -21,6 +21,12 @@ function! fzf_preview#handler#handle_git_status(lines) abort
   call fzf_preview#handler#handle_resource(a:lines, 1, 3)
 endfunction
 
+function! fzf_preview#handler#handle_all_buffers(lines) abort
+  let key = [a:lines[0]]
+  let lines = map(copy(a:lines[1:]), { _, line -> 'buffer ' . split(line)[0] })
+  call fzf_preview#handler#handle_resource(key + lines, 1)
+endfunction
+
 function! fzf_preview#handler#handle_grep(lines) abort
   let optional_discard_prefix_size = g:fzf_preview_use_dev_icons ? g:fzf_preview_dev_icon_prefix_length : 0
   call fzf_preview#handler#handle_resource(a:lines, 1, optional_discard_prefix_size)
