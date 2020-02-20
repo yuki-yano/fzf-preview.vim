@@ -169,6 +169,13 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the jumplist
      Required: |Python3|
 
+                                                *:FzfPreviewMarks*
+:FzfPreviewMarks
+     List marks from the project.
+     The retrieved result is displayed in file name, number of lines.
+     The same script as FzfPreviewProjectGrep is used for preview.
+     Required |Python3|
+
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
      List bookmarks from the project.
