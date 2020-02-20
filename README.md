@@ -170,6 +170,7 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_bu
 
 -fzf-arg
 " Set the arguments to be passed when executing fzf.
+" This value is added to the default options.
 " Value must be a string without spaces.
 
 " Example: Exclude filename with FzfPreviewProjectGrep

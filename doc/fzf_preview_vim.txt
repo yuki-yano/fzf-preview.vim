@@ -230,6 +230,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
 
 -fzf-arg
     Set the arguments to be passed when executing fzf.
+    This value is added to the default options.
     Value must be a string without spaces.
 
     Usage example: Exclude filename with FzfPreviewProjectGrep

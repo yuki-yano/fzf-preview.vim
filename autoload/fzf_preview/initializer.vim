@@ -3,7 +3,6 @@ function! fzf_preview#initializer#initialize(func_name, additional, ...) abort
   call fzf_preview#command#reset_command_options()
 
   let args = fzf_preview#args#parse(a:000)
-  let fzf_args = ''
 
   if args['processors'] != ''
     let processors = eval(args['processors'])
@@ -12,13 +11,13 @@ function! fzf_preview#initializer#initialize(func_name, additional, ...) abort
 
 
   if args['fzf-arg'] != ''
-    let fzf_args = fzf_args . args['fzf-arg']
+    let fzf_args = fzf_preview#command#get_common_command_options() . args['fzf-arg']
+    call fzf_preview#command#set_command_options(fzf_args)
   endif
 
   if args['eval-fzf-args'] != ''
-    let fzf_args = fzf_args . eval(args['eval-fzf-args'])
+    call fzf_preview#command#set_command_options(eval(args['eval-fzf-args']))
   endif
 
-  call fzf_preview#command#set_command_options(fzf_args)
   return fzf_preview#parameter#build_parameter(a:func_name, a:additional, args['extra'])
 endfunction
