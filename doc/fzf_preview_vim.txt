@@ -109,7 +109,7 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open file buffers.
 
                                                 *:FzfPreviewAllBuffers*
-:FzfPreviewBuffers
+:FzfPreviewAllBuffers
      Select and open all buffers(include not file).
      Pass the value to the processor function in the format "buffer {bufnr}""
 
