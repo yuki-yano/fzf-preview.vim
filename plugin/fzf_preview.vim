@@ -142,6 +142,8 @@ augroup fzf_preview_buffers
   endif
 augroup END
 
+doautocmd User fzf_preview#initialized
+
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
 
