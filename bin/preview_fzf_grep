@@ -21,7 +21,6 @@ last = int(line_num) + 100
 
 cats = [
     'bat --color=always --style=grid --theme=ansi-dark --plain',
-    'ccat --color=always',
     'cat'
 ]
 cat = list(filter(is_installed, cats))[0]
