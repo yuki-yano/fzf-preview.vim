@@ -52,7 +52,7 @@ function! fzf_preview#resource#all_buffers() abort
   \ { _, buffer -> [buffer['bufnr'], fnamemodify(buffer['name'], ':.')] }
   \ )
 
-  return map(copy(fzf_preview#util#align_lists(buffers)), { _, buffer -> join(buffer, ' ') })
+  return map(copy(fzf_preview#util#align_lists(buffers)), { _, buffer -> join(buffer, '  ') })
 endfunction
 
 function! fzf_preview#resource#project_oldfiles() abort
