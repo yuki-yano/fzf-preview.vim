@@ -1,7 +1,8 @@
 function! fzf_preview#args#parse(args) abort
   let types = [
   \ 'processors',
-  \ 'fzf-args',
+  \ 'fzf-arg',
+  \ 'eval-fzf-args',
   \ ]
 
   let args = {
@@ -9,16 +10,16 @@ function! fzf_preview#args#parse(args) abort
   \ }
 
   for type in types
-    let args[type] = v:false
+    let args[type] = ''
   endfor
 
   for arg in a:args
     let if_match = v:false
 
     for type in types
-      let matches = matchlist(arg, '^-' . type . '=\(\(\w\|:\)\+\)$')
+      let matches = matchlist(arg, '^-' . type . '=\(\(\S\)\+\)$')
       if len(matches) >= 1
-        let args[type] = matches[1]
+        let args[type] = args[type] . ' ' . matches[1]
         let if_match = v:true
       endif
     endfor

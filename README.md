@@ -166,8 +166,16 @@ endfunction
 nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
 
 
+-fzf-arg
+" Set the arguments to be passed when executing fzf.
+" Value must be a string without spaces.
+
+" Example: Exclude filename with FzfPreviewProjectGrep
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-arg=--nth=3<Space>
+
+
 " EXPERIMENTAL: Specifications may change.
--fzf-args
+-eval-fzf-args
 " Set the arguments to be passed when executing fzf.
 " Value must be a global variable name.
 " Variable is string and format is shell command options.
@@ -188,7 +196,7 @@ function! s:fzf_preview_settings() abort
   let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
 endfunction
 
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_grep_command_options<Space>
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -eval-fzf-args=g:fzf_preview_grep_command_options<Space>
 ```
 
 ### Function
