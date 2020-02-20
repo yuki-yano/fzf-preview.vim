@@ -58,4 +58,3 @@ function! fzf_preview#util#uniq(list) abort
   endfor
   return result
 endfunction
-
