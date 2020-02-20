@@ -77,6 +77,7 @@ function! fzf_preview#resource_processor#export_quickfix(paths) abort
 endfunction
 
 function! s:initialize_processors() abort
+  let fzf_preview_custom_default_processors = get(g:, 'fzf_preview_custom_default_processors', {})
   if g:fzf_preview_custom_default_processors != {}
     let s:processors = copy(g:fzf_preview_custom_default_processors)
   else
