@@ -230,6 +230,9 @@ call fzf_preview#command#get_common_command_options()
 ## Keymap
 
 ```text
+<C-g>, <Esc>
+  Cancel fzf
+
 <C-x>
   Open split
 

@@ -500,6 +500,9 @@ EXPERIMENTAL: Specifications may change.
 ==============================================================================
 DEFAULT KEYMAP                                  *fzf-preview-keymap*
 
+<C-g>, <Esc>
+  - Cancel fzf
+
 <C-x>
   - Open split
 
