@@ -97,7 +97,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewGitStatus                  " Select git status listed file
 
-:FzfPreviewBuffers                    " Select buffers
+:FzfPreviewBuffers                    " Select file buffers
+
+:FzfPreviewAllBuffers                 " Select all buffers
 
 :FzfPreviewProjectOldFiles            " Select project files from oldfiles
 
@@ -130,6 +132,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 " Value must be a global variable name.
 " Variable is dictionary and format is same as g:fzf_preview_custom_default_processors.
 "
+" Most commands are passed a file path to the processor function.
+" FzfPreviewAllBuffers will be passed “buffer {bufnr}”
+"
 " Value example: let g:foo_processors = {
 "                \ '':       function('fzf_preview#resource_processor#edit'),
 "                \ 'ctrl-x': function('s:foo_function'),
@@ -145,12 +150,17 @@ augroup END
 
 function! s:fzf_preview_settings() abort
   let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
-  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
+  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_lines')
 endfunction
 
-function! s:buffers_delete_from_paths(paths) abort
-  for path in a:paths
-    execute 'bdelete! ' . path
+function! s:buffers_delete_from_lines(lines) abort
+  for line in a:lines
+    let matches = matchlist(line, '^buffer \(\d\+\)$')
+    if len(matches) >= 1
+      execute 'bdelete! ' . matches[1]
+    else
+      execute 'bdelete! ' . line
+    endif
   endfor
 endfunction
 
