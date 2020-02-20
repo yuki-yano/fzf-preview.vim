@@ -485,12 +485,13 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#resource_processor#get_processors*
     Get the current value of the process executed
     when selecting the element of fzf
+    Use in fzf_preview#initialized event.
 
 
 EXPERIMENTAL: Specifications may change.
 *fzf_preview#command#get_common_command_options*
     Get the common value of the passed when executed fzf.
-    Use after VimEnter.
+    Use in fzf_preview#initialized event.
 
     value is: '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 

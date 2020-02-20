@@ -214,11 +214,12 @@ call fzf#run({
 call fzf_preview#resource_processor#get_default_processors()
 
 " Get the current value of the process executed when selecting the element of fzf
+" Use in fzf_preview#initialized event.
 call fzf_preview#resource_processor#get_processors()
 
 " EXPERIMENTAL: Specifications may change.
 " Get the common value of the passed when executed fzf.
-" Use after VimEnter.
+" Use in fzf_preview#initialized event.
 call fzf_preview#command#get_common_command_options()
 ```
 
