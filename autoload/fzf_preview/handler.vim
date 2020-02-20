@@ -27,6 +27,18 @@ function! fzf_preview#handler#handle_all_buffers(lines) abort
   call fzf_preview#handler#handle_resource(key + lines, 1)
 endfunction
 
+function! fzf_preview#handler#handle_lines(lines) abort
+  let key = [a:lines[0]]
+  let lines = []
+  for line in a:lines[1:]
+    let elem = split(line, '\s\+')
+    call add(lines, expand('%') . ':' . elem[0])
+  endfor
+
+  let lines = key + lines
+  call fzf_preview#handler#handle_resource(lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
+endfunction
+
 function! fzf_preview#handler#handle_grep(lines) abort
   let optional_discard_prefix_size = g:fzf_preview_use_dev_icons ? g:fzf_preview_dev_icon_prefix_length : 0
   call fzf_preview#handler#handle_resource(a:lines, 1, optional_discard_prefix_size)

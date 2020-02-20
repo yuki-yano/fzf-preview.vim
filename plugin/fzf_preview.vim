@@ -125,6 +125,7 @@ command! -nargs=* -complete=customlist,fzf_preview#args#complete_options        
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewAllBuffers      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:all_buffers', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_old_files', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_mru_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewLines           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:lines', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBufferTags      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:buffer_tags', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:old_files', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:mru_files', {}, <f-args>))
