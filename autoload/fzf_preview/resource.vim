@@ -108,6 +108,16 @@ function! fzf_preview#resource#quickfix_or_locationlist(type) abort
   endif
 endfunction
 
+function! fzf_preview#resource#lines() abort
+  if !filereadable(expand('%'))
+    return []
+  endif
+
+  let lines = getbufline(bufnr('%'), 1, '$')
+  call map(lines, { i, line -> [i + 1, line] })
+  return map(fzf_preview#util#align_lists(lines), { _, v -> join(v, '  ') })
+endfunction
+
 function! fzf_preview#resource#grep(args) abort
   return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#grep_command(a:args)), 1)
 endfunction

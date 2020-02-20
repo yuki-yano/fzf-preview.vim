@@ -92,6 +92,17 @@ function! s:locationlist(additional, args) abort
   \ }
 endfunction
 
+function! s:lines(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{}'
+  let optional = '--delimiter : '
+
+  return {
+  \ 'source': fzf_preview#resource#lines(),
+  \ 'sink': function('fzf_preview#handler#handle_lines'),
+  \ 'options': fzf_preview#command#get_command_options('Lines', preview, optional)
+  \ }
+endfunction
+
 function! s:project_grep(additional, args) abort
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
   let optional = '--delimiter : '
