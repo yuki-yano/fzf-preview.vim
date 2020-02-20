@@ -225,7 +225,7 @@ EXPERIMENTAL: Specifications may change.
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
 
-g:fzf_preview_use_floating_window
+*g:fzf_preview_use_floating_window*
     If this value is 1, display fzf window using Floating Window
     This value is for Neovim
 
@@ -233,14 +233,14 @@ g:fzf_preview_use_floating_window
     Ref: https://github.com/Blacksuan19/init.nvim
 
 
-g:fzf_preview_quit_map
+*g:fzf_preview_quit_map*
     If this value is 1, mapping that will safely quit
     in fzf's normal mode and visual mode is added
 
     Default value is 1
 
 
-g:fzf_preview_command
+*g:fzf_preview_command*
     Shell command used for fzf preview. The head command is used by default.
     If the bat command is installed, the bat is used by default and
     the preview is syntax highlighted.
@@ -252,14 +252,14 @@ g:fzf_preview_command
         Default value is 'bat --color=always --style=grid {-1}'
 
 
-g:fzf_preview_if_binary_command
+*g:fzf_preview_if_binary_command*
     g:fzf_binary_preview_command is executed if this command succeeds,
     and g:fzf_preview_command is executed if it fails
 
     Default value is '[[ "$(file --mime {})" =~ binary ]]'
 
 
-g:fzf_binary_preview_command
+*g:fzf_binary_preview_command*
     Shell command used for binary file preview.
     Since it is heavy to display in text, if there is no particular reason,
     echo etc. substitute.
@@ -267,7 +267,7 @@ g:fzf_binary_preview_command
     Default value is 'echo "{} is a binary file"'
 
 
-g:fzf_preview_filelist_command
+*g:fzf_preview_filelist_command*
     This is the command used to search for files in the project.
     If ripgrep is not included, git ls-files will be used.
 
@@ -277,25 +277,25 @@ g:fzf_preview_filelist_command
     Not installed ripgrep:
         Default value is 'git ls-files --exclude-standard'
 
-g:fzf_preview_git_files_command
+*g:fzf_preview_git_files_command*
     This is the command used to search for files in the git repository.
 
     Default value is 'git ls-files --exclude-standard'
 
 
-g:fzf_preview_directory_files_command
+*g:fzf_preview_directory_files_command*
     This is the command used to search for files in the current directory.
 
     Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
 
-g:fzf_preview_git_status_command
+*g:fzf_preview_git_status_command*
     This is the command used to git status files
 
     Default value is "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
 
 
-g:fzf_preview_grep_cmd
+*g:fzf_preview_grep_cmd*
     This command is used for project grep.
     Recommend using a fast grep command such as ripgrep or ag.
     Interactively grep the specified directory.
@@ -307,7 +307,7 @@ g:fzf_preview_grep_cmd
         :ProjectGrepPreview is disabled.
 
 
-g:fzf_preview_grep_preview_cmd
+*g:fzf_preview_grep_preview_cmd*
     This command is used for :ProjectGrepPreview. bin/preview.rb is used by
     default. The format of the grep result is "{file}:{line_number}:{text}".
     You can pass another command that post-process the result
@@ -315,21 +315,21 @@ g:fzf_preview_grep_preview_cmd
     Default value is 'expand("<sfile>:h:h") . "/bin/preview.rb"'
 
 
-g:fzf_preview_preview_key_bindings
+*g:fzf_preview_preview_key_bindings*
     This command determines keyboard shortcuts during an interactive FZF
     session. Options are a string passed directly to fzf's "--bind" option.
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
-g:fzf_preview_fzf_color_option
+*g:fzf_preview_fzf_color_option*
     Specify the color option to be passed to the fzf command.
     Options are a string passed directly to fzf's "--color" option.
 
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
-g:fzf_preview_custom_default_processors
+*g:fzf_preview_custom_default_processors*
     Set the processors when selecting an element with fzf in dictionary.
     Dictionary format is { 'input key': |Funcref| }
     An empty key corresponds to the return key.
@@ -347,34 +347,34 @@ g:fzf_preview_custom_default_processors
              }
 
 
-g:fzf_preview_filelist_postprocess_command
+*g:fzf_preview_fzf_preview_window_option*
     Used as fzf preview-window option
     For example, 'up:30%'
 
     Default value is ''
 
 
-g:fzf_preview_filelist_postprocess_command
+*g:fzf_preview_filelist_postprocess_command*
     Can execute piped commands before the file list is passed to fzf
     For example, you can add color to the file list by setting 'xargs ls —color' .
 
     Default value is ''
 
 
-g:fzf_preview_use_dev_icons
+*g:fzf_preview_use_dev_icons*
     If this value is 1, devicons is used as fzf candidate.
 
     Default value is 0
 
 
-g:fzf_preview_dev_icon_prefix_length
+*g:fzf_preview_dev_icon_prefix_length*
     Set how many bytes devicon is represented.
 
     Default value is 2
 
 
 DEPRECATED: Use g:fzf_preview_custom_default_processors
-g:fzf_preview_split_key_map
+*g:fzf_preview_split_key_map*
     This map is used when splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
@@ -382,7 +382,7 @@ g:fzf_preview_split_key_map
 
 
 DEPRECATED: Use g:fzf_preview_custom_default_processors
-g:fzf_preview_vsplit_key_map
+*g:fzf_preview_vsplit_key_map*
     This map is used when vertical splitting and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
@@ -390,7 +390,7 @@ g:fzf_preview_vsplit_key_map
 
 
 DEPRECATED: Use g:fzf_preview_custom_default_processors
-g:fzf_preview_tabedit_key_map
+*g:fzf_preview_tabedit_key_map*
     This map is used when new tabpage and opening files from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
@@ -398,7 +398,7 @@ g:fzf_preview_tabedit_key_map
 
 
 DEPRECATED: Use g:fzf_preview_custom_default_processors
-g:fzf_preview_build_quickfix_key_map
+*g:fzf_preview_build_quickfix_key_map*
     This map is used when building QuickFix from fzf.
     Options are a string passed directly to fzf's "--expect" option.
 
@@ -406,14 +406,14 @@ g:fzf_preview_build_quickfix_key_map
 
 
 DEPRECATED: Works when floating window is not used
-g:fzf_preview_layout
+*g:fzf_preview_layout*
     This value is the layout displayed when executing the fzf command.
 
     Default value is 'top split new'
 
 
 DEPRECATED: Works when floating window is not used
-g:fzf_preview_rate
+*g:fzf_preview_rate*
     Calculate the size of the fzf window based on this value.
     In the case of 0.3, windows with 0.3 times the size of
     &lines are generated.
@@ -422,7 +422,7 @@ g:fzf_preview_rate
 
 
 DEPRECATED: Works when floating window is not used
-g:fzf_full_preview_toggle_key
+*g:fzf_full_preview_toggle_key*
     It is a mapping for switching the fzf window to full screen.
     You press this key, the display changes with the value set
     with g:fzf_preview_rate.
