@@ -137,13 +137,22 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 "
 
 " Example: 'bdelete!' buffers
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
+  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
+endfunction
+
 function! s:buffers_delete_from_paths(paths) abort
   for path in a:paths
     execute 'bdelete! ' . path
   endfor
 endfunction
-let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
-let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_paths')
 
 nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
 
@@ -162,8 +171,17 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_bu
 "
 
 " Example: Exclude filename with FzfPreviewProjectGrep
-autocmd VimEnter * let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options() |
-  \ let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options()
+  let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
+endfunction
+
 nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -fzf-args=g:fzf_preview_grep_command_options<Space>
 ```
 

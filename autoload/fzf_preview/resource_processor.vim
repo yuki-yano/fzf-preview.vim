@@ -15,19 +15,12 @@ function! fzf_preview#resource_processor#get_processors() abort
 endfunction
 
 function! fzf_preview#resource_processor#get_default_processors() abort
-  " Deprecated
-  " TODO: delete 'fzf_preview_*_key_map'
-  let fzf_preview_split_key_map = get(g:, 'fzf_preview_split_key_map', 'ctrl-x')
-  let fzf_preview_vsplit_key_map = get(g:, 'fzf_preview_vsplit_key_map', 'ctrl-v')
-  let fzf_preview_tabedit_key_map = get(g:, 'fzf_preview_tabedit_key_map', 'ctrl-t')
-  let fzf_preview_build_quickfix_key_map = get(g:, 'fzf_preview_build_quickfix_key_map', 'ctrl-q')
-
   let processors = {}
   let processors[''] = function('fzf_preview#resource_processor#edit')
-  let processors[fzf_preview_split_key_map] = function('fzf_preview#resource_processor#split')
-  let processors[fzf_preview_vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
-  let processors[fzf_preview_tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
-  let processors[fzf_preview_build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
+  let processors[g:fzf_preview_split_key_map] = function('fzf_preview#resource_processor#split')
+  let processors[g:fzf_preview_vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
+  let processors[g:fzf_preview_tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
+  let processors[g:fzf_preview_build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
 
   return processors
 endfunction
