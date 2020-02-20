@@ -33,12 +33,14 @@ function! fzf_preview#handler#handle_grep(lines) abort
 endfunction
 
 function! fzf_preview#handler#handle_buffer_tags(lines) abort
-  let lines = [a:lines[0]]
+  let key = [a:lines[0]]
+  let lines = []
   for line in a:lines[1:]
     let elem = split(line, '\s\+')
-    call add(lines, expand('%') . ':' . elem[0] . ':' . elem[1])
+    call add(lines, expand('%') . ':' . elem[0])
   endfor
 
+  let lines = key + lines
   call fzf_preview#handler#handle_resource(lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
 endfunction
 
