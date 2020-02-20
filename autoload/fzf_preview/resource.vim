@@ -157,10 +157,6 @@ function! fzf_preview#resource#marks() abort
   return fzf_preview#converter#convert_for_fzf(result, 1)
 endfunction
 
-function! fzf_preview#resource#bookmarks() abort
-  return fzf_preview#converter#convert_for_fzf(filter(map(bm#location_list(), { _, b -> s:bookmarks_format_line(b) }), { _, b -> b !=# '' }), 1)
-endfunction
-
 function! fzf_preview#resource#files_from_resources(resources) abort
   let resource_map = {
   \ 'project': function('fzf_preview#resource#project_files'),
@@ -265,27 +261,4 @@ function! s:open_process_with_qf_and_close(type, F) abort
   endif
 
   return result
-endfunction
-
-function! s:bookmarks_format_line(line) abort
-  let line = split(a:line, ':')
-  let filename = fnamemodify(line[0], ':.')
-  if !filereadable(filename)
-    return ''
-  endif
-
-  let line_number = line[1]
-  let text = line[2]
-
-  if text ==# 'Annotation'
-    let comment = line[3]
-  else
-    let text = join(line[2:], ':')
-  endif
-
-  if text !=# 'Annotation'
-    return filename . ':' . line_number . ':' . text
-  else
-    return filename . ':' . line_number . ':' . text . ':' . comment
-  endif
 endfunction

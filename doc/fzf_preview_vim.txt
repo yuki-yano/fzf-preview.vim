@@ -44,11 +44,6 @@ Optional
     neomru is a plugin that manages the history of files.
     It does not depend on viminfo. It may be more convenient than oldfiles.
 
-- vim-bookmarks (Require FzfPreviewBookmarks)
-    https://github.com/MattesGroeger/vim-bookmarks
-    vim-bookmarks is a plugin that manages the bookmarks per line.
-    It is also necessary to use the FzfPreviewBookmarks command.
-
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
     When bat is installed you can highlight the preview and see it.
@@ -175,13 +170,6 @@ COMMANDS                                        *fzf-preview-commands*
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
      Required |Python3|
-
-                                                *:FzfPreviewBookmarks*
-:FzfPreviewBookmarks
-     List bookmarks from the project.
-     The retrieved result is displayed in file name, number of lines.
-     The same script as FzfPreviewProjectGrep is used for preview.
-     Required |Python3|, |vim-bookmarks|
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources

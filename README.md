@@ -53,7 +53,6 @@ Though it is different from this plugin and has a lot of functions,
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
-- vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 
 #### Appearance
 
@@ -120,8 +119,6 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewJumps                      " Select jumplist item (Required [Python3](https://www.python.org/))
 
 :FzfPreviewMarks                      " Select mark (Required [Python3](https://www.python.org/))
-
-:FzfPreviewBookmarks                  " Select bookmark from vim-bookmarks (Required [Python3](https://www.python.org/))
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```

@@ -136,17 +136,6 @@ function! s:marks(additional, args) abort
   \ }
 endfunction
 
-function! s:bookmarks(additional, args) abort
-  let optional = '--delimiter :'
-  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
-
-  return {
-  \ 'source': fzf_preview#resource#bookmarks(),
-  \ 'sink': function('fzf_preview#handler#handle_grep'),
-  \ 'options': fzf_preview#command#get_command_options('Bookmarks', preview, optional)
-  \ }
-endfunction
-
 function! s:files_from_resources(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#files_from_resources(a:args),
