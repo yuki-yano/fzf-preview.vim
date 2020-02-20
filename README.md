@@ -173,10 +173,7 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_bu
 " Variable is string and format is shell command options.
 " This option is experimental.
 "
-" Value example: let g:foo_processors = {
-"                \ '':       function('fzf_preview#resource_processor#edit'),
-"                \ 'ctrl-x': function('s:foo_function'),
-"                \ }
+" Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 "
 
 " Example: Exclude filename with FzfPreviewProjectGrep
