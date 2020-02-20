@@ -18,7 +18,7 @@ function! fzf_preview#resource_processor#get_default_processors() abort
   " Deprecated
   " TODO: delete 'fzf_preview_*_key_map'
   let fzf_preview_split_key_map = get(g:, 'fzf_preview_split_key_map', 'ctrl-x')
-  let fzf_preview_vsplit_key_map = get(g:, 'fzf_preview_vplit_key_map', 'ctrl-v')
+  let fzf_preview_vsplit_key_map = get(g:, 'fzf_preview_vsplit_key_map', 'ctrl-v')
   let fzf_preview_tabedit_key_map = get(g:, 'fzf_preview_tabedit_key_map', 'ctrl-t')
   let fzf_preview_build_quickfix_key_map = get(g:, 'fzf_preview_build_quickfix_key_map', 'ctrl-q')
 
