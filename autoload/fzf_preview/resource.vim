@@ -126,33 +126,35 @@ endfunction
 
 function! fzf_preview#resource#jumps() abort
   let splited_project_path = split(fzf_preview#util#project_root(), '/')
+  let bufnr_and_lnum_list = map(copy(getjumplist()[0]), {
+  \ _, jump -> { 'bufnr': jump['bufnr'], 'lnum': jump['lnum'] }
+  \ })
 
-  let jumps = []
-  for jump in getjumplist()[0]
-    let bufinfos = getbufinfo(jump['bufnr'])
-    if len(bufinfos) > 0
-      let bufinfo = bufinfos[0]
-      let file = bufinfo['name']
+  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path)
 
-      if fzf_preview#util#is_project_file(file, splited_project_path) && filereadable(file)
-        let info = {}
-        let file = fnamemodify(file, ':.')
-        let line_number = jump['lnum']
-        let lines = getbufline(bufname(jump['bufnr']), jump['lnum'])
+  call reverse(result)
+  return fzf_preview#converter#convert_for_fzf(result, 1)
+endfunction
 
-        if len(lines) > 0
-          let text = lines[0]
-        else
-          let text = ''
-        endif
+function! fzf_preview#resource#marks() abort
+  let splited_project_path = split(fzf_preview#util#project_root(), '/')
 
-        call add(jumps, file . ':' . line_number . ':' . text)
-      endif
-    endif
-  endfor
+  let chars = [
+  \ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+  \ 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  \ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+  \ 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+  \ ]
 
-  call reverse(jumps)
-  return fzf_preview#converter#convert_for_fzf(jumps, 1)
+  let bufnr_and_lnum_list = map(map(copy(chars), {
+  \ _, char -> getpos("'" . char)
+  \ }), {
+  \ _, pos -> { 'bufnr': pos[0] == 0 ? bufnr('%') : pos[0], 'lnum': pos[1] }
+  \ })
+  call filter(bufnr_and_lnum_list, { _, bufnr_and_lnum -> bufnr_and_lnum['lnum'] != 0 })
+
+  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path)
+  return fzf_preview#converter#convert_for_fzf(result, 1)
 endfunction
 
 function! fzf_preview#resource#bookmarks() abort
@@ -191,6 +193,36 @@ function! s:filter_history_file_to_project_file(files) abort
   endfor
 
   return map(project_files, "fnamemodify(v:val, ':.')")
+endfunction
+
+function! s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path) abort
+  let result = []
+  for bufnr_and_lnum in a:bufnr_and_lnum_list
+    let bufnr = bufnr_and_lnum['bufnr']
+    let lnum = bufnr_and_lnum['lnum']
+    let bufinfos = getbufinfo(bufnr)
+
+    if len(bufinfos) > 0
+      let bufinfo = bufinfos[0]
+      let file = bufinfo['name']
+
+      if fzf_preview#util#is_project_file(file, a:splited_project_path) && filereadable(file)
+        let file = fnamemodify(file, ':.')
+        let line_number = lnum
+        let lines = getbufline(bufname(bufnr), lnum)
+
+        if len(lines) > 0
+          let text = lines[0]
+        else
+          let text = ''
+        endif
+
+        call add(result, file . ':' . line_number . ':' . text)
+      endif
+    endif
+  endfor
+
+  return result
 endfunction
 
 function! s:get_quickfix_or_locationlist_lines(type) abort
