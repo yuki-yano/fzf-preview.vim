@@ -120,7 +120,7 @@ function! s:buffer_tags(additional, args) abort
 
   return {
   \ 'source': fzf_preview#resource#buffer_tags(),
-  \ 'sink': function('fzf_preview#handler#handle_buffer_tags'),
+  \ 'sink': function('fzf_preview#handler#handle_changes_and_buffer_tags'),
   \ 'options': fzf_preview#command#get_command_options('BufferTags', preview, optional)
   \ }
 endfunction
@@ -133,6 +133,17 @@ function! s:jumps(additional, args) abort
   \ 'source': fzf_preview#resource#jumps(),
   \ 'sink': function('fzf_preview#handler#handle_grep'),
   \ 'options': fzf_preview#command#get_command_options('Jumps', preview, optional)
+  \ }
+endfunction
+
+function! s:changes(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{}'
+  let optional = '--delimiter : '
+
+  return {
+  \ 'source': fzf_preview#resource#changes(),
+  \ 'sink': function('fzf_preview#handler#handle_changes_and_buffer_tags'),
+  \ 'options': fzf_preview#command#get_command_options('Changes', preview, optional)
   \ }
 endfunction
 
