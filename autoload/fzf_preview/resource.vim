@@ -113,7 +113,7 @@ function! fzf_preview#resource#lines() abort
     return []
   endif
 
-  let lines = getbufline(bufnr('%'), 1, '$')
+  let lines = systemlist(fzf_preview#command#lines_command(expand('%')))
   call map(lines, { i, line -> [i + 1, line] })
   return map(fzf_preview#util#align_lists(lines), { _, v -> join(v, '  ') })
 endfunction

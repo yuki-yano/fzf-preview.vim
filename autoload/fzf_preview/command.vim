@@ -42,6 +42,15 @@ function! fzf_preview#command#grep_command(args) abort
   end
 endfunction
 
+function! fzf_preview#command#lines_command(file) abort
+  silent !which bat
+  if v:shell_error
+    return 'cat ' . a:file
+  else
+    return 'bat --color=always --style=grid --theme=ansi-dark --plain ' . a:file
+  endif
+endfunction
+
 function! fzf_preview#command#buffer_tags_command(file) abort
   return 'ctags -f - --sort=yes --excmd=number ' . a:file
 endfunction
