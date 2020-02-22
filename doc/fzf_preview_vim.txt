@@ -169,6 +169,10 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the jumplist
      Required: |Python3|
 
+                                                *:FzfPreviewChanges*
+:FzfPreviewChanges
+     Select and open the changelist
+     Required: |Python3|
                                                 *:FzfPreviewMarks*
 :FzfPreviewMarks
      List marks from the project.

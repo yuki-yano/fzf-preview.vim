@@ -146,6 +146,25 @@ function! fzf_preview#resource#jumps() abort
   return fzf_preview#converter#convert_for_fzf(result, 1)
 endfunction
 
+function! fzf_preview#resource#changes() abort
+  if !filereadable(expand('%'))
+    return []
+  endif
+
+  let lists = []
+  let lnums = map(copy(getchangelist('%')[0]), { _, change -> change['lnum'] })
+  for lnum in lnums
+    let lines = getbufline(bufnr('%'), lnum)
+    if len(lines) > 0
+      call add(lists, [lnum, lines[0]])
+    endif
+  endfor
+  call reverse(lists)
+  let lists = fzf_preview#util#uniq(lists)
+
+  return map(fzf_preview#util#align_lists(lists), { _, v -> join(v, '  ') })
+endfunction
+
 function! fzf_preview#resource#marks() abort
   let splited_project_path = split(fzf_preview#util#project_root(), '/')
 

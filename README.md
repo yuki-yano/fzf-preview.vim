@@ -120,6 +120,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewJumps                      " Select jumplist item (Required [Python3](https://www.python.org/))
 
+:FzfPreviewChanges                    " Select changelist item (Required [Python3](https://www.python.org/))
+
 :FzfPreviewMarks                      " Select mark (Required [Python3](https://www.python.org/))
 
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)

@@ -44,7 +44,7 @@ function! fzf_preview#handler#handle_grep(lines) abort
   call fzf_preview#handler#handle_resource(a:lines, 1, optional_discard_prefix_size)
 endfunction
 
-function! fzf_preview#handler#handle_buffer_tags(lines) abort
+function! fzf_preview#handler#handle_changes_and_buffer_tags(lines) abort
   let key = [a:lines[0]]
   let lines = []
   for line in a:lines[1:]
