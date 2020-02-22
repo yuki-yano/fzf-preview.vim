@@ -1,8 +1,8 @@
 function! fzf_preview#args#parse(args) abort
   let types = [
   \ 'processors',
-  \ 'fzf-arg',
-  \ 'eval-fzf-args',
+  \ 'add-fzf-arg',
+  \ 'overwrite-fzf-args',
   \ ]
 
   let args = {
