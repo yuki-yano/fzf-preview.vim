@@ -129,7 +129,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
 
-### Recomended mappings
+### Recommended mappings
 
 ```vim
 nmap <Leader>f [fzf-p]
