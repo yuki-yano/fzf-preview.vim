@@ -24,7 +24,9 @@ function! s:directory_files(additional, args) abort
 endfunction
 
 function! s:git_status(additional, args) abort
-  let preview = "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " . g:fzf_preview_command
+  let preview = "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
+  \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} " .
+  \ g:fzf_preview_command
   return {
   \ 'source': fzf_preview#resource#git_status(),
   \ 'sink': function('fzf_preview#handler#handle_git_status'),
