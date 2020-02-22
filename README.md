@@ -13,14 +13,16 @@ Though it is different from this plugin and has a lot of functions,
 ## Features
 
 1. Fzf can be operated using floating window (or any layout).
-2. Fast file and buffer search using fuzzy match and preview.
+4. Real time preview of the selected item.
+2. Fast file and buffer search using fuzzy match.
 3. Search through all the project files and history.
-4. Real time preview of the selected file.
 5. Searching from file history file using oldfiles or mru.
 6. File search from git status with diff preview.
-7. It is possible to interactively execute grep from within the project by specifying the directory
-8. Highlight code in preview with bat. (Optional)
-9. Export fzf candidates to QuickFix
+7. Jump line from jumplist and changelist.
+8. Interactive grep from current project.
+9. Highlight code in preview with bat. (Optional)
+10. Export fzf candidates to QuickFix.
+11. Execute callback function for select item.
 
 ## Demo
 
