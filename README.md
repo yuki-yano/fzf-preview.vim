@@ -129,110 +129,29 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 :FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
 
-### Command Options
+### Recomended mappings
 
 ```vim
--processors
-" Set processor when selecting element with fzf started by this command.
-" Value must be a global variable name.
-" Variable is dictionary and format is same as g:fzf_preview_custom_default_processors.
-"
-" Most commands are passed a file path to the processor function.
-" FzfPreviewAllBuffers will be passed “buffer {bufnr}”
-"
-" Value example: let g:foo_processors = {
-"                \ '':       function('fzf_preview#resource_processor#edit'),
-"                \ 'ctrl-x': function('s:foo_function'),
-"                \ }
-"
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
 
-" Example: 'bdelete!' buffers
-
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
-  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_lines')
-endfunction
-
-function! s:buffers_delete_from_lines(lines) abort
-  for line in a:lines
-    let matches = matchlist(line, '^buffer \(\d\+\)$')
-    if len(matches) >= 1
-      execute 'bdelete! ' . matches[1]
-    else
-      execute 'bdelete! ' . line
-    endif
-  endfor
-endfunction
-
-nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
-
-
--add-fzf-arg
-" Set the arguments to be passed when executing fzf.
-" This value is added to the default options.
-" Value must be a string without spaces.
-
-" Example: Exclude filename with FzfPreviewProjectGrep
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--nth=3<Space>
-
-
-" EXPERIMENTAL: Specifications may change.
--overwrite-fzf-args
-" Set the arguments to be passed when executing fzf.
-" Value must be a global variable name.
-" Variable is string and format is shell command options.
-" This option is experimental.
-"
-" Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
-"
-
-" Example: Exclude filename with FzfPreviewProjectGrep
-
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options()
-  let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
-endfunction
-
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -overwrite-fzf-args=g:fzf_preview_grep_command_options<Space>
+nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatus<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>FzfPreviewJumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>FzfPreviewChanges<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort -add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
 ```
 
-### Function
-
-```vim
-" Function to display the floating window used by this plugin
-call fzf_preview#window#create_centered_floating_window()
-
-" Example
-call fzf#run({
-\ 'source':  files,
-\ 'sink':   'edit',
-\ 'window': 'call fzf_preview#window#create_centered_floating_window()',
-\ })
-
-" Get the initial value of the process executed when selecting the element of fzf
-call fzf_preview#resource_processor#get_default_processors()
-
-" Get the current value of the process executed when selecting the element of fzf
-" Use in fzf_preview#initialized event.
-call fzf_preview#resource_processor#get_processors()
-
-" EXPERIMENTAL: Specifications may change.
-" Get the common value of the passed when executed fzf.
-" Use in fzf_preview#initialized event.
-call fzf_preview#command#get_common_command_options()
-```
-
-## Keymap
+### Fzf window Keymaps
 
 ```text
 <C-g>, <Esc>
@@ -264,7 +183,9 @@ DEPRECATED
   Toggle window size of fzf, normal size and full-screen
 ```
 
-## Optional Configuration Tips
+## Customization
+
+### Optional Configuration Tips
 
 - Increase the size of file history:
 
@@ -374,6 +295,109 @@ let g:fzf_preview_rate = 0.3
 " DEPRECATED
 " Key to toggle fzf window size of normal size and full-screen
 let g:fzf_full_preview_toggle_key = '<C-s>'
+```
+
+### Command Options
+
+```vim
+-processors
+" Set processor when selecting element with fzf started by this command.
+" Value must be a global variable name.
+" Variable is dictionary and format is same as g:fzf_preview_custom_default_processors.
+"
+" Most commands are passed a file path to the processor function.
+" FzfPreviewAllBuffers will be passed “buffer {bufnr}”
+"
+" Value example: let g:foo_processors = {
+"                \ '':       function('fzf_preview#resource_processor#edit'),
+"                \ 'ctrl-x': function('s:foo_function'),
+"                \ }
+"
+
+" Example: 'bdelete!' buffers
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
+  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_lines')
+endfunction
+
+function! s:buffers_delete_from_lines(lines) abort
+  for line in a:lines
+    let matches = matchlist(line, '^buffer \(\d\+\)$')
+    if len(matches) >= 1
+      execute 'bdelete! ' . matches[1]
+    else
+      execute 'bdelete! ' . line
+    endif
+  endfor
+endfunction
+
+nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+
+
+-add-fzf-arg
+" Set the arguments to be passed when executing fzf.
+" This value is added to the default options.
+" Value must be a string without spaces.
+
+" Example: Exclude filename with FzfPreviewProjectGrep
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--nth=3<Space>
+
+
+" EXPERIMENTAL: Specifications may change.
+-overwrite-fzf-args
+" Set the arguments to be passed when executing fzf.
+" Value must be a global variable name.
+" Variable is string and format is shell command options.
+" This option is experimental.
+"
+" Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+"
+
+" Example: Exclude filename with FzfPreviewProjectGrep
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options()
+  let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
+endfunction
+
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -overwrite-fzf-args=g:fzf_preview_grep_command_options<Space>
+```
+
+### Function
+
+```vim
+" Function to display the floating window used by this plugin
+call fzf_preview#window#create_centered_floating_window()
+
+" Example
+call fzf#run({
+\ 'source':  files,
+\ 'sink':   'edit',
+\ 'window': 'call fzf_preview#window#create_centered_floating_window()',
+\ })
+
+" Get the initial value of the process executed when selecting the element of fzf
+call fzf_preview#resource_processor#get_default_processors()
+
+" Get the current value of the process executed when selecting the element of fzf
+" Use in fzf_preview#initialized event.
+call fzf_preview#resource_processor#get_processors()
+
+" EXPERIMENTAL: Specifications may change.
+" Get the common value of the passed when executed fzf.
+" Use in fzf_preview#initialized event.
+call fzf_preview#command#get_common_command_options()
 ```
 
 ## Inspiration
