@@ -30,9 +30,9 @@ Though it is different from this plugin and has a lot of functions,
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/73932616-18138380-491e-11ea-9078-de222fb47998.gif "fzf-preview")
 
-### Git Status
+### Git Status (Integrate fugitive)
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/73932624-1ba70a80-491e-11ea-8594-de71558fae75.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/75104517-506cce80-564d-11ea-917d-8f5ceabfd557.gif "fzf-preview")
 
 ### Project Grep
 
@@ -184,6 +184,45 @@ DEPRECATED
 ```
 
 ## Customization
+
+### Example of integrate Fugitive
+
+```vim
+nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fugitive_add(paths) abort
+  for path in a:paths
+    execute 'silent G add ' . path
+  endfor
+  echomsg 'Git add ' . join(a:paths, ', ')
+endfunction
+
+function! s:fugitive_reset(paths) abort
+  for path in a:paths
+    execute 'silent G reset ' . path
+  endfor
+  echomsg 'Git reset ' . join(a:paths, ', ')
+endfunction
+
+function! s:fugitive_patch(paths) abort
+  for path in a:paths
+    execute 'silent tabedit ' . path . ' | silent Gdiff'
+  endfor
+  echomsg 'Git add --patch ' . join(a:paths, ', ')
+endfunction
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
+  let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
+  let g:fzf_preview_fugitive_processors['ctrl-r'] = function('s:fugitive_reset')
+  let g:fzf_preview_fugitive_processors['ctrl-c'] = function('s:fugitive_patch')
+endfunction
+```
 
 ### Optional Configuration Tips
 
