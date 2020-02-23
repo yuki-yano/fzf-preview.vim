@@ -277,6 +277,22 @@ OPTIONS                                         *fzf-preview-options*
     Ref: https://github.com/Blacksuan19/init.nvim
 
 
+*g:fzf_preview_floating_window_rate*
+    This value is used for the size of the floating window.
+    The size of the floating window is the size of the vim multiplied
+    by this value.
+    Set between 0 and 1.
+
+    Default value is 0.9
+
+
+*g:fzf_preview_floating_window_winblend*
+    This value is used for the value of winblend in the floating window.
+    Set a value between 0 and 100.
+
+    Default value is 15
+
+
 *g:fzf_preview_quit_map*
     If this value is 1, mapping that will safely quit
     in fzf's normal mode and visual mode is added

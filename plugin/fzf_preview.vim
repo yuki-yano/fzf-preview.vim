@@ -9,6 +9,14 @@ if !exists('g:fzf_preview_use_floating_window')
   let g:fzf_preview_use_floating_window = has('nvim') ? 1 : 0
 endif
 
+if !exists('g:fzf_preview_floating_window_rate')
+  let g:fzf_preview_floating_window_rate = 0.9
+endif
+
+if !exists('g:fzf_preview_floating_window_winblend')
+  let g:fzf_preview_floating_window_winblend = 15
+endif
+
 if !exists('g:fzf_preview_quit_map')
   let g:fzf_preview_quit_map = 1
 endif
