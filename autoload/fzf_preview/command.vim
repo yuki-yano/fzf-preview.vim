@@ -35,11 +35,7 @@ function! fzf_preview#command#reset_command_options() abort
 endfunction
 
 function! fzf_preview#command#grep_command(args) abort
-  if len(a:args) >= 1
-    return g:fzf_preview_grep_cmd . ' ' . a:args
-  else
-    return g:fzf_preview_grep_cmd . ' .'
-  end
+  return g:fzf_preview_grep_cmd . ' ' . a:args
 endfunction
 
 function! fzf_preview#command#lines_command(file) abort
