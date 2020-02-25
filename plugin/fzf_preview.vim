@@ -14,7 +14,11 @@ if !exists('g:fzf_preview_floating_window_rate')
 endif
 
 if !exists('g:fzf_preview_floating_window_winblend')
-  let g:fzf_preview_floating_window_winblend = 15
+  if &termguicolors
+    let g:fzf_preview_floating_window_winblend = 15
+  else
+    let g:fzf_preview_floating_window_winblend = 0
+  endif
 endif
 
 if !exists('g:fzf_preview_quit_map')
