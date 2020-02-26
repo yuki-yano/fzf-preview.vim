@@ -300,7 +300,7 @@ let g:fzf_preview_fzf_preview_window_option = ''
 
 " Command to be executed after file list creation
 let g:fzf_preview_filelist_postprocess_command = ''
-" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls —color'          " Use dircolors
+" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls -U --color'      " Use dircolors
 " let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" exa --color=always' " Use exa
 
 " Use vim-devicons
