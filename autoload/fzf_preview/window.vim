@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+let s:fzf_preview_last_queries = {}
+
 function! fzf_preview#window#float_or_normal_layout() abort
   return g:fzf_preview_use_floating_window ?
   \ 'call fzf_preview#window#create_centered_floating_window()' :
@@ -35,6 +37,33 @@ function! fzf_preview#window#create_centered_floating_window() abort
     execute 'set winblend=' . g:fzf_preview_floating_window_winblend
 
     augroup fzf_preview_floating_window
-      autocmd WinLeave <buffer> silent! execute 'bwipeout! ' . s:f_buf . ' ' . s:b_buf
+      autocmd FileType fzf call s:set_fzf_last_query()
+      autocmd WinLeave <buffer> silent! execute 'bdelete ' . s:f_buf . ' ' . s:b_buf
     augroup END
+endfunction
+
+function! fzf_preview#window#get_last_query(func_name) abort
+  if has_key(s:fzf_preview_last_queries, a:func_name)
+    return s:fzf_preview_last_queries[a:func_name]
+  else
+    return ''
+  endif
+endfunction
+
+function! fzf_preview#window#set_resource_func_name(func_name) abort
+  let s:resource_func_name = a:func_name
+endfunction
+
+function! s:set_fzf_last_query(...) abort
+  if &ft ==# 'fzf'
+    let matches = matchlist(getline('.'), '^\w\+\>.\(\(\w\|\s\|''\)\+\)')
+    if len(matches) > 0
+      let query = substitute(substitute(matches[1], '\s\+$', '', ''), '^\s\+', '', '')
+      if strlen(query) > 0
+        let s:fzf_preview_last_queries[s:resource_func_name] = query
+      endif
+    endif
+
+    call timer_start(50, function('s:set_fzf_last_query'))
+  endif
 endfunction

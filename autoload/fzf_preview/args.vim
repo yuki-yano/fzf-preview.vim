@@ -3,6 +3,7 @@ function! fzf_preview#args#parse(args) abort
   \ 'processors',
   \ 'add-fzf-arg',
   \ 'overwrite-fzf-args',
+  \ 'resume',
   \ ]
 
   let args = {
@@ -17,9 +18,13 @@ function! fzf_preview#args#parse(args) abort
     let if_match = v:false
 
     for type in types
-      let matches = matchlist(arg, '^-' . type . '=\(\(\S\)\+\)$')
+      let matches = matchlist(arg, '^-' . type . '=\?\(\(\S\)\+\)\?$')
       if len(matches) >= 1
-        let args[type] = args[type] . ' ' . matches[1]
+        if matches[1] ==# ''
+          let args[type] = v:true
+        else
+          let args[type] = args[type] . ' ' . matches[1]
+        endif
         let if_match = v:true
       endif
     endfor
