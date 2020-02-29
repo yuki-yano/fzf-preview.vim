@@ -16,8 +16,9 @@ function! fzf_preview#resource#git_files() abort
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
-function! fzf_preview#resource#directory_files() abort
-  let files = systemlist(g:fzf_preview_directory_files_command)
+function! fzf_preview#resource#directory_files(path) abort
+  let files = systemlist(g:fzf_preview_directory_files_command . ' ' . a:path)
+
   return fzf_preview#converter#convert_for_fzf(files)
 endfunction
 
@@ -190,7 +191,7 @@ function! fzf_preview#resource#files_from_resources(resources) abort
   let resource_map = {
   \ 'project': function('fzf_preview#resource#project_files'),
   \ 'git': function('fzf_preview#resource#git_files'),
-  \ 'directory': function('fzf_preview#resource#directory_files'),
+  \ 'directory': function('fzf_preview#resource#directory_files', ['']),
   \ 'buffer': function('fzf_preview#resource#buffers'),
   \ 'project_old': function('fzf_preview#resource#project_oldfiles'),
   \ 'project_mru': function('fzf_preview#resource#project_mrufiles'),

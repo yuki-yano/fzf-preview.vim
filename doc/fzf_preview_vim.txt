@@ -357,6 +357,8 @@ OPTIONS                                         *fzf-preview-options*
 
     Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
+    Keep in mind a path can be append at the end of the command.
+
 
 *g:fzf_preview_git_status_command*
     This is the command used to git status files
