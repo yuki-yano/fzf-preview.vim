@@ -94,9 +94,10 @@ COMMANDS                                        *fzf-preview-commands*
      while watching preview.
 
                                                 *:FzfPreviewDirectoryFiles*
-:FzfPreviewDirectoryFiles
-     Select and open current directory files from ripgrep with fzf interface
+:FzfPreviewDirectoryFiles {path or none}
+     Select and open directory files from ripgrep with fzf interface
      while watching preview.
+     Default to current working directory.
      Require ripgrep.
 
                                                 *:FzfPreviewGitStatus*

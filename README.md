@@ -90,43 +90,43 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 ### Command
 
 ```vim
-:FzfPreviewProjectFiles               " Select project files
+:FzfPreviewProjectFiles                    " Select project files
 
-:FzfPreviewGitFiles                   " Select file from git ls-files
+:FzfPreviewGitFiles                        " Select file from git ls-files
 
-:FzfPreviewDirectoryFiles             " Select file from current directory files (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+:FzfPreviewDirectoryFiles {path or none}   " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
 
-:FzfPreviewGitStatus                  " Select git status listed file
+:FzfPreviewGitStatus                       " Select git status listed file
 
-:FzfPreviewBuffers                    " Select file buffers
+:FzfPreviewBuffers                         " Select file buffers
 
-:FzfPreviewAllBuffers                 " Select all buffers
+:FzfPreviewAllBuffers                      " Select all buffers
 
-:FzfPreviewProjectOldFiles            " Select project files from oldfiles
+:FzfPreviewProjectOldFiles                 " Select project files from oldfiles
 
-:FzfPreviewProjectMruFiles            " Select project mru files with neomru
+:FzfPreviewProjectMruFiles                 " Select project mru files with neomru
 
-:FzfPreviewProjectGrep {word or none} " Grep project files from args word (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrep {word or none}      " Grep project files from args word (Required [Python3](https://www.python.org/))
 
-:FzfPreviewBufferTags                 " Select tags from current files (Required [Python3](https://www.python.org/))
+:FzfPreviewBufferTags                      " Select tags from current files (Required [Python3](https://www.python.org/))
 
-:FzfPreviewOldFiles                   " Select files from oldfiles
+:FzfPreviewOldFiles                        " Select files from oldfiles
 
-:FzfPreviewMruFiles                   " Select mru files from neomru
+:FzfPreviewMruFiles                        " Select mru files from neomru
 
-:FzfPreviewQuickFix                   " Select line from QuickFix (Required [Python3](https://www.python.org/))
+:FzfPreviewQuickFix                        " Select line from QuickFix (Required [Python3](https://www.python.org/))
 
-:FzfPreviewLocationList               " Select line from LocationList (Required [Python3](https://www.python.org/))
+:FzfPreviewLocationList                    " Select line from LocationList (Required [Python3](https://www.python.org/))
 
-:FzfPreviewLines                      " Select line from current buffer (Required [Python3](https://www.python.org/))
+:FzfPreviewLines                           " Select line from current buffer (Required [Python3](https://www.python.org/))
 
-:FzfPreviewJumps                      " Select jumplist item (Required [Python3](https://www.python.org/))
+:FzfPreviewJumps                           " Select jumplist item (Required [Python3](https://www.python.org/))
 
-:FzfPreviewChanges                    " Select changelist item (Required [Python3](https://www.python.org/))
+:FzfPreviewChanges                         " Select changelist item (Required [Python3](https://www.python.org/))
 
-:FzfPreviewMarks                      " Select mark (Required [Python3](https://www.python.org/))
+:FzfPreviewMarks                           " Select mark (Required [Python3](https://www.python.org/))
 
-:FzfPreviewFromResources              " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
+:FzfPreviewFromResources                   " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
 ```
 
 ### Recommended mappings
