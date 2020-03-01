@@ -394,6 +394,14 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_bu
 nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--nth=3<Space>
 
 
+-resume
+" Reuse the input that was last used to select the element with fzf.
+" Do not need to pass a value for this option.
+
+" Example: Reuse last query for project grep.
+nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep -resume<Space>
+
+
 " EXPERIMENTAL: Specifications may change.
 -overwrite-fzf-args
 " Set the arguments to be passed when executing fzf.
