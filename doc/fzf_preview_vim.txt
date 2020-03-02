@@ -94,9 +94,10 @@ COMMANDS                                        *fzf-preview-commands*
      while watching preview.
 
                                                 *:FzfPreviewDirectoryFiles*
-:FzfPreviewDirectoryFiles
-     Select and open current directory files from ripgrep with fzf interface
+:FzfPreviewDirectoryFiles {path or none}
+     Select and open directory files from ripgrep with fzf interface
      while watching preview.
+     Default to current working directory.
      Require ripgrep.
 
                                                 *:FzfPreviewGitStatus*
@@ -356,6 +357,8 @@ OPTIONS                                         *fzf-preview-options*
     This is the command used to search for files in the current directory.
 
     Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
+
+    Keep in mind a path can be append at the end of the command.
 
 
 *g:fzf_preview_git_status_command*

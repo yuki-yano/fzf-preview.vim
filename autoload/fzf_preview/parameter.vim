@@ -17,8 +17,10 @@ function! s:git_files(additional, args) abort
 endfunction
 
 function! s:directory_files(additional, args) abort
+  let path = get(a:args, 0, '')
+
   return {
-  \ 'source': fzf_preview#resource#directory_files(),
+  \ 'source': fzf_preview#resource#directory_files(path),
   \ 'prompt': 'DirectoryFiles',
   \ }
 endfunction
