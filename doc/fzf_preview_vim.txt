@@ -428,7 +428,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_filelist_postprocess_command*
     Can execute piped commands before the file list is passed to fzf
-    For example, you can add color to the file list by setting 'xargs ls —color' .
+    For example, you can add color to the file list by setting 'xargs ls -U -—color' .
 
     Default value is ''
 
