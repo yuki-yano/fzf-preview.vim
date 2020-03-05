@@ -38,7 +38,7 @@ function! fzf_preview#window#create_centered_floating_window() abort
 
     augroup fzf_preview_floating_window
       autocmd FileType fzf call s:set_fzf_last_query()
-      autocmd WinLeave <buffer> silent! execute 'bdelete ' . s:f_buf . ' ' . s:b_buf
+      autocmd WinLeave <buffer> silent! execute 'bdelete! ' . s:f_buf . ' ' . s:b_buf
     augroup END
 endfunction
 
