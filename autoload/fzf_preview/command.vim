@@ -39,12 +39,7 @@ function! fzf_preview#command#grep_command(args) abort
 endfunction
 
 function! fzf_preview#command#lines_command(file) abort
-  silent !which bat
-  if v:shell_error
-    return 'cat ' . a:file
-  else
-    return 'bat --color=always --style=grid --theme=ansi-dark --plain ' . a:file
-  endif
+  return g:fzf_preview_lines_command . ' ' . a:file
 endfunction
 
 function! fzf_preview#command#buffer_tags_command(file) abort

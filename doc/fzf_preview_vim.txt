@@ -379,6 +379,17 @@ OPTIONS                                         *fzf-preview-options*
         :ProjectGrepPreview is disabled.
 
 
+*g:fzf_preview_lines_command*
+    This command is used for get current file lines.
+    Bat is recommended for coloring
+
+    Installed bat:
+        Default value is 'bat --color=always --style=grid --theme=ansi-dark --plain'
+
+    Not installed bat:
+        Default value is 'cat'
+
+
 *g:fzf_preview_grep_preview_cmd*
     This command is used for :ProjectGrepPreview. bin/preview.rb is used by
     default. The format of the grep result is "{file}:{line_number}:{text}".

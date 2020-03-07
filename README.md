@@ -277,6 +277,10 @@ let g:fzf_preview_git_status_command = "git status --short --untracked-files=all
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 
+" Commands used for current file lines
+let g:fzf_preview_lines_command = 'cat'
+" let g:fzf_preview_lines_command = 'bat --color=always --style=grid --theme=ansi-dark --plain'
+
 " Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 
