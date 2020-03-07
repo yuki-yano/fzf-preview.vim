@@ -65,6 +65,14 @@ if !exists('g:fzf_preview_grep_cmd')
   let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 endif
 
+if !exists('g:fzf_preview_lines_command')
+  if executable('bat')
+    let g:fzf_preview_lines_command = 'bat --color=always --style=grid --theme=ansi-dark --plain'
+  else
+    let g:fzf_preview_lines_command = 'cat'
+  endif
+endif
+
 if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
