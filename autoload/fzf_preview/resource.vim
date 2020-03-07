@@ -123,6 +123,16 @@ function! fzf_preview#resource#grep(args) abort
   return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#grep_command(a:args)), 1)
 endfunction
 
+function! fzf_preview#resource#ctags() abort
+  let taginfos = fzf_preview#util#read_tag_file()
+  let lines = []
+
+  for taginfo in taginfos
+    call add(lines, join([taginfo['line'], taginfo['name'], taginfo['type'], taginfo['file']], ' '))
+  endfor
+  return lines
+endfunction
+
 function! fzf_preview#resource#buffer_tags() abort
   if !filereadable(expand('%'))
     return []

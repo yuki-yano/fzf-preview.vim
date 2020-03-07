@@ -54,6 +54,7 @@ Though it is different from this plugin and has a lot of functions,
 
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
+- universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 
 #### Appearance
@@ -108,7 +109,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectGrep {word or none}      " Grep project files from args word (Required [Python3](https://www.python.org/))
 
-:FzfPreviewBufferTags                      " Select tags from current files (Required [Python3](https://www.python.org/))
+:FzfPreviewCtags                           " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+
+:FzfPreviewBufferTags                      " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 
 :FzfPreviewOldFiles                        " Select files from oldfiles
 

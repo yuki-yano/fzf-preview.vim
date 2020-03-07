@@ -58,3 +58,34 @@ function! fzf_preview#util#uniq(list) abort
   endfor
   return result
 endfunction
+
+function! fzf_preview#util#read_tag_file() abort
+  let lines = []
+  let files = filter(s:get_tag_files(), { _, file -> filereadable(file) })
+  for file in files
+    let lines = lines + filter(readfile(file), { _, line -> match(line, '^!') == -1 })
+  endfor
+
+  call map(lines, { _, line -> s:parse_tagline(line) })
+  return lines
+endfunction
+
+function! s:get_tag_files() abort
+  return split(&tag, ',')
+endfunction
+
+function! s:parse_tagline(line) abort
+  let elem = split(a:line, '\t')
+  let file_path = fnamemodify(elem[1], ':.')
+
+  let match = matchlist(elem[2], '^\(\d\+\);"')
+
+  let info = {
+  \ 'name': elem[0],
+  \ 'file': file_path,
+  \ 'line': match[1],
+  \ 'type': elem[3],
+  \ }
+
+  return info
+endfunction

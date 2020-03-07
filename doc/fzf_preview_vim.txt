@@ -132,11 +132,20 @@ COMMANDS                                        *fzf-preview-commands*
      and can be opened with fzf interface.
      Required: |Python3|
 
+                                                *:FzfPreviewCTags*
+:FzfPreviewCtags
+     Select tags from tags file
+     The same script as FzfPreviewProjectGrep is used for preview.
+     Required: |Python3| and |universal-ctags|
+
+     Cautions:
+       Set --excmd=number or --excmd=combine to universal-ctags option
+
                                                 *:FzfPreviewBufferTags*
 :FzfPreviewBufferTags
      Select from tags of currently open buffer
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required: |Python3|
+     Required: |Python3| and |universal-ctags|
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
