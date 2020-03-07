@@ -118,6 +118,16 @@ function! s:project_grep(additional, args) abort
   \ }
 endfunction
 
+function! s:ctags(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . " '{-1}:{1}'"
+
+  return {
+  \ 'source': fzf_preview#resource#ctags(),
+  \ 'sink': function('fzf_preview#handler#handle_ctags'),
+  \ 'options': fzf_preview#command#get_command_options('Ctags', preview)
+  \ }
+endfunction
+
 function! s:buffer_tags(additional, args) abort
   let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{}'
   let optional = '--delimiter : '

@@ -44,6 +44,18 @@ function! fzf_preview#handler#handle_grep(lines) abort
   call fzf_preview#handler#handle_resource(a:lines, 1, optional_discard_prefix_size)
 endfunction
 
+function! fzf_preview#handler#handle_ctags(lines) abort
+  let key = [a:lines[0]]
+  let lines = []
+  for line in a:lines[1:]
+    let elem = split(line, '\s\+')
+    call add(lines, elem[-1] . ':' . elem[0])
+  endfor
+
+  let lines = key + lines
+  call fzf_preview#handler#handle_resource(lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
+endfunction
+
 function! fzf_preview#handler#handle_changes_and_buffer_tags(lines) abort
   let key = [a:lines[0]]
   let lines = []
