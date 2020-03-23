@@ -277,6 +277,11 @@ let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-m
 " Commands used to get the git status file list
 let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
 
+" Commands used for git status preview.
+let g:fzf_preview_git_status_preview_command =  "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
+\ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+\ g:fzf_preview_command
+
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 
