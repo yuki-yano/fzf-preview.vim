@@ -61,6 +61,12 @@ if !exists('g:fzf_preview_git_status_command')
   let g:fzf_preview_git_status_command = 'git -c color.status=always status --short --untracked-files=all'
 endif
 
+if !exists('g:fzf_preview_git_status_preview_command')
+  let g:fzf_preview_git_status_preview_command =  "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
+  \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+  \ g:fzf_preview_command
+endif
+
 if !exists('g:fzf_preview_grep_cmd')
   let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 endif
