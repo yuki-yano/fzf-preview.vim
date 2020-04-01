@@ -104,6 +104,17 @@ function! s:lines(additional, args) abort
   \ }
 endfunction
 
+function! s:buffer_lines(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
+  let optional = '--delimiter : '
+
+  return {
+  \ 'source': fzf_preview#resource#buffer_lines(),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
+  \ 'options': fzf_preview#command#get_command_options('BufferLines', preview, optional)
+  \ }
+endfunction
+
 function! s:project_grep(additional, args) abort
   let preview = g:fzf_preview_grep_preview_cmd . ' {}'
   let optional = '--delimiter : '

@@ -124,6 +124,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewLines                           " Select line from current buffer (Required [Python3](https://www.python.org/))
 
+:FzfPreviewBufferLines                     " Select line from loaded buffer (Required [Python3](https://www.python.org/))
+
 :FzfPreviewJumps                           " Select jumplist item (Required [Python3](https://www.python.org/))
 
 :FzfPreviewChanges                         " Select changelist item (Required [Python3](https://www.python.org/))

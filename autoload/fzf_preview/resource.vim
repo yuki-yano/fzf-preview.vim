@@ -119,6 +119,21 @@ function! fzf_preview#resource#lines() abort
   return map(fzf_preview#util#align_lists(lines), { _, v -> join(v, '  ') })
 endfunction
 
+function! fzf_preview#resource#buffer_lines() abort
+  let lines = []
+  let bufnrs = filter(range(1, bufnr('$')), { _, i -> bufexists(i) && buflisted(i) && filereadable(expand('#' . i . ':p')) })
+
+  for buffer in map(copy(bufnrs), { _, bufnr -> bufname(bufnr) })
+    let linenum = 1
+    for line in readfile(expand(buffer))
+      call add(lines, join([buffer, linenum, line], ':'))
+      let linenum = linenum + 1
+    endfor
+  endfor
+
+  return fzf_preview#converter#convert_for_fzf(lines, 1)
+endfunction
+
 function! fzf_preview#resource#grep(args) abort
   return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#grep_command(a:args)), 1)
 endfunction
