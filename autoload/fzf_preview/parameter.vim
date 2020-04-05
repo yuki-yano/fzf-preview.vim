@@ -79,7 +79,7 @@ endfunction
 
 function! s:locationlist(additional, args) abort
   let resource = fzf_preview#resource#quickfix_or_locationlist(a:additional['type'])
-  if len(split(resource[0], ':')) == 1
+  if len(resource) > 0 && len(split(resource[0], ':')) == 1
     let preview = g:fzf_preview_command
     let optional = ''
   else
