@@ -13,9 +13,9 @@ Though it is different from this plugin and has a lot of functions,
 ## Features
 
 1. Fzf can be operated using floating window (or any layout).
-4. Real time preview of the selected item.
-2. Fast file and buffer search using fuzzy match.
-3. Search through all the project files and history.
+2. Real time preview of the selected item.
+3. Fast file and buffer search using fuzzy match.
+4. Search through all the project files and history.
 5. Searching from file history file using oldfiles or mru.
 6. File search from git status with diff preview.
 7. Jump line from jumplist and changelist.
