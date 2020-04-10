@@ -32,7 +32,8 @@ function! fzf_preview#window#create_centered_floating_window() abort
     let opts.width -= 4
     let s:f_buf = nvim_create_buf(v:false, v:true)
     call nvim_open_win(s:f_buf, v:true, opts)
-
+    
+    setlocal filetype=fzf
     setlocal nocursorcolumn
     execute 'set winblend=' . g:fzf_preview_floating_window_winblend
 
