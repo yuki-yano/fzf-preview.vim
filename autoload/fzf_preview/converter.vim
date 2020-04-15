@@ -34,7 +34,7 @@ function! s:create_dev_icon_list(files) abort
   for file in copy(a:files)
     let file = split(file, ':')[0]
     let filename = fnamemodify(file, ':p:t')
-    let icon = WebDevIconsGetFileTypeSymbol(filename, isdirectory(filename))
+    let icon = WebDevIconsGetFileTypeSymbol(substitute(filename, '\[[0-9;]*m', '', 'g'), isdirectory(filename))
     call add(result, s:dev_icon_format(icon))
   endfor
 
