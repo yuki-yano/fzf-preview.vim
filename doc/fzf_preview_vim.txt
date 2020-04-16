@@ -118,7 +118,12 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewProjectMruFiles*
 :FzfPreviewProjectMruFiles
      Select and open the past open files in the project using fzf.
-     The target file is selected from  |neomru|.
+     The target file is selected from most recently used.
+
+                                                *:FzfPreviewProjectMrwFiles*
+:FzfPreviewMrwFiles
+     Select and open the past open files in the project using fzf.
+     The target file is selected from most recently written.
 
                                                 *:FzfPreviewProjectGrep*
 :FzfPreviewProjectGrep
@@ -152,7 +157,13 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewMruFiles
      Select and open the opened file with the fzf interface
      while watching the preview.
-     For the target file, see |neomru|.
+     For the target file, most recently used.
+
+                                                *:FzfPreviewMrwFiles*
+:FzfPreviewMrwFiles
+     Select and open the opened file with the fzf interface
+     while watching the preview.
+     For the target file, most recently written.
 
                                                 *:FzfPreviewQuickFix*
 :FzfPreviewQuickFix
@@ -197,7 +208,7 @@ COMMANDS                                        *fzf-preview-commands*
      Grep and git status are not supported.
 
      Resources: [project, git, directory, buffer, project_old,
-                 project_mru, old, mru]
+                 project_mru, project_mrw, old, mru, mrw]
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*

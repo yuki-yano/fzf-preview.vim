@@ -63,6 +63,13 @@ function! s:project_mru_files(additional, args) abort
   \ }
 endfunction
 
+function! s:project_mrw_files(additional, args) abort
+  return {
+  \ 'source': fzf_preview#resource#project_mrwfiles(),
+  \ 'prompt': 'ProjectMrwFiles',
+  \ }
+endfunction
+
 function! s:oldfiles(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#oldfiles(),
@@ -74,6 +81,13 @@ function! s:mru_files(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#mrufiles(),
   \ 'prompt': 'MruFiles',
+  \ }
+endfunction
+
+function! s:mrw_files(additional, args) abort
+  return {
+  \ 'source': fzf_preview#resource#mrwfiles(),
+  \ 'prompt': 'MrwFiles',
   \ }
 endfunction
 
