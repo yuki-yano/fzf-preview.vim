@@ -39,11 +39,6 @@ Optional
     If ripgrep is installed, it will be possible to obtain a faster file list.
     It is also necessary to use the FzfPreviewProjectGrep command.
 
-- neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles)
-    https://github.com/Shougo/neomru.vim
-    neomru is a plugin that manages the history of files.
-    It does not depend on viminfo. It may be more convenient than oldfiles.
-
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
     When bat is installed you can highlight the preview and see it.
@@ -399,6 +394,12 @@ OPTIONS                                         *fzf-preview-options*
 
     Not installed ripgrep:
         :ProjectGrepPreview is disabled.
+
+
+*g:fzf_preview_cache_directory*
+    Specify the directory to store the MRU and MRW cache files.
+
+    Default value is 'expand('~/.cache/vim/fzf_preview')'
 
 
 *g:fzf_preview_lines_command*

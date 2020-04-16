@@ -55,7 +55,6 @@ Though it is different from this plugin and has a lot of functions,
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
-- neomru.vim (Require FzfPreviewProjectMruFiles and FzfPreviewMruFiles) <https://github.com/Shougo/neomru.vim>
 
 #### Appearance
 
@@ -106,7 +105,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectOldFiles                 " Select project files from oldfiles
 
-:FzfPreviewProjectMruFiles                 " Select project mru files with neomru
+:FzfPreviewProjectMruFiles                 " Select project mru files
 
 :FzfPreviewProjectGrep {word or none}      " Grep project files from args word (Required [Python3](https://www.python.org/))
 
@@ -116,7 +115,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewOldFiles                        " Select files from oldfiles
 
-:FzfPreviewMruFiles                        " Select mru files from neomru
+:FzfPreviewMruFiles                        " Select mru files
 
 :FzfPreviewQuickFix                        " Select line from QuickFix (Required [Python3](https://www.python.org/))
 
@@ -294,6 +293,9 @@ let g:fzf_preview_lines_command = 'cat'
 
 " Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
+
+" Cache directory for mru and mrw
+let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 
 " Keyboard shortcuts while fzf preview is active
 let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
