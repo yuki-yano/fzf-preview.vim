@@ -83,6 +83,10 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
 
+if !exists('g:fzf_preview_cache_directory')
+  let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
+endif
+
 if !exists('g:fzf_preview_preview_key_bindings')
   let g:fzf_preview_preview_key_bindings =
         \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
@@ -173,6 +177,18 @@ augroup fzf_preview_buffers
     autocmd FileType fzf vnoremap <silent> <buffer> <C-g> <Esc>i<C-g>
   endif
 augroup END
+
+augroup fzf_preview_mru
+  autocmd!
+  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:append(expand('<amatch>'))
+augroup END
+
+function! s:append(path) abort
+  if bufnr('%') != expand('<abuf>') || a:path == ''
+    return
+  endif
+  call fzf_preview#mru#append(a:path)
+endfunction
 
 silent doautocmd User fzf_preview#initialized
 

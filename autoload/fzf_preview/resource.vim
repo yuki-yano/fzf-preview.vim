@@ -71,8 +71,7 @@ function! fzf_preview#resource#project_mrufiles() abort
     return []
   endif
 
-  let files = readfile(g:neomru#file_mru_path)
-  call remove(files, 0)
+  let files = readfile(fzf_preview#mru#mru_file_path())
   call filter(files, { _, file -> file !=# expand('%:p') })
   return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(files))
 endfunction
@@ -86,8 +85,7 @@ function! fzf_preview#resource#oldfiles() abort
 endfunction
 
 function! fzf_preview#resource#mrufiles() abort
-  let files = readfile(g:neomru#file_mru_path)
-  call remove(files, 0)
+  let files = readfile(fzf_preview#mru#mru_file_path())
   let files = filter(files, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':.')")
