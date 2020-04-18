@@ -155,12 +155,14 @@ command! -nargs=* -complete=customlist,fzf_preview#args#complete_options        
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewAllBuffers      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:all_buffers', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectOldFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_oldfiles', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectMruFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_mru_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectMrwFiles :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_mrw_files', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewLines           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:lines', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBufferLines     :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:buffer_lines', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewCtags           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:ctags', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBufferTags      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:buffer_tags', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewOldFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:oldfiles', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMruFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:mru_files', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMrwFiles        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:mrw_files', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewQuickFix        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:locationlist', {'type': 'quickfix'}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewLocationList    :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:locationlist', {'type': 'loclist'}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewJumps           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:jumps', {}, <f-args>))
@@ -180,14 +182,28 @@ augroup END
 
 augroup fzf_preview_mru
   autocmd!
-  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:append(expand('<amatch>'))
+  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
+  autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
 augroup END
 
-function! s:append(path) abort
-  if bufnr('%') != expand('<abuf>') || a:path == ''
-    return
+function! s:mru_append(path) abort
+  if s:enable_file(a:path)
+    call fzf_preview#mr#append(a:path, fzf_preview#mr#mru_file_path())
   endif
-  call fzf_preview#mru#append(a:path)
+endfunction
+
+function! s:mrw_append(path) abort
+  if s:enable_file(a:path)
+    call fzf_preview#mr#append(a:path, fzf_preview#mr#mrw_file_path())
+  endif
+endfunction
+
+function! s:enable_file(path) abort
+  if bufnr('%') != expand('<abuf>') || a:path == ''
+    return v:false
+  else
+    return v:true
+  endif
 endfunction
 
 silent doautocmd User fzf_preview#initialized

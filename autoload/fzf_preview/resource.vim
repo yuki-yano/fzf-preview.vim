@@ -71,7 +71,17 @@ function! fzf_preview#resource#project_mrufiles() abort
     return []
   endif
 
-  let files = readfile(fzf_preview#mru#mru_file_path())
+  let files = readfile(fzf_preview#mr#mru_file_path())
+  call filter(files, { _, file -> file !=# expand('%:p') })
+  return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(files))
+endfunction
+
+function! fzf_preview#resource#project_mrwfiles() abort
+  if !fzf_preview#util#is_git_directory()
+    return []
+  endif
+
+  let files = readfile(fzf_preview#mr#mrw_file_path())
   call filter(files, { _, file -> file !=# expand('%:p') })
   return fzf_preview#converter#convert_for_fzf(s:filter_history_file_to_project_file(files))
 endfunction
@@ -85,7 +95,15 @@ function! fzf_preview#resource#oldfiles() abort
 endfunction
 
 function! fzf_preview#resource#mrufiles() abort
-  let files = readfile(fzf_preview#mru#mru_file_path())
+  let files = readfile(fzf_preview#mr#mru_file_path())
+  let files = filter(files, 'filereadable(v:val)')
+
+  let files = map(files, "fnamemodify(v:val, ':.')")
+  return fzf_preview#converter#convert_for_fzf(files)
+endfunction
+
+function! fzf_preview#resource#mrwfiles() abort
+  let files = readfile(fzf_preview#mr#mrw_file_path())
   let files = filter(files, 'filereadable(v:val)')
 
   let files = map(files, "fnamemodify(v:val, ':.')")
@@ -218,8 +236,10 @@ function! fzf_preview#resource#files_from_resources(resources) abort
   \ 'buffer': function('fzf_preview#resource#buffers'),
   \ 'project_old': function('fzf_preview#resource#project_oldfiles'),
   \ 'project_mru': function('fzf_preview#resource#project_mrufiles'),
+  \ 'project_mrw': function('fzf_preview#resource#project_mrwfiles'),
   \ 'old': function('fzf_preview#resource#oldfiles'),
   \ 'mru': function('fzf_preview#resource#mrufiles'),
+  \ 'mrw': function('fzf_preview#resource#mrwfiles'),
   \ }
 
   let files = []

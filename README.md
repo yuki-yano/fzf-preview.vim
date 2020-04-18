@@ -105,7 +105,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectOldFiles                 " Select project files from oldfiles
 
-:FzfPreviewProjectMruFiles                 " Select project mru files
+:FzfPreviewProjectMruFiles                 " Select project mru (Most Recently Used) files
+
+:FzfPreviewProjectMrwFiles                 " Select project mrw (Most Recently Written) files
 
 :FzfPreviewProjectGrep {word or none}      " Grep project files from args word (Required [Python3](https://www.python.org/))
 
@@ -115,7 +117,9 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewOldFiles                        " Select files from oldfiles
 
-:FzfPreviewMruFiles                        " Select mru files
+:FzfPreviewMruFiles                        " Select mru (Most Recently Used) files
+
+:FzfPreviewMrwFiles                        " Select mrw (Most Recently Written) files
 
 :FzfPreviewQuickFix                        " Select line from QuickFix (Required [Python3](https://www.python.org/))
 
@@ -131,7 +135,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMarks                           " Select mark (Required [Python3](https://www.python.org/))
 
-:FzfPreviewFromResources                   " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, old, mru)
+:FzfPreviewFromResources                   " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 ```
 
 ### Recommended mappings
