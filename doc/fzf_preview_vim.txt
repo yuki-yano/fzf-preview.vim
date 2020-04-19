@@ -132,6 +132,13 @@ COMMANDS                                        *fzf-preview-commands*
      and can be opened with fzf interface.
      Required: |Python3|
 
+                                                *:FzfPreviewProjectCommandGrep*
+:FzfPreviewProjectCommandGrep
+     Search for projects with advanced integration with ripgrep.
+     Since the search is done using ripgrep, FZF's fuzzy fines do not work.
+     Ref: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
+     Required: |Python3|
+
                                                 *:FzfPreviewCTags*
 :FzfPreviewCtags
      Select tags from tags file

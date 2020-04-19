@@ -140,6 +140,19 @@ function! s:project_grep(additional, args) abort
   \ }
 endfunction
 
+function! s:project_command_grep(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
+  let reload_command = g:fzf_preview_grep_cmd . ' ' . '{q}"'
+  let args = join(a:args, ' ')
+  let optional = '--query="' . args . '" --delimiter : --phony --bind="change:reload:' . reload_command
+
+  return {
+  \ 'source': fzf_preview#resource#grep(args),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
+  \ 'options': fzf_preview#command#get_command_options('ProjectCommandGrep', preview, optional)
+  \ }
+endfunction
+
 function! s:ctags(additional, args) abort
   let preview = g:fzf_preview_grep_preview_cmd . " '{-1}:{1}'"
 
