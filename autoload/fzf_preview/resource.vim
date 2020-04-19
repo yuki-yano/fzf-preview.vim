@@ -228,6 +228,10 @@ function! fzf_preview#resource#marks() abort
   return fzf_preview#converter#convert_for_fzf(result, 1)
 endfunction
 
+function! fzf_preview#resource#conflict() abort
+  return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#conflict_search_command()), 1)
+endfunction
+
 function! fzf_preview#resource#files_from_resources(resources) abort
   let resource_map = {
   \ 'project': function('fzf_preview#resource#project_files'),

@@ -46,6 +46,10 @@ function! fzf_preview#command#buffer_tags_command(file) abort
   return 'ctags -f - --sort=yes --excmd=number ' . a:file
 endfunction
 
+function! fzf_preview#command#conflict_search_command() abort
+  return fzf_preview#command#grep_command(shellescape('^(<<<|===|>>>)'))
+endfunction
+
 function! s:get_uncommon_options(console, preview, optional) abort
   let processors = copy(fzf_preview#resource_processor#get_processors())
   call remove(processors, '')

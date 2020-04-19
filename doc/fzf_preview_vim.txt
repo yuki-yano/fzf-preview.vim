@@ -201,6 +201,11 @@ COMMANDS                                        *fzf-preview-commands*
      The same script as FzfPreviewProjectGrep is used for preview.
      Required |Python3|
 
+                                                *:FzfPreviewConflict*
+:FzfPreviewConflict
+     List conflict file and line from the project.
+     Required |Python3|
+
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
      Select a resource and generate a file list.

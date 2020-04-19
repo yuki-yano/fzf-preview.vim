@@ -194,6 +194,17 @@ function! s:marks(additional, args) abort
   \ }
 endfunction
 
+function! s:conflict(additional, args) abort
+  let preview = g:fzf_preview_grep_preview_cmd . ' {}'
+  let optional = '--delimiter : '
+
+  return {
+  \ 'source': fzf_preview#resource#conflict(),
+  \ 'sink': function('fzf_preview#handler#handle_grep'),
+  \ 'options': fzf_preview#command#get_command_options('Conflict', preview, optional)
+  \ }
+endfunction
+
 function! s:files_from_resources(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#files_from_resources(a:args),
