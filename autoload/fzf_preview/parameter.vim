@@ -151,7 +151,7 @@ function! s:project_command_grep(additional, args) abort
   endif
   let initial_command = g:fzf_preview_grep_cmd . ' ' . args . ''
   let reload_command = g:fzf_preview_grep_cmd . ' ' . '{q} || true"'
-  let optional = query . ' --delimiter : --phony --bind="change:reload:' . reload_command
+  let optional = query . ' --no-sort --delimiter : --phony --bind="change:reload:' . reload_command
 
   return {
   \ 'source': systemlist(initial_command),
