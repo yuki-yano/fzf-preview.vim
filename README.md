@@ -109,7 +109,7 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectMrwFiles                 " Select project mrw (Most Recently Written) files
 
-:FzfPreviewProjectGrep {word or none}      " Grep project files from args word (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrep {word}              " Grep project files from args word (Required [Python3](https://www.python.org/))
 
 :FzfPreviewCtags                           " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 
