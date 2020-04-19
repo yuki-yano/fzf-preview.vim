@@ -170,7 +170,7 @@ command! -nargs=* -complete=customlist,fzf_preview#args#complete_options        
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMarks              :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:marks', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewConflict           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:conflict', {}, <f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectGrep        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_grep', {}, <f-args>))
-command! -nargs=+ -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectCommandGrep :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_command_grep', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectCommandGrep :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_command_grep', {}, <f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#args#complete_files_resources FzfPreviewFromResources      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:files_from_resources', {}, <f-args>))
 
 augroup fzf_preview_buffers
