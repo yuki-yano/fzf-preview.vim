@@ -111,6 +111,8 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewProjectGrep {word}              " Grep project files from args word (Required [Python3](https://www.python.org/))
 
+:FzfPreviewProjectCommandGrep {word}       " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
+
 :FzfPreviewCtags                           " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 
 :FzfPreviewBufferTags                      " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
