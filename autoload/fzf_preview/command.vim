@@ -47,7 +47,7 @@ function! fzf_preview#command#buffer_tags_command(file) abort
 endfunction
 
 function! fzf_preview#command#conflict_search_command() abort
-  return fzf_preview#command#grep_command(shellescape('^(<<<|===|>>>)'))
+  return fzf_preview#command#grep_command(shellescape('^(<<<<<<<|=======|>>>>>>>)'))
 endfunction
 
 function! s:get_uncommon_options(console, preview, optional) abort
