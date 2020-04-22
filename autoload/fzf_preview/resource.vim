@@ -32,11 +32,32 @@ function! fzf_preview#resource#git_status() abort
 endfunction
 
 function! fzf_preview#resource#buffers() abort
+  let mru_files = readfile(fzf_preview#mr#mru_file_path())
+  call filter(mru_files, { _, file -> file !=# expand('%:p') })
+  let mru_files = s:filter_history_file_to_project_file(mru_files)
+
   let list = filter(range(1, bufnr('$')),
-  \ "bufexists(v:val) && buflisted(v:val) && filereadable(expand('#' . v:val . ':p'))"
+  \ { _, bufnr -> bufexists(bufnr) && buflisted(bufnr) && filereadable(expand('#' . bufnr . ':p'))}
   \ )
-  let buffers = map(list, 'bufname(v:val)')
-  return fzf_preview#converter#convert_for_fzf(buffers)
+  let buffers = map(list, { _, buffer -> bufname(buffer) })
+
+  let index_with_files = {}
+  let ignored_files = []
+
+  for buffer in copy(buffers)
+    let index = 0
+    for mru_file in copy(mru_files)
+      if buffer ==# mru_file
+        let index_with_files[index] = buffer
+      else
+        call add(ignored_files, buffer)
+      endif
+      let index += 1
+    endfor
+  endfor
+
+  let sorted_buffers = fzf_preview#util#uniq(values(index_with_files) + (ignored_files))
+  return fzf_preview#converter#convert_for_fzf(sorted_buffers)
 endfunction
 
 function! fzf_preview#resource#all_buffers() abort
