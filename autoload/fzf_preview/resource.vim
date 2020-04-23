@@ -34,7 +34,6 @@ endfunction
 function! fzf_preview#resource#buffers() abort
   let mru_files = readfile(fzf_preview#mr#mru_file_path())
   call filter(mru_files, { _, file -> file !=# expand('%:p') })
-  let mru_files = s:filter_history_file_to_project_file(mru_files)
 
   let list = filter(range(1, bufnr('$')),
   \ { _, bufnr -> bufexists(bufnr) && buflisted(bufnr) && filereadable(expand('#' . bufnr . ':p'))}
@@ -276,7 +275,7 @@ function! fzf_preview#resource#files_from_resources(resources) abort
 endfunction
 
 function! s:filter_history_file_to_project_file(files) abort
-  let readable_filelist = filter(a:files, 'filereadable(v:val)')
+  let readable_filelist = filter(a:files, { _, file -> filereadable(file) })
   let splited_project_path = split(fzf_preview#util#project_root(), '/')
 
   let project_files = []
