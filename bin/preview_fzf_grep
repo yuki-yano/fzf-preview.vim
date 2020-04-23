@@ -2,22 +2,33 @@
 
 import sys
 import subprocess
-import os
+import shutil
 import re
 
 
+GREP_OUTPUT_REGEX = re.compile(
+    r'(?P<file_name>.+):(?P<line_num>\d+):(?P<match>.*)'
+)
+CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+
+
 def is_installed(cmd):
-    cmd, *_ = cmd.split(' ')
-    return os.system(f'which {cmd} >/dev/null 2>&1') == 0
+    return shutil.which(cmd.split(' ')[0])
 
 
-file_and_line = re.match(
-    r'(.\s\s)?(?P<file>\S+):(?P<line_num>\d+):?.*', sys.argv[1])
-file = file_and_line.group('file')
-line_num = file_and_line.group('line_num')
+match = GREP_OUTPUT_REGEX.match(sys.argv[1])
+if not match:
+    print(
+        "Cannot process the entry :(\n"
+        "Please open an issue and describe what happened\n"
+        "including information such as file name and g:fzf_preview_grep_cmd"
+    )
+    sys.exit(1)
 
-start = max([int(line_num) - 10, 1])
-last = int(line_num) + 100
+file_name = match.group('file_name')
+line_num = int(match.group('line_num'))
+start = max(line_num - 10, 1)
+last = line_num + 100
 
 cats = [
     'bat --color=always --style=grid --theme=ansi-dark --plain',
@@ -32,12 +43,11 @@ seds = [
 sed = list(filter(is_installed, seds))[0]
 
 result = subprocess.check_output(
-    f'{cat} {file} | {sed} -n {start},{last}p', shell=True)
+    f'{cat} "{file_name}" | {sed} -n {start},{last}p', shell=True)
 
 for index, line in enumerate(result.decode().split("\n")):
     if int(line_num) - start == index:
-        line = re.compile(
-            r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])').sub('', line)
+        line = CLEAN_LINE_REGEX.sub('', line)
         print(f"\033[1m\033[4m\033[31m{line}\033[0m")
     else:
         print(line)
