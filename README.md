@@ -60,7 +60,7 @@ Though it is different from this plugin and has a lot of functions,
 
 - **bat (Add color to the preview)** (Recomended) <https://github.com/sharkdp/bat>
 - exa (Use color to the file list) <https://github.com/ogham/exa>
-   - exa on mac `brew install findutils`
+  - exa on mac `brew install findutils`
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 When bat is installed you can highlight the preview and see it.
