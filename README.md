@@ -337,6 +337,9 @@ let g:fzf_preview_use_dev_icons = 0
 " devicons character width
 let g:fzf_preview_dev_icon_prefix_length = 2
 
+" The theme used in the bat preview
+$FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
+
 " DEPRECATED
 " Use g:fzf_preview_custom_default_processors
 " Keyboard shortcut for opening files with split

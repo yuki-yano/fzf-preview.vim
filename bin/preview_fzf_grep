@@ -4,7 +4,9 @@ import sys
 import subprocess
 import shutil
 import re
+import os
 
+bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi-dark'))
 
 GREP_OUTPUT_REGEX = re.compile(
     r'(?P<dev_icon>.\s\s)?(?P<file_name>.+):(?P<line_num>\d+):(?P<match>.*)'
@@ -31,7 +33,7 @@ start = max(line_num - 10, 1)
 last = line_num + 100
 
 cats = [
-    'bat --color=always --style=grid --theme=ansi-dark --plain',
+    f'bat --color=always --style=grid --theme={bat_theme} --plain',
     'cat'
 ]
 cat = list(filter(is_installed, cats))[0]

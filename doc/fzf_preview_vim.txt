@@ -502,6 +502,11 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 2
 
 
+*$FZF_PREVIEW_PREVIEW_BAT_THEME*
+    The theme used in the bat preview.
+    Default value is 'ansi-dark'
+
+
 DEPRECATED: Use g:fzf_preview_custom_default_processors
 *g:fzf_preview_split_key_map*
     This map is used when splitting and opening files from fzf.
