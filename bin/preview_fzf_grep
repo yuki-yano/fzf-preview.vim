@@ -7,7 +7,7 @@ import re
 
 
 GREP_OUTPUT_REGEX = re.compile(
-    r'(?P<file_name>.+):(?P<line_num>\d+):(?P<match>.*)'
+    r'(?P<dev_icon>.\s\s)?(?P<file_name>.+):(?P<line_num>\d+):(?P<match>.*)'
 )
 CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
