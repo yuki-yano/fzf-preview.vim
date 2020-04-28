@@ -27,7 +27,7 @@ if not match:
     )
     sys.exit(1)
 
-file_name = match.group('file_name')
+file_name = match.group('file_name').split(':')[0]
 line_num = int(match.group('line_num'))
 start = max(line_num - 10, 1)
 last = line_num + 100
