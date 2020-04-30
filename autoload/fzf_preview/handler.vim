@@ -2,6 +2,7 @@ function! fzf_preview#handler#handle_resource(lines, ...) abort
   let force_disable_dev_icons = get(a:, 1, 0)
   let optional_discard_prefix_size = get(a:, 2, 0)
   let Extract_filename_func = get(a:, 3, v:false)
+  let disable_line_convert = get(a:, 4, v:false)
 
   let use_dev_icons = force_disable_dev_icons ? 0 : g:fzf_preview_use_dev_icons
   let discard_prefix_size = s:discard_prefix_size(use_dev_icons, optional_discard_prefix_size)
@@ -9,7 +10,7 @@ function! fzf_preview#handler#handle_resource(lines, ...) abort
   let key = a:lines[0]
 
   let lines = map(copy(a:lines[1:]), { _, line -> line[discard_prefix_size :] })
-  if Extract_filename_func != v:false
+  if !disable_line_convert && Extract_filename_func != v:false
     call map(lines, { _, line -> Extract_filename_func(line) })
   endif
 
@@ -31,12 +32,12 @@ function! fzf_preview#handler#handle_lines(lines) abort
   let key = [a:lines[0]]
   let lines = []
   for line in a:lines[1:]
-    let elem = split(line, '\s\+')
-    call add(lines, expand('%') . ':' . elem[0])
+    let matches = matchlist(line, '^\(\d\+\)  \(.\+\)')
+    call add(lines, join([expand('%'), matches[1], matches[2]], ':'))
   endfor
 
   let lines = key + lines
-  call fzf_preview#handler#handle_resource(lines, 1, 0, function('s:extract_filename_and_line_number_from_grep'))
+  call fzf_preview#handler#handle_resource(lines, 1, 0, v:false, v:true)
 endfunction
 
 function! fzf_preview#handler#handle_grep(lines) abort

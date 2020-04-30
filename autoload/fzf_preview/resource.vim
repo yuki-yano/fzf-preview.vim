@@ -372,7 +372,7 @@ function! s:read_tag_file() abort
 endfunction
 
 function! s:get_tag_files() abort
-  return split(&tag, ',')
+  return split(&tags, ',')
 endfunction
 
 function! s:parse_tagline(line) abort
