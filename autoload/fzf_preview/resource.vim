@@ -151,8 +151,7 @@ function! fzf_preview#resource#lines() abort
   endif
 
   let lines = systemlist(fzf_preview#command#lines_command(expand('%')))
-  call map(lines, { i, line -> [i + 1, line] })
-  return map(fzf_preview#util#align_lists(lines), { _, v -> join(v, '  ') })
+  return lines
 endfunction
 
 function! fzf_preview#resource#buffer_lines() abort

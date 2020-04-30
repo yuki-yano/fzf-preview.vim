@@ -32,8 +32,8 @@ function! fzf_preview#handler#handle_lines(lines) abort
   let key = [a:lines[0]]
   let lines = []
   for line in a:lines[1:]
-    let matches = matchlist(line, '^\(\d\+\)  \(.\+\)')
-    call add(lines, join([expand('%'), matches[1], matches[2]], ':'))
+    let matches = matchlist(line, '^\(\s\)*\(\d\+\) \(.*\)')
+    call add(lines, join([expand('%'), matches[2], matches[3]], ':'))
   endfor
 
   let lines = key + lines
