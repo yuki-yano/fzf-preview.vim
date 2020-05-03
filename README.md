@@ -9,7 +9,7 @@ You can easily write settings such as bdelete a selected buffer from the buffer 
 
 Starting with devicons as standard, it can also work with modern tools such as bat, rg, exa, etc.
 
-fzf-preview mainly uses a floating window in NEOVIM, but depending on the configuration it may also work in VIM, but I can't really recommend it.
+fzf-preview mainly uses a floating window in Neovim, but depending on the configuration it may also work in VIM, but I can't really recommend it.
 
 ## Features
 
