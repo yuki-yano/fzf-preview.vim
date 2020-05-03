@@ -12,7 +12,7 @@ CONTENTS                                   *fzf-preview-contents*
     Mappings                               |fzf-preview-mappings|
     Commands                               |fzf-preview-commands|
     Deprecated Commands                    |fzf-preview-deprecated-commands|
-    Keymap                                 |fzf-preview-keymap|
+    Keymap                                  |fzf-preview-keymap|
 
 ==============================================================================
 INTRODUCTION                              *fzf-preview-introduction*
@@ -23,34 +23,29 @@ Fzf can be operated using floating window (or any layout).
 Requirements:
 - Neovim
     https://neovim.io/
+
 - git
     https://git-scm.com/
+
 - fzf
     https://github.com/junegunn/fzf
 
-Optional
 - Python3 (Used grep preview)
     https://www.python.org/
     Checked with Python3.6
-    Required for FzfPreviewProjectGrep preview script.
 
-- ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)
+- ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
-    If ripgrep is installed, it will be possible to obtain a faster file list.
-    It is also necessary to use the FzfPreviewProjectGrep command.
 
+Optional:
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
-    When bat is installed you can highlight the preview and see it.
-    If bat is not installed, head will be used
 
 - exa (Use color to the file list)
     https://github.com/ogham/exa
-    By installing exa you can use exa instead of ls to color the file list
 
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
-    vim-devicons can be displayed as fzf candidates
 
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
@@ -79,26 +74,21 @@ COMMANDS                                        *fzf-preview-commands*
 
                                                 *:FzfPreviewProjectFiles*
 :FzfPreviewProjectFiles
-     Select and open git repository files from project file list with fzf
-     interface.
-     while watching preview.
+     Select and open git repository files from project. 
 
                                                 *:FzfPreviewGitFiles*
 :FzfPreviewGitFiles
-     Select and open git repository files from git ls-files with fzf interface
-     while watching preview.
+     Select and open git repository files from git ls-files.
 
                                                 *:FzfPreviewDirectoryFiles*
 :FzfPreviewDirectoryFiles {path or none}
-     Select and open directory files from ripgrep with fzf interface
-     while watching preview.
+     Select and open directory files from ripgrep with fzf interface.
      Default to current working directory.
-     Require ripgrep.
 
                                                 *:FzfPreviewGitStatus*
 :FzfPreviewGitStatus
      Select files that have been changed with git.
-     Use fzf interface while watching git diff preview.
+     Use git diff preview.
 
                                                 *:FzfPreviewBuffers*
 :FzfPreviewBuffers
@@ -130,20 +120,18 @@ COMMANDS                                        *fzf-preview-commands*
      Search text from the project.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
-     Required: |Python3|
 
                                                 *:FzfPreviewProjectCommandGrep*
 :FzfPreviewProjectCommandGrep
      Search for projects with advanced integration with ripgrep.
      Since the search is done using ripgrep, FZF's fuzzy fines do not work.
      Ref: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
-     Required: |Python3|
 
                                                 *:FzfPreviewCTags*
 :FzfPreviewCtags
      Select tags from tags file
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required: |Python3| and |universal-ctags|
+     Required: |universal-ctags|
 
      Cautions:
        Set --excmd=number or --excmd=combine to universal-ctags option
@@ -152,72 +140,60 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewBufferTags
      Select from tags of currently open buffer
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required: |Python3| and |universal-ctags|
+     Required: |universal-ctags|
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
-     Select and open the opened file with the fzf interface
-     while watching the preview.
+     Select and open the opened file.
      For the target file, see |v:oldfiles|.
 
                                                 *:FzfPreviewMruFiles*
 :FzfPreviewMruFiles
-     Select and open the opened file with the fzf interface
-     while watching the preview.
+     Select and open the opened file.
      For the target file, most recently used.
 
                                                 *:FzfPreviewMrwFiles*
 :FzfPreviewMrwFiles
-     Select and open the opened file with the fzf interface
-     while watching the preview.
+     Select and open the opened file.
      For the target file, most recently written.
 
                                                 *:FzfPreviewQuickFix*
 :FzfPreviewQuickFix
-     Select and open the QuickFix item with the fzf interface
-     Required: |Python3|
+     Select and open the QuickFix item.
 
                                                 *:FzfPreviewLocationList*
 :FzfPreviewLocationList
-     Select and open the LocationList item with the fzf interface
-     Required: |Python3|
+     Select and open the LocationList item.
 
                                                 *:FzfPreviewLines*
 :FzfPreviewLines
-     Select line from current buffer
-     Required: |Python3|
+     Select line from current buffer.
 
                                                 *:FzfPreviewBufferLines*
 :FzfPreviewBufferLines
-     Select line from loaded buffer
-     Required: |Python3|
+     Select line from all buffer
 
                                                 *:FzfPreviewJumps*
 :FzfPreviewJumps
      Select and open the jumplist
-     Required: |Python3|
 
                                                 *:FzfPreviewChanges*
 :FzfPreviewChanges
      Select and open the changelist
-     Required: |Python3|
                                                 *:FzfPreviewMarks*
 :FzfPreviewMarks
      List marks from the project.
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
-     Required |Python3|
 
                                                 *:FzfPreviewConflict*
 :FzfPreviewConflict
-     List conflict file and line from the project.
-     Required |Python3|
+     List git conflict file and line from the project.
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
      Select a resource and generate a file list.
      From there, select the file using the fzf interface.
-     Grep and git status are not supported.
 
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
@@ -374,7 +350,7 @@ OPTIONS                                         *fzf-preview-options*
     If ripgrep is not included, git ls-files will be used.
 
     Installed ripgrep:
-        Default value is 'rg --files --hidden --follow --no-messages -g \!"* *"'
+        Default value is 'rg --files --hidden --follow --no-messages --glob "!.git/*" --glob \!"* *"'
 
     Not installed ripgrep:
         Default value is 'git ls-files --exclude-standard'

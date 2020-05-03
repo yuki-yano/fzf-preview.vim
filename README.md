@@ -1,28 +1,34 @@
 # fzf-preview.vim
 
-fzf-preview is a Neovim plugin that provides a preset of commands using fzf.  
-Provides multiple resources and a preview command for it.
+fzf-preview is a Neovim plugin that provides a preset for commands using fzf.
+It provides multiple resources and correspondingly powerful preview commands.
 
-fzf-preview mainly uses neovim floating window.
-vim may work depending on the setting, but it is not recommended.
+This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
+For example, it works with Fugitive to launch git add, reset and patch.
+You can easily write settings such as bdelete a selected buffer from the buffer list.
 
-This plugin does not use [fzf.vim](https://github.com/junegunn/fzf.vim) but uses the library attached to fzf.
-Though it is different from this plugin and has a lot of functions,
-[fzf.vim](https://github.com/junegunn/fzf.vim) has no preview of the project's file list and grep on the interactive project.
+Starting with devicons as standard, it can also work with modern tools such as bat, rg, exa, etc.
+
+fzf-preview mainly uses a floating window in NEOVIM, but depending on the configuration it may also work in VIM, but I can't really recommend it.
 
 ## Features
 
-1. Fzf can be operated using floating window (or any layout).
-2. Real time preview of the selected item.
-3. Fast file and buffer search using fuzzy match.
-4. Search through all the project files and history.
-5. Searching from file history file using oldfiles or mru.
-6. File search from git status with diff preview.
-7. Jump line from jumplist and changelist.
-8. Interactive grep from current project.
-9. Highlight code in preview with bat. (Optional)
-10. Export fzf candidates to QuickFix.
-11. Execute callback function for select item.
+1. provides an excellent UI with floating windows by default
+2. preview the selected item (with an arbitrary command)
+3. fast file and buffer search by fuzzy matching
+4. search all project files and history
+5. search from file history files using oldfiles and mru
+6. using diff preview to find a file from the state of git
+7. jump lines from jumplist or changelist
+8. interactive grep and preview from the current project
+9. Export the selected items to QuickFix.
+10. execute the callback function for the selected item (processor)
+    - Deleting a buffer
+    - [tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal](https://github.com/tpope/vim-fugitive)
+    - [liuchengxu/vista.vim: Viewer & Finder for LSP symbols and tags](https://github.com/liuchengxu/vista.vim)
+    - [MattesGroeger/vim-bookmarks: Vim bookmark plugin](https://github.com/MattesGroeger/vim-bookmarks)
+    - [LeafCage/yankround.vim: logging registers and reusing them.](https://github.com/LeafCage/yankround.vim)
+    - etc.
 
 ## Demo
 
