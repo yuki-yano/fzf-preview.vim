@@ -108,13 +108,12 @@ function! s:locationlist(additional, args) abort
 endfunction
 
 function! s:lines(additional, args) abort
-  let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{}'
-  let optional = '--delimiter : '
+  let preview = g:fzf_preview_grep_preview_cmd . ' ' . expand('%') . ':{1}'
 
   return {
   \ 'source': fzf_preview#resource#lines(),
   \ 'sink': function('fzf_preview#handler#handle_lines'),
-  \ 'options': fzf_preview#command#get_command_options('Lines', preview, optional)
+  \ 'options': fzf_preview#command#get_command_options('Lines', preview)
   \ }
 endfunction
 
