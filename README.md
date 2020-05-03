@@ -1,15 +1,11 @@
 # fzf-preview.vim
 
-fzf-preview is a Neovim plugin that provides a preset for commands using fzf.
-It provides multiple resources and correspondingly powerful preview commands.
+fzf-preview is a Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
-For example, it works with Fugitive to launch git add, reset and patch.
-You can easily write settings such as bdelete a selected buffer from the buffer list.
+e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
-Starting with devicons as standard, it can also work with modern tools such as bat, rg, exa, etc.
-
-fzf-preview mainly uses a floating window in Neovim, but depending on the configuration it may also work in VIM, but I can't really recommend it.
+Neovim is highly recommended for this plugin because of its floating window system.
 
 ## Features
 
@@ -36,7 +32,7 @@ fzf-preview mainly uses a floating window in Neovim, but depending on the config
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/73932616-18138380-491e-11ea-9078-de222fb47998.gif "fzf-preview")
 
-### Git Status (Integrate fugitive)
+### Git Status (Integrate with Fugitive)
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/75104517-506cce80-564d-11ea-917d-8f5ceabfd557.gif "fzf-preview")
 
@@ -64,28 +60,25 @@ fzf-preview mainly uses a floating window in Neovim, but depending on the config
 
 #### Appearance
 
+When bat is installed you can highlight the preview and see it. Otherwise, head will be used
+
 - **bat (Add color to the preview)** (Recomended) <https://github.com/sharkdp/bat>
 - exa (Use color to the file list) <https://github.com/ogham/exa>
   - exa on mac `brew install findutils`
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
-When bat is installed you can highlight the preview and see it.
-
-Otherwise, head will be used
-
 ## Installation
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
 
-If you are using MacOS and installed fzf using Homebrew
-suffice:
+If you are using MacOS and installed fzf using Homebrew:
 
 ```vim
 set  runtimepath+=/usr/local/opt/fzf
 call dein#add('yuki-ycino/fzf-preview.vim')
 ```
 
-You install fzf as well using Dein:
+or Using Dein:
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -204,7 +197,7 @@ DEPRECATED
 
 ## Customization
 
-### Example of integrate Fugitive
+### Example of Fugitive integration
 
 ```vim
 nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>

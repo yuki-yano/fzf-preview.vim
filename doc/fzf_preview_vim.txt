@@ -17,8 +17,7 @@ CONTENTS                                   *fzf-preview-contents*
 ==============================================================================
 INTRODUCTION                              *fzf-preview-introduction*
 
-*fzf-preview* is a Neovim plugin to provide some fzf sources to with preview.
-Fzf can be operated using floating window (or any layout).
+*fzf-preview* is a Neovim plugin to provide some fzf sources with preview.
 
 Requirements:
 - Neovim
@@ -55,14 +54,13 @@ INSTALLATION                                     *fzf-preview-installation*
 
 Use Dein, vim-plug or any Vim plugin manager of your choice.
 
-If you are using MacOS and installed fzf using Homebrew
-suffice:
+If you are using MacOS and installed fzf using Homebrew:
 >
     set  runtimepath+=/usr/local/opt/fzf
     call dein#add('yuki-ycino/fzf-preview.vim')
 <
 
-you install fzf as well using Dein
+or Using Dein:
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -207,7 +205,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     Variable is dictionary and format is
     same as |g:fzf_preview_custom_default_processors|.
 
-    Most commands are passed a file path to the processor function.
+    Most command pass a file paths to the processor.
     FzfPreviewAllBuffers will be passed “buffer {bufnr}”
 
     Value example: let g:foo_processors = {
