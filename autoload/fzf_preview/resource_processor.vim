@@ -25,6 +25,13 @@ function! fzf_preview#resource_processor#get_default_processors() abort
   return processors
 endfunction
 
+function! fzf_preview#resource_processor#get_blame_pr_processors() abort
+  let processors = {}
+  let processors[''] = function('fzf_preview#resource_processor#open_pr')
+
+  return processors
+endfunction
+
 function! fzf_preview#resource_processor#set_processors(processors) abort
   let s:processors = a:processors
 endfunction
@@ -67,6 +74,15 @@ function! fzf_preview#resource_processor#export_quickfix(lines) abort
 
   call setqflist(items)
   copen
+endfunction
+
+function! fzf_preview#resource_processor#open_pr(lines) abort
+  for line in a:lines
+    let matches = matchlist(line, '^PR #\(\d\+\)\s')
+    if len(matches) >= 1
+      execute '!gh pr view --web ' . matches[1]
+    endif
+  endfor
 endfunction
 
 function! s:initialize_processors() abort

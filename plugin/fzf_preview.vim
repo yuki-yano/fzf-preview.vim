@@ -83,6 +83,10 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
 
+if !exists('g:fzf_preview_open_pr_command')
+  let g:fzf_preview_open_pr_command = expand('<sfile>:h:h') . '/bin/git_blame_pr'
+endif
+
 if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 endif
@@ -169,6 +173,7 @@ command! -nargs=* -complete=customlist,fzf_preview#args#complete_options        
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewChanges            :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:changes', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewMarks              :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:marks', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewConflict           :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:conflict', {}, <f-args>))
+command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewBlamePR            :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:blame_pr', {}, <f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectGrep        :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_grep', {}, <f-args>))
 command! -nargs=* -complete=customlist,fzf_preview#args#complete_options         FzfPreviewProjectCommandGrep :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:project_command_grep', {}, <f-args>))
 command! -nargs=+ -complete=customlist,fzf_preview#args#complete_files_resources FzfPreviewFromResources      :call fzf_preview#runner#fzf_run(fzf_preview#initializer#initialize('s:files_from_resources', {}, <f-args>))

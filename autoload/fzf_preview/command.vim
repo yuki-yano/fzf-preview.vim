@@ -57,7 +57,11 @@ function! s:get_uncommon_options(console, preview, optional) abort
 
   let expect = len(expect_keys) >= 1 ? '--expect=' . join(expect_keys, ',') : '--expect="alt-enter"'
   let prompt = '--prompt="' . a:console . '> "'
-  let preview = "--preview='" . a:preview . "'"
+  if a:preview !=# ''
+    let preview = "--preview='" . a:preview . "'"
+  else
+    let preview = ''
+  endif
 
   return join([expect, prompt, preview, a:optional], ' ')
 endfunction

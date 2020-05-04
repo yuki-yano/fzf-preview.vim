@@ -224,6 +224,16 @@ function! s:conflict(additional, args) abort
   \ }
 endfunction
 
+function! s:blame_pr(additional, args) abort
+  let preview = 'gh pr view {2}'
+
+  return {
+  \ 'source': fzf_preview#resource#blame_pr(),
+  \ 'sink': function('fzf_preview#handler#blame_pr'),
+  \ 'options': fzf_preview#command#get_command_options('Blame PR', preview)
+  \ }
+endfunction
+
 function! s:files_from_resources(additional, args) abort
   return {
   \ 'source': fzf_preview#resource#files_from_resources(a:args),

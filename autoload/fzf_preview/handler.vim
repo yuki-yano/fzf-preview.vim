@@ -18,6 +18,11 @@ function! fzf_preview#handler#handle_resource(lines, ...) abort
   call Processor(lines)
 endfunction
 
+function! fzf_preview#handler#blame_pr(lines) abort
+  let Processor = fzf_preview#resource_processor#get_blame_pr_processors()
+  call Processor[''](a:lines[1:])
+endfunction
+
 function! fzf_preview#handler#handle_git_status(lines) abort
   call fzf_preview#handler#handle_resource(a:lines, 1, 3)
 endfunction

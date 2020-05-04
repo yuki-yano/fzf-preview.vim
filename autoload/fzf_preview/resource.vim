@@ -251,6 +251,10 @@ function! fzf_preview#resource#conflict() abort
   return  fzf_preview#converter#convert_for_fzf(systemlist(fzf_preview#command#conflict_search_command()), 1)
 endfunction
 
+function! fzf_preview#resource#blame_pr() abort
+  return  systemlist(g:fzf_preview_open_pr_command . ' ' . expand('%:p'))
+endfunction
+
 function! fzf_preview#resource#files_from_resources(resources) abort
   let resource_map = {
   \ 'project': function('fzf_preview#resource#project_files'),
