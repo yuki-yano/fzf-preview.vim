@@ -36,6 +36,9 @@ Requirements:
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
 
+- GitHub cli (Require integrate with GitHub)
+    https://github.com/cli/cli
+
 Optional:
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
@@ -187,6 +190,11 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewConflict*
 :FzfPreviewConflict
      List git conflict file and line from the project.
+
+                                                *:FzfPreviewBlamePR*
+:FzfPreviewBlamePR
+     The PR corresponding to each line is displayed and
+     the selected PR is opened in the browser.
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
