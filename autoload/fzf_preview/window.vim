@@ -32,7 +32,7 @@ function! fzf_preview#window#create_centered_floating_window() abort
     let opts.width -= 4
     let s:f_buf = nvim_create_buf(v:false, v:true)
     call nvim_open_win(s:f_buf, v:true, opts)
-    
+
     setlocal filetype=fzf
     setlocal nocursorcolumn
     execute 'set winblend=' . g:fzf_preview_floating_window_winblend
@@ -56,7 +56,7 @@ function! fzf_preview#window#set_resource_func_name(func_name) abort
 endfunction
 
 function! s:set_fzf_last_query(...) abort
-  if &ft ==# 'fzf'
+  if &filetype ==# 'fzf'
     let matches = matchlist(getline('.'), '^\w\+\>.\(\(\w\|\s\|''\)\+\)')
     if len(matches) > 0
       let query = substitute(substitute(matches[1], '\s\+$', '', ''), '^\s\+', '', '')
