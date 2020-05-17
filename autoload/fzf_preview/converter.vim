@@ -6,7 +6,7 @@ function! fzf_preview#converter#convert_for_fzf(files, ...) abort
     let filenames = copy(a:files)
   endif
 
-  if g:fzf_preview_use_dev_icons
+  if g:fzf_preview_use_dev_icons && len(a:files) < g:fzf_preview_devicons_limit
     let devicons = s:create_dev_icon_list(a:files)
   else
     let devicons = map(copy(a:files), "''")
