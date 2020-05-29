@@ -32,11 +32,17 @@ module.exports = {
     }
   },
   rules: {
+    complexity: ["error", 7],
     "no-console": "off",
     "object-shorthand": "error",
-    "no-param-reassign": "off",
     "no-restricted-syntax": "off",
-    "no-await-in-loop": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        props: true,
+        ignorePropertyModificationsFor: ["draft", "state"]
+      }
+    ],
 
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
