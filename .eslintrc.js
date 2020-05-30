@@ -6,10 +6,13 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:node/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:prettier/recommended",
     "prettier/@typescript-eslint"
   ],
-  plugins: ["@typescript-eslint", "prettier"],
+  plugins: ["@typescript-eslint", "node", "import", "prettier"],
   env: {
     jest: true
   },
@@ -20,15 +23,10 @@ module.exports = {
   },
   settings: {
     "import/resolver": {
-      node: {
-        extensions: [".ts"]
-      }
+      typescript: {}
     },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts"]
-    },
-    node: {
-      tryExtensions: [".ts", ".js"]
     }
   },
   rules: {
@@ -44,6 +42,7 @@ module.exports = {
       }
     ],
 
+    "no-restricted-imports": ["error", { "patterns": ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
 
@@ -57,6 +56,7 @@ module.exports = {
     "@typescript-eslint/ban-ts-ignore": "off",
 
     "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-import": "off",
 
     "prettier/prettier": "error"
   }

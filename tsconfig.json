@@ -7,6 +7,11 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "outDir": "./build"
   },
   "exclude": ["node_modules"],
