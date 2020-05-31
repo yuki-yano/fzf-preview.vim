@@ -14,7 +14,7 @@
   "author": "yuki-yano",
   "dependencies": {
     "@reduxjs/toolkit": "^1.3.6",
-    "neovim": "^4.8.0"
+    "neovim": "^4.9.0"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
