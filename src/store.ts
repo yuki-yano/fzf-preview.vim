@@ -1,12 +1,15 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
-import { rootReducer } from "@/reducer"
+import { vimVariableModule } from "@/module/vim-variable"
 
+export type RootState = ReturnType<typeof store.getState>
 export type Store = ReturnType<typeof setupStore>
 
 const setupStore = () => {
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: {
+      vimVariable: vimVariableModule.reducer
+    },
     middleware: getDefaultMiddleware()
   })
 
