@@ -1,9 +1,11 @@
 import { plugin } from "@/plugin"
+import { pluginRegisterCommand } from "@/plugin"
 import { commandDefinition } from "@/association/command"
 import type { FzfCommand } from "@/type"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { generateOptions } from "@/fzf/option/generator"
 import { fzfRunner } from "@/plugin/fzf-runner"
+import { parseAddFzfArgs } from "@/args"
 
 const registerCommand = ({
   commandName,
@@ -12,7 +14,7 @@ const registerCommand = ({
   vimCommandOptions,
   defaultFzfOptionFunc: defaultOptionFunc
 }: FzfCommand) => {
-  plugin.registerCommand(
+  pluginRegisterCommand(
     commandName,
     async (args: Array<string>) => {
       await syncVimVariable()

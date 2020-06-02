@@ -2,14 +2,14 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import type { VimVariableName } from "@/type"
 import { vimVariableAssociation } from "@/association/vim-variable"
-import { plugin } from "@/plugin"
+import { getVar } from "@/plugin"
 import { dispatch } from "@/store"
 import { vimVariableModule } from "@/module/vim-variable"
 import { objectKeys } from "@/util/object"
 
 const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValue | undefined> => {
   try {
-    return await plugin.nvim.getVar(variableName)
+    return await getVar(variableName)
   } catch (_error) {
     console.log(`g:${variableName} is not defined`)
     return new Promise((resolve) => {

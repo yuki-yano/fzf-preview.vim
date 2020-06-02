@@ -1,4 +1,4 @@
-import { plugin } from "@/plugin"
+import { pluginCall } from "@/plugin"
 import { fzfOptionsToString } from "@/fzf/option/convert"
 import type { FzfOptions } from "@/type"
 
@@ -9,7 +9,7 @@ type Parameter = {
 }
 
 export const fzfRunner = ({ source, handler, options }: Parameter) => {
-  plugin.nvim.call("fzf_preview#ts_runner#fzf_run", {
+  pluginCall("fzf_preview#ts_runner#fzf_run", {
     source,
     handler,
     options: fzfOptionsToString(options)
