@@ -4,7 +4,7 @@
   "description": "",
   "main": "./build/index.js",
   "scripts": {
-    "build": "ncc build src/index.ts --out build",
+    "build": "ncc build src/index.ts --minify --out build",
     "dev": "ncc build src/index.ts --watch --out build",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix src/**/*.ts",
