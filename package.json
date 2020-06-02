@@ -9,6 +9,7 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix src/**/*.ts",
     "test": "jest",
+    "test:watch": "jest --watch",
     "postinstall": "npm run build"
   },
   "author": "yuki-yano",
