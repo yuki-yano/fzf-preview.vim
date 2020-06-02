@@ -1,5 +1,4 @@
-import { FzfOptions } from "@/type"
-import { parseFzfOption } from "@/args/fzf-option-parser"
+import type { FzfOptions, AddFzfArgs } from "@/type"
 
 const defaultBind = [
   {
@@ -23,9 +22,8 @@ const defaultOptions: FzfOptions = {
   "--bind": defaultBind
 } as const
 
-export const generateOptions = (fzfCommandDefaultOptions: FzfOptions, commandArgs: Array<string>) => {
+export const generateOptions = (fzfCommandDefaultOptions: FzfOptions, userOptions: Array<AddFzfArgs>) => {
   const fzfCommandOptions = { ...defaultOptions, ...fzfCommandDefaultOptions }
-  const userOptions = parseFzfOption(commandArgs)
 
   userOptions.forEach((userOption) => {
     fzfCommandOptions[userOption.optionName] = userOption.value
