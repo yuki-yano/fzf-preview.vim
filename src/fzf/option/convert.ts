@@ -1,9 +1,9 @@
 import type { FzfOptions } from "@/type"
 import { definedFzfOptionTypesInPlugin } from "@/const/fzf-option"
 
-const joinBind = (options: FzfOptions) => {
+export const joinBind = (options: FzfOptions) => {
   const bind = options["--bind"]
-  if (bind === undefined || typeof bind === "string") {
+  if (!Array.isArray(bind)) {
     return ""
   }
 
@@ -14,17 +14,30 @@ const joinBind = (options: FzfOptions) => {
     .join(",")
 }
 
-const optionsToArray = (options: FzfOptions) => {
+/* eslint-disable complexity */
+const definedOptionsToArray = (options: FzfOptions) => {
   const arrayOptions: Array<string> = []
+
   if (options["--ansi"]) {
     arrayOptions.push("--ansi")
   }
   if (options["--bind"] && Array.isArray(options["--bind"])) {
     arrayOptions.push(`--bind=${joinBind(options)}`)
+  } else if (options["--bind"] && typeof options["--bind"] === "string") {
+    arrayOptions.push(`--bind=${options["--bind"]}`)
   }
   if (options["--expect"] && Array.isArray(options["--expect"])) {
     arrayOptions.push(`--expect="${options["--expect"].join(",")}"`)
+  } else if (options["--expect"] && typeof options["--expect"] === "string") {
+    arrayOptions.push(`--expect=${options["--expect"]}`)
   }
+
+  return arrayOptions
+}
+/* eslint-enable complexity */
+
+const optionsToArray = (options: FzfOptions) => {
+  const arrayOptions = definedOptionsToArray(options)
 
   Object.entries(options)
     .filter(([key]) => !(definedFzfOptionTypesInPlugin as ReadonlyArray<string>).includes(key))
