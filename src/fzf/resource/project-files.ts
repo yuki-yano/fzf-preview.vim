@@ -1,10 +1,14 @@
-import { store } from "@/store"
+import { VimValue } from "neovim/lib/types/VimValue"
+
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { generateFromVimVariables } from "@/fzf/resource/vim-variable-generator"
+import { GlobalVariableName, FzfOptions } from "@/type"
 
 export const projectFiles = () => {
-  const globalVariableSelector = createGlobalVariableSelector(store.getState())
-  const command = globalVariableSelector("fzfPreviewFilelistCommand")
+  const command = generateFromVimVariables<GlobalVariableName, VimValue>(createGlobalVariableSelector, (selector) =>
+    selector("fzfPreviewFilelistCommand")
+  )
 
   if (typeof command !== "string") {
     return []
@@ -12,18 +16,17 @@ export const projectFiles = () => {
 
   const { stdout, stderr, status } = execCommand(command)
 
-  if (stderr === "" && status === 0) {
-    return stdout.split("\n")
+  if (stderr !== "" || status !== 0) {
+    console.log("Failed to get the file list")
+    return []
   }
-  console.log("Failed to get the file list")
-  return []
+
+  return stdout.split("\n")
 }
 
-export const projectFilesDefaultOptions = () => {
-  const globalVariableSelector = createGlobalVariableSelector(store.getState())
-  return {
+export const projectFilesDefaultOptions = () =>
+  generateFromVimVariables<GlobalVariableName, FzfOptions>(createGlobalVariableSelector, (selector) => ({
     "--prompt": '"ProjectFiles> "',
     "--multi": true,
-    "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
-  }
-}
+    "--preview": `"${selector("fzfPreviewCommand")}"`
+  }))
