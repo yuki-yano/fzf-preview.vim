@@ -24,7 +24,7 @@ export type FzfOptions = {
   [otherProperty: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export type AddedFzfArgs = {
+export type AddFzfArgs = {
   optionName: string
   value?: string
 }
