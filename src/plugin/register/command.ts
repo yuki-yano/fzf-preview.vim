@@ -1,4 +1,3 @@
-import { plugin } from "@/plugin"
 import { pluginRegisterCommand } from "@/plugin"
 import { commandDefinition } from "@/association/command"
 import type { FzfCommand } from "@/type"
@@ -16,10 +15,11 @@ const registerCommand = ({
 }: FzfCommand) => {
   pluginRegisterCommand(
     commandName,
-    async (args: Array<string>) => {
+    async ([args]: Array<string>) => {
       await syncVimVariable()
 
-      const fzfOptions = generateOptions(defaultOptionFunc(), args)
+      const addFzfOptions = parseAddFzfArgs(args)
+      const fzfOptions = generateOptions(defaultOptionFunc(), addFzfOptions)
       fzfRunner({
         source: sourceFunc(),
         handler: handlerName,

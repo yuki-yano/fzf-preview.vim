@@ -10,7 +10,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     handlerName: cwh.fzfPreviewProjectFiles.handler,
     handlerFunction: handlers[cwh.fzfPreviewProjectFiles.handler],
     vimCommandOptions: {
-      nargs: "*",
+      nargs: "?",
       sync: true
     },
     defaultFzfOptionFunc: projectFilesDefaultOptions
