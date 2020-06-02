@@ -1,5 +1,5 @@
-import { plugin } from ".."
-import { commandDefinition } from "../../association/command"
+import { pluginRegisterFunction } from "@/plugin"
+import { commandDefinition } from "@/association/command"
 
 export const registerHandler = () => {
   commandDefinition.forEach(({ handlerName, handlerFunction }) => {

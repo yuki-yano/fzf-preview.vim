@@ -1,1 +1,1 @@
-export * from "./project-files"
+export * from "@/fzf/resource/project-files"

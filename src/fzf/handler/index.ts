@@ -1,5 +1,5 @@
-import type { HandlerName } from "../../type"
-import { baseHandler } from "./base"
+import type { HandlerName } from "@/type"
+import { baseHandler } from "@/fzf/handler/base"
 
 type Handlers = {
   [key in HandlerName]: (lines: Array<string>) => void
@@ -7,4 +7,4 @@ type Handlers = {
 
 export const handlers: Handlers = {
   FzfPreviewHandleResource: baseHandler
-}
+} as const
