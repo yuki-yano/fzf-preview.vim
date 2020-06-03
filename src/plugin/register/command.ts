@@ -4,7 +4,7 @@ import type { FzfCommand } from "@/type"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { generateOptions } from "@/fzf/option/generator"
 import { fzfRunner } from "@/plugin/fzf-runner"
-import { parseAddFzfArgs } from "@/args"
+import { parseAddFzfArgs, parseProcessors } from "@/args"
 
 const registerCommand = ({
   commandName,
@@ -19,7 +19,12 @@ const registerCommand = ({
       await syncVimVariable()
 
       const addFzfOptions = parseAddFzfArgs(args)
-      const fzfOptions = generateOptions(defaultOptionFunc(), addFzfOptions)
+      const processorsName = parseProcessors(args)
+      const fzfOptions = generateOptions({
+        fzfCommandDefaultOptions: defaultOptionFunc(),
+        userProcessorsName: processorsName,
+        userOptions: addFzfOptions
+      })
       fzfRunner({
         source: sourceFunc(),
         handler: handlerName,

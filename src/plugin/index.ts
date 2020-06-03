@@ -15,6 +15,8 @@ export const pluginRegisterCommand = (name: string, fn: Function, options?: Comm
 export const pluginRegisterFunction = (name: string, fn: Function, options?: NvimFunctionOptions) =>
   plugin.registerFunction(name, fn, options)
 
+export const pluginCommand = (arg: string) => plugin.nvim.command(arg)
+
 export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>) => plugin.nvim.call(fname, args)
 
 export const getVar = (name: string) => plugin.nvim.getVar(name)
