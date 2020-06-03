@@ -12,5 +12,5 @@ function! fzf_preview#ts_runner#fzf_run(params) abort
 endfunction
 
 function! s:handler_wrapper(handler, lines) abort
-  call call(a:handler, [a:lines])
+  call call(a:handler, a:lines)
 endfunction
