@@ -1,9 +1,7 @@
 import { argsParser } from "@/args/parser"
-import { AddFzfArgs } from "@/type"
+import type { AddFzfArgs, ArgsOptions } from "@/type"
 
-type Options = ReturnType<ReturnType<typeof argsParser>["parse"]>
-
-const optionsToAddFzfArgs = (options: Options): Array<string> => {
+const optionsToAddFzfArgs = (options: ArgsOptions): Array<string> => {
   if (options["add-fzf-args"] && Array.isArray(options["add-fzf-args"])) {
     return options["add-fzf-args"]
   }
@@ -13,7 +11,7 @@ const optionsToAddFzfArgs = (options: Options): Array<string> => {
   return []
 }
 
-const parseOptions = (options: Options) => {
+const parseOptions = (options: ArgsOptions) => {
   const addFzfArgs = optionsToAddFzfArgs(options)
 
   const notExistValueOptions: Array<AddFzfArgs> = addFzfArgs
