@@ -1,4 +1,5 @@
 import { VimValue } from "neovim/lib/types/VimValue"
+import { logger } from "neovim/lib/utils/logger"
 
 import type { VimVariableName } from "@/type"
 import { vimVariableAssociation } from "@/association/vim-variable"
@@ -11,7 +12,7 @@ const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValu
   try {
     return await getVar(variableName)
   } catch (_error) {
-    console.log(`g:${variableName} is not defined`)
+    logger.warn(`g:${variableName} is not defined`)
     return new Promise((resolve) => {
       resolve(undefined)
     })

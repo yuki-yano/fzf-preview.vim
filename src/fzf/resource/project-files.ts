@@ -1,4 +1,5 @@
 import { VimValue } from "neovim/lib/types/VimValue"
+import { logger } from "neovim/lib/utils/logger"
 
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
@@ -17,7 +18,7 @@ export const projectFiles = () => {
   const { stdout, stderr, status } = execCommand(command)
 
   if (stderr !== "" || status !== 0) {
-    console.log("Failed to get the file list")
+    logger.error("Failed to get the file list")
     return []
   }
 
