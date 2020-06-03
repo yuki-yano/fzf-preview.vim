@@ -4,7 +4,7 @@ import { logger } from "neovim/lib/utils/logger"
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { generateFromVimVariables } from "@/fzf/resource/vim-variable-generator"
-import { GlobalVariableName, FzfOptions } from "@/type"
+import type { GlobalVariableName, FzfOptions } from "@/type"
 
 export const projectFiles = () => {
   const command = generateFromVimVariables<GlobalVariableName, VimValue>(createGlobalVariableSelector, (selector) =>
