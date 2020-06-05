@@ -1,4 +1,4 @@
-import type { Processor } from "@/type"
+import type { Processors } from "@/type"
 import { pluginCommand } from "@/plugin"
 
 type OpenCommand = "edit" | "split" | "vsplit" | "tabedit"
@@ -9,7 +9,7 @@ const openFilesCreator = (openCommand: OpenCommand) => (files: Array<string>) =>
   })
 }
 
-const defaultProcessor: Processor = {
+export const defaultProcessors: Processors = {
   "": openFilesCreator("edit"),
   "ctrl-s": openFilesCreator("split"),
   "ctrl-v": openFilesCreator("vsplit"),
