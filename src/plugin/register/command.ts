@@ -5,23 +5,29 @@ import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { generateOptions } from "@/fzf/option/generator"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { parseAddFzfArgs, parseProcessors } from "@/args"
+import { dispatch } from "@/store"
+import { persistModule } from "@/module/persist"
+import { executeCommandModule } from "@/module/execute-command"
 
 const registerCommand = ({
   commandName,
   sourceFunc,
   handlerName,
   vimCommandOptions,
-  defaultFzfOptionFunc: defaultOptionFunc
+  defaultFzfOptionFunc,
+  defaultProcessors
 }: FzfCommand) => {
   pluginRegisterCommand(
     commandName,
     async ([args]: Array<string>) => {
+      dispatch(executeCommandModule.actions.setExecuteCommand({ commandName }))
       await syncVimVariable()
 
       const addFzfOptions = parseAddFzfArgs(args)
       const processorsName = parseProcessors(args)
-      const fzfOptions = generateOptions({
-        fzfCommandDefaultOptions: defaultOptionFunc(),
+      const fzfOptions = await generateOptions({
+        fzfCommandDefaultOptions: defaultFzfOptionFunc(),
+        defaultProcessors,
         userProcessorsName: processorsName,
         userOptions: addFzfOptions
       })
@@ -30,6 +36,8 @@ const registerCommand = ({
         handler: handlerName,
         options: fzfOptions
       })
+
+      dispatch(persistModule.actions.persistStore())
     },
     vimCommandOptions
   )

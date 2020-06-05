@@ -2,6 +2,7 @@ import { handlers } from "@/fzf/handler"
 import * as cwh from "@/const/command-with-handler"
 import type { FzfCommand } from "@/type"
 import { projectFiles, projectFilesDefaultOptions } from "@/fzf/resource"
+import { defaultProcessors as openFileDefaultProcessors } from "@/fzf/processor/open-file"
 
 export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
@@ -13,6 +14,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
       nargs: "?",
       sync: true
     },
-    defaultFzfOptionFunc: projectFilesDefaultOptions
+    defaultFzfOptionFunc: projectFilesDefaultOptions,
+    defaultProcessors: openFileDefaultProcessors
   }
 ] as const

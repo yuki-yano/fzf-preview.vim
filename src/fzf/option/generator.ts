@@ -1,7 +1,5 @@
-import { VimValue } from "neovim/lib/types/VimValue"
-
-import type { FzfOptions, AddFzfArgs } from "@/type"
-import { getVar } from "@/plugin"
+import type { FzfOptions, AddFzfArgs, Processors } from "@/type"
+import { pluginGetVar } from "@/plugin"
 
 const defaultBind = [
   {
@@ -16,7 +14,7 @@ const defaultBind = [
     key: "?",
     action: "toggle-preview"
   }
-]
+] as const
 
 export const defaultOptions: FzfOptions = {
   "--ansi": true,
@@ -25,7 +23,10 @@ export const defaultOptions: FzfOptions = {
   "--bind": defaultBind
 } as const
 
-const getExpectFromUserProcessor = async (userProcessorsName: string, getVarFromPlugin: typeof getVar = getVar) => {
+const getExpectFromUserProcessor = async (
+  userProcessorsName: string,
+  getVarFromPlugin: typeof pluginGetVar = pluginGetVar
+) => {
   const processors = await getVarFromPlugin(userProcessorsName)
 
   if (typeof processors === "object" && !Array.isArray(processors)) {
@@ -39,14 +40,17 @@ const getExpectFromUserProcessor = async (userProcessorsName: string, getVarFrom
 
 type OptionsArgs = {
   fzfCommandDefaultOptions: FzfOptions
-  userOptions: Array<AddFzfArgs>
+  defaultProcessors: Processors
   userProcessorsName?: string
+  userOptions: Array<AddFzfArgs>
 }
 
 export const generateOptions = async (
-  { fzfCommandDefaultOptions, userProcessorsName, userOptions }: OptionsArgs,
-  getVarFromPlugin: typeof getVar = getVar
+  { fzfCommandDefaultOptions, defaultProcessors, userProcessorsName, userOptions }: OptionsArgs,
+  getVarFromPlugin: typeof pluginGetVar = pluginGetVar
 ) => {
+  const expectFromDefaultProcessor: FzfOptions = { "--expect": Object.entries(defaultProcessors).map(([key]) => key) }
+
   const userExpectFromProcessor: FzfOptions = userProcessorsName
     ? await getExpectFromUserProcessor(userProcessorsName, getVarFromPlugin)
     : {}
@@ -54,6 +58,7 @@ export const generateOptions = async (
   const fzfCommandOptions = {
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
+    ...expectFromDefaultProcessor,
     ...userExpectFromProcessor
   }
 

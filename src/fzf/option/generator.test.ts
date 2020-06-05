@@ -1,5 +1,6 @@
-import type { FzfOptions } from "@/type"
+import type { FzfOptions, Processors } from "@/type"
 import { generateOptions } from "@/fzf/option/generator"
+import { defaultProcessors } from "@/fzf/processor/open-file"
 
 describe("generateOptions", () => {
   let fzfCommandDefaultOptions: FzfOptions = {}
@@ -21,43 +22,105 @@ describe("generateOptions", () => {
           action: "toggle-preview"
         }
       ],
-      "--expect": ["ctrl-x", "ctrl-v", "ctrl-t"]
+      "--expect": ["", "ctrl-x", "ctrl-v", "ctrl-t"]
     }
   })
 
-  it("empty user processors", async () => {
-    expect(
-      await generateOptions({
-        fzfCommandDefaultOptions,
-        userProcessorsName: undefined,
-        userOptions: []
-      })
-    ).toStrictEqual(fzfCommandDefaultOptions)
+  describe("empty user processors", () => {
+    it("open file processor", async () => {
+      expect(
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          defaultProcessors,
+          userProcessorsName: undefined,
+          userOptions: []
+        })
+      ).toStrictEqual(fzfCommandDefaultOptions)
+    })
+
+    it("other default processors", async () => {
+      const processorsFunc = (lines: Array<string>) => lines
+      const otherDefaultProcessors: Processors = {
+        "": processorsFunc,
+        "ctrl-a": processorsFunc,
+        "ctrl-b": processorsFunc,
+        "ctrl-c": processorsFunc
+      }
+
+      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-a", "ctrl-b", "ctrl-c"]
+      expect(
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          defaultProcessors: otherDefaultProcessors,
+          userProcessorsName: undefined,
+          userOptions: []
+        })
+      ).toStrictEqual(fzfCommandDefaultOptions)
+    })
   })
 
-  it("set user processors", async () => {
-    const mockGetVar = jest.fn().mockReturnValue(
-      new Promise<object>((resolve) => {
-        resolve({
-          "ctrl-a": null,
-          "ctrl-b": null,
-          "ctrl-c": null
+  describe("set user processors", () => {
+    it("open file processors", async () => {
+      const mockGetVar = jest.fn().mockReturnValue(
+        new Promise<object>((resolve) => {
+          resolve({
+            "": null,
+            "ctrl-d": null,
+            "ctrl-e": null,
+            "ctrl-f": null
+          })
         })
-      })
-    )
-
-    fzfCommandDefaultOptions["--expect"] = ["ctrl-a", "ctrl-b", "ctrl-c"]
-
-    expect(
-      await generateOptions(
-        {
-          fzfCommandDefaultOptions,
-          userProcessorsName: "foo",
-          userOptions: []
-        },
-        mockGetVar
       )
-    ).toStrictEqual(fzfCommandDefaultOptions)
+
+      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
+
+      expect(
+        await generateOptions(
+          {
+            fzfCommandDefaultOptions,
+            defaultProcessors,
+            userProcessorsName: "foo",
+            userOptions: []
+          },
+          mockGetVar
+        )
+      ).toStrictEqual(fzfCommandDefaultOptions)
+    })
+
+    it("open file processors", async () => {
+      const processorsFunc = (lines: Array<string>) => lines
+      const otherDefaultProcessors: Processors = {
+        "": processorsFunc,
+        "ctrl-a": processorsFunc,
+        "ctrl-b": processorsFunc,
+        "ctrl-c": processorsFunc
+      }
+
+      const mockGetVar = jest.fn().mockReturnValue(
+        new Promise<object>((resolve) => {
+          resolve({
+            "": null,
+            "ctrl-d": null,
+            "ctrl-e": null,
+            "ctrl-f": null
+          })
+        })
+      )
+
+      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
+
+      expect(
+        await generateOptions(
+          {
+            fzfCommandDefaultOptions,
+            defaultProcessors: otherDefaultProcessors,
+            userProcessorsName: "foo",
+            userOptions: []
+          },
+          mockGetVar
+        )
+      ).toStrictEqual(fzfCommandDefaultOptions)
+    })
   })
 
   it("set user not dictionary processors", async () => {
@@ -69,6 +132,7 @@ describe("generateOptions", () => {
       await generateOptions(
         {
           fzfCommandDefaultOptions,
+          defaultProcessors,
           userProcessorsName: "foo",
           userOptions: []
         },
@@ -83,6 +147,7 @@ describe("generateOptions", () => {
     expect(
       await generateOptions({
         fzfCommandDefaultOptions,
+        defaultProcessors,
         userOptions: []
       })
     ).toStrictEqual(fzfCommandDefaultOptions)
@@ -95,7 +160,11 @@ describe("generateOptions", () => {
       bar: "bar"
     }
 
-    const generatedOptions = await generateOptions({ fzfCommandDefaultOptions, userOptions })
+    const generatedOptions = await generateOptions({
+      fzfCommandDefaultOptions,
+      defaultProcessors,
+      userOptions
+    })
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
     expect(generatedOptions).toStrictEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
   })
