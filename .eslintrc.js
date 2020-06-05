@@ -42,7 +42,7 @@ module.exports = {
       }
     ],
 
-    "no-restricted-imports": ["error", { "patterns": ["./", "../"] }],
+    "no-restricted-imports": ["error", { patterns: ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
 
