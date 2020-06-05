@@ -27,6 +27,12 @@ export const vimVariableModule = createSlice({
   name: "vim_variable",
   initialState,
   reducers: {
+    restore: (state, { payload }: PayloadAction<State | undefined>) => {
+      if (payload) {
+        return { ...state, ...payload }
+      }
+      return state
+    },
     setGlobalVariable: (state, { payload }: PayloadAction<GlobalVariable>) => {
       state.global[payload.name] = payload.value
     }
