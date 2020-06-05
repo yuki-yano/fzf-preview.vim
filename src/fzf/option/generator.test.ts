@@ -1,6 +1,6 @@
 import type { FzfOptions, Processors } from "@/type"
 import { generateOptions } from "@/fzf/option/generator"
-import { defaultProcessors } from "@/fzf/processor/open-file"
+import { openFileProcessors as defaultProcessors } from "@/fzf/processor"
 
 describe("generateOptions", () => {
   let fzfCommandDefaultOptions: FzfOptions = {}

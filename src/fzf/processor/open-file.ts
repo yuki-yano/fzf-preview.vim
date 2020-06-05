@@ -9,7 +9,7 @@ const openFilesCreator = (openCommand: OpenCommand) => (files: Array<string>) =>
   })
 }
 
-export const defaultProcessors: Processors = {
+export const openFileProcessors: Processors = {
   "": openFilesCreator("edit"),
   "ctrl-x": openFilesCreator("split"),
   "ctrl-v": openFilesCreator("vsplit"),
