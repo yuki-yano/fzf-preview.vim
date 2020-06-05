@@ -9,7 +9,7 @@ type Parameter = {
 }
 
 export const fzfRunner = ({ source, handler, options }: Parameter) => {
-  pluginCall("fzf_preview#ts_runner#fzf_run", {
+  pluginCall("fzf_preview#remote#runner#fzf_run", {
     source,
     handler,
     options: fzfOptionsToString(options)

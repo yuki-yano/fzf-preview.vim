@@ -1,4 +1,4 @@
-function! fzf_preview#ts_runner#fzf_run(params) abort
+function! fzf_preview#remote#runner#fzf_run(params) abort
   let source = a:params['source']
   let options = a:params['options']
   let handler = a:params['handler']
