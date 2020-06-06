@@ -11,7 +11,7 @@ export const baseHandler = (lines: Array<string>) => {
       const expectKey = lines.shift()
 
       if (commandName && expectKey !== undefined) {
-        pluginCall("fzf_preview#remote#handler_to_processor#receive_from_remote_plugin", [
+        pluginCall("fzf_preview#remote#handler_to_processor#call_funcref_or_fallback_default_processor", [
           createProcessorsFunctionName(commandName, expectKey),
           expectKey,
           lines,
