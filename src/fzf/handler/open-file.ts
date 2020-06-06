@@ -2,21 +2,21 @@ import { createConnect, dispatch } from "@/store"
 import { createExecuteCommandSelector } from "@/module/execute-command"
 import { persistModule } from "@/module/persist"
 import { createProcessorsFunctionName } from "@/fzf/processor"
-import { pluginCall } from "@/plugin"
+import { processorRunner } from "@/plugin/processor-runner"
 
-export const baseHandler = (lines: Array<string>) => {
+export const openFileHandler = (lines: Array<string>) => {
   const connect = createConnect(
     createExecuteCommandSelector,
     ({ commandName, options }) => {
       const expectKey = lines.shift()
 
       if (commandName && expectKey !== undefined) {
-        pluginCall("fzf_preview#remote#handler_to_processor#call_funcref_or_fallback_default_processor", [
-          createProcessorsFunctionName(commandName, expectKey),
+        processorRunner({
+          processorsFunctionName: createProcessorsFunctionName(commandName, expectKey),
           expectKey,
           lines,
-          options.processorsName
-        ])
+          options
+        })
       }
     },
     { once: true }

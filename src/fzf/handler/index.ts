@@ -1,10 +1,10 @@
 import type { HandlerName } from "@/type"
-import { baseHandler } from "@/fzf/handler/base"
+import { openFileHandler } from "@/fzf/handler/open-file"
 
 type Handlers = {
   [key in HandlerName]: (lines: Array<string>) => void
 }
 
 export const handlers: Handlers = {
-  FzfPreviewHandleResource: baseHandler
+  FzfPreviewHandleResource: openFileHandler
 } as const
