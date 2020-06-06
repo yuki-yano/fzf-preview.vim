@@ -20,7 +20,6 @@ const registerCommand = ({
   pluginRegisterCommand(
     commandName,
     async ([args]: Array<string>) => {
-      dispatch(executeCommandModule.actions.setExecuteCommand({ commandName }))
       await syncVimVariable()
 
       const addFzfOptions = parseAddFzfArgs(args)
@@ -37,6 +36,7 @@ const registerCommand = ({
         options: fzfOptions
       })
 
+      dispatch(executeCommandModule.actions.setExecuteCommand({ commandName, options: { processorsName } }))
       dispatch(persistModule.actions.persistStore())
     },
     vimCommandOptions

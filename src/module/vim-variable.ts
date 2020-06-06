@@ -39,6 +39,5 @@ export const vimVariableModule = createSlice({
   }
 })
 
-export const createGlobalVariableSelector = (store: Store) => (name: GlobalVariableName) => {
-  return store.getState().vimVariable.global[name]
-}
+export const createGlobalVariableSelector = (store: Store) => (name: GlobalVariableName) =>
+  store.getState().vimVariable.global[name]
