@@ -1,15 +1,12 @@
-import { VimValue } from "neovim/lib/types/VimValue"
 import { logger } from "neovim/lib/utils/logger"
 
+import { store, Store } from "@/store"
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { generateFromVimVariables } from "@/fzf/resource/vim-variable-generator"
-import type { GlobalVariableName, FzfOptions } from "@/type"
 
-export const projectFiles = () => {
-  const command = generateFromVimVariables<GlobalVariableName, VimValue>(createGlobalVariableSelector, (selector) =>
-    selector("fzfPreviewFilelistCommand")
-  )
+export const projectFiles = (storeForSelector: Store = store) => {
+  const selector = createGlobalVariableSelector(storeForSelector)
+  const command = selector("fzfPreviewFilelistCommand")
 
   if (typeof command !== "string") {
     return []
@@ -25,9 +22,8 @@ export const projectFiles = () => {
   return stdout.split("\n")
 }
 
-export const projectFilesDefaultOptions = () =>
-  generateFromVimVariables<GlobalVariableName, FzfOptions>(createGlobalVariableSelector, (selector) => ({
-    "--prompt": '"ProjectFiles> "',
-    "--multi": true,
-    "--preview": `"${selector("fzfPreviewCommand")}"`
-  }))
+export const projectFilesDefaultOptions = (storeForSelector: Store = store) => ({
+  "--prompt": '"ProjectFiles> "',
+  "--multi": true,
+  "--preview": `"${createGlobalVariableSelector(storeForSelector)("fzfPreviewCommand")}"`
+})
