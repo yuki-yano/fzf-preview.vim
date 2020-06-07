@@ -6,7 +6,7 @@ import { generateOptions } from "@/fzf/option/generator"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { parseAddFzfArgs, parseProcessors } from "@/args"
 import { store, dispatch } from "@/store"
-import { persistModule } from "@/module/persist"
+import { saveStore } from "@/module/persist"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { executeCommandModule } from "@/module/execute-command"
 import { handlerName } from "@/const/fzf-handler"
@@ -42,7 +42,7 @@ const registerCommand = ({
           }
         })
       )
-      dispatch(persistModule.actions.persistStore())
+      await dispatch(saveStore())
 
       fzfRunner({
         source: await sourceFunc(),

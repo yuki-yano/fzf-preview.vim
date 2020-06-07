@@ -1,8 +1,7 @@
 import { pluginRegisterFunction } from "@/plugin"
-import { commandDefinition } from "@/association/command"
+import { callProcessor } from "@/fzf/handler"
+import { handlerName } from "@/const/fzf-handler"
 
 export const registerHandlers = () => {
-  commandDefinition.forEach(({ handlerName, handlerFunction }) => {
-    pluginRegisterFunction(handlerName, handlerFunction)
-  })
+  pluginRegisterFunction(handlerName, callProcessor)
 }

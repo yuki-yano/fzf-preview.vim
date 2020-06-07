@@ -1,5 +1,5 @@
-import { createConnect, store, dispatch } from "@/store"
-import { persistModule } from "@/module/persist"
+import { store, dispatch } from "@/store"
+import { loadStore } from "@/module/persist"
 import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createProcessorsFunctionName } from "@/fzf/processor"
@@ -18,7 +18,7 @@ export const trimLines = (lines: Array<string>, optionalSize = 0) => {
   return lines.map((line) => line.slice(devIconPrefixLength + optionalSize))
 }
 
-const runProcessor = (lines: Array<string>) => ({ commandName, options: commandOptions }: ExecuteCommandState) => {
+const runProcessor = (lines: Array<string>, { commandName, options: commandOptions }: ExecuteCommandState) => {
   const expectKey = lines.shift()
   if (commandName && expectKey !== undefined) {
     processorRunner({
@@ -30,9 +30,8 @@ const runProcessor = (lines: Array<string>) => ({ commandName, options: commandO
   }
 }
 
-export const openFileHandler = (lines: Array<string>) => {
-  const connect = createConnect(createExecuteCommandSelector, runProcessor(lines), { once: true })
-  connect()
-
-  dispatch(persistModule.actions.restoreStore())
+export const callProcessor = async (lines: Array<string>) => {
+  await dispatch(loadStore())
+  const executeCommand = createExecuteCommandSelector(store)()
+  runProcessor(lines, executeCommand)
 }
