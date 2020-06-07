@@ -9,11 +9,11 @@ import { store, dispatch } from "@/store"
 import { persistModule } from "@/module/persist"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { executeCommandModule } from "@/module/execute-command"
+import { handlerName } from "@/const/fzf-handler"
 
 const registerCommand = ({
   commandName,
   sourceFunc,
-  handlerName,
   vimCommandOptions,
   defaultFzfOptionFunc,
   defaultProcessors,
