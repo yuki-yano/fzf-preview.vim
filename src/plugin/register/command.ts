@@ -31,7 +31,7 @@ const registerCommand = ({
         userOptions: addFzfOptions
       })
       fzfRunner({
-        source: sourceFunc(),
+        source: await sourceFunc(),
         handler: handlerName,
         options: fzfOptions
       })

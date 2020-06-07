@@ -7,7 +7,7 @@ export type HandlerName = "FzfPreviewHandleResource"
 
 export type FzfCommand = {
   commandName: FzfCommandName
-  sourceFunc: () => Array<string>
+  sourceFunc: () => Promise<Array<string>>
   handlerName: HandlerName
   handlerFunction: (lines: Array<string>) => void
   vimCommandOptions: CommandOptions
