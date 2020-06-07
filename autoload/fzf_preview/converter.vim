@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 function! fzf_preview#converter#convert_for_fzf(files, ...) abort
   let disable_postprocess_command = get(a:, 1, 0)
   if g:fzf_preview_filelist_postprocess_command !=# '' && !disable_postprocess_command
