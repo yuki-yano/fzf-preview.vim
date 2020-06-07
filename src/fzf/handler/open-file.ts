@@ -7,16 +7,17 @@ import { processorRunner } from "@/plugin/processor-runner"
 
 type ProcessArgs = ReturnType<ReturnType<typeof createExecuteCommandSelector>>
 
-export const trimLines = (lines: Array<string>, _optionalSize?: number) => {
-  const vimVariableSelector = createGlobalVariableSelector(store)
-  const isUseDevIcons = vimVariableSelector("fzfPreviewUseDevIcons")
-  const devIconPrefixLength = vimVariableSelector("fzfPreviewDevIconPrefixStringLength")
-
-  if (isUseDevIcons && typeof devIconPrefixLength === "number") {
-    return lines.map((line) => line.slice(devIconPrefixLength))
-  } else {
+export const trimLines = (lines: Array<string>, optionalSize = 0) => {
+  const isEnableDevIcons = createExecuteCommandSelector(store)().options.enableDevIcons
+  if (!isEnableDevIcons) {
     return lines
   }
+
+  const devIconPrefixLength = createGlobalVariableSelector(store)("fzfPreviewDevIconPrefixStringLength")
+  if (typeof devIconPrefixLength !== "number") {
+    throw new Error("g:fzf_preview_dev_icon_prefix_string_length must be number")
+  }
+  return lines.map((line) => line.slice(devIconPrefixLength + optionalSize))
 }
 
 const runProcessor = (lines: Array<string>) => ({ commandName, options: commandOptions }: ProcessArgs) => {

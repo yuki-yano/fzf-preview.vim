@@ -13,6 +13,7 @@ export type FzfCommand = {
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
   defaultProcessors: Processors
+  enableDevIcons: boolean
 }
 
 export type FzfOptions = {

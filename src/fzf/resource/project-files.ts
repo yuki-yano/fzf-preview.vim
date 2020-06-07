@@ -3,11 +3,13 @@ import { logger } from "neovim/lib/utils/logger"
 import { store, Store } from "@/store"
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { createExecuteCommandSelector } from "@/module/execute-command"
 import { pluginCall } from "@/plugin"
 
 export const projectFiles = async (storeForSelector: Store = store) => {
-  const selector = createGlobalVariableSelector(storeForSelector)
-  const command = selector("fzfPreviewFilelistCommand")
+  const vimVariableSelector = createGlobalVariableSelector(storeForSelector)
+  const executeCommandSelector = createExecuteCommandSelector(storeForSelector)
+  const command = vimVariableSelector("fzfPreviewFilelistCommand")
 
   if (typeof command !== "string") {
     return []
@@ -22,8 +24,8 @@ export const projectFiles = async (storeForSelector: Store = store) => {
 
   const files = stdout.split("\n").filter((file) => file !== "")
 
-  const useDevIcons = selector("fzfPreviewUseDevIcons")
-  if (useDevIcons || useDevIcons !== 0) {
+  const { enableDevIcons } = executeCommandSelector().options
+  if (enableDevIcons) {
     return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<Array<string>>
   } else {
     return new Promise<Array<string>>((resolve) => {

@@ -15,6 +15,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
       sync: true
     },
     defaultFzfOptionFunc: projectFilesDefaultOptions,
-    defaultProcessors: openFileProcessors
+    defaultProcessors: openFileProcessors,
+    enableDevIcons: true
   }
 ] as const
