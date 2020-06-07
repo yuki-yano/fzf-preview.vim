@@ -32,6 +32,7 @@ module.exports = {
   rules: {
     complexity: ["error", 7],
     "no-console": "off",
+    "no-else-return": "off",
     "object-shorthand": "error",
     "no-restricted-syntax": "off",
     "no-param-reassign": [
