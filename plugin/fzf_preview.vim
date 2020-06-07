@@ -144,6 +144,11 @@ if !exists('g:fzf_preview_dev_icon_prefix_length')
   let g:fzf_preview_dev_icon_prefix_length = 5
 endif
 
+" TypeScript work around
+if !exists('g:fzf_preview_dev_icon_prefix_string_length')
+  let g:fzf_preview_dev_icon_prefix_string_length = 3
+endif
+
 if !exists('g:fzf_preview_layout')
   let g:fzf_preview_layout = 'top split new'
 endif

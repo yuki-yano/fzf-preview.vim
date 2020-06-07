@@ -18,8 +18,9 @@ type GlobalVariable = {
 const initialState: State = {
   global: {
     fzfPreviewUseDevIcons: false,
-    fzfPreviewCommand: "bat --color=always --style=grid {-1}",
-    fzfPreviewFilelistCommand: "git ls-files --exclude-standard"
+    fzfPreviewDevIconPrefixStringLength: 0,
+    fzfPreviewCommand: "",
+    fzfPreviewFilelistCommand: ""
   }
 }
 
