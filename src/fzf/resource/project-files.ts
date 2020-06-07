@@ -1,14 +1,14 @@
 import { logger } from "neovim/lib/utils/logger"
 
-import { store, Store } from "@/store"
+import { store } from "@/store"
 import { execCommand } from "@/util/system"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createExecuteCommandSelector } from "@/module/execute-command"
 import { pluginCall } from "@/plugin"
 
-export const projectFiles = async (storeForSelector: Store = store) => {
-  const vimVariableSelector = createGlobalVariableSelector(storeForSelector)
-  const executeCommandSelector = createExecuteCommandSelector(storeForSelector)
+export const projectFiles = async () => {
+  const vimVariableSelector = createGlobalVariableSelector(store)
+  const executeCommandSelector = createExecuteCommandSelector(store)
   const command = vimVariableSelector("fzfPreviewFilelistCommand")
 
   if (typeof command !== "string") {
@@ -34,8 +34,8 @@ export const projectFiles = async (storeForSelector: Store = store) => {
   }
 }
 
-export const projectFilesDefaultOptions = (storeForSelector: Store = store) => ({
+export const projectFilesDefaultOptions = () => ({
   "--prompt": '"ProjectFiles> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(storeForSelector)("fzfPreviewCommand")}"`
+  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
 })
