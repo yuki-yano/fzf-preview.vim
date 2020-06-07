@@ -3,6 +3,7 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import type { GlobalVariableName } from "@/type"
 import type { Store } from "@/store"
+import { VIM_VARIABLE } from "@/const/module"
 
 type State = {
   global: {
@@ -25,7 +26,7 @@ const initialState: State = {
 }
 
 export const vimVariableModule = createSlice({
-  name: "vim_variable",
+  name: VIM_VARIABLE,
   initialState,
   reducers: {
     restore: (state, { payload }: PayloadAction<State | undefined>) => {

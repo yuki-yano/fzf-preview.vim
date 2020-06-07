@@ -3,6 +3,7 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import type { FzfPreviewCommandList } from "@/type"
 import type { Store } from "@/store"
+import { EXECUTE_COMMAND } from "@/const/module"
 
 export type State = {
   commandName?: FzfPreviewCommandList
@@ -20,7 +21,7 @@ const initialState: State = {
 }
 
 export const executeCommandModule = createSlice({
-  name: "execute-command",
+  name: EXECUTE_COMMAND,
   initialState,
   reducers: {
     restore: (state, { payload }: PayloadAction<State | undefined>) => {
