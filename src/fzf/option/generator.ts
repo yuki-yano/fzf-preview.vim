@@ -23,11 +23,8 @@ export const defaultOptions: FzfOptions = {
   "--bind": defaultBind
 } as const
 
-const getExpectFromUserProcessor = async (
-  userProcessorsName: string,
-  getVarFromPlugin: typeof pluginGetVar = pluginGetVar
-) => {
-  const processors = await getVarFromPlugin(userProcessorsName)
+const getExpectFromUserProcessor = async (userProcessorsName: string) => {
+  const processors = await pluginGetVar(userProcessorsName)
 
   if (typeof processors === "object" && !Array.isArray(processors)) {
     return {
@@ -45,14 +42,16 @@ type OptionsArgs = {
   userOptions: Array<AddFzfArgs>
 }
 
-export const generateOptions = async (
-  { fzfCommandDefaultOptions, defaultProcessors, userProcessorsName, userOptions }: OptionsArgs,
-  getVarFromPlugin: typeof pluginGetVar = pluginGetVar
-) => {
+export const generateOptions = async ({
+  fzfCommandDefaultOptions,
+  defaultProcessors,
+  userProcessorsName,
+  userOptions
+}: OptionsArgs) => {
   const expectFromDefaultProcessor: FzfOptions = { "--expect": Object.entries(defaultProcessors).map(([key]) => key) }
 
   const userExpectFromProcessor: FzfOptions = userProcessorsName
-    ? await getExpectFromUserProcessor(userProcessorsName, getVarFromPlugin)
+    ? await getExpectFromUserProcessor(userProcessorsName)
     : {}
 
   const fzfCommandOptions = {

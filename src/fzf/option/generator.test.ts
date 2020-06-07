@@ -1,6 +1,9 @@
 import type { FzfOptions, Processors } from "@/type"
 import { generateOptions } from "@/fzf/option/generator"
 import { openFileProcessors as defaultProcessors } from "@/fzf/processor"
+import { pluginGetVar } from "@/plugin"
+
+jest.mock("@/plugin")
 
 describe("generateOptions", () => {
   let fzfCommandDefaultOptions: FzfOptions = {}
@@ -61,7 +64,7 @@ describe("generateOptions", () => {
 
   describe("set user processors", () => {
     it("open file processors", async () => {
-      const mockGetVar = jest.fn().mockReturnValue(
+      ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<object>((resolve) => {
           resolve({
             "": null,
@@ -75,15 +78,12 @@ describe("generateOptions", () => {
       fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
-        await generateOptions(
-          {
-            fzfCommandDefaultOptions,
-            defaultProcessors,
-            userProcessorsName: "foo",
-            userOptions: []
-          },
-          mockGetVar
-        )
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          defaultProcessors,
+          userProcessorsName: "foo",
+          userOptions: []
+        })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
 
@@ -96,7 +96,7 @@ describe("generateOptions", () => {
         "ctrl-c": processorsFunc
       }
 
-      const mockGetVar = jest.fn().mockReturnValue(
+      ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<object>((resolve) => {
           resolve({
             "": null,
@@ -110,34 +110,28 @@ describe("generateOptions", () => {
       fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
-        await generateOptions(
-          {
-            fzfCommandDefaultOptions,
-            defaultProcessors: otherDefaultProcessors,
-            userProcessorsName: "foo",
-            userOptions: []
-          },
-          mockGetVar
-        )
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          defaultProcessors: otherDefaultProcessors,
+          userProcessorsName: "foo",
+          userOptions: []
+        })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
   })
 
   it("set user not dictionary processors", async () => {
-    const mockGetVar = jest.fn(() => {
+    ;(pluginGetVar as jest.Mock).mockImplementation(() => {
       throw new Error("foo")
     })
 
     try {
-      await generateOptions(
-        {
-          fzfCommandDefaultOptions,
-          defaultProcessors,
-          userProcessorsName: "foo",
-          userOptions: []
-        },
-        mockGetVar
-      )
+      await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcessors,
+        userProcessorsName: "foo",
+        userOptions: []
+      })
     } catch (error) {
       expect(error.message).toBe("foo")
     }
