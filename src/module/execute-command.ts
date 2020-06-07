@@ -4,7 +4,7 @@ import { VimValue } from "neovim/lib/types/VimValue"
 import type { FzfPreviewCommandList } from "@/type"
 import type { Store } from "@/store"
 
-type State = {
+export type State = {
   commandName?: FzfPreviewCommandList
   options: {
     processorsName?: string

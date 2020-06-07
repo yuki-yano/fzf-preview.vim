@@ -1,11 +1,9 @@
 import { createConnect, store, dispatch } from "@/store"
 import { persistModule } from "@/module/persist"
-import { createExecuteCommandSelector } from "@/module/execute-command"
+import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createProcessorsFunctionName } from "@/fzf/processor"
 import { processorRunner } from "@/plugin/processor-runner"
-
-type ProcessArgs = ReturnType<ReturnType<typeof createExecuteCommandSelector>>
 
 export const trimLines = (lines: Array<string>, optionalSize = 0) => {
   const isEnableDevIcons = createExecuteCommandSelector(store)().options.enableDevIcons
@@ -20,7 +18,7 @@ export const trimLines = (lines: Array<string>, optionalSize = 0) => {
   return lines.map((line) => line.slice(devIconPrefixLength + optionalSize))
 }
 
-const runProcessor = (lines: Array<string>) => ({ commandName, options: commandOptions }: ProcessArgs) => {
+const runProcessor = (lines: Array<string>) => ({ commandName, options: commandOptions }: ExecuteCommandState) => {
   const expectKey = lines.shift()
   if (commandName && expectKey !== undefined) {
     processorRunner({
