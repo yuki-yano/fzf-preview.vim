@@ -1,25 +1,27 @@
-import { logger } from "neovim/lib/utils/logger"
-
 import { store } from "@/store"
-import { execCommand } from "@/util/system"
+import { execCommand } from "@/system/command"
+import { isGitDirectory } from "@/system/project"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createExecuteCommandSelector } from "@/module/execute-command"
 import { pluginCall } from "@/plugin"
 
 export const projectFiles = async () => {
+  if (!isGitDirectory()) {
+    throw new Error("The current directory is not a git project")
+  }
+
   const vimVariableSelector = createGlobalVariableSelector(store)
   const executeCommandSelector = createExecuteCommandSelector(store)
-  const command = vimVariableSelector("fzfPreviewFilelistCommand")
+  const filelistCommand = vimVariableSelector("fzfPreviewFilelistCommand")
 
-  if (typeof command !== "string") {
+  if (typeof filelistCommand !== "string") {
     return []
   }
 
-  const { stdout, stderr, status } = execCommand(command)
+  const { stdout, stderr, status } = execCommand(filelistCommand)
 
   if (stderr !== "" || status !== 0) {
-    logger.error("Failed to get the file list")
-    return []
+    throw new Error(`Failed to get the file list. command: "${filelistCommand}"`)
   }
 
   const files = stdout.split("\n").filter((file) => file !== "")
