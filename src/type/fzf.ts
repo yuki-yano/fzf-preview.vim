@@ -2,7 +2,7 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
 import type { Processors } from "@/type"
 
-export type FzfCommandName = "TSFzfPreviewProjectFiles"
+export type FzfCommandName = "TSFzfPreviewProjectFiles" | "TSFzfPreviewGitStatus"
 
 export type FzfCommand = {
   commandName: FzfCommandName
@@ -11,6 +11,7 @@ export type FzfCommand = {
   defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
   defaultProcessors: Processors
   enableDevIcons: boolean
+  optionalUnnecessaryPrefixLength?: number
 }
 
 export type FzfOptions = {

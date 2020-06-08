@@ -10,6 +10,7 @@ export type State = {
   options: {
     processorsName?: string
     enableDevIcons: VimValue
+    optionalUnnecessaryPrefixLength?: number
   }
 }
 

@@ -17,7 +17,8 @@ const registerCommand = ({
   vimCommandOptions,
   defaultFzfOptionFunc,
   defaultProcessors,
-  enableDevIcons
+  enableDevIcons,
+  optionalUnnecessaryPrefixLength
 }: FzfCommand) => {
   pluginRegisterCommand(
     commandName,
@@ -33,12 +34,14 @@ const registerCommand = ({
         userOptions: addFzfOptions
       })
 
+      const globalVariableSelector = createGlobalVariableSelector(store)
       dispatch(
         executeCommandModule.actions.setExecuteCommand({
           commandName,
           options: {
             processorsName,
-            enableDevIcons: enableDevIcons && createGlobalVariableSelector(store)("fzfPreviewUseDevIcons")
+            enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons"),
+            optionalUnnecessaryPrefixLength
           }
         })
       )

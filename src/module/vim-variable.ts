@@ -21,7 +21,9 @@ const initialState: State = {
     fzfPreviewUseDevIcons: false,
     fzfPreviewDevIconPrefixStringLength: 0,
     fzfPreviewCommand: "",
-    fzfPreviewFilelistCommand: ""
+    fzfPreviewFilelistCommand: "",
+    fzfPreviewGitStatusCommand: "",
+    fzfPreviewGitStatusPreviewCommand: ""
   }
 }
 
