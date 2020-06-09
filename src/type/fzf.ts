@@ -2,11 +2,17 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
 import type { Processors } from "@/type"
 
-export type FzfCommandName = "TSFzfPreviewProjectFiles" | "TSFzfPreviewGitStatus"
+export type FzfCommandName = "TSFzfPreviewProjectFiles" | "TSFzfPreviewGitStatus" | "TSFzfPreviewDirectoryFiles"
+
+export type SourceFuncArgs = {
+  args: Array<string>
+  extraArgs: Array<string>
+}
 
 export type FzfCommand = {
   commandName: FzfCommandName
-  sourceFunc: () => Promise<Array<string>>
+  sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Array<string>>
+  sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
   defaultProcessors: Processors

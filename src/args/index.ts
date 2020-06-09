@@ -1,2 +1,3 @@
 export * from "@/args/add-fzf-args-parser"
 export * from "@/args/processors-parser"
+export * from "@/args/empty-source-func-args-parser"

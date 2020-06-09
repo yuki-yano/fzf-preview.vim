@@ -4,8 +4,9 @@ import { isGitDirectory } from "@/system/project"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createExecuteCommandSelector } from "@/module/execute-command"
 import { pluginCall } from "@/plugin"
+import type { SourceFuncArgs } from "@/type"
 
-export const projectFiles = async () => {
+export const projectFiles = async (_args: SourceFuncArgs) => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -30,9 +31,7 @@ export const projectFiles = async () => {
   if (enableDevIcons) {
     return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<Array<string>>
   } else {
-    return new Promise<Array<string>>((resolve) => {
-      resolve(files)
-    })
+    return files
   }
 }
 

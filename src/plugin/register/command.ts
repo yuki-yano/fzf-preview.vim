@@ -4,7 +4,7 @@ import type { FzfCommand } from "@/type"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { generateOptions } from "@/fzf/option/generator"
 import { fzfRunner } from "@/plugin/fzf-runner"
-import { parseAddFzfArgs, parseProcessors } from "@/args"
+import { parseAddFzfArgs, parseProcessors, parseEmptySourceFuncArgs } from "@/args"
 import { store, dispatch } from "@/store"
 import { saveStore } from "@/module/persist"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
@@ -14,6 +14,7 @@ import { handlerName } from "@/const/fzf-handler"
 const registerCommand = ({
   commandName,
   sourceFunc,
+  sourceFuncArgsParser,
   vimCommandOptions,
   defaultFzfOptionFunc,
   defaultProcessors,
@@ -33,6 +34,7 @@ const registerCommand = ({
         userProcessorsName: processorsName,
         userOptions: addFzfOptions
       })
+      const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
       const globalVariableSelector = createGlobalVariableSelector(store)
       dispatch(
@@ -48,7 +50,7 @@ const registerCommand = ({
       await dispatch(saveStore())
 
       fzfRunner({
-        source: await sourceFunc(),
+        source: await sourceFunc(sourceFuncArgs),
         handler: handlerName,
         options: fzfOptions
       })
