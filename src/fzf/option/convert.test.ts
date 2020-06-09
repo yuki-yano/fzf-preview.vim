@@ -1,4 +1,4 @@
-import { joinBind, fzfOptionsToString } from "@/fzf/option/convert"
+import { fzfOptionsToString, joinBind } from "@/fzf/option/convert"
 import { FzfOptions } from "@/type"
 
 const defaultBind = [

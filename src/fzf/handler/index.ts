@@ -1,11 +1,11 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 
-import { store, dispatch } from "@/store"
-import { loadStore } from "@/module/persist"
-import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { createProcessorsFunctionName } from "@/fzf/processor"
+import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
+import { loadStore } from "@/module/persist"
+import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { processorRunner } from "@/plugin/processor-runner"
+import { dispatch, store } from "@/store"
 
 export const trimLines = (lines: Array<string>, enableDevIcons: VimValue, optionalUnnecessaryPrefixLength = 0) => {
   const globalVariableSelector = createGlobalVariableSelector(store)

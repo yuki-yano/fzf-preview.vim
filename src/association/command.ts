@@ -1,14 +1,14 @@
-import type { FzfCommand } from "@/type"
+import { parseDictionaryFilesArgs } from "@/args"
+import { openFileProcessors } from "@/fzf/processor"
 import {
-  projectFiles,
-  projectFilesDefaultOptions,
+  directoryFiles,
+  directoryFilesDefaultOptions,
   gitFiles,
   gitFilesDefaultOptions,
-  directoryFiles,
-  directoryFilesDefaultOptions
+  projectFiles,
+  projectFilesDefaultOptions
 } from "@/fzf/resource"
-import { openFileProcessors } from "@/fzf/processor"
-import { parseDictionaryFilesArgs } from "@/args"
+import type { FzfCommand } from "@/type"
 
 const vimCommandOptions = {
   nargs: "?",

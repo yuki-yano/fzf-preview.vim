@@ -1,9 +1,9 @@
+import { createExecuteCommandSelector } from "@/module/execute-command"
+import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { pluginCall } from "@/plugin"
 import { store } from "@/store"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { createExecuteCommandSelector } from "@/module/execute-command"
-import { pluginCall } from "@/plugin"
 import type { SourceFuncArgs } from "@/type"
 
 export const projectFiles = async (_args: SourceFuncArgs) => {

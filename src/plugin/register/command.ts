@@ -1,15 +1,15 @@
-import { pluginRegisterCommand } from "@/plugin"
+import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcessors } from "@/args"
 import { commandDefinition } from "@/association/command"
-import type { FzfCommand } from "@/type"
-import { syncVimVariable } from "@/plugin/sync-vim-variable"
+import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
-import { fzfRunner } from "@/plugin/fzf-runner"
-import { parseAddFzfArgs, parseProcessors, parseEmptySourceFuncArgs } from "@/args"
-import { store, dispatch } from "@/store"
+import { executeCommandModule } from "@/module/execute-command"
 import { saveStore } from "@/module/persist"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { executeCommandModule } from "@/module/execute-command"
-import { handlerName } from "@/const/fzf-handler"
+import { pluginRegisterCommand } from "@/plugin"
+import { fzfRunner } from "@/plugin/fzf-runner"
+import { syncVimVariable } from "@/plugin/sync-vim-variable"
+import { dispatch, store } from "@/store"
+import type { FzfCommand } from "@/type"
 
 const registerCommand = ({
   commandName,

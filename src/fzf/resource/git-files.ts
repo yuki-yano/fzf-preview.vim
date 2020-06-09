@@ -1,7 +1,7 @@
-import { store } from "@/store"
-import { isGitDirectory } from "@/system/project"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { store } from "@/store"
 import { execCommand } from "@/system/command"
+import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await

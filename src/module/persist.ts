@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import type { RootState, AppDispatch } from "@/store"
-import { pluginCall } from "@/plugin"
-import { vimVariableModule } from "@/module/vim-variable"
-import { executeCommandModule } from "@/module/execute-command"
 import { PERSIST_LOAD_STORE, PERSIST_SAVE_STORE } from "@/const/module"
+import { executeCommandModule } from "@/module/execute-command"
+import { vimVariableModule } from "@/module/vim-variable"
+import { pluginCall } from "@/plugin"
+import type { AppDispatch, RootState } from "@/store"
 
 export const loadStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,

@@ -1,5 +1,5 @@
-import { pluginCall } from "@/plugin"
 import { fzfOptionsToString } from "@/fzf/option/convert"
+import { pluginCall } from "@/plugin"
 import type { FzfOptions } from "@/type"
 
 type Parameter = {

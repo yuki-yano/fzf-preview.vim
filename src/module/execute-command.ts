@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { VimValue } from "neovim/lib/types/VimValue"
 
-import type { FzfPreviewCommandList } from "@/type"
-import type { Store } from "@/store"
 import { EXECUTE_COMMAND } from "@/const/module"
+import type { Store } from "@/store"
+import type { FzfPreviewCommandList } from "@/type"
 
 export type State = {
   commandName?: FzfPreviewCommandList

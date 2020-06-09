@@ -1,5 +1,5 @@
-import type { Processors } from "@/type"
 import { pluginCommand } from "@/plugin"
+import type { Processors } from "@/type"
 
 type OpenCommand = "edit" | "split" | "vsplit" | "tabedit"
 

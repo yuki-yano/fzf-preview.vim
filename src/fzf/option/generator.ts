@@ -1,5 +1,5 @@
-import type { FzfOptions, AddFzfArgs, Processors } from "@/type"
 import { pluginGetVar } from "@/plugin"
+import type { AddFzfArgs, FzfOptions, Processors } from "@/type"
 
 const defaultBind = [
   {

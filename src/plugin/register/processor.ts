@@ -1,6 +1,6 @@
-import { pluginRegisterFunction } from "@/plugin"
 import { commandDefinition } from "@/association/command"
 import { createProcessorsFunctionName } from "@/fzf/processor"
+import { pluginRegisterFunction } from "@/plugin"
 
 export const registerProcessors = () => {
   commandDefinition.forEach(({ commandName, defaultProcessors }) => {

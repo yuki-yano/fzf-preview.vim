@@ -1,5 +1,5 @@
-import { execCommand } from "@/system/command"
 import { IS_GIT_DIRECTORY_COMMAND } from "@/const/system"
+import { execCommand } from "@/system/command"
 
 export const projectRoot = () => {
   if (!isGitDirectory()) {

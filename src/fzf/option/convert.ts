@@ -1,5 +1,5 @@
-import type { FzfOptions } from "@/type"
 import { definedFzfOptionTypesInPlugin } from "@/const/fzf-option"
+import type { FzfOptions } from "@/type"
 
 export const joinBind = (options: FzfOptions) => {
   const bind = options["--bind"]

@@ -12,7 +12,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "prettier/@typescript-eslint"
   ],
-  plugins: ["@typescript-eslint", "node", "import", "prettier"],
+  plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
   env: {
     jest: true
   },
@@ -43,6 +43,7 @@ module.exports = {
       }
     ],
 
+    "simple-import-sort/sort": "warn",
     "no-restricted-imports": ["error", { patterns: ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
