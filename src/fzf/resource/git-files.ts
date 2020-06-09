@@ -10,8 +10,8 @@ export const gitFiles = async (_args: SourceFuncArgs) => {
     throw new Error("The current directory is not a git project")
   }
 
-  const vimVariableSelector = createGlobalVariableSelector(store)
-  const gitFilesCommand = vimVariableSelector("fzfPreviewGitStatusCommand")
+  const globalVariableSelector = createGlobalVariableSelector(store)
+  const gitFilesCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
 
   if (typeof gitFilesCommand !== "string") {
     return []

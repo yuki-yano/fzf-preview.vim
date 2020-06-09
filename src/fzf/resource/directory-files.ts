@@ -6,9 +6,9 @@ import { execCommand } from "@/system/command"
 import type { SourceFuncArgs } from "@/type"
 
 export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
-  const vimVariableSelector = createGlobalVariableSelector(store)
+  const globalVariableSelector = createGlobalVariableSelector(store)
   const executeCommandSelector = createExecuteCommandSelector(store)
-  const filelistCommand = vimVariableSelector("fzfPreviewDirectoryFilesCommand")
+  const filelistCommand = globalVariableSelector("fzfPreviewDirectoryFilesCommand")
 
   if (typeof filelistCommand !== "string") {
     return []
