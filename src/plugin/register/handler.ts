@@ -3,5 +3,5 @@ import { callProcessor } from "@/fzf/handler"
 import { pluginRegisterFunction } from "@/plugin"
 
 export const registerHandlers = () => {
-  pluginRegisterFunction(handlerName, callProcessor)
+  pluginRegisterFunction(handlerName, callProcessor, { sync: true })
 }
