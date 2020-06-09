@@ -2,8 +2,10 @@ import { store } from "@/store"
 import { isGitDirectory } from "@/system/project"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { execCommand } from "@/system/command"
+import type { SourceFuncArgs } from "@/type"
 
-export const gitFiles = () => {
+// eslint-disable-next-line @typescript-eslint/require-await
+export const gitFiles = async (_args: SourceFuncArgs) => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -12,7 +14,7 @@ export const gitFiles = () => {
   const gitFilesCommand = vimVariableSelector("fzfPreviewGitStatusCommand")
 
   if (typeof gitFilesCommand !== "string") {
-    return new Promise<Array<string>>((resolve) => resolve([]))
+    return []
   }
 
   const { stdout, stderr, status } = execCommand(gitFilesCommand)
@@ -21,7 +23,7 @@ export const gitFiles = () => {
     throw new Error(`Failed to get the file list. command: "${gitFilesCommand}"`)
   }
 
-  return new Promise<Array<string>>((resolve) => resolve(stdout.split("\n")))
+  return stdout.split("\n")
 }
 
 export const gitFilesDefaultOptions = () => ({
