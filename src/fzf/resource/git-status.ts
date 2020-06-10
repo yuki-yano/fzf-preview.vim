@@ -5,28 +5,28 @@ import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const gitFiles = async (_args: SourceFuncArgs) => {
+export const gitStatus = async (_args: SourceFuncArgs) => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
 
   const globalVariableSelector = createGlobalVariableSelector(store)
-  const gitFilesCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
+  const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
 
-  if (typeof gitFilesCommand !== "string") {
+  if (typeof gitStatusCommand !== "string") {
     return []
   }
 
-  const { stdout, stderr, status } = execCommand(gitFilesCommand)
+  const { stdout, stderr, status } = execCommand(gitStatusCommand)
 
   if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed to get the file list. command: "${gitFilesCommand}"`)
+    throw new Error(`Failed to get the file list. command: "${gitStatusCommand}"`)
   }
 
   return stdout.split("\n")
 }
 
-export const gitFilesDefaultOptions = () => ({
+export const gitStatusDefaultOptions = () => ({
   "--prompt": '"GitStatus> "',
   "--multi": true,
   "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewGitStatusPreviewCommand")}"`

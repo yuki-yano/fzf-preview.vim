@@ -3,8 +3,8 @@ import { openFileProcessors } from "@/fzf/processor"
 import {
   directoryFiles,
   directoryFilesDefaultOptions,
-  gitFiles,
-  gitFilesDefaultOptions,
+  gitStatus,
+  gitStatusDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions
 } from "@/fzf/resource"
@@ -25,15 +25,6 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enableDevIcons: true
   },
   {
-    commandName: "TSFzfPreviewGitStatus",
-    sourceFunc: gitFiles,
-    vimCommandOptions,
-    defaultFzfOptionFunc: gitFilesDefaultOptions,
-    defaultProcessors: openFileProcessors,
-    enableDevIcons: false,
-    optionalUnnecessaryPrefixLength: 3
-  },
-  {
     commandName: "TSFzfPreviewDirectoryFiles",
     sourceFunc: directoryFiles,
     sourceFuncArgsParser: parseDictionaryFilesArgs,
@@ -41,5 +32,14 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
     defaultProcessors: openFileProcessors,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewGitStatus",
+    sourceFunc: gitStatus,
+    vimCommandOptions,
+    defaultFzfOptionFunc: gitStatusDefaultOptions,
+    defaultProcessors: openFileProcessors,
+    enableDevIcons: false,
+    optionalUnnecessaryPrefixLength: 3
   }
 ] as const
