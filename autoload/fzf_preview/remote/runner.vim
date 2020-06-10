@@ -7,7 +7,7 @@ function! fzf_preview#remote#runner#fzf_run(params) abort
   \ 'source':  source,
   \ 'sink*':   function('s:handler_wrapper', [handler]),
   \ 'options': options,
-  \ 'window':  fzf_preview#window#float_or_normal_layout(),
+  \ 'window':  { 'width': g:fzf_preview_floating_window_rate, 'height': g:fzf_preview_floating_window_rate },
   \ })
 endfunction
 

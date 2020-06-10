@@ -18,7 +18,6 @@ type GlobalVariable = {
 
 const initialState: State = {
   global: {
-    fzfPreviewFloatingWindowRate: 0,
     fzfPreviewUseDevIcons: false,
     fzfPreviewDevIconPrefixStringLength: 0,
     fzfPreviewCommand: "",
