@@ -1,6 +1,8 @@
 import { parseDictionaryFilesArgs } from "@/args"
 import { openFileProcessors } from "@/fzf/processor"
 import {
+  buffers,
+  buffersDefaultOptions,
   directoryFiles,
   directoryFilesDefaultOptions,
   gitFiles,
@@ -51,5 +53,13 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultProcessors: openFileProcessors,
     enableDevIcons: false,
     optionalUnnecessaryPrefixLength: 3
+  },
+  {
+    commandName: "TSFzfPreviewBuffers",
+    sourceFunc: buffers,
+    vimCommandOptions,
+    defaultFzfOptionFunc: buffersDefaultOptions,
+    defaultProcessors: openFileProcessors,
+    enableDevIcons: true
   }
 ] as const

@@ -7,6 +7,7 @@ export type FzfCommandName =
   | "TSFzfPreviewGitFiles"
   | "TSFzfPreviewDirectoryFiles"
   | "TSFzfPreviewGitStatus"
+  | "TSFzfPreviewBuffers"
 
 export type SourceFuncArgs = {
   args: Array<string>
