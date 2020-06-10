@@ -2,7 +2,11 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
 import type { Processors } from "@/type"
 
-export type FzfCommandName = "TSFzfPreviewProjectFiles" | "TSFzfPreviewGitStatus" | "TSFzfPreviewDirectoryFiles"
+export type FzfCommandName =
+  | "TSFzfPreviewProjectFiles"
+  | "TSFzfPreviewGitFiles"
+  | "TSFzfPreviewDirectoryFiles"
+  | "TSFzfPreviewGitStatus"
 
 export type SourceFuncArgs = {
   args: Array<string>

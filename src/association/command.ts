@@ -3,6 +3,8 @@ import { openFileProcessors } from "@/fzf/processor"
 import {
   directoryFiles,
   directoryFilesDefaultOptions,
+  gitFiles,
+  gitFilesDefaultOptions,
   gitStatus,
   gitStatusDefaultOptions,
   projectFiles,
@@ -21,6 +23,14 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: projectFiles,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
+    defaultProcessors: openFileProcessors,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewGitFiles",
+    sourceFunc: gitFiles,
+    vimCommandOptions,
+    defaultFzfOptionFunc: gitFilesDefaultOptions,
     defaultProcessors: openFileProcessors,
     enableDevIcons: true
   },

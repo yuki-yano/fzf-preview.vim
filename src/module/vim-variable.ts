@@ -22,9 +22,10 @@ const initialState: State = {
     fzfPreviewDevIconPrefixStringLength: 0,
     fzfPreviewCommand: "",
     fzfPreviewFilelistCommand: "",
+    fzfPreviewGitFilesCommand: "",
+    fzfPreviewDirectoryFilesCommand: "",
     fzfPreviewGitStatusCommand: "",
-    fzfPreviewGitStatusPreviewCommand: "",
-    fzfPreviewDirectoryFilesCommand: ""
+    fzfPreviewGitStatusPreviewCommand: ""
   }
 }
 
