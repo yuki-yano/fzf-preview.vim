@@ -1,10 +1,6 @@
 import { execSync, SpawnSyncReturns } from "child_process"
 
-type CommandResult = {
-  stdout: string
-  stderr: string
-  status: number | null
-}
+import type { CommandResult } from "@/type"
 
 export const execCommand = (command: string): CommandResult => {
   try {

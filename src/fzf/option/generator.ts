@@ -1,5 +1,5 @@
 import { pluginGetVar } from "@/plugin"
-import type { AddFzfArgs, FzfOptions, Processors } from "@/type"
+import type { AddFzfArgs, FzfOptions, Processes } from "@/type"
 
 const defaultBind = [
   {
@@ -23,42 +23,42 @@ export const defaultOptions: FzfOptions = {
   "--bind": defaultBind
 } as const
 
-const getExpectFromUserProcessor = async (userProcessorsName: string) => {
-  const processors = await pluginGetVar(userProcessorsName)
+const getExpectFromUserProcesses = async (userProcessesName: string) => {
+  const processes = await pluginGetVar(userProcessesName)
 
-  if (typeof processors === "object" && !Array.isArray(processors)) {
+  if (typeof processes === "object" && !Array.isArray(processes)) {
     return {
-      "--expect": Object.entries(processors).map(([key]) => key)
+      "--expect": Object.entries(processes).map(([key]) => key)
     }
   }
 
-  throw new Error("--processors must be dictionary variable")
+  throw new Error("--processes must be dictionary variable")
 }
 
 type OptionsArgs = {
   fzfCommandDefaultOptions: FzfOptions
-  defaultProcessors: Processors
-  userProcessorsName?: string
+  defaultProcesses: Processes
+  userProcessesName?: string
   userOptions: Array<AddFzfArgs>
 }
 
 export const generateOptions = async ({
   fzfCommandDefaultOptions,
-  defaultProcessors,
-  userProcessorsName,
+  defaultProcesses,
+  userProcessesName,
   userOptions
 }: OptionsArgs) => {
-  const expectFromDefaultProcessor: FzfOptions = { "--expect": Object.entries(defaultProcessors).map(([key]) => key) }
+  const expectFromDefaultProcess: FzfOptions = { "--expect": Object.entries(defaultProcesses).map(([key]) => key) }
 
-  const userExpectFromProcessor: FzfOptions = userProcessorsName
-    ? await getExpectFromUserProcessor(userProcessorsName)
+  const userExpectFromProcesses: FzfOptions = userProcessesName
+    ? await getExpectFromUserProcesses(userProcessesName)
     : {}
 
   const fzfCommandOptions = {
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
-    ...expectFromDefaultProcessor,
-    ...userExpectFromProcessor
+    ...expectFromDefaultProcess,
+    ...userExpectFromProcesses
   }
 
   userOptions.forEach((userOption) => {

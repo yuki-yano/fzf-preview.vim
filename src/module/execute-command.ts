@@ -8,7 +8,7 @@ import type { FzfPreviewCommandList } from "@/type"
 export type State = {
   commandName?: FzfPreviewCommandList
   options: {
-    processorsName?: string
+    processesName?: string
     enableDevIcons: VimValue
     optionalUnnecessaryPrefixLength?: number
   }

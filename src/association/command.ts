@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { directOpenFileProcessors } from "@/fzf/processor"
+import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
   allBuffersDefaultOptions,
@@ -27,7 +27,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: projectFiles,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: true
   },
   {
@@ -35,7 +35,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: gitFiles,
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: true
   },
   {
@@ -44,7 +44,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseDictionaryFilesArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: true
   },
   {
@@ -52,7 +52,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: gitStatus,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: false,
     optionalUnnecessaryPrefixLength: 3
   },
@@ -61,7 +61,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: buffers,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: true
   },
   {
@@ -69,7 +69,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: allBuffers,
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
-    defaultProcessors: directOpenFileProcessors,
+    defaultProcesses: openFileProcesses,
     enableDevIcons: false
   }
 ] as const

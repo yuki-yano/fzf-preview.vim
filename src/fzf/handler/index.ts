@@ -1,10 +1,10 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 
-import { createProcessorsFunctionName } from "@/fzf/processor"
+import { createProcessesFunctionName } from "@/fzf/process"
 import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
 import { loadStore } from "@/module/persist"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { processorRunner } from "@/plugin/processor-runner"
+import { processesRunner } from "@/plugin/process-runner"
 import { dispatch, store } from "@/store"
 
 export const trimLines = (lines: Array<string>, enableDevIcons: VimValue, optionalUnnecessaryPrefixLength = 0) => {
@@ -18,23 +18,23 @@ export const trimLines = (lines: Array<string>, enableDevIcons: VimValue, option
   return lines.map((line) => line.slice(unnecessaryPrefixLength))
 }
 
-const runProcessor = (
+const runProcess = (
   lines: Array<string>,
-  { commandName, options: { processorsName, enableDevIcons, optionalUnnecessaryPrefixLength } }: ExecuteCommandState
+  { commandName, options: { processesName, enableDevIcons, optionalUnnecessaryPrefixLength } }: ExecuteCommandState
 ) => {
   const expectKey = lines.shift()
   if (commandName && expectKey !== undefined) {
-    processorRunner({
-      processorsFunctionName: createProcessorsFunctionName(commandName, expectKey),
+    processesRunner({
+      processesFunctionName: createProcessesFunctionName(commandName, expectKey),
       expectKey,
       lines: trimLines(lines, enableDevIcons, optionalUnnecessaryPrefixLength),
-      processorsName
+      processesName
     })
   }
 }
 
-export const callProcessor = async (lines: Array<string>) => {
+export const callProcess = async (lines: Array<string>) => {
   await dispatch(loadStore())
   const executeCommand = createExecuteCommandSelector(store)()
-  runProcessor(lines, executeCommand)
+  runProcess(lines, executeCommand)
 }

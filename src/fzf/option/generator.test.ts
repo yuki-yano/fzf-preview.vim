@@ -1,7 +1,7 @@
 import { generateOptions } from "@/fzf/option/generator"
-import { directOpenFileProcessors as defaultProcessors } from "@/fzf/processor"
+import { openFileProcesses as defaultProcesses } from "@/fzf/process"
 import { pluginGetVar } from "@/plugin"
-import type { FzfOptions, Processors } from "@/type"
+import type { FzfOptions, Processes, SelectedLines } from "@/type"
 
 jest.mock("@/plugin")
 
@@ -29,41 +29,43 @@ describe("generateOptions", () => {
     }
   })
 
-  describe("empty user processors", () => {
-    it("open file processor", async () => {
+  describe("empty user processes", () => {
+    it("open file process", async () => {
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
-          defaultProcessors,
-          userProcessorsName: undefined,
+          defaultProcesses,
+          userProcessesName: undefined,
           userOptions: []
         })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
 
-    it("other default processors", async () => {
-      const processorsFunc = (lines: Array<string>) => lines
-      const otherDefaultProcessors: Processors = {
-        "": processorsFunc,
-        "ctrl-a": processorsFunc,
-        "ctrl-b": processorsFunc,
-        "ctrl-c": processorsFunc
+    it("other default processes", async () => {
+      const process = {
+        execute: (_: SelectedLines) => {}
+      }
+      const otherDefaultProcesses: Processes = {
+        "": process,
+        "ctrl-a": process,
+        "ctrl-b": process,
+        "ctrl-c": process
       }
 
       fzfCommandDefaultOptions["--expect"] = ["", "ctrl-a", "ctrl-b", "ctrl-c"]
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
-          defaultProcessors: otherDefaultProcessors,
-          userProcessorsName: undefined,
+          defaultProcesses: otherDefaultProcesses,
+          userProcessesName: undefined,
           userOptions: []
         })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
   })
 
-  describe("set user processors", () => {
-    it("open file processors", async () => {
+  describe("set user processes", () => {
+    it("open file processes", async () => {
       ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<object>((resolve) => {
           resolve({
@@ -80,20 +82,22 @@ describe("generateOptions", () => {
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
-          defaultProcessors,
-          userProcessorsName: "foo",
+          defaultProcesses,
+          userProcessesName: "foo",
           userOptions: []
         })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
 
-    it("open file processors", async () => {
-      const processorsFunc = (lines: Array<string>) => lines
-      const otherDefaultProcessors: Processors = {
-        "": processorsFunc,
-        "ctrl-a": processorsFunc,
-        "ctrl-b": processorsFunc,
-        "ctrl-c": processorsFunc
+    it("open file processes", async () => {
+      const process = {
+        execute: (_: SelectedLines) => {}
+      }
+      const otherDefaultProcesses: Processes = {
+        "": process,
+        "ctrl-a": process,
+        "ctrl-b": process,
+        "ctrl-c": process
       }
 
       ;(pluginGetVar as jest.Mock).mockReturnValue(
@@ -112,15 +116,15 @@ describe("generateOptions", () => {
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
-          defaultProcessors: otherDefaultProcessors,
-          userProcessorsName: "foo",
+          defaultProcesses: otherDefaultProcesses,
+          userProcessesName: "foo",
           userOptions: []
         })
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
   })
 
-  it("set user not dictionary processors", async () => {
+  it("set user not dictionary processes", async () => {
     ;(pluginGetVar as jest.Mock).mockImplementation(() => {
       throw new Error("foo")
     })
@@ -128,8 +132,8 @@ describe("generateOptions", () => {
     try {
       await generateOptions({
         fzfCommandDefaultOptions,
-        defaultProcessors,
-        userProcessorsName: "foo",
+        defaultProcesses,
+        userProcessesName: "foo",
         userOptions: []
       })
     } catch (error) {
@@ -141,7 +145,7 @@ describe("generateOptions", () => {
     expect(
       await generateOptions({
         fzfCommandDefaultOptions,
-        defaultProcessors,
+        defaultProcesses,
         userOptions: []
       })
     ).toStrictEqual(fzfCommandDefaultOptions)
@@ -156,7 +160,7 @@ describe("generateOptions", () => {
 
     const generatedOptions = await generateOptions({
       fzfCommandDefaultOptions,
-      defaultProcessors,
+      defaultProcesses,
       userOptions
     })
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))

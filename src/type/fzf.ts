@@ -1,6 +1,6 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
-import type { Processors } from "@/type"
+import type { Processes } from "@/type"
 
 export type FzfCommandName =
   | "TSFzfPreviewProjectFiles"
@@ -21,7 +21,7 @@ export type FzfCommand = {
   sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
-  defaultProcessors: Processors
+  defaultProcesses: Processes
   enableDevIcons: boolean
   optionalUnnecessaryPrefixLength?: number
 }

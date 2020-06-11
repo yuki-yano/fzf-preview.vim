@@ -1,4 +1,4 @@
-import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcessors } from "@/args"
+import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses } from "@/args"
 import { commandDefinition } from "@/association/command"
 import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
@@ -17,7 +17,7 @@ const registerCommand = ({
   sourceFuncArgsParser,
   vimCommandOptions,
   defaultFzfOptionFunc,
-  defaultProcessors,
+  defaultProcesses,
   enableDevIcons,
   optionalUnnecessaryPrefixLength
 }: FzfCommand) => {
@@ -27,11 +27,11 @@ const registerCommand = ({
       await syncVimVariable()
 
       const addFzfOptions = parseAddFzfArgs(args)
-      const processorsName = parseProcessors(args)
+      const processesName = parseProcesses(args)
       const fzfOptions = await generateOptions({
         fzfCommandDefaultOptions: defaultFzfOptionFunc(),
-        defaultProcessors,
-        userProcessorsName: processorsName,
+        defaultProcesses,
+        userProcessesName: processesName,
         userOptions: addFzfOptions
       })
       const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
@@ -41,7 +41,7 @@ const registerCommand = ({
         executeCommandModule.actions.setExecuteCommand({
           commandName,
           options: {
-            processorsName,
+            processesName,
             enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons"),
             optionalUnnecessaryPrefixLength
           }

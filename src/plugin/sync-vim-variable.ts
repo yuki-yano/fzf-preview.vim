@@ -1,11 +1,11 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 import { logger } from "neovim/lib/utils/logger"
 
-import type { VimVariableName } from "@/type"
 import { vimVariableAssociation } from "@/association/vim-variable"
+import { vimVariableModule } from "@/module/vim-variable"
 import { pluginGetVar } from "@/plugin"
 import { dispatch } from "@/store"
-import { vimVariableModule } from "@/module/vim-variable"
+import type { VimVariableName } from "@/type"
 import { objectKeys } from "@/util/object"
 
 const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValue | undefined> => {
