@@ -6,7 +6,6 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "strict": true,
-    "strictNullChecks": true,
     "baseUrl": "./",
     "rootDir": "./src",
     "paths": {
