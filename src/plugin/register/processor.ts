@@ -5,7 +5,7 @@ import { pluginRegisterFunction } from "@/plugin"
 export const registerProcessors = () => {
   commandDefinition.forEach(({ commandName, defaultProcessors }) => {
     Object.entries(defaultProcessors).forEach(([expectKey, processor]) => {
-      pluginRegisterFunction(createProcessorsFunctionName(commandName, expectKey), processor, { sync: true })
+      pluginRegisterFunction(createProcessorsFunctionName(commandName, expectKey), processor, { sync: false })
     })
   })
 }
