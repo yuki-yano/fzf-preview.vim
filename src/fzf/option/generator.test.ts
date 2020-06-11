@@ -25,7 +25,7 @@ describe("generateOptions", () => {
           action: "toggle-preview"
         }
       ],
-      "--expect": ["", "ctrl-x", "ctrl-v", "ctrl-t"]
+      "--expect": ["", "ctrl-x", "ctrl-v", "ctrl-t", "ctrl-q"]
     }
   })
 
