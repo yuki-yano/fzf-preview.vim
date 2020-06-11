@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { openFileProcessors } from "@/fzf/processor"
+import { directOpenFileProcessors } from "@/fzf/processor"
 import {
   buffers,
   buffersDefaultOptions,
@@ -25,7 +25,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: projectFiles,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
-    defaultProcessors: openFileProcessors,
+    defaultProcessors: directOpenFileProcessors,
     enableDevIcons: true
   },
   {
@@ -33,7 +33,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: gitFiles,
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
-    defaultProcessors: openFileProcessors,
+    defaultProcessors: directOpenFileProcessors,
     enableDevIcons: true
   },
   {
@@ -42,7 +42,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseDictionaryFilesArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
-    defaultProcessors: openFileProcessors,
+    defaultProcessors: directOpenFileProcessors,
     enableDevIcons: true
   },
   {
@@ -50,7 +50,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: gitStatus,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
-    defaultProcessors: openFileProcessors,
+    defaultProcessors: directOpenFileProcessors,
     enableDevIcons: false,
     optionalUnnecessaryPrefixLength: 3
   },
@@ -59,7 +59,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFunc: buffers,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
-    defaultProcessors: openFileProcessors,
+    defaultProcessors: directOpenFileProcessors,
     enableDevIcons: true
   }
 ] as const

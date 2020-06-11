@@ -1,17 +1,27 @@
-import { pluginCommand } from "@/plugin"
+import { directlyConverter, splitSpacePopConverter } from "@/fzf/processor/converter"
+import {
+  editProcess,
+  processorCreator,
+  splitProcess,
+  tabeditProcess,
+  vsplitProcess
+} from "@/fzf/processor/process"
 import type { Processors } from "@/type"
 
-type OpenCommand = "edit" | "split" | "vsplit" | "tabedit"
+const createDirectProcessor = processorCreator(directlyConverter)
 
-const openFilesCreator = (openCommand: OpenCommand) => (files: Array<string>) => {
-  files.forEach((file) => {
-    pluginCommand(`execute 'silent ${openCommand} ${file}'`)
-  })
+export const directOpenFileProcessors: Processors = {
+  "": createDirectProcessor(editProcess),
+  "ctrl-x": createDirectProcessor(splitProcess),
+  "ctrl-v": createDirectProcessor(vsplitProcess),
+  "ctrl-t": createDirectProcessor(tabeditProcess)
 }
 
-export const openFileProcessors: Processors = {
-  "": openFilesCreator("edit"),
-  "ctrl-x": openFilesCreator("split"),
-  "ctrl-v": openFilesCreator("vsplit"),
-  "ctrl-t": openFilesCreator("tabedit")
+const createSplitSpaceLastProcessor = processorCreator(splitSpacePopConverter)
+
+export const splitSpaceOpenFileProcessors: Processors = {
+  "": createSplitSpaceLastProcessor(editProcess),
+  "ctrl-x": createSplitSpaceLastProcessor(splitProcess),
+  "ctrl-v": createSplitSpaceLastProcessor(vsplitProcess),
+  "ctrl-t": createSplitSpaceLastProcessor(tabeditProcess)
 }

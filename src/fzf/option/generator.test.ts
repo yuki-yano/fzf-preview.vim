@@ -1,5 +1,5 @@
 import { generateOptions } from "@/fzf/option/generator"
-import { openFileProcessors as defaultProcessors } from "@/fzf/processor"
+import { directOpenFileProcessors as defaultProcessors } from "@/fzf/processor"
 import { pluginGetVar } from "@/plugin"
 import type { FzfOptions, Processors } from "@/type"
 
