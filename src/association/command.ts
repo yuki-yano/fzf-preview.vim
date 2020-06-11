@@ -1,6 +1,8 @@
 import { parseDictionaryFilesArgs } from "@/args"
 import { directOpenFileProcessors } from "@/fzf/processor"
 import {
+  allBuffers,
+  allBuffersDefaultOptions,
   buffers,
   buffersDefaultOptions,
   directoryFiles,
@@ -61,5 +63,13 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: buffersDefaultOptions,
     defaultProcessors: directOpenFileProcessors,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewAllBuffers",
+    sourceFunc: allBuffers,
+    vimCommandOptions,
+    defaultFzfOptionFunc: allBuffersDefaultOptions,
+    defaultProcessors: directOpenFileProcessors,
+    enableDevIcons: false
   }
 ] as const
