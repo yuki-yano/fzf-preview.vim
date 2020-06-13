@@ -15,7 +15,9 @@ import {
   gitStatus,
   gitStatusDefaultOptions,
   projectFiles,
-  projectFilesDefaultOptions
+  projectFilesDefaultOptions,
+  projectOldFiles,
+  projectOldFilesDefaultOptions
 } from "@/fzf/resource"
 import type { FzfCommand } from "@/type"
 
@@ -79,5 +81,14 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: allBuffersDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: false
+  },
+  {
+    commandName: "TSFzfPreviewProjectOldFiles",
+    sourceFunc: projectOldFiles,
+    convertLine: convertIdentity,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectOldFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
   }
 ] as const

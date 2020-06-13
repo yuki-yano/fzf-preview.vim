@@ -20,3 +20,5 @@ export const pluginCommand = (arg: string) => plugin.nvim.command(arg)
 export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>) => plugin.nvim.call(fname, args)
 
 export const pluginGetVar = (name: string) => plugin.nvim.getVar(name)
+
+export const pluginGetVvar = (name: string) => plugin.nvim.getVvar(name)
