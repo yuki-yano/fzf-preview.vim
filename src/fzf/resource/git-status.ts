@@ -1,3 +1,4 @@
+import { createConvertDropPrefix } from "@/fzf/converter/drop-prefix-converter"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
 import { store } from "@/store"
 import { execCommand } from "@/system/command"
@@ -25,6 +26,8 @@ export const gitStatus = async (_args: SourceFuncArgs) => {
 
   return stdout.split("\n")
 }
+
+export const dropGitStatusPrefix = createConvertDropPrefix(3)
 
 export const gitStatusDefaultOptions = () => ({
   "--prompt": '"GitStatus> "',

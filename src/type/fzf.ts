@@ -1,6 +1,12 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
 import type { Processes } from "@/type"
+import { SelectedLine } from "@/type/process"
+
+export type ResourceLine = string
+export type ResourceLines = Array<ResourceLine>
+
+export type ExpectKeyAndSelectedLines = Array<string>
 
 export type FzfCommandName =
   | "TSFzfPreviewProjectFiles"
@@ -9,6 +15,7 @@ export type FzfCommandName =
   | "TSFzfPreviewGitStatus"
   | "TSFzfPreviewBuffers"
   | "TSFzfPreviewAllBuffers"
+  | "TSFzfPreviewProjectOldFiles"
 
 export type SourceFuncArgs = {
   args: Array<string>
@@ -17,13 +24,13 @@ export type SourceFuncArgs = {
 
 export type FzfCommand = {
   commandName: FzfCommandName
-  sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Array<string>>
+  sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<ResourceLines>
+  convertLine: (line: SelectedLine) => SelectedLine
   sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
   defaultProcesses: Processes
   enableDevIcons: boolean
-  optionalUnnecessaryPrefixLength?: number
 }
 
 export type FzfOptions = {

@@ -1,4 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
+import { convertIdentity } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
@@ -7,6 +8,8 @@ import {
   buffersDefaultOptions,
   directoryFiles,
   directoryFilesDefaultOptions,
+  dropBufnr,
+  dropGitStatusPrefix,
   gitFiles,
   gitFilesDefaultOptions,
   gitStatus,
@@ -25,6 +28,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewProjectFiles",
     sourceFunc: projectFiles,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
@@ -33,6 +37,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewGitFiles",
     sourceFunc: gitFiles,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
@@ -41,6 +46,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewDirectoryFiles",
     sourceFunc: directoryFiles,
+    convertLine: convertIdentity,
     sourceFuncArgsParser: parseDictionaryFilesArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
@@ -50,15 +56,16 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewGitStatus",
     sourceFunc: gitStatus,
+    convertLine: dropGitStatusPrefix,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
     defaultProcesses: openFileProcesses,
-    enableDevIcons: false,
-    optionalUnnecessaryPrefixLength: 3
+    enableDevIcons: false
   },
   {
     commandName: "TSFzfPreviewBuffers",
     sourceFunc: buffers,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
     defaultProcesses: openFileProcesses,
@@ -67,6 +74,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewAllBuffers",
     sourceFunc: allBuffers,
+    convertLine: dropBufnr,
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
     defaultProcesses: openFileProcesses,
