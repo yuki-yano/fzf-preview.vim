@@ -1,8 +1,8 @@
 import { createExecuteCommandSelector } from "@/module/execute-command"
 import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { pluginCall } from "@/plugin"
 import { store } from "@/store"
 import { execCommand } from "@/system/command"
+import { convertForFzf } from "@/system/fzf"
 import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
 
@@ -29,7 +29,7 @@ export const projectFiles = async (_args: SourceFuncArgs) => {
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
-    return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<Array<string>>
+    return convertForFzf(files)
   } else {
     return files
   }
