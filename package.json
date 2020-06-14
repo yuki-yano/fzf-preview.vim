@@ -10,6 +10,7 @@
     "lint:fix": "eslint --fix src/**/*.ts",
     "test": "jest",
     "test:watch": "jest --watch",
+    "cli": "ts-node --files -r tsconfig-paths/register",
     "postinstall": "npm run build"
   },
   "author": "yuki-yano",
@@ -37,6 +38,8 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
+    "ts-node": "^8.10.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.2"
   }
 }
