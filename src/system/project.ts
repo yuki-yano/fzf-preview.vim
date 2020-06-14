@@ -1,5 +1,6 @@
 import { IS_GIT_DIRECTORY_COMMAND } from "@/const/system"
 import { execCommand } from "@/system/command"
+import { existsFile } from "@/system/file"
 
 export const isGitDirectory = () => {
   const { status } = execCommand(IS_GIT_DIRECTORY_COMMAND)
@@ -27,3 +28,9 @@ export const filePathToProjectFilePath = (filePath: string) => {
 
   return execArray.groups.fileName
 }
+
+export const filterProjectEnabledFile = (filePaths: Array<string>) =>
+  filePaths
+    .filter((file) => existsFile(file))
+    .map((filePath) => filePathToProjectFilePath(filePath))
+    .filter((filePath): filePath is string => filePath !== null)

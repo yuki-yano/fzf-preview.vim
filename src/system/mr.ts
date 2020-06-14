@@ -31,8 +31,21 @@ const readFileOrCreateDirectory = async (cacheFile: string) => {
 }
 
 const mruFilePath = async () => `${await cacheDirectory()}/mru`
-
 const mrwFilePath = async () => `${await cacheDirectory()}/mrw`
+
+const readFile = async (filePath: string) => {
+  const files = await readFileOrCreateDirectory(filePath)
+  return files
+}
+
+export const readMruFile = async () => {
+  const files = await readFile(await mruFilePath())
+  return files
+}
+export const readMrwFile = async () => {
+  const files = await readFile(await mrwFilePath())
+  return files
+}
 
 const appendFile = async (filePath: string, cacheFilePath: string) => {
   const files = await readFileOrCreateDirectory(cacheFilePath)
@@ -42,10 +55,5 @@ const appendFile = async (filePath: string, cacheFilePath: string) => {
   fs.writeFileSync(cacheFilePath, uniqFiles.join("\n"))
 }
 
-export const appendMruFile = async (filePath: string) => {
-  appendFile(filePath, await mruFilePath())
-}
-
-export const appendMrwFile = async (filePath: string) => {
-  appendFile(filePath, await mrwFilePath())
-}
+export const appendMruFile = async (filePath: string) => appendFile(filePath, await mruFilePath())
+export const appendMrwFile = async (filePath: string) => appendFile(filePath, await mrwFilePath())

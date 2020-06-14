@@ -16,6 +16,10 @@ import {
   gitStatusDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
+  projectMruFiles,
+  projectMruFilesDefaultOptions,
+  projectMrwFiles,
+  projectMrwFilesDefaultOptions,
   projectOldFiles,
   projectOldFilesDefaultOptions
 } from "@/fzf/resource"
@@ -88,6 +92,24 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectOldFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewProjectMruFiles",
+    sourceFunc: projectMruFiles,
+    convertLine: convertIdentity,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectMruFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewProjectMrwFiles",
+    sourceFunc: projectMrwFiles,
+    convertLine: convertIdentity,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectMrwFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
   }
