@@ -1,5 +1,5 @@
 import { NvimPlugin } from "neovim"
-import { CommandOptions, NvimFunctionOptions } from "neovim/lib/host/NvimPlugin"
+import { AutocmdOptions, CommandOptions, NvimFunctionOptions } from "neovim/lib/host/NvimPlugin"
 import { VimValue } from "neovim/lib/types/VimValue"
 
 // @ts-ignore
@@ -14,6 +14,9 @@ export const pluginRegisterCommand = (name: string, fn: Function, options?: Comm
 
 export const pluginRegisterFunction = (name: string, fn: Function, options?: NvimFunctionOptions) =>
   plugin.registerFunction(name, fn, options)
+
+export const pluginRegisterAutocmd = (name: string, fn: Function, options: AutocmdOptions) =>
+  plugin.registerAutocmd(name, fn, options)
 
 export const pluginCommand = (arg: string) => plugin.nvim.command(arg)
 

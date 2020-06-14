@@ -6,5 +6,6 @@ export const vimVariableAssociation = {
   fzfPreviewGitFilesCommand: "fzf_preview_git_files_command",
   fzfPreviewDirectoryFilesCommand: "fzf_preview_directory_files_command",
   fzfPreviewGitStatusCommand: "fzf_preview_git_status_command",
-  fzfPreviewGitStatusPreviewCommand: "fzf_preview_git_status_preview_command"
+  fzfPreviewGitStatusPreviewCommand: "fzf_preview_git_status_preview_command",
+  fzfPreviewCacheDirectory: "fzf_preview_cache_directory"
 } as const

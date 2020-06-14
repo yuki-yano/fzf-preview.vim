@@ -200,32 +200,6 @@ augroup fzf_preview_buffers
   endif
 augroup END
 
-augroup fzf_preview_mru
-  autocmd!
-  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
-  autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
-augroup END
-
-function! s:mru_append(path) abort
-  if s:enable_file(a:path)
-    call fzf_preview#mr#append(a:path, fzf_preview#mr#mru_file_path())
-  endif
-endfunction
-
-function! s:mrw_append(path) abort
-  if s:enable_file(a:path)
-    call fzf_preview#mr#append(a:path, fzf_preview#mr#mrw_file_path())
-  endif
-endfunction
-
-function! s:enable_file(path) abort
-  if bufnr('%') != expand('<abuf>') || a:path == ''
-    return v:false
-  else
-    return v:true
-  endif
-endfunction
-
 silent doautocmd User fzf_preview#initialized
 
 let &cpoptions = s:save_cpo

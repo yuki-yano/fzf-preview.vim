@@ -25,7 +25,8 @@ const initialState: State = {
     fzfPreviewGitFilesCommand: "",
     fzfPreviewDirectoryFilesCommand: "",
     fzfPreviewGitStatusCommand: "",
-    fzfPreviewGitStatusPreviewCommand: ""
+    fzfPreviewGitStatusPreviewCommand: "",
+    fzfPreviewCacheDirectory: ""
   }
 }
 
