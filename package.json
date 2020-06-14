@@ -6,8 +6,8 @@
   "scripts": {
     "build": "ncc build src/index.ts --minify --out build",
     "dev": "ncc build src/index.ts --watch --out build",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint --fix 'src/**/*.ts'",
     "test": "jest",
     "test:watch": "jest --watch",
     "cli": "ts-node --files -r tsconfig-paths/register",
