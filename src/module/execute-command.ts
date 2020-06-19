@@ -10,13 +10,15 @@ export type State = {
   options: {
     processesName?: string
     enableDevIcons: VimValue
+    currentFilePath: string
   }
 }
 
 const initialState: State = {
   commandName: undefined,
   options: {
-    enableDevIcons: false
+    enableDevIcons: false,
+    currentFilePath: ""
   }
 }
 
@@ -33,7 +35,7 @@ export const executeCommandModule = createSlice({
     setExecuteCommand: (
       state,
       {
-        payload: { commandName, options = { enableDevIcons: false } }
+        payload: { commandName, options = { enableDevIcons: false, currentFilePath: "" } }
       }: PayloadAction<{ commandName: FzfPreviewCommandList; options: State["options"] }>
     ) => {
       state.commandName = commandName

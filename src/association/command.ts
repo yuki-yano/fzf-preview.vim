@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { convertIdentity } from "@/fzf/converter"
+import { convertBufferLineToFile, convertIdentity } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
@@ -14,6 +14,8 @@ import {
   gitFilesDefaultOptions,
   gitStatus,
   gitStatusDefaultOptions,
+  lines,
+  linesDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
   projectMruFiles,
@@ -112,5 +114,14 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: projectMrwFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewLines",
+    sourceFunc: lines,
+    convertLine: convertBufferLineToFile,
+    vimCommandOptions,
+    defaultFzfOptionFunc: linesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: false
   }
 ] as const

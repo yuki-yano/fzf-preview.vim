@@ -18,6 +18,7 @@ export type FzfCommandName =
   | "TSFzfPreviewProjectOldFiles"
   | "TSFzfPreviewProjectMruFiles"
   | "TSFzfPreviewProjectMrwFiles"
+  | "TSFzfPreviewLines"
 
 export type SourceFuncArgs = {
   args: Array<string>
@@ -30,7 +31,9 @@ export type FzfCommand = {
   convertLine: (line: SelectedLine) => SelectedLine
   sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
-  defaultFzfOptionFunc: () => { [optionName: string]: string | boolean }
+  defaultFzfOptionFunc: () =>
+    | { [optionName: string]: string | boolean }
+    | Promise<{ [optionName: string]: string | boolean }>
   defaultProcesses: Processes
   enableDevIcons: boolean
 }

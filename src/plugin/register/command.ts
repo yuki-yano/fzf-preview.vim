@@ -9,6 +9,7 @@ import { pluginRegisterCommand } from "@/plugin"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch, store } from "@/store"
+import { currentFilePath } from "@/system/file"
 import type { FzfCommand } from "@/type"
 
 const registerCommand = ({
@@ -27,8 +28,10 @@ const registerCommand = ({
 
       const addFzfOptions = parseAddFzfArgs(args)
       const processesName = parseProcesses(args)
+
+      const defaultOptions = defaultFzfOptionFunc()
       const fzfOptions = await generateOptions({
-        fzfCommandDefaultOptions: defaultFzfOptionFunc(),
+        fzfCommandDefaultOptions: defaultOptions instanceof Promise ? await defaultOptions : defaultOptions,
         defaultProcesses,
         userProcessesName: processesName,
         userOptions: addFzfOptions
@@ -41,7 +44,8 @@ const registerCommand = ({
           commandName,
           options: {
             processesName,
-            enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons")
+            enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons"),
+            currentFilePath: await currentFilePath()
           }
         })
       )
