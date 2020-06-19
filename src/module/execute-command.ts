@@ -34,10 +34,9 @@ export const executeCommandModule = createSlice({
     },
     setExecuteCommand: (
       state,
-      {
-        payload: { commandName, options = { enableDevIcons: false, currentFilePath: "" } }
-      }: PayloadAction<{ commandName: FzfPreviewCommandList; options: State["options"] }>
+      { payload }: PayloadAction<{ commandName: FzfPreviewCommandList; options: State["options"] }>
     ) => {
+      const { commandName, options } = payload
       state.commandName = commandName
       state.options = options
     }
