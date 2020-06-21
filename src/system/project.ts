@@ -23,7 +23,7 @@ export const filePathToProjectFilePath = (filePath: string) => {
   const regex = new RegExp(`^${projectRoot}/(?<fileName>.+)`)
   const execArray = regex.exec(filePath)
 
-  if (execArray === null || execArray.groups === undefined) {
+  if (execArray == null || execArray.groups == null) {
     return null
   }
 
@@ -34,4 +34,4 @@ export const filterProjectEnabledFile = (filePaths: ResourceLines) =>
   filePaths
     .filter((file) => existsFile(file))
     .map((filePath) => filePathToProjectFilePath(filePath))
-    .filter((filePath): filePath is string => filePath !== null)
+    .filter((filePath): filePath is string => filePath != null)

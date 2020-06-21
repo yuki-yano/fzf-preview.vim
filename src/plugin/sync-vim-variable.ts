@@ -8,13 +8,13 @@ import { dispatch } from "@/store"
 import type { VimVariableName } from "@/type"
 import { objectKeys } from "@/util/object"
 
-const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValue | undefined> => {
+const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValue | null> => {
   try {
     return await pluginGetVar(variableName)
   } catch (_error) {
     logger.warn(`g:${variableName} is not defined`)
     return new Promise((resolve) => {
-      resolve(undefined)
+      resolve(null)
     })
   }
 }
@@ -26,7 +26,7 @@ export const syncVimVariable = async () => {
   await Promise.all(
     variableNames.map(async (variableName) => {
       const value = await getGlobalVariable(vimVariableAssociation[variableName])
-      if (value === undefined) {
+      if (value == null) {
         return
       }
 

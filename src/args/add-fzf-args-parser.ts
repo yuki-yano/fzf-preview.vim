@@ -16,14 +16,14 @@ const parseOptions = (options: ArgsOptions) => {
 
   const notExistsValueOptions: Array<AddFzfArgs> = addFzfArgs
     .map((arg) => /(--?\S+)$/.exec(arg))
-    .filter((match): match is RegExpExecArray => match !== null && !match[0].includes("="))
+    .filter((match): match is RegExpExecArray => match != null && !match[0].includes("="))
     .map((match) => {
       return { optionName: match[1] }
     })
 
   const existsValueOptions: Array<AddFzfArgs> = addFzfArgs
     .map((arg) => /(--?\S+)=(.+)$/.exec(arg))
-    .filter((match): match is RegExpExecArray => match !== null)
+    .filter((match): match is RegExpExecArray => match != null)
     .map((match) => {
       return { optionName: match[1], value: match[2] }
     })

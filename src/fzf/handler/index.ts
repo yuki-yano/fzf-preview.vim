@@ -29,7 +29,7 @@ const runProcess = (
   const { convertLine } = commandDefinition.find((command) => command.commandName === commandName) as FzfCommand
   const convertedLines = dropDevIcon(selectedLines, enableDevIcons).map(convertLine)
 
-  if (commandName && expectKey !== undefined) {
+  if (commandName && expectKey != null) {
     processesRunner({
       processesFunctionName: createProcessesFunctionName(commandName, expectKey),
       expectKey,
