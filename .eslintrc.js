@@ -61,5 +61,18 @@ module.exports = {
     "node/no-missing-import": "off",
 
     "prettier/prettier": "error"
-  }
+  },
+  overrides: [
+    {
+      files: ["**/*.test.ts"],
+      extends: ["plugin:jest/recommended", "plugin:jest/style"],
+      plugins: ["jest"],
+      env: {
+        jest: true
+      },
+      rules: {
+        "@typescript-eslint/no-empty-function": "off"
+      }
+    }
+  ]
 }

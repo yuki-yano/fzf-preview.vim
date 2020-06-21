@@ -89,7 +89,7 @@ describe("generateOptions", () => {
       ).toStrictEqual(fzfCommandDefaultOptions)
     })
 
-    it("open file processes", async () => {
+    it("other processes (not open file processes)", async () => {
       const process = {
         execute: (_: SelectedLines) => {}
       }
@@ -129,16 +129,14 @@ describe("generateOptions", () => {
       throw new Error("foo")
     })
 
-    try {
-      await generateOptions({
+    await expect(
+      generateOptions({
         fzfCommandDefaultOptions,
         defaultProcesses,
         userProcessesName: "foo",
         userOptions: []
       })
-    } catch (error) {
-      expect(error.message).toBe("foo")
-    }
+    ).rejects.toThrow("foo")
   })
 
   it("empty user options", async () => {
