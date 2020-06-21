@@ -2,7 +2,7 @@ import { parseAddFzfArgs } from "@/args/add-fzf-args-parser"
 
 describe("parseAddFzfArgs", () => {
   it('parseAddFzfArgs("--add-fzf-args=-a")', () => {
-    expect(parseAddFzfArgs("--add-fzf-args=-a")).toStrictEqual([
+    expect(parseAddFzfArgs("--add-fzf-args=-a")).toEqual([
       {
         optionName: "-a"
       }
@@ -10,7 +10,7 @@ describe("parseAddFzfArgs", () => {
   })
 
   it('parseAddFzfArgs("--add-fzf-args=--foo")', () => {
-    expect(parseAddFzfArgs("--add-fzf-args=--foo")).toStrictEqual([
+    expect(parseAddFzfArgs("--add-fzf-args=--foo")).toEqual([
       {
         optionName: "--foo"
       }
@@ -18,7 +18,7 @@ describe("parseAddFzfArgs", () => {
   })
 
   it('parseAddFzfArgs("--add-fzf-args=--foo --add-fzf-args=--bar")', () => {
-    expect(parseAddFzfArgs("--add-fzf-args=--foo --add-fzf-args=--bar")).toStrictEqual([
+    expect(parseAddFzfArgs("--add-fzf-args=--foo --add-fzf-args=--bar")).toEqual([
       {
         optionName: "--foo"
       },
@@ -29,7 +29,7 @@ describe("parseAddFzfArgs", () => {
   })
 
   it('parseAddFzfArgs("--add-fzf-args=--foo=bar")', () => {
-    expect(parseAddFzfArgs("--add-fzf-args=--foo=bar")).toStrictEqual([
+    expect(parseAddFzfArgs("--add-fzf-args=--foo=bar")).toEqual([
       {
         optionName: "--foo",
         value: "bar"
@@ -38,7 +38,7 @@ describe("parseAddFzfArgs", () => {
   })
 
   it('parseAddFzfArgs("--add-fzf-args=--foo --add-fzf-args=--foobar="hoge fuga"")', () => {
-    expect(parseAddFzfArgs('--add-fzf-args=--foo --add-fzf-args=--foobar="hoge fuga"')).toStrictEqual([
+    expect(parseAddFzfArgs('--add-fzf-args=--foo --add-fzf-args=--foobar="hoge fuga"')).toEqual([
       {
         optionName: "--foo"
       },

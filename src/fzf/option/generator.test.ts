@@ -35,10 +35,9 @@ describe("generateOptions", () => {
         await generateOptions({
           fzfCommandDefaultOptions,
           defaultProcesses,
-          userProcessesName: undefined,
           userOptions: []
         })
-      ).toStrictEqual(fzfCommandDefaultOptions)
+      ).toEqual(fzfCommandDefaultOptions)
     })
 
     it("other default processes", async () => {
@@ -57,10 +56,9 @@ describe("generateOptions", () => {
         await generateOptions({
           fzfCommandDefaultOptions,
           defaultProcesses: otherDefaultProcesses,
-          userProcessesName: undefined,
           userOptions: []
         })
-      ).toStrictEqual(fzfCommandDefaultOptions)
+      ).toEqual(fzfCommandDefaultOptions)
     })
   })
 
@@ -86,7 +84,7 @@ describe("generateOptions", () => {
           userProcessesName: "foo",
           userOptions: []
         })
-      ).toStrictEqual(fzfCommandDefaultOptions)
+      ).toEqual(fzfCommandDefaultOptions)
     })
 
     it("other processes (not open file processes)", async () => {
@@ -120,7 +118,7 @@ describe("generateOptions", () => {
           userProcessesName: "foo",
           userOptions: []
         })
-      ).toStrictEqual(fzfCommandDefaultOptions)
+      ).toEqual(fzfCommandDefaultOptions)
     })
   })
 
@@ -146,13 +144,12 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: []
       })
-    ).toStrictEqual(fzfCommandDefaultOptions)
+    ).toEqual(fzfCommandDefaultOptions)
   })
 
   it("added user options", async () => {
     const userOptions = [{ optionName: "foo" }, { optionName: "bar", value: "bar" }]
     const convertedUserOptions = {
-      foo: undefined,
       bar: "bar"
     }
 
@@ -162,6 +159,6 @@ describe("generateOptions", () => {
       userOptions
     })
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
-    expect(generatedOptions).toStrictEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
+    expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
   })
 })
