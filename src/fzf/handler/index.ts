@@ -8,9 +8,9 @@ import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { processesRunner } from "@/plugin/process-runner"
 import { dispatch } from "@/store"
-import type { ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
+import type { ConvertedLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
 
-export const dropDevIcon = (lines: Array<string>, enableDevIcons: VimValue) => {
+const dropDevIcon = (lines: SelectedLines, enableDevIcons: VimValue) => {
   const devIconPrefixLength = globalVariableSelector("fzfPreviewDevIconPrefixStringLength")
   if (typeof devIconPrefixLength !== "number") {
     throw new Error("g:fzf_preview_dev_icon_prefix_string_length must be number")
@@ -39,7 +39,7 @@ const runProcess = (
   }
 }
 
-export const callProcess = async (lines: Array<string>) => {
+export const callProcess = async (lines: ConvertedLines) => {
   await dispatch(loadStore())
   const executeCommand = executeCommandSelector()
   runProcess(lines, executeCommand)

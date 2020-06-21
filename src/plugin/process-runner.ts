@@ -1,9 +1,10 @@
 import { pluginCall } from "@/plugin"
+import type { ConvertedLines } from "@/type"
 
 type Args = {
   processesFunctionName: string
   expectKey: string
-  lines: Array<string>
+  lines: ConvertedLines
   processesName?: string
 }
 

@@ -1,8 +1,8 @@
 import { createBulkLineConsumer } from "@/fzf/process/consumer/consumer"
 import { pluginCall, pluginCommand } from "@/plugin"
-import type { SelectedLines } from "@/type"
+import type { ConvertedLines } from "@/type"
 
-const linesToQfArgs = (lines: SelectedLines) =>
+const linesToQfArgs = (lines: ConvertedLines) =>
   lines.map((line) => ({
     filename: line
   }))

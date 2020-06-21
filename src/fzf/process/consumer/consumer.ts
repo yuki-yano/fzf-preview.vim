@@ -1,12 +1,12 @@
-import type { SelectedLine, SelectedLines } from "@/type"
+import type { ConvertedLine, ConvertedLines } from "@/type"
 
-export const createSingleLineConsumer = (consume: (line: SelectedLine) => Promise<void>) =>
+export const createSingleLineConsumer = (consume: (line: ConvertedLine) => Promise<void>) =>
   ({
     consume,
     kind: "single"
   } as const)
 
-export const createBulkLineConsumer = (consume: (lines: SelectedLines) => Promise<void>) =>
+export const createBulkLineConsumer = (consume: (lines: ConvertedLines) => Promise<void>) =>
   ({
     consume,
     kind: "bulk"

@@ -3,7 +3,7 @@ import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
-import type { SourceFuncArgs } from "@/type"
+import type { ResourceLines, SourceFuncArgs } from "@/type"
 
 export const gitFiles = async (_args: SourceFuncArgs) => {
   if (!isGitDirectory()) {
@@ -26,7 +26,7 @@ export const gitFiles = async (_args: SourceFuncArgs) => {
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
-    return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<Array<string>>
+    return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<ResourceLines>
   } else {
     return files
   }

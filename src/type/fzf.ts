@@ -1,10 +1,12 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
 import type { Processes } from "@/type"
-import { SelectedLine } from "@/type/process"
 
 export type ResourceLine = string
 export type ResourceLines = Array<ResourceLine>
+
+export type SelectedLine = string
+export type SelectedLines = Array<SelectedLine>
 
 export type ExpectKeyAndSelectedLines = Array<string>
 

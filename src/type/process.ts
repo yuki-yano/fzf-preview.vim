@@ -1,21 +1,21 @@
-export type SelectedLine = string
-export type SelectedLines = Array<SelectedLine>
+export type ConvertedLine = string
+export type ConvertedLines = Array<ConvertedLine>
 
 export type Processes = {
   [key: string]: Process
 }
 
 export type Process = {
-  execute: (lines: SelectedLines) => void | Promise<void>
+  execute: (lines: ConvertedLines) => void | Promise<void>
 }
 
 export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 export type SingleLineConsumer = {
-  consume: (line: SelectedLine) => Promise<void>
+  consume: (line: ConvertedLine) => Promise<void>
   kind: "single"
 }
 export type BulkLineConsumer = {
-  consume: (lines: SelectedLines) => Promise<void>
+  consume: (lines: ConvertedLines) => Promise<void>
   kind: "bulk"
 }
 

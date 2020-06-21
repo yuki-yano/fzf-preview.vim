@@ -1,9 +1,9 @@
 import { fzfOptionsToString } from "@/fzf/option/convert"
 import { pluginCall } from "@/plugin"
-import type { FzfOptions } from "@/type"
+import type { FzfOptions, ResourceLines } from "@/type"
 
 type Parameter = {
-  source: Array<string>
+  source: ResourceLines
   handler: string
   options: FzfOptions
 }

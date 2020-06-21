@@ -1,7 +1,7 @@
 import { generateOptions } from "@/fzf/option/generator"
 import { openFileProcesses as defaultProcesses } from "@/fzf/process"
 import { pluginGetVar } from "@/plugin"
-import type { FzfOptions, Processes, SelectedLines } from "@/type"
+import type { ConvertedLines, FzfOptions, Processes } from "@/type"
 
 jest.mock("@/plugin")
 
@@ -43,7 +43,7 @@ describe("generateOptions", () => {
 
     it("other default processes", async () => {
       const process = {
-        execute: (_: SelectedLines) => {}
+        execute: (_: ConvertedLines) => {}
       }
       const otherDefaultProcesses: Processes = {
         "": process,
@@ -91,7 +91,7 @@ describe("generateOptions", () => {
 
     it("other processes (not open file processes)", async () => {
       const process = {
-        execute: (_: SelectedLines) => {}
+        execute: (_: ConvertedLines) => {}
       }
       const otherDefaultProcesses: Processes = {
         "": process,
