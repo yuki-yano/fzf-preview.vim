@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { convertBufferLineToFile, convertIdentity } from "@/fzf/converter"
+import { convertBufferLineToFileAndText, convertIdentity } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
@@ -118,7 +118,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewLines",
     sourceFunc: lines,
-    convertLine: convertBufferLineToFile,
+    convertLine: convertBufferLineToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: linesDefaultOptions,
     defaultProcesses: openFileProcesses,

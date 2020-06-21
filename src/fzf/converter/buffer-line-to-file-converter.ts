@@ -1,9 +1,9 @@
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import type { SelectedLine } from "@/type"
 
-export const convertBufferLineToFile = (line: SelectedLine) => {
+export const convertBufferLineToFileAndText = (line: SelectedLine) => {
   const { currentFilePath } = executeCommandSelector().options
 
-  const lineNumber = line.trim().split(" ")[0]
-  return `${currentFilePath}:${lineNumber}`
+  const [lineNumber, ...text] = line.trim().split(" ")
+  return `${currentFilePath}:${lineNumber} ${text.join(" ")}`
 }
