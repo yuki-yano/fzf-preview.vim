@@ -10,7 +10,7 @@ type ParsedLine = {
 
 const parseConvertedLine = (selectedLine: ConvertedLine): ParsedLine => {
   const fileResult = /^(?<file>\S+)/.exec(selectedLine)
-  const fileAndLineNumberResult = /^(?<file>\S+):(?<lineNumber>\d+)\s(?<text>.*)/.exec(selectedLine)
+  const fileAndLineNumberResult = /^(?<file>\S+):(?<lineNumber>\d+)\s?(?<text>.*)/.exec(selectedLine)
 
   if ((!fileAndLineNumberResult || !fileAndLineNumberResult.groups) && fileResult && fileResult.groups) {
     return {
@@ -27,7 +27,7 @@ const parseConvertedLine = (selectedLine: ConvertedLine): ParsedLine => {
     }
   }
 
-  throw new Error(`SelectedLine is invalid: ${selectedLine}`)
+  throw new Error(`SelectedLine is invalid: '${selectedLine}'`)
 }
 
 const createOpenFileConsumer = (openCommand: OpenCommand) =>
@@ -61,7 +61,7 @@ export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
         }
       }
 
-      throw new Error(`SelectedLine is invalid: ${parsedLine}`)
+      throw new Error(`SelectedLine is invalid: '${parsedLine}'`)
     })
 
   await exportQuickFix(quickFixList)
