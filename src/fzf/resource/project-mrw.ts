@@ -1,6 +1,5 @@
-import { createExecuteCommandSelector } from "@/module/execute-command"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { store } from "@/store"
+import { executeCommandSelector } from "@/module/selector/execute-command"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { convertForFzf } from "@/system/fzf"
 import { readMrwFile } from "@/system/mr"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
@@ -12,7 +11,6 @@ export const projectMrwFiles = async (_args: SourceFuncArgs) => {
   }
 
   const files: ResourceLines = filterProjectEnabledFile(await readMrwFile())
-  const executeCommandSelector = createExecuteCommandSelector(store)
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
@@ -25,5 +23,5 @@ export const projectMrwFiles = async (_args: SourceFuncArgs) => {
 export const projectMrwFilesDefaultOptions = () => ({
   "--prompt": '"ProjectMrwFiles> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
 })

@@ -1,6 +1,5 @@
 import { createConvertDropPrefix } from "@/fzf/converter/drop-prefix-converter"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { store } from "@/store"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
@@ -11,7 +10,6 @@ export const gitStatus = async (_args: SourceFuncArgs) => {
     throw new Error("The current directory is not a git project")
   }
 
-  const globalVariableSelector = createGlobalVariableSelector(store)
   const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
 
   if (typeof gitStatusCommand !== "string") {
@@ -32,5 +30,5 @@ export const dropGitStatusPrefix = createConvertDropPrefix(3)
 export const gitStatusDefaultOptions = () => ({
   "--prompt": '"GitStatus> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewGitStatusPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewGitStatusPreviewCommand")}"`
 })

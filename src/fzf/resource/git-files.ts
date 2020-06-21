@@ -1,7 +1,6 @@
-import { createExecuteCommandSelector } from "@/module/execute-command"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { executeCommandSelector } from "@/module/selector/execute-command"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import { store } from "@/store"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
@@ -11,8 +10,6 @@ export const gitFiles = async (_args: SourceFuncArgs) => {
     throw new Error("The current directory is not a git project")
   }
 
-  const globalVariableSelector = createGlobalVariableSelector(store)
-  const executeCommandSelector = createExecuteCommandSelector(store)
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
 
   if (typeof gitFilesCommand !== "string") {
@@ -38,5 +35,5 @@ export const gitFiles = async (_args: SourceFuncArgs) => {
 export const gitFilesDefaultOptions = () => ({
   "--prompt": '"GitFiles> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
 })

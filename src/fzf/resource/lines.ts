@@ -1,7 +1,6 @@
 import { logger } from "neovim/lib/utils/logger"
 
-import { createGlobalVariableSelector } from "@/module/vim-variable"
-import { store } from "@/store"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import { currentFilePath, existsFile } from "@/system/file"
 import type { SourceFuncArgs } from "@/type"
@@ -12,7 +11,7 @@ export const lines = async (_args: SourceFuncArgs) => {
   }
 
   const file = await currentFilePath()
-  const linesCommand = createGlobalVariableSelector(store)("fzfPreviewLinesCommand") as string
+  const linesCommand = globalVariableSelector("fzfPreviewLinesCommand") as string
   const { stdout, stderr, status } = execCommand(`${linesCommand} ${file}`)
 
   if (stderr !== "" || status !== 0) {
@@ -24,7 +23,7 @@ export const lines = async (_args: SourceFuncArgs) => {
 }
 
 const previewCommand = async () => {
-  const grepPreviewCommand = createGlobalVariableSelector(store)("fzfPreviewGrepPreviewCmd")
+  const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd")
   return `"${grepPreviewCommand} ${await currentFilePath()}:{1}"`
 }
 

@@ -1,13 +1,10 @@
-import { createExecuteCommandSelector } from "@/module/execute-command"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { executeCommandSelector } from "@/module/selector/execute-command"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import { store } from "@/store"
 import { execCommand } from "@/system/command"
 import type { SourceFuncArgs } from "@/type"
 
 export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
-  const globalVariableSelector = createGlobalVariableSelector(store)
-  const executeCommandSelector = createExecuteCommandSelector(store)
   const filelistCommand = globalVariableSelector("fzfPreviewDirectoryFilesCommand")
 
   if (typeof filelistCommand !== "string") {
@@ -33,5 +30,5 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
 export const directoryFilesDefaultOptions = () => ({
   "--prompt": '"DirectoryFiles> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
 })

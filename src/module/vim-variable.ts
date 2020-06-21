@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { VimValue } from "neovim/lib/types/VimValue"
 
 import { VIM_VARIABLE } from "@/const/module"
-import type { Store } from "@/store"
 import type { GlobalVariableName } from "@/type"
 
 type State = {
@@ -47,6 +46,3 @@ export const vimVariableModule = createSlice({
     }
   }
 })
-
-export const createGlobalVariableSelector = (store: Store) => (name: GlobalVariableName) =>
-  store.getState().vimVariable.global[name]

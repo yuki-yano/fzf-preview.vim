@@ -1,14 +1,13 @@
 import fs from "fs"
 
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
-import { store } from "@/store"
 import { existsDirectory, expandHome } from "@/system/file"
 
 const cacheDirectory = async () => {
   // TODO: Reduce the number of sync executions
   await syncVimVariable()
-  const cacheDir = createGlobalVariableSelector(store)("fzfPreviewCacheDirectory")
+  const cacheDir = globalVariableSelector("fzfPreviewCacheDirectory")
 
   if (typeof cacheDir !== "string" || cacheDir === "") {
     throw new Error("g:fzf_preview_cache_directory must be string")

@@ -1,7 +1,6 @@
-import { createExecuteCommandSelector } from "@/module/execute-command"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { executeCommandSelector } from "@/module/selector/execute-command"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVvar } from "@/plugin"
-import { store } from "@/store"
 import { convertForFzf } from "@/system/fzf"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type { ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
@@ -12,7 +11,6 @@ export const projectOldFiles = async (_args: SourceFuncArgs) => {
   }
 
   const files: ResourceLines = filterProjectEnabledFile((await pluginGetVvar("oldfiles")) as Array<ResourceLine>)
-  const executeCommandSelector = createExecuteCommandSelector(store)
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
@@ -25,5 +23,5 @@ export const projectOldFiles = async (_args: SourceFuncArgs) => {
 export const projectOldFilesDefaultOptions = () => ({
   "--prompt": '"ProjectOldFiles> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
 })

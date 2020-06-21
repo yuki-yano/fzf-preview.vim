@@ -2,15 +2,15 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import { commandDefinition } from "@/association/command"
 import { createProcessesFunctionName } from "@/fzf/process"
-import { createExecuteCommandSelector, State as ExecuteCommandState } from "@/module/execute-command"
+import { State as ExecuteCommandState } from "@/module/execute-command"
 import { loadStore } from "@/module/persist"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { executeCommandSelector } from "@/module/selector/execute-command"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { processesRunner } from "@/plugin/process-runner"
-import { dispatch, store } from "@/store"
+import { dispatch } from "@/store"
 import type { ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
 
 export const dropDevIcon = (lines: Array<string>, enableDevIcons: VimValue) => {
-  const globalVariableSelector = createGlobalVariableSelector(store)
   const devIconPrefixLength = globalVariableSelector("fzfPreviewDevIconPrefixStringLength")
   if (typeof devIconPrefixLength !== "number") {
     throw new Error("g:fzf_preview_dev_icon_prefix_string_length must be number")
@@ -41,6 +41,6 @@ const runProcess = (
 
 export const callProcess = async (lines: Array<string>) => {
   await dispatch(loadStore())
-  const executeCommand = createExecuteCommandSelector(store)()
+  const executeCommand = executeCommandSelector()
   runProcess(lines, executeCommand)
 }

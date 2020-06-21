@@ -1,7 +1,6 @@
 import { createSplitConverter } from "@/fzf/converter"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import { store } from "@/store"
 import type { SelectedLine, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
@@ -19,5 +18,5 @@ export const dropBufnr = (line: SelectedLine) => createSplitConverter(" ")(line)
 export const allBuffersDefaultOptions = () => ({
   "--prompt": '"AllBuffers> "',
   "--multi": true,
-  "--preview": `"${createGlobalVariableSelector(store)("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
 })

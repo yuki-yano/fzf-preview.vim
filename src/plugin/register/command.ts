@@ -4,11 +4,11 @@ import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { executeCommandModule } from "@/module/execute-command"
 import { saveStore } from "@/module/persist"
-import { createGlobalVariableSelector } from "@/module/vim-variable"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginRegisterCommand } from "@/plugin"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
-import { dispatch, store } from "@/store"
+import { dispatch } from "@/store"
 import { currentFilePath } from "@/system/file"
 import type { FzfCommand } from "@/type"
 
@@ -38,7 +38,6 @@ const registerCommand = ({
       })
       const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
-      const globalVariableSelector = createGlobalVariableSelector(store)
       dispatch(
         executeCommandModule.actions.setExecuteCommand({
           commandName,

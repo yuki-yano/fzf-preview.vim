@@ -4,7 +4,7 @@ import { executeCommandModule } from "@/module/execute-command"
 import { vimVariableModule } from "@/module/vim-variable"
 
 export type RootState = ReturnType<typeof store.getState>
-export type Store = ReturnType<typeof setupStore>
+export type AppStore = ReturnType<typeof setupStore>
 export type AppDispatch = typeof store.dispatch
 
 const setupStore = () => {

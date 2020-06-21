@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { VimValue } from "neovim/lib/types/VimValue"
 
 import { EXECUTE_COMMAND } from "@/const/module"
-import type { Store } from "@/store"
 import type { FzfPreviewCommandList } from "@/type"
 
 export type State = {
@@ -42,5 +41,3 @@ export const executeCommandModule = createSlice({
     }
   }
 })
-
-export const createExecuteCommandSelector = (store: Store) => () => store.getState().executeCommand
