@@ -1,7 +1,7 @@
 import { pluginCall } from "@/plugin"
 import type { ResourceLines } from "@/type"
 
-export const getBuffers = async (): Promise<ResourceLines> => {
+export const getBuffers = async (): Promise<Array<string>> => {
   return (await pluginCall("fzf_preview#remote#resource#buffers#get")) as ResourceLines
 }
 

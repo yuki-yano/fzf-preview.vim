@@ -5,7 +5,7 @@ import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
-  const bufferList = await getBuffers()
+  const bufferList = (await getBuffers()) as ResourceLines
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {

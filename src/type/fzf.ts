@@ -21,6 +21,7 @@ export type FzfCommandName =
   | "TSFzfPreviewProjectMruFiles"
   | "TSFzfPreviewProjectMrwFiles"
   | "TSFzfPreviewLines"
+  | "TSFzfPreviewBufferLines"
 
 export type SourceFuncArgs = {
   args: Array<string>

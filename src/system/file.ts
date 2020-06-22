@@ -28,6 +28,10 @@ export const existsDirectory = (dirPath: string): boolean => {
   }
 }
 
+export const readFile = (filePath: string): string => {
+  return fs.readFileSync(filePath, { encoding: "utf-8" })
+}
+
 export const currentFilePath = async (): Promise<string> => {
   const file = (await pluginCall("expand", "%")) as string
   return file
