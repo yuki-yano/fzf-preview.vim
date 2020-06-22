@@ -1,13 +1,13 @@
 import { createSplitConverter } from "@/fzf/converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { pluginCall } from "@/plugin"
-import type { ConvertedLine, ResourceLines, SourceFuncArgs } from "@/type"
+import { getAllBuffers } from "@/plugin/connector/buffers"
+import type { ConvertedLine, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
 const SPACER = "  "
 
 export const allBuffers = async (_args: SourceFuncArgs) => {
-  const allBufferList = (await pluginCall("fzf_preview#remote#resource#all_buffers#get")) as ResourceLines
+  const allBufferList = await getAllBuffers()
 
   const alignedAllBufferLists = alignLists(allBufferList.map((buffer) => buffer.split(" ")))
   return alignedAllBufferLists.map((list) => list.join(SPACER).trim())

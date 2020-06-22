@@ -1,7 +1,7 @@
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import { execCommand } from "@/system/command"
-import { convertForFzf } from "@/system/fzf"
 import { isGitDirectory } from "@/system/project"
 import type { SourceFuncArgs } from "@/type"
 
@@ -26,7 +26,8 @@ export const projectFiles = async (_args: SourceFuncArgs) => {
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
-    return convertForFzf(files)
+    const convertedFiles = await convertForFzf(files)
+    return convertedFiles
   } else {
     return files
   }

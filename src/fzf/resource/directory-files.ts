@@ -1,8 +1,8 @@
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { pluginCall } from "@/plugin"
+import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import { execCommand } from "@/system/command"
-import type { ResourceLines, SourceFuncArgs } from "@/type"
+import type { SourceFuncArgs } from "@/type"
 
 export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
   const filelistCommand = globalVariableSelector("fzfPreviewDirectoryFilesCommand")
@@ -21,7 +21,8 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
-    return (await pluginCall("fzf_preview#remote#converter#convert_for_fzf", [files])) as Promise<ResourceLines>
+    const convertedFiles = await convertForFzf(files)
+    return convertedFiles
   } else {
     return files
   }

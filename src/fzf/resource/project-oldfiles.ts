@@ -1,20 +1,21 @@
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { pluginGetVvar } from "@/plugin"
-import { convertForFzf } from "@/system/fzf"
+import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
+import { getOldFiles } from "@/plugin/connector/old-files"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
-import type { ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
+import type { SourceFuncArgs } from "@/type"
 
 export const projectOldFiles = async (_args: SourceFuncArgs) => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
 
-  const files: ResourceLines = filterProjectEnabledFile((await pluginGetVvar("oldfiles")) as Array<ResourceLine>)
+  const files = filterProjectEnabledFile(await getOldFiles())
 
   const { enableDevIcons } = executeCommandSelector().options
   if (enableDevIcons) {
-    return convertForFzf(files)
+    const convertedFiles = await convertForFzf(files)
+    return convertedFiles
   } else {
     return files
   }
