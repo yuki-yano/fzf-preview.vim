@@ -8,8 +8,8 @@ type Parameter = {
   options: FzfOptions
 }
 
-export const fzfRunner = ({ source, handler, options }: Parameter) => {
-  pluginCall("fzf_preview#remote#runner#fzf_run", {
+export const fzfRunner = async ({ source, handler, options }: Parameter): Promise<void> => {
+  await pluginCall("fzf_preview#remote#runner#fzf_run", {
     source,
     handler,
     options: fzfOptionsToString(options)

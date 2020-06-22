@@ -3,10 +3,6 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 import { executeCommandModule } from "@/module/execute-command"
 import { vimVariableModule } from "@/module/vim-variable"
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppStore = ReturnType<typeof setupStore>
-export type AppDispatch = typeof store.dispatch
-
 const setupStore = () => {
   const store = configureStore({
     reducer: {
@@ -21,3 +17,7 @@ const setupStore = () => {
 
 export const store = setupStore()
 export const { dispatch } = store
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppStore = ReturnType<typeof setupStore>
+export type AppDispatch = typeof store.dispatch

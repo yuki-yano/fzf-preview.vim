@@ -2,9 +2,9 @@ import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import { execCommand } from "@/system/command"
-import type { SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
+export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs): Promise<ResourceLines> => {
   const filelistCommand = globalVariableSelector("fzfPreviewDirectoryFilesCommand")
 
   if (typeof filelistCommand !== "string") {
@@ -28,8 +28,8 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs) => {
   }
 }
 
-export const directoryFilesDefaultOptions = () => ({
+export const directoryFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"DirectoryFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
 })

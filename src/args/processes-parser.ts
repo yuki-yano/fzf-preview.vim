@@ -11,7 +11,7 @@ const parseOptions = (options: ArgsOptions) => {
   throw new Error("--processes option can only be used once")
 }
 
-export const parseProcesses = (args: string) => {
+export const parseProcesses = (args: string): string | undefined => {
   const parser = argsParser()
   const options = parser.parse(args)
 

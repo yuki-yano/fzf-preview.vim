@@ -3,7 +3,7 @@ import type { AddFzfArgs, ArgsOptions } from "@/type"
 
 const optionsToAddFzfArgs = (options: ArgsOptions): Array<string> => {
   if (options["add-fzf-args"] && Array.isArray(options["add-fzf-args"])) {
-    return options["add-fzf-args"]
+    return options["add-fzf-args"] as Array<string>
   }
   if (options["add-fzf-args"] && typeof options["add-fzf-args"] === "string") {
     return [options["add-fzf-args"]]
@@ -31,7 +31,7 @@ const parseOptions = (options: ArgsOptions) => {
   return notExistsValueOptions.concat(existsValueOptions)
 }
 
-export const parseAddFzfArgs = (args: string) => {
+export const parseAddFzfArgs = (args: string): Array<AddFzfArgs> => {
   const parser = argsParser()
   const options = parser.parse(args)
 

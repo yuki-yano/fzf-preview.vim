@@ -10,28 +10,28 @@ describe("open file consumer", () => {
     })
 
     describe("with only filename", () => {
-      it("edit open file consumer", () => {
+      it("edit open file consumer", async () => {
         const line = "foo.txt"
-        editConsumer.consume(line)
+        await editConsumer.consume(line)
         expect(openFile).toHaveBeenCalledWith({ openCommand: "edit", file: "foo.txt" })
       })
 
-      it("split open file consumer", () => {
+      it("split open file consumer", async () => {
         const line = "foo.txt"
-        splitConsumer.consume(line)
+        await splitConsumer.consume(line)
         expect(openFile).toHaveBeenCalledWith({ openCommand: "split", file: "foo.txt" })
       })
     })
 
-    it("with filename and line number", () => {
+    it("with filename and line number", async () => {
       const line = "foo.txt:10"
-      editConsumer.consume(line)
+      await editConsumer.consume(line)
       expect(openFile).toHaveBeenCalledWith({ openCommand: "edit", file: "foo.txt", lineNumber: 10 })
     })
 
-    it("with filename, line number and text", () => {
+    it("with filename, line number and text", async () => {
       const line = "foo.txt:10 bar"
-      editConsumer.consume(line)
+      await editConsumer.consume(line)
       expect(openFile).toHaveBeenCalledWith({ openCommand: "edit", file: "foo.txt", lineNumber: 10 })
     })
 
@@ -48,15 +48,15 @@ describe("open file consumer", () => {
       ;(exportQuickFix as jest.Mock).mockClear()
     })
 
-    it("with only filename", () => {
+    it("with only filename", async () => {
       const lines = ["foo.txt", "bar.txt"]
-      exportQuickfixConsumer.consume(lines)
+      await exportQuickfixConsumer.consume(lines)
       expect(exportQuickFix).toHaveBeenCalledWith([{ filename: "foo.txt" }, { filename: "bar.txt" }])
     })
 
-    it("with filename, line number and text", () => {
+    it("with filename, line number and text", async () => {
       const lines = ["foo.txt:10", "bar.txt:20 foobar"]
-      exportQuickfixConsumer.consume(lines)
+      await exportQuickfixConsumer.consume(lines)
       expect(exportQuickFix).toHaveBeenCalledWith([
         { filename: "foo.txt", lnum: 10, text: "" },
         { filename: "bar.txt", lnum: 20, text: "foobar" }

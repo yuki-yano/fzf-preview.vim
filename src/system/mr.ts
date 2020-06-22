@@ -37,11 +37,11 @@ const readFile = async (filePath: string) => {
   return files
 }
 
-export const readMruFile = async () => {
+export const readMruFile = async (): Promise<Array<string>> => {
   const files = await readFile(await mruFilePath())
   return files
 }
-export const readMrwFile = async () => {
+export const readMrwFile = async (): Promise<Array<string>> => {
   const files = await readFile(await mrwFilePath())
   return files
 }
@@ -54,5 +54,5 @@ const appendFile = async (filePath: string, cacheFilePath: string) => {
   fs.writeFileSync(cacheFilePath, uniqFiles.join("\n"))
 }
 
-export const appendMruFile = async (filePath: string) => appendFile(filePath, await mruFilePath())
-export const appendMrwFile = async (filePath: string) => appendFile(filePath, await mrwFilePath())
+export const appendMruFile = async (filePath: string): Promise<void> => appendFile(filePath, await mruFilePath())
+export const appendMrwFile = async (filePath: string): Promise<void> => appendFile(filePath, await mrwFilePath())

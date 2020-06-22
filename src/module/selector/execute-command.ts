@@ -1,3 +1,4 @@
+import { State } from "@/module/execute-command"
 import { store } from "@/store"
 
-export const executeCommandSelector = () => store.getState().executeCommand
+export const executeCommandSelector = (): State => store.getState().executeCommand

@@ -1,6 +1,6 @@
-import yargs from "yargs"
+import yargs, { Argv } from "yargs"
 
-export const argsParser = () => {
+export const argsParser = (): Argv => {
   yargs.option("add-fzf-args", { type: "string" })
   yargs.option("processes", { type: "string" })
   yargs.parserConfiguration({

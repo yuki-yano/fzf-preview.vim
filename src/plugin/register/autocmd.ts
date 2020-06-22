@@ -1,7 +1,7 @@
 import { pluginRegisterAutocmd } from "@/plugin"
 import { appendMruFile, appendMrwFile } from "@/system/mr"
 
-export const registerAutocmd = () => {
+export const registerAutocmd = (): void => {
   pluginRegisterAutocmd("BufEnter,VimEnter,BufWinEnter,BufWritePost", (fileName: string) => appendMruFile(fileName), {
     sync: false,
     pattern: "*",

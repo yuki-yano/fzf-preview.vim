@@ -65,7 +65,7 @@ describe("generateOptions", () => {
   describe("set user processes", () => {
     it("open file processes", async () => {
       ;(pluginGetVar as jest.Mock).mockReturnValue(
-        new Promise<object>((resolve) => {
+        new Promise<Record<string, unknown>>((resolve) => {
           resolve({
             "": null,
             "ctrl-d": null,
@@ -99,7 +99,7 @@ describe("generateOptions", () => {
       }
 
       ;(pluginGetVar as jest.Mock).mockReturnValue(
-        new Promise<object>((resolve) => {
+        new Promise<Record<string, unknown>>((resolve) => {
           resolve({
             "": null,
             "ctrl-d": null,

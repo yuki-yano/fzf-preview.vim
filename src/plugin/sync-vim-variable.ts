@@ -19,7 +19,7 @@ const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValu
   }
 }
 
-export const syncVimVariable = async () => {
+export const syncVimVariable = async (): Promise<void> => {
   const variableNames = objectKeys(vimVariableAssociation)
   const vimVariableActions = vimVariableModule.actions
 

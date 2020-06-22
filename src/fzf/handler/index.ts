@@ -19,7 +19,7 @@ const dropDevIcon = (lines: SelectedLines, enableDevIcons: VimValue) => {
   return lines.map((line) => line.slice(enableDevIcons ? devIconPrefixLength : 0))
 }
 
-const runProcess = (
+const runProcess = async (
   lines: ExpectKeyAndSelectedLines,
   { commandName, options: { processesName, enableDevIcons } }: ExecuteCommandState
 ) => {
@@ -30,7 +30,7 @@ const runProcess = (
   const convertedLines = dropDevIcon(selectedLines, enableDevIcons).map(convertLine)
 
   if (commandName && expectKey != null) {
-    processesRunner({
+    await processesRunner({
       processesFunctionName: createProcessesFunctionName(commandName, expectKey),
       expectKey,
       lines: convertedLines,
@@ -39,8 +39,8 @@ const runProcess = (
   }
 }
 
-export const callProcess = async (lines: ConvertedLines) => {
+export const callProcess = async (lines: ConvertedLines): Promise<void> => {
   await dispatch(loadStore())
   const executeCommand = executeCommandSelector()
-  runProcess(lines, executeCommand)
+  await runProcess(lines, executeCommand)
 }

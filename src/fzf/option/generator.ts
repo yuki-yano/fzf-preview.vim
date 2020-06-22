@@ -47,7 +47,7 @@ export const generateOptions = async ({
   defaultProcesses,
   userProcessesName,
   userOptions
-}: OptionsArgs) => {
+}: OptionsArgs): Promise<FzfOptions> => {
   const expectFromDefaultProcess: FzfOptions = { "--expect": Object.entries(defaultProcesses).map(([key]) => key) }
 
   const userExpectFromProcesses: FzfOptions = userProcessesName

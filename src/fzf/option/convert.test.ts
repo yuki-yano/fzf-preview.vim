@@ -17,20 +17,8 @@ const defaultBind = [
 ]
 
 describe("joinBind", () => {
-  it("bind option is undefined", () => {
-    expect(joinBind({ "--bind": undefined })).toBe("")
-  })
-
-  it("bind option is string", () => {
-    expect(joinBind({ "--bind": "foo" })).toBe("")
-  })
-
   it("bind option is array", () => {
-    expect(
-      joinBind({
-        "--bind": defaultBind
-      })
-    ).toEqual("ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview")
+    expect(joinBind(defaultBind)).toEqual("ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview")
   })
 })
 

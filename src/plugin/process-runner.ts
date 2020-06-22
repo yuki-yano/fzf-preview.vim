@@ -8,8 +8,13 @@ type Args = {
   processesName?: string
 }
 
-export const processesRunner = ({ processesFunctionName, expectKey, lines, processesName }: Args) => {
-  pluginCall("fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default_process", [
+export const processesRunner = async ({
+  processesFunctionName,
+  expectKey,
+  lines,
+  processesName
+}: Args): Promise<void> => {
+  await pluginCall("fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default_process", [
     processesFunctionName,
     expectKey,
     lines,

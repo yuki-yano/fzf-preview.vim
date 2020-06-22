@@ -1,17 +1,13 @@
 import { definedFzfOptionTypesInPlugin } from "@/const/fzf-option"
 import type { FzfOptions } from "@/type"
 
-export const joinBind = (options: FzfOptions) => {
-  const bind = options["--bind"]
-  if (!Array.isArray(bind)) {
-    return ""
-  }
-
-  return bind
-    .map(({ key, action }) => {
-      return `${key}:${action}`
-    })
-    .join(",")
+export const joinBind = (
+  bind: Array<{
+    key: string
+    action: string
+  }>
+): string => {
+  return bind.map(({ key, action }) => `${key}:${action}`).join(",")
 }
 
 /* eslint-disable complexity */
@@ -21,8 +17,8 @@ const definedOptionsToArray = (options: FzfOptions) => {
   if (options["--ansi"]) {
     arrayOptions.push("--ansi")
   }
-  if (options["--bind"] && Array.isArray(options["--bind"])) {
-    arrayOptions.push(`--bind=${joinBind(options)}`)
+  if (options["--bind"] != null && Array.isArray(options["--bind"])) {
+    arrayOptions.push(`--bind=${joinBind(options["--bind"])}`)
   } else if (options["--bind"] && typeof options["--bind"] === "string") {
     arrayOptions.push(`--bind=${options["--bind"]}`)
   }
@@ -52,6 +48,6 @@ const optionsToArray = (options: FzfOptions) => {
   return arrayOptions
 }
 
-export const fzfOptionsToString = (options: FzfOptions) => {
+export const fzfOptionsToString = (options: FzfOptions): string => {
   return optionsToArray(options).join(" ")
 }

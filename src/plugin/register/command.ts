@@ -50,7 +50,7 @@ const registerCommand = ({
       )
       await dispatch(saveStore())
 
-      fzfRunner({
+      await fzfRunner({
         source: await sourceFunc(sourceFuncArgs),
         handler: handlerName,
         options: fzfOptions
@@ -60,7 +60,7 @@ const registerCommand = ({
   )
 }
 
-export const registerCommands = () => {
+export const registerCommands = (): void => {
   commandDefinition.forEach((command) => {
     registerCommand(command)
   })

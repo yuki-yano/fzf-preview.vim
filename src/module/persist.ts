@@ -9,7 +9,9 @@ import type { AppDispatch, RootState } from "@/store"
 export const loadStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,
   async (_: undefined, { dispatch }) => {
-    const restoredStore: Partial<RootState> = await pluginCall("fzf_preview#remote#store#restore_store")
+    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
+      RootState
+    >
     dispatch(vimVariableModule.actions.restore(restoredStore.vimVariable))
     dispatch(executeCommandModule.actions.restore(restoredStore.executeCommand))
   }

@@ -54,8 +54,7 @@ module.exports = {
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
 
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": "off",

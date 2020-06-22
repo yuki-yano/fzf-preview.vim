@@ -61,7 +61,7 @@ export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
         }
       }
 
-      throw new Error(`SelectedLine is invalid: '${parsedLine}'`)
+      throw new Error(`SelectedLine is invalid: '${parsedLine.toString()}'`)
     })
 
   await exportQuickFix(quickFixList)

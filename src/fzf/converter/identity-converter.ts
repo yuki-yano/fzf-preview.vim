@@ -1,3 +1,3 @@
 import type { SelectedLine } from "@/type"
 
-export const convertIdentity = (line: SelectedLine) => line
+export const convertIdentity = (line: SelectedLine): SelectedLine => line

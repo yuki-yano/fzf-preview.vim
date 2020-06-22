@@ -17,8 +17,8 @@ module.exports = (plugin: NvimPlugin) => {
 
   plugin.registerCommand(
     "HelloFzfPreview",
-    (_args: Array<string>) => {
-      plugin.nvim.command("echo 'Hello FzfPreview!'")
+    async (_args: Array<string>) => {
+      await plugin.nvim.command("echo 'Hello FzfPreview!'")
       console.log("Hello FzfPreview!")
     },
     { nargs: "*" }

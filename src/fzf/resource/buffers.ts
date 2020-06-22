@@ -2,9 +2,9 @@ import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { getBuffers } from "@/plugin/connector/buffers"
 import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
-import type { SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const buffers = async (_args: SourceFuncArgs) => {
+export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   const bufferList = await getBuffers()
 
   const { enableDevIcons } = executeCommandSelector().options
@@ -16,8 +16,8 @@ export const buffers = async (_args: SourceFuncArgs) => {
   }
 }
 
-export const buffersDefaultOptions = () => ({
+export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Buffers> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
 })

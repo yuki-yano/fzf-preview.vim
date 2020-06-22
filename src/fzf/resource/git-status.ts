@@ -2,10 +2,10 @@ import { createConvertDropPrefix } from "@/fzf/converter/drop-prefix-converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
-import type { SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const gitStatus = async (_args: SourceFuncArgs) => {
+export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -27,8 +27,8 @@ export const gitStatus = async (_args: SourceFuncArgs) => {
 
 export const dropGitStatusPrefix = createConvertDropPrefix(3)
 
-export const gitStatusDefaultOptions = () => ({
+export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitStatus> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewGitStatusPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}"`
 })

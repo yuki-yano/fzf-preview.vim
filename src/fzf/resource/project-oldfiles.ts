@@ -3,9 +3,9 @@ import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import { getOldFiles } from "@/plugin/connector/old-files"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
-import type { SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const projectOldFiles = async (_args: SourceFuncArgs) => {
+export const projectOldFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -21,8 +21,8 @@ export const projectOldFiles = async (_args: SourceFuncArgs) => {
   }
 }
 
-export const projectOldFilesDefaultOptions = () => ({
+export const projectOldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectOldFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand")}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
 })

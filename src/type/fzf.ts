@@ -52,6 +52,12 @@ export type FzfOptions = {
   [otherProperty: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
+export type FzfCommandDefinitionDefaultOption = {
+  "--prompt": string
+  "--multi": boolean
+  "--preview": string
+}
+
 export type AddFzfArgs = {
   optionName: string
   value?: string

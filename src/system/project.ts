@@ -3,7 +3,7 @@ import { execCommand } from "@/system/command"
 import { existsFile } from "@/system/file"
 import type { ResourceLines } from "@/type"
 
-export const isGitDirectory = () => {
+export const isGitDirectory = (): boolean => {
   const { status } = execCommand(IS_GIT_DIRECTORY_COMMAND)
   return typeof status === "number" && status === 0
 }
@@ -19,7 +19,7 @@ const getProjectRoot = () => {
 
 export const projectRoot = getProjectRoot()
 
-export const filePathToProjectFilePath = (filePath: string) => {
+export const filePathToProjectFilePath = (filePath: string): string | null => {
   const regex = new RegExp(`^${projectRoot}/(?<fileName>.+)`)
   const execArray = regex.exec(filePath)
 
@@ -30,7 +30,7 @@ export const filePathToProjectFilePath = (filePath: string) => {
   return execArray.groups.fileName
 }
 
-export const filterProjectEnabledFile = (filePaths: ResourceLines) =>
+export const filterProjectEnabledFile = (filePaths: ResourceLines): Array<string> =>
   filePaths
     .filter((file) => existsFile(file))
     .map((filePath) => filePathToProjectFilePath(filePath))
