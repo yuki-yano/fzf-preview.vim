@@ -22,6 +22,12 @@ import {
   gitStatusDefaultOptions,
   lines,
   linesDefaultOptions,
+  mruFiles,
+  mruFilesDefaultOptions,
+  mrwFiles,
+  mrwFilesDefaultOptions,
+  oldFiles,
+  oldFilesDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
   projectMruFiles,
@@ -156,5 +162,32 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: bufferTagsDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: false
+  },
+  {
+    commandName: "TSFzfPreviewOldFiles",
+    sourceFunc: oldFiles,
+    convertLine: convertLineToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: oldFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewMruFiles",
+    sourceFunc: mruFiles,
+    convertLine: convertLineToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: mruFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewMrwFiles",
+    sourceFunc: mrwFiles,
+    convertLine: convertLineToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: mrwFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
   }
 ] as const
