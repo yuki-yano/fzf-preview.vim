@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { convertIdentity, convertLineToFileAndText } from "@/fzf/converter"
+import { convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
@@ -8,6 +8,10 @@ import {
   bufferLinesDefaultOptions,
   buffers,
   buffersDefaultOptions,
+  bufferTags,
+  bufferTagsDefaultOptions,
+  ctags,
+  ctagsDefaultOptions,
   directoryFiles,
   directoryFilesDefaultOptions,
   dropBufnr,
@@ -134,5 +138,23 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: bufferLinesDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewCtags",
+    sourceFunc: ctags,
+    convertLine: convertTags,
+    vimCommandOptions,
+    defaultFzfOptionFunc: ctagsDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: false
+  },
+  {
+    commandName: "TSFzfPreviewBufferTags",
+    sourceFunc: bufferTags,
+    convertLine: convertLineToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: bufferTagsDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: false
   }
 ] as const
