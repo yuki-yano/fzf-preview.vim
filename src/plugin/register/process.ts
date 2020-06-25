@@ -1,5 +1,5 @@
 import { commandDefinition } from "@/association/command"
-import { createProcessesFunctionName } from "@/fzf/process"
+import { createProcessesFunctionName } from "@/fzf/util"
 import { pluginRegisterFunction } from "@/plugin"
 
 export const registerProcesses = (): void => {

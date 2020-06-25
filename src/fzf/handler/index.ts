@@ -1,7 +1,7 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 
 import { commandDefinition } from "@/association/command"
-import { createProcessesFunctionName } from "@/fzf/process"
+import { createProcessesFunctionName } from "@/fzf/util"
 import { State as ExecuteCommandState } from "@/module/execute-command"
 import { loadStore } from "@/module/persist"
 import { executeCommandSelector } from "@/module/selector/execute-command"

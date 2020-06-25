@@ -1,5 +1,5 @@
 import { parseDictionaryFilesArgs } from "@/args"
-import { convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
+import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
@@ -22,6 +22,8 @@ import {
   gitStatusDefaultOptions,
   lines,
   linesDefaultOptions,
+  locationList,
+  locationListDefaultOptions,
   mruFiles,
   mruFilesDefaultOptions,
   mrwFiles,
@@ -35,7 +37,9 @@ import {
   projectMrwFiles,
   projectMrwFilesDefaultOptions,
   projectOldFiles,
-  projectOldFilesDefaultOptions
+  projectOldFilesDefaultOptions,
+  quickFix,
+  quickFixDefaultOptions
 } from "@/fzf/resource"
 import type { FzfCommand } from "@/type"
 
@@ -166,7 +170,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewOldFiles",
     sourceFunc: oldFiles,
-    convertLine: convertLineToFileAndText,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: oldFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
@@ -175,7 +179,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewMruFiles",
     sourceFunc: mruFiles,
-    convertLine: convertLineToFileAndText,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: mruFilesDefaultOptions,
     defaultProcesses: openFileProcesses,
@@ -184,9 +188,27 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "TSFzfPreviewMrwFiles",
     sourceFunc: mrwFiles,
-    convertLine: convertLineToFileAndText,
+    convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: mrwFilesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewQuickFix",
+    sourceFunc: quickFix,
+    convertLine: convertGrepToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: quickFixDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewLocationList",
+    sourceFunc: locationList,
+    convertLine: convertGrepToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: locationListDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
   }
