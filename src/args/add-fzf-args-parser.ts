@@ -24,9 +24,7 @@ const parseOptions = (options: ArgsOptions) => {
   const existsValueOptions: Array<AddFzfArgs> = addFzfArgs
     .map((arg) => /(--?\S+)=(.+)$/.exec(arg))
     .filter((match): match is RegExpExecArray => match != null)
-    .map((match) => {
-      return { optionName: match[1], value: match[2] }
-    })
+    .map((match) => ({ optionName: match[1], value: match[2] }))
 
   return notExistsValueOptions.concat(existsValueOptions)
 }
