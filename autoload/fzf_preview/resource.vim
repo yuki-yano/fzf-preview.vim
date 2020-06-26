@@ -196,12 +196,12 @@ function! fzf_preview#resource#buffer_tags() abort
 endfunction
 
 function! fzf_preview#resource#jumps() abort
-  let splited_project_path = split(fzf_preview#util#project_root(), '/')
+  let splitted_project_path = split(fzf_preview#util#project_root(), '/')
   let bufnr_and_lnum_list = map(copy(getjumplist()[0]), {
   \ _, jump -> { 'bufnr': jump['bufnr'], 'lnum': jump['lnum'] }
   \ })
 
-  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path)
+  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path)
 
   call reverse(result)
   return fzf_preview#converter#convert_for_fzf(result, 1)
@@ -227,7 +227,7 @@ function! fzf_preview#resource#changes() abort
 endfunction
 
 function! fzf_preview#resource#marks() abort
-  let splited_project_path = split(fzf_preview#util#project_root(), '/')
+  let splitted_project_path = split(fzf_preview#util#project_root(), '/')
 
   let chars = [
   \ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -243,7 +243,7 @@ function! fzf_preview#resource#marks() abort
   \ })
   call filter(bufnr_and_lnum_list, { _, bufnr_and_lnum -> bufnr_and_lnum['lnum'] != 0 })
 
-  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path)
+  let result = s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path)
   return fzf_preview#converter#convert_for_fzf(result, 1)
 endfunction
 
@@ -279,11 +279,11 @@ endfunction
 
 function! s:filter_history_file_to_project_file(files) abort
   let readable_filelist = filter(a:files, { _, file -> filereadable(file) })
-  let splited_project_path = split(fzf_preview#util#project_root(), '/')
+  let splitted_project_path = split(fzf_preview#util#project_root(), '/')
 
   let project_files = []
   for readable_file in readable_filelist
-    if fzf_preview#util#is_project_file(readable_file, splited_project_path)
+    if fzf_preview#util#is_project_file(readable_file, splitted_project_path)
       let project_files = add(project_files, readable_file)
     endif
   endfor
@@ -291,7 +291,7 @@ function! s:filter_history_file_to_project_file(files) abort
   return map(project_files, "fnamemodify(v:val, ':.')")
 endfunction
 
-function! s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path) abort
+function! s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path) abort
   let result = []
   for bufnr_and_lnum in a:bufnr_and_lnum_list
     let bufnr = bufnr_and_lnum['bufnr']
@@ -302,7 +302,7 @@ function! s:bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path) a
       let bufinfo = bufinfos[0]
       let file = bufinfo['name']
 
-      if fzf_preview#util#is_project_file(file, a:splited_project_path) && filereadable(file)
+      if fzf_preview#util#is_project_file(file, a:splitted_project_path) && filereadable(file)
         let file = fnamemodify(file, ':.')
         let line_number = lnum
         let lines = getbufline(bufname(bufnr), lnum)

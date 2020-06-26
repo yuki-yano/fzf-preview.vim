@@ -19,16 +19,16 @@ function! fzf_preview#util#is_git_directory() abort
   endif
 endfunction
 
-function! fzf_preview#util#is_project_file(file, splited_project_path) abort
-  let splited_file_path = split(a:file, '/')
-  if len(splited_file_path) == 0
+function! fzf_preview#util#is_project_file(file, splitted_project_path) abort
+  let splitted_file_path = split(a:file, '/')
+  if len(splitted_file_path) == 0
     return 0
   endif
 
   let is_project_file = 1
   let index = 0
-  for dir_name in a:splited_project_path[:len(splited_file_path) - 1]
-    if dir_name !=# splited_file_path[index]
+  for dir_name in a:splitted_project_path[:len(splitted_file_path) - 1]
+    if dir_name !=# splitted_file_path[index]
       let is_project_file = 0
     endif
     let index = index + 1

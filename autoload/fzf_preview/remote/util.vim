@@ -9,16 +9,16 @@ function! fzf_preview#remote#util#project_root() abort
   return strpart(git_root, 0, strlen(git_root) - 1)
 endfunction
 
-function! fzf_preview#remote#util#is_project_file(file, splited_project_path) abort
-  let splited_file_path = split(a:file, '/')
-  if len(splited_file_path) == 0
+function! fzf_preview#remote#util#is_project_file(file, splitted_project_path) abort
+  let splitted_file_path = split(a:file, '/')
+  if len(splitted_file_path) == 0
     return 0
   endif
 
   let is_project_file = 1
   let index = 0
-  for dir_name in a:splited_project_path[:len(splited_file_path) - 1]
-    if dir_name !=# splited_file_path[index]
+  for dir_name in a:splitted_project_path[:len(splitted_file_path) - 1]
+    if dir_name !=# splitted_file_path[index]
       let is_project_file = 0
     endif
     let index = index + 1
@@ -27,7 +27,7 @@ function! fzf_preview#remote#util#is_project_file(file, splited_project_path) ab
   return is_project_file
 endfunction
 
-function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splited_project_path) abort
+function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path) abort
   let result = []
   for bufnr_and_lnum in a:bufnr_and_lnum_list
     let bufnr = bufnr_and_lnum['bufnr']
@@ -38,7 +38,7 @@ function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, s
       let bufinfo = bufinfos[0]
       let file = bufinfo['name']
 
-      if fzf_preview#remote#util#is_project_file(file, a:splited_project_path) && filereadable(file)
+      if fzf_preview#remote#util#is_project_file(file, a:splitted_project_path) && filereadable(file)
         let file = fnamemodify(file, ':.')
         let line_number = lnum
         let lines = getbufline(bufname(bufnr), lnum)
