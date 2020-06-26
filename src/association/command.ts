@@ -28,6 +28,8 @@ import {
   linesDefaultOptions,
   locationList,
   locationListDefaultOptions,
+  marks,
+  marksDefaultOptions,
   mruFiles,
   mruFilesDefaultOptions,
   mrwFiles,
@@ -233,5 +235,14 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: changesDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: false
+  },
+  {
+    commandName: "TSFzfPreviewMarks",
+    sourceFunc: marks,
+    convertLine: convertGrepToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: marksDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
   }
 ] as const
