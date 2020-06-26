@@ -1,4 +1,4 @@
-import { parseDictionaryFilesArgs } from "@/args"
+import { parseDictionaryFilesArgs, parseGrepArgs } from "@/args"
 import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
@@ -38,6 +38,8 @@ import {
   oldFilesDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
+  projectGrep,
+  projectGrepDefaultOptions,
   projectMruFiles,
   projectMruFilesDefaultOptions,
   projectMrwFiles,
@@ -242,6 +244,16 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: marksDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewProjectGrep",
+    sourceFunc: projectGrep,
+    convertLine: convertGrepToFileAndText,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectGrepDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
   }

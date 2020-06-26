@@ -32,6 +32,7 @@ export type FzfCommandName =
   | "TSFzfPreviewJumps"
   | "TSFzfPreviewChanges"
   | "TSFzfPreviewMarks"
+  | "TSFzfPreviewProjectGrep"
 
 export type SourceFuncArgs = {
   args: Array<string>
