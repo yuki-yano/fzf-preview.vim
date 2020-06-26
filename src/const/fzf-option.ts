@@ -1,1 +1,1 @@
-export const definedFzfOptionTypesInPlugin = ["--ansi", "--bind", "--expect"] as const
+export const DEFINED_FZF_OPTION_TYPES_IN_PLUGIN = ["--ansi", "--bind", "--expect"] as const

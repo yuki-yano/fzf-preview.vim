@@ -1,4 +1,4 @@
-import { definedFzfOptionTypesInPlugin } from "@/const/fzf-option"
+import { DEFINED_FZF_OPTION_TYPES_IN_PLUGIN } from "@/const/fzf-option"
 import type { FzfOptions } from "@/type"
 
 export const joinBind = (
@@ -36,7 +36,7 @@ const optionsToArray = (options: FzfOptions) => {
   const arrayOptions = definedOptionsToArray(options)
 
   Object.entries(options)
-    .filter(([key]) => !(definedFzfOptionTypesInPlugin as ReadonlyArray<string>).includes(key))
+    .filter(([key]) => !(DEFINED_FZF_OPTION_TYPES_IN_PLUGIN as ReadonlyArray<string>).includes(key))
     .forEach(([key, value]) => {
       if (typeof value !== "string") {
         arrayOptions.push(`${key}`)
