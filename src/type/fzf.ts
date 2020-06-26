@@ -29,6 +29,8 @@ export type FzfCommandName =
   | "TSFzfPreviewMrwFiles"
   | "TSFzfPreviewQuickFix"
   | "TSFzfPreviewLocationList"
+  | "TSFzfPreviewJumps"
+  | "TSFzfPreviewChanges"
 
 export type SourceFuncArgs = {
   args: Array<string>

@@ -21,6 +21,9 @@ endfunction
 
 function! fzf_preview#util#is_project_file(file, splited_project_path) abort
   let splited_file_path = split(a:file, '/')
+  if len(splited_file_path) == 0
+    return 0
+  endif
 
   let is_project_file = 1
   let index = 0

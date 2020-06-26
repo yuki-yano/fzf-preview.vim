@@ -10,6 +10,8 @@ import {
   buffersDefaultOptions,
   bufferTags,
   bufferTagsDefaultOptions,
+  changes,
+  changesDefaultOptions,
   ctags,
   ctagsDefaultOptions,
   directoryFiles,
@@ -20,6 +22,8 @@ import {
   gitFilesDefaultOptions,
   gitStatus,
   gitStatusDefaultOptions,
+  jumps,
+  jumpsDefaultOptions,
   lines,
   linesDefaultOptions,
   locationList,
@@ -211,5 +215,23 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: locationListDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewJumps",
+    sourceFunc: jumps,
+    convertLine: convertGrepToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: jumpsDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewChanges",
+    sourceFunc: changes,
+    convertLine: convertLineToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: changesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: false
   }
 ] as const
