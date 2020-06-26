@@ -19,12 +19,19 @@ const registerCommand = ({
   vimCommandOptions,
   defaultFzfOptionFunc,
   defaultProcesses,
-  enableDevIcons
+  enableDevIcons,
+  beforeCommandHook
 }: FzfCommand) => {
   pluginRegisterCommand(
     commandName,
-    async ([args]: Array<string>) => {
+    async (param: Array<string>) => {
+      const args = param[0] != null ? param[0] : ""
+
       await syncVimVariable()
+
+      if (beforeCommandHook != null) {
+        beforeCommandHook(args)
+      }
 
       const addFzfOptions = parseAddFzfArgs(args)
       const processesName = parseProcesses(args)

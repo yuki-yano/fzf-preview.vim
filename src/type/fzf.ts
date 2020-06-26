@@ -33,6 +33,7 @@ export type FzfCommandName =
   | "TSFzfPreviewChanges"
   | "TSFzfPreviewMarks"
   | "TSFzfPreviewProjectGrep"
+  | "TSFzfPreviewProjectCommandGrep"
 
 export type SourceFuncArgs = {
   args: Array<string>
@@ -46,10 +47,11 @@ export type FzfCommand = {
   sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () =>
-    | { [optionName: string]: string | boolean }
-    | Promise<{ [optionName: string]: string | boolean }>
+    | { [optionName: string]: string | boolean | undefined }
+    | Promise<{ [optionName: string]: string | boolean | undefined }>
   defaultProcesses: Processes
   enableDevIcons: boolean
+  beforeCommandHook?: (args: string) => void
 }
 
 export type FzfOptions = {
@@ -68,6 +70,11 @@ export type FzfCommandDefinitionDefaultOption = {
   "--prompt": string
   "--multi": boolean
   "--preview": string
+  "--no-sort"?: boolean
+  "--delimiter"?: string
+  "--phony"?: boolean
+  "--bind"?: string
+  "--query"?: string
 }
 
 export type AddFzfArgs = {

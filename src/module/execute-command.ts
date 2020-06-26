@@ -11,6 +11,11 @@ export type State = {
     enableDevIcons: VimValue
     currentFilePath: string
   }
+  extra: {
+    commandGrep?: {
+      defaultQuery: string
+    }
+  }
 }
 
 const initialState: State = {
@@ -18,7 +23,8 @@ const initialState: State = {
   options: {
     enableDevIcons: false,
     currentFilePath: ""
-  }
+  },
+  extra: {}
 }
 
 export const executeCommandModule = createSlice({
@@ -38,6 +44,10 @@ export const executeCommandModule = createSlice({
       const { commandName, options } = payload
       state.commandName = commandName
       state.options = options
+    },
+    setExtraCommandGrep: (state, { payload }: PayloadAction<{ defaultQuery: string }>) => {
+      const { defaultQuery } = payload
+      state.extra.commandGrep = { defaultQuery }
     }
   }
 })

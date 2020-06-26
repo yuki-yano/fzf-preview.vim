@@ -16,6 +16,7 @@ import {
   ctagsDefaultOptions,
   directoryFiles,
   directoryFilesDefaultOptions,
+  dispatchDefaultQueryForCommandGrep,
   dropBufnr,
   dropGitStatusPrefix,
   gitFiles,
@@ -36,6 +37,8 @@ import {
   mrwFilesDefaultOptions,
   oldFiles,
   oldFilesDefaultOptions,
+  projectCommandGrep,
+  projectCommandGrepDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
   projectGrep,
@@ -256,5 +259,16 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultFzfOptionFunc: projectGrepDefaultOptions,
     defaultProcesses: openFileProcesses,
     enableDevIcons: true
+  },
+  {
+    commandName: "TSFzfPreviewProjectCommandGrep",
+    sourceFunc: projectCommandGrep,
+    convertLine: convertGrepToFileAndText,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectCommandGrepDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: false,
+    beforeCommandHook: dispatchDefaultQueryForCommandGrep
   }
 ] as const
