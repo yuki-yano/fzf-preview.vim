@@ -49,7 +49,7 @@ function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, s
           let text = ''
         endif
 
-        call add(result, file . ':' . line_number . ' ' . text)
+        call add(result, file . ':' . line_number . ':' . text)
       endif
     endif
   endfor

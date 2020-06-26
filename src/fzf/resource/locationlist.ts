@@ -8,7 +8,7 @@ import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs }
 export const locationList = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   const lines = (await getLocationList()).map((line) => {
     const { fileName, lineNumber, text } = parseQuickFixAndLocationListLine(line)
-    return `${fileName}:${lineNumber} ${text}`
+    return `${fileName}:${lineNumber}:${text}`
   })
 
   const { enableDevIcons } = executeCommandSelector().options

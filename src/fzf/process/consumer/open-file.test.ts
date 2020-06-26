@@ -55,7 +55,7 @@ describe("open file consumer", () => {
     })
 
     it("with filename, line number and text", async () => {
-      const lines = ["foo.txt:10", "bar.txt:20 foobar"]
+      const lines = ["foo.txt:10", "bar.txt:20:foobar"]
       await exportQuickfixConsumer.consume(lines)
       expect(exportQuickFix).toHaveBeenCalledWith([
         { filename: "foo.txt", lnum: 10, text: "" },

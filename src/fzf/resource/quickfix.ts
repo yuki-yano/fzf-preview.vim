@@ -8,7 +8,7 @@ import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs }
 export const quickFix = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   const lines = (await getQuickFix()).map((line) => {
     const { fileName, lineNumber, text } = parseQuickFixAndLocationListLine(line)
-    return `${fileName}:${lineNumber} ${text}`
+    return `${fileName}:${lineNumber}:${text}`
   })
 
   const { enableDevIcons } = executeCommandSelector().options

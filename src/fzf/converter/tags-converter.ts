@@ -6,5 +6,5 @@ export const convertTags = (line: SelectedLine): ConvertedLine => {
   const lineNumber = arr[0]
   const text = arr.slice(1, -1).join(" ")
 
-  return `${file}:${lineNumber} ${text}`
+  return `${file}:${lineNumber}:${text}`
 }

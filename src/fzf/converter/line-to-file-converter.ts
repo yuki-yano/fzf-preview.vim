@@ -5,5 +5,5 @@ export const convertLineToFileAndText = (line: SelectedLine): ConvertedLine => {
   const { currentFilePath } = executeCommandSelector().options
 
   const [lineNumber, ...text] = line.trim().split(" ")
-  return `${currentFilePath}:${lineNumber} ${text.join(" ")}`
+  return `${currentFilePath}:${lineNumber}:${text.join(" ")}`
 }

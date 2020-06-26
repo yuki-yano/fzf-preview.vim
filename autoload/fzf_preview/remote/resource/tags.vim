@@ -42,4 +42,3 @@ function! s:parse_tagline(line) abort
 
   return info
 endfunction
-
