@@ -1,4 +1,5 @@
 import { parseDictionaryFilesArgs, parseGrepArgs } from "@/args"
+import { parseResources } from "@/args/files-from-resources-parser"
 import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
 import { openFileProcesses } from "@/fzf/process"
 import {
@@ -19,6 +20,8 @@ import {
   dispatchDefaultQueryForCommandGrep,
   dropBufnr,
   dropGitStatusPrefix,
+  filesFromResources,
+  filesFromResourcesDefaultOptions,
   gitFiles,
   gitFilesDefaultOptions,
   gitStatus,
@@ -270,5 +273,15 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultProcesses: openFileProcesses,
     enableDevIcons: false,
     beforeCommandHook: dispatchDefaultQueryForCommandGrep
+  },
+  {
+    commandName: "TSFzfPreviewFromResources",
+    sourceFunc: filesFromResources,
+    convertLine: convertIdentity,
+    sourceFuncArgsParser: parseResources,
+    vimCommandOptions,
+    defaultFzfOptionFunc: filesFromResourcesDefaultOptions,
+    defaultProcesses: openFileProcesses,
+    enableDevIcons: true
   }
 ] as const
