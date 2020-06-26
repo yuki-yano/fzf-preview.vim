@@ -1,5 +1,5 @@
+import { getChanges } from "@/connector/changes"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getChanges } from "@/plugin/connector/changes"
 import { currentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"

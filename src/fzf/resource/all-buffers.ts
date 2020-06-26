@@ -1,6 +1,6 @@
+import { getAllBuffers } from "@/connector/buffers"
 import { createSplitConverter } from "@/fzf/converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getAllBuffers } from "@/plugin/connector/buffers"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,

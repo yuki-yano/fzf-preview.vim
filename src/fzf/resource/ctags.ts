@@ -1,5 +1,5 @@
+import { getCtags } from "@/connector/tags"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getCtags } from "@/plugin/connector/tags"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const ctags = async (_args: SourceFuncArgs): Promise<ResourceLines> => {

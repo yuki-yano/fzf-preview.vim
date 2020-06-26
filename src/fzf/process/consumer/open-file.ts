@@ -1,5 +1,5 @@
+import { exportQuickFix, openFile } from "@/connector/open-file"
 import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
-import { exportQuickFix, openFile } from "@/plugin/connector/open-file"
 import type { ConvertedLine, ExportQuickFix, OpenCommand, OpenFile } from "@/type"
 
 type ParsedLine = {

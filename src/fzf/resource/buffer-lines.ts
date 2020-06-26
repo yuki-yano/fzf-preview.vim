@@ -1,7 +1,7 @@
+import { getBuffers } from "@/connector/buffers"
+import { convertForFzf } from "@/connector/convert-for-fzf"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getBuffers } from "@/plugin/connector/buffers"
-import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
 import { readFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 

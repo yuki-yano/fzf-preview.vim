@@ -1,8 +1,8 @@
+import { convertForFzf } from "@/connector/convert-for-fzf"
+import { getQuickFix } from "@/connector/quickfix-and-locationlist"
 import { parseQuickFixAndLocationListLine } from "@/fzf/util"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { convertForFzf } from "@/plugin/connector/convert-for-fzf"
-import { getQuickFix } from "@/plugin/connector/quickfix-and-locationlist"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const quickFix = async (_args: SourceFuncArgs): Promise<ResourceLines> => {

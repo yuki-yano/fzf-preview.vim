@@ -1,7 +1,7 @@
+import { exportQuickFix, openFile } from "@/connector/open-file"
 import { editConsumer, exportQuickfixConsumer, splitConsumer } from "@/fzf/process/consumer/open-file"
-import { exportQuickFix, openFile } from "@/plugin/connector/open-file"
 
-jest.mock("@/plugin/connector/open-file")
+jest.mock("@/connector/open-file")
 
 describe("open file consumer", () => {
   describe("open command", () => {
@@ -39,7 +39,7 @@ describe("open file consumer", () => {
       const line = " foo"
       await expect(async () => {
         await editConsumer.consume(line)
-      }).rejects.toThrow("SelectedLine is invalid: ' foo'")
+      }).rejects.toThrow("ConvertedLine is invalid: ' foo'")
     })
   })
 
@@ -67,7 +67,7 @@ describe("open file consumer", () => {
       const lines = [" foo", " bar"]
       await expect(async () => {
         await exportQuickfixConsumer.consume(lines)
-      }).rejects.toThrow("SelectedLine is invalid: ' foo'")
+      }).rejects.toThrow("ConvertedLine is invalid: ' foo'")
     })
   })
 })
