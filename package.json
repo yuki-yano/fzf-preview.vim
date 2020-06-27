@@ -16,6 +16,7 @@
   "author": "yuki-yano",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "camelcase": "^6.0.0",
     "neovim": "^4.9.0",
     "printf": "^0.5.3",
     "redux": "^4.0.5",

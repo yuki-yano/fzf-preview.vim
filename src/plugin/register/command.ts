@@ -2,6 +2,7 @@ import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses } from "@/arg
 import { commandDefinition } from "@/association/command"
 import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
+import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
 import { saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
@@ -18,7 +19,7 @@ const registerCommand = ({
   sourceFuncArgsParser,
   vimCommandOptions,
   defaultFzfOptionFunc,
-  defaultProcesses,
+  defaultProcessesName,
   enableDevIcons,
   beforeCommandHook
 }: FzfCommand) => {
@@ -37,6 +38,11 @@ const registerCommand = ({
       const processesName = parseProcesses(args)
 
       const defaultOptions = defaultFzfOptionFunc()
+      const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
+      if (targetProcessesDefinition == null) {
+        throw new Error(`Processes not found: "${defaultProcessesName}"`)
+      }
+      const defaultProcesses = targetProcessesDefinition.processes
       const fzfOptions = await generateOptions({
         fzfCommandDefaultOptions: defaultOptions instanceof Promise ? await defaultOptions : defaultOptions,
         defaultProcesses,

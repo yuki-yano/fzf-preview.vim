@@ -1,7 +1,9 @@
-import type { FzfPreviewCommandList } from "@/type"
+import camelCase from "camelcase"
 
-export const createProcessesFunctionName = (commandName: FzfPreviewCommandList, expectKey: string): string =>
-  `${commandName}_${expectKey.replace("-", "_")}`
+import type { ProcessesName } from "@/type"
+
+export const createProcessFunctionName = (processesName: ProcessesName, expectKey: string): string =>
+  camelCase(`fzf-preview-${processesName}-${expectKey}`, { pascalCase: true })
 
 type ParsedQuickFix = {
   fileName: string

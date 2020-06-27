@@ -1,6 +1,6 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
-import type { Processes } from "@/type"
+import { ProcessesName } from "@/type/process"
 
 export type ResourceLine = string
 export type ResourceLines = Array<ResourceLine>
@@ -50,7 +50,7 @@ export type FzfCommand = {
   defaultFzfOptionFunc: () =>
     | { [optionName: string]: string | boolean | undefined }
     | Promise<{ [optionName: string]: string | boolean | undefined }>
-  defaultProcesses: Processes
+  defaultProcessesName: ProcessesName
   enableDevIcons: boolean
   beforeCommandHook?: (args: string) => void
 }

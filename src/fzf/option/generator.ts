@@ -24,11 +24,11 @@ export const defaultOptions: FzfOptions = {
 } as const
 
 const getExpectFromUserProcesses = async (userProcessesName: string) => {
-  const processes = await pluginGetVar(userProcessesName)
+  const userProcesses = await pluginGetVar(userProcessesName)
 
-  if (typeof processes === "object" && !Array.isArray(processes)) {
+  if (typeof userProcesses === "object" && !Array.isArray(userProcesses)) {
     return {
-      "--expect": Object.entries(processes).map(([key]) => key)
+      "--expect": Object.entries(userProcesses).map(([key]) => key)
     }
   }
 
@@ -48,7 +48,7 @@ export const generateOptions = async ({
   userProcessesName,
   userOptions
 }: OptionsArgs): Promise<FzfOptions> => {
-  const expectFromDefaultProcess: FzfOptions = { "--expect": Object.entries(defaultProcesses).map(([key]) => key) }
+  const expectFromDefaultProcess: FzfOptions = { "--expect": defaultProcesses.map(({ key }) => key) }
 
   const userExpectFromProcesses: FzfOptions = userProcessesName
     ? await getExpectFromUserProcesses(userProcessesName)

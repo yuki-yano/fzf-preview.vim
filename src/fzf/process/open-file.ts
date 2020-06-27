@@ -8,10 +8,12 @@ import {
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
-export const openFileProcesses: Processes = {
-  "": createProcess(editConsumer),
-  "ctrl-x": createProcess(splitConsumer),
-  "ctrl-v": createProcess(vsplitConsumer),
-  "ctrl-t": createProcess(tabeditConsumer),
-  "ctrl-q": createProcess(exportQuickfixConsumer)
-}
+const createOpenFileProcess = createProcess("open-file")
+
+export const openFileProcesses: Processes = [
+  createOpenFileProcess("", editConsumer),
+  createOpenFileProcess("ctrl-x", splitConsumer),
+  createOpenFileProcess("ctrl-v", vsplitConsumer),
+  createOpenFileProcess("ctrl-t", tabeditConsumer),
+  createOpenFileProcess("ctrl-q", exportQuickfixConsumer)
+]

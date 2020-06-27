@@ -1,7 +1,7 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 
 import { commandDefinition } from "@/association/command"
-import { createProcessesFunctionName } from "@/fzf/util"
+import { createProcessFunctionName } from "@/fzf/util"
 import { State as ExecuteCommandState } from "@/module/execute-command"
 import { loadStore } from "@/module/persist"
 import { executeCommandSelector } from "@/module/selector/execute-command"
@@ -26,12 +26,14 @@ const runProcess = async (
   const expectKey = lines[0]
   const selectedLines = lines.slice(1) as SelectedLines
 
-  const { convertLine } = commandDefinition.find((command) => command.commandName === commandName) as FzfCommand
+  const { defaultProcessesName, convertLine } = commandDefinition.find(
+    (command) => command.commandName === commandName
+  ) as FzfCommand
   const convertedLines = dropDevIcon(selectedLines, enableDevIcons).map(convertLine)
 
   if (commandName && expectKey != null) {
     await processesRunner({
-      processesFunctionName: createProcessesFunctionName(commandName, expectKey),
+      processesFunctionName: createProcessFunctionName(defaultProcessesName, expectKey),
       expectKey,
       lines: convertedLines,
       processesName

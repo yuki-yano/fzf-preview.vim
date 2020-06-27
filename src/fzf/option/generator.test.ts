@@ -1,5 +1,5 @@
 import { generateOptions } from "@/fzf/option/generator"
-import { openFileProcesses as defaultProcesses } from "@/fzf/process"
+import { openFileProcesses as defaultProcesses } from "@/fzf/process/open-file"
 import { pluginGetVar } from "@/plugin"
 import type { ConvertedLines, FzfOptions, Processes } from "@/type"
 
@@ -29,6 +29,29 @@ describe("generateOptions", () => {
     }
   })
 
+  const otherDefaultProcesses: Processes = [
+    {
+      name: "",
+      key: "",
+      execute: (_: ConvertedLines) => {}
+    },
+    {
+      name: "",
+      key: "ctrl-a",
+      execute: (_: ConvertedLines) => {}
+    },
+    {
+      name: "",
+      key: "ctrl-b",
+      execute: (_: ConvertedLines) => {}
+    },
+    {
+      name: "",
+      key: "ctrl-c",
+      execute: (_: ConvertedLines) => {}
+    }
+  ]
+
   describe("empty user processes", () => {
     it("open file process", async () => {
       expect(
@@ -41,16 +64,6 @@ describe("generateOptions", () => {
     })
 
     it("other default processes", async () => {
-      const process = {
-        execute: (_: ConvertedLines) => {}
-      }
-      const otherDefaultProcesses: Processes = {
-        "": process,
-        "ctrl-a": process,
-        "ctrl-b": process,
-        "ctrl-c": process
-      }
-
       fzfCommandDefaultOptions["--expect"] = ["", "ctrl-a", "ctrl-b", "ctrl-c"]
       expect(
         await generateOptions({
@@ -88,16 +101,6 @@ describe("generateOptions", () => {
     })
 
     it("other processes (not open file processes)", async () => {
-      const process = {
-        execute: (_: ConvertedLines) => {}
-      }
-      const otherDefaultProcesses: Processes = {
-        "": process,
-        "ctrl-a": process,
-        "ctrl-b": process,
-        "ctrl-c": process
-      }
-
       ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<Record<string, unknown>>((resolve) => {
           resolve({

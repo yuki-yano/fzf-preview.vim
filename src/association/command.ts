@@ -1,7 +1,6 @@
 import { parseDictionaryFilesArgs, parseGrepArgs } from "@/args"
 import { parseResources } from "@/args/files-from-resources-parser"
 import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
-import { openFileProcesses } from "@/fzf/process"
 import {
   allBuffers,
   allBuffersDefaultOptions,
@@ -69,7 +68,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -78,7 +77,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -88,7 +87,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseDictionaryFilesArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -97,7 +96,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: dropGitStatusPrefix,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -106,7 +105,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -115,7 +114,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: dropBufnr,
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -124,7 +123,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectOldFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -133,7 +132,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectMruFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -142,7 +141,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: projectMrwFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -151,7 +150,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: linesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -160,7 +159,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: bufferLinesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -169,7 +168,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertTags,
     vimCommandOptions,
     defaultFzfOptionFunc: ctagsDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -178,7 +177,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: bufferTagsDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -187,7 +186,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: oldFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -196,7 +195,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: mruFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -205,7 +204,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertIdentity,
     vimCommandOptions,
     defaultFzfOptionFunc: mrwFilesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -214,7 +213,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: quickFixDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -223,7 +222,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: locationListDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -232,7 +231,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: jumpsDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -241,7 +240,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: changesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false
   },
   {
@@ -250,7 +249,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
     defaultFzfOptionFunc: marksDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -260,7 +259,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseGrepArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectGrepDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   },
   {
@@ -270,7 +269,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseGrepArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectCommandGrepDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: false,
     beforeCommandHook: dispatchDefaultQueryForCommandGrep
   },
@@ -281,7 +280,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseResources,
     vimCommandOptions,
     defaultFzfOptionFunc: filesFromResourcesDefaultOptions,
-    defaultProcesses: openFileProcesses,
+    defaultProcessesName: "open-file",
     enableDevIcons: true
   }
 ] as const

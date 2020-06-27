@@ -1,13 +1,22 @@
+import { PROCESSES_NAME } from "@/const/fzf-processes"
+
 export type ConvertedLine = string
 export type ConvertedLines = Array<ConvertedLine>
 
-export type Processes = {
-  [key: string]: Process
-}
-
 export type Process = {
+  name: string
+  key: string
   execute: (lines: ConvertedLines) => void | Promise<void>
 }
+
+export type Processes = Array<Process>
+
+export type ProcessesName = typeof PROCESSES_NAME[number]
+
+export type ProcessesDefinition = Array<{
+  name: ProcessesName
+  processes: Processes
+}>
 
 export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 export type SingleLineConsumer = {
@@ -19,6 +28,6 @@ export type BulkLineConsumer = {
   kind: "bulk"
 }
 
-export type CreateProcess = (lineConsumer: LineConsumer) => Process
+export type CreateProcess = (processesName: ProcessesName) => (expectKey: string, lineConsumer: LineConsumer) => Process
 
 export type OpenCommand = "edit" | "split" | "vsplit" | "tabedit"
