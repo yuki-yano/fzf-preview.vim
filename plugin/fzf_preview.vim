@@ -200,7 +200,10 @@ augroup fzf_preview_buffers
   endif
 augroup END
 
-silent doautocmd User fzf_preview#initialized
+augroup fzf_preview_initialized
+  autocmd!
+  autocmd VimEnter * silent doautocmd User fzf_preview#initialized
+augroup END
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo

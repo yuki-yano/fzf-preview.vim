@@ -1,7 +1,13 @@
 import { NvimPlugin } from "neovim"
 
 import { setPlugin } from "@/plugin"
-import { registerAutocmd, registerCommands, registerHandlers, registerProcesses } from "@/plugin/register"
+import {
+  registerAutocmd,
+  registerCommands,
+  registerFunction,
+  registerHandlers,
+  registerProcesses
+} from "@/plugin/register"
 
 module.exports = (plugin: NvimPlugin) => {
   setPlugin(plugin)
@@ -14,6 +20,7 @@ module.exports = (plugin: NvimPlugin) => {
   registerHandlers()
   registerProcesses()
   registerAutocmd()
+  registerFunction()
 
   plugin.registerCommand(
     "HelloFzfPreview",
