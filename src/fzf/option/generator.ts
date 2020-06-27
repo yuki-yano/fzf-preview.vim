@@ -1,5 +1,5 @@
 import { pluginGetVar } from "@/plugin"
-import type { AddFzfArgs, FzfOptions, Processes } from "@/type"
+import type { AddFzfArgs, FzfOptions, Processes, ResumeQuery } from "@/type"
 
 const defaultBind = [
   {
@@ -40,13 +40,15 @@ type OptionsArgs = {
   defaultProcesses: Processes
   userProcessesName?: string
   userOptions: Array<AddFzfArgs>
+  resumeQuery?: ResumeQuery
 }
 
 export const generateOptions = async ({
   fzfCommandDefaultOptions,
   defaultProcesses,
   userProcessesName,
-  userOptions
+  userOptions,
+  resumeQuery
 }: OptionsArgs): Promise<FzfOptions> => {
   const expectFromDefaultProcess: FzfOptions = { "--expect": defaultProcesses.map(({ key }) => key) }
 
@@ -54,11 +56,14 @@ export const generateOptions = async ({
     ? await getExpectFromUserProcesses(userProcessesName)
     : {}
 
+  const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": resumeQuery }
+
   const fzfCommandOptions = {
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
     ...expectFromDefaultProcess,
-    ...userExpectFromProcesses
+    ...userExpectFromProcesses,
+    ...resumeQueryOption
   }
 
   userOptions.forEach((userOption) => {

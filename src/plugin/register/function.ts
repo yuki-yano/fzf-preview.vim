@@ -1,3 +1,4 @@
+import { dispatchResumeQuery } from "@/connector/resume"
 import { processesDefinition } from "@/fzf/process"
 import { createProcessFunctionName } from "@/fzf/util"
 import { pluginRegisterFunction } from "@/plugin"
@@ -19,4 +20,6 @@ export const registerFunction = (): void => {
     },
     { sync: true }
   )
+
+  pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
 }

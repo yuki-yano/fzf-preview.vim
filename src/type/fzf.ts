@@ -82,3 +82,5 @@ export type AddFzfArgs = {
   optionName: string
   value?: string
 }
+
+export type ResumeQuery = string | null

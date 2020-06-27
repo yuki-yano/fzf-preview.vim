@@ -1,5 +1,6 @@
-import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses } from "@/args"
+import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses, parseResume } from "@/args"
 import { commandDefinition } from "@/association/command"
+import { setResourceCommandName } from "@/connector/resume"
 import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
@@ -36,6 +37,7 @@ const registerCommand = ({
 
       const addFzfOptions = parseAddFzfArgs(args)
       const processesName = parseProcesses(args)
+      const resumeQuery = await parseResume(commandName, args)
 
       const defaultOptions = defaultFzfOptionFunc()
       const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
@@ -47,7 +49,8 @@ const registerCommand = ({
         fzfCommandDefaultOptions: defaultOptions instanceof Promise ? await defaultOptions : defaultOptions,
         defaultProcesses,
         userProcessesName: processesName,
-        userOptions: addFzfOptions
+        userOptions: addFzfOptions,
+        resumeQuery
       })
       const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
@@ -61,6 +64,7 @@ const registerCommand = ({
           }
         })
       )
+      await setResourceCommandName(commandName)
       await dispatch(saveStore())
 
       await fzfRunner({

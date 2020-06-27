@@ -203,6 +203,7 @@ augroup END
 augroup fzf_preview_initialized
   autocmd!
   autocmd VimEnter * silent doautocmd User fzf_preview#initialized
+  autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
 
 let &cpoptions = s:save_cpo

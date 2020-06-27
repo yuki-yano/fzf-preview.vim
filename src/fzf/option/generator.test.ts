@@ -164,4 +164,32 @@ describe("generateOptions", () => {
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
     expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
   })
+
+  describe("resume option", () => {
+    it("resume query is undefined", async () => {
+      const generatedOptions = await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcesses,
+        userOptions: [],
+        resumeQuery: undefined
+      })
+
+      expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
+      expect(generatedOptions).toEqual(fzfCommandDefaultOptions)
+    })
+
+    it("resume query is exists", async () => {
+      const generatedOptions = await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcesses,
+        userOptions: [],
+        resumeQuery: "foo"
+      })
+
+      const queryOption = { "--query": "foo" }
+
+      expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
+      expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...queryOption })
+    })
+  })
 })
