@@ -339,6 +339,10 @@ let g:fzf_preview_use_dev_icons = 0
 " devicons character width
 let g:fzf_preview_dev_icon_prefix_length = 2
 
+" Devicons can make fzf-preview slow when the number of results is high
+" By default icons are disable when number of results is higher that 5000
+let g:fzf_preview_devicons_limit = 5000
+
 " The theme used in the bat preview
 $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 
