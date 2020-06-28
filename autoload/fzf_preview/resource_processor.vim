@@ -21,6 +21,7 @@ function! fzf_preview#resource_processor#get_default_processors() abort
   let processors[g:fzf_preview_vsplit_key_map] = function('fzf_preview#resource_processor#vsplit')
   let processors[g:fzf_preview_tabedit_key_map] = function('fzf_preview#resource_processor#tabedit')
   let processors[g:fzf_preview_build_quickfix_key_map] = function('fzf_preview#resource_processor#export_quickfix')
+  let processors[g:fzf_preview_drop_key_map] = function('fzf_preview#resource_processor#drop')
 
   return processors
 endfunction
@@ -43,7 +44,11 @@ function! fzf_preview#resource_processor#reset_processors() abort
 endfunction
 
 function! fzf_preview#resource_processor#edit(lines) abort
-  call s:open_files('edit', a:lines)
+  if g:fzf_preview_buffers_jump
+    call s:open_files('drop', a:lines)
+  else
+    call s:open_files('edit', a:lines)
+  endif
 endfunction
 
 function! fzf_preview#resource_processor#split(lines) abort
@@ -56,6 +61,15 @@ endfunction
 
 function! fzf_preview#resource_processor#tabedit(lines) abort
   call s:open_files('tabedit', a:lines)
+endfunction
+
+function! fzf_preview#resource_processor#drop(lines) abort
+  " If we drop to file by default, then we reverse the behavior of ctrl-o
+  if g:fzf_preview_buffers_jump
+    call s:open_files('edit', a:lines)
+  else
+    call s:open_files('drop', a:lines)
+  endif
 endfunction
 
 function! fzf_preview#resource_processor#export_quickfix(lines) abort

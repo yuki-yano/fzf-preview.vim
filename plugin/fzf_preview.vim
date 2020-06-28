@@ -112,6 +112,10 @@ if !exists('g:fzf_preview_tabedit_key_map')
   let g:fzf_preview_tabedit_key_map = 'ctrl-t'
 endif
 
+if !exists('g:fzf_preview_drop_key_map')
+  let g:fzf_preview_drop_key_map = 'ctrl-o'
+endif
+
 if !exists('g:fzf_preview_build_quickfix_key_map')
   let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
 endif

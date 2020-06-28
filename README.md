@@ -181,6 +181,11 @@ nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
 <C-t>
   Open tabedit
 
+<C-o>
+  Jump to buffer if already open. See :drop.
+  If g:fzf_preview_buffers_jump is set to 1 then it will open the buffer in
+  current window instead.
+
 <C-q>
   Build QuickFix
 
@@ -264,6 +269,9 @@ let g:fzf_preview_floating_window_rate = 0.9
 
 " floating window winblend value
 let g:fzf_preview_floating_window_winblend = 15
+
+" jump to the buffers by default, when possible
+let g:fzf_preview_buffers_jump = 0
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
