@@ -22,9 +22,9 @@ const initialState: State = {
   commandName: undefined,
   options: {
     enableDevIcons: false,
-    currentFilePath: ""
+    currentFilePath: "",
   },
-  extra: {}
+  extra: {},
 }
 
 export const executeCommandModule = createSlice({
@@ -48,6 +48,6 @@ export const executeCommandModule = createSlice({
     setExtraCommandGrep: (state, { payload }: PayloadAction<{ defaultQuery: string }>) => {
       const { defaultQuery } = payload
       state.extra.commandGrep = { defaultQuery }
-    }
-  }
+    },
+  },
 })

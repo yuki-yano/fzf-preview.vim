@@ -35,7 +35,7 @@ export const projectCommandGrepDefaultOptions = (): FzfCommandDefinitionDefaultO
   "--phony": true,
   // TODO: merge default bind settings
   "--bind": `change:reload:"${globalVariableSelector("fzfPreviewGrepCmd") as string} {q} || true"`,
-  "--query": `"${defaultQuery()}"`
+  "--query": `"${defaultQuery()}"`,
 })
 
 export const dispatchDefaultQueryForCommandGrep = (args: string): void => {

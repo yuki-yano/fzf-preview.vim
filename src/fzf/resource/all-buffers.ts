@@ -6,7 +6,7 @@ import type {
   FzfCommandDefinitionDefaultOption,
   ResourceLines,
   SelectedLine,
-  SourceFuncArgs
+  SourceFuncArgs,
 } from "@/type"
 import { alignLists } from "@/util/align"
 
@@ -24,5 +24,5 @@ export const dropBufnr = (line: SelectedLine): ConvertedLine => createSplitConve
 export const allBuffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"AllBuffers> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

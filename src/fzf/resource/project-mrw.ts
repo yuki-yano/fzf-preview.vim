@@ -24,5 +24,5 @@ export const projectMrwFiles = async (_args: SourceFuncArgs): Promise<ResourceLi
 export const projectMrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectMrwFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

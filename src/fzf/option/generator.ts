@@ -4,23 +4,23 @@ import type { AddFzfArgs, FzfOptions, Processes, ResumeQuery } from "@/type"
 const defaultBind = [
   {
     key: "ctrl-d",
-    action: "preview-page-down"
+    action: "preview-page-down",
   },
   {
     key: "ctrl-u",
-    action: "preview-page-up"
+    action: "preview-page-up",
   },
   {
     key: "?",
-    action: "toggle-preview"
-  }
+    action: "toggle-preview",
+  },
 ] as const
 
 export const defaultOptions: FzfOptions = {
   "--ansi": true,
   // alt-enter is workaround
   "--expect": ["alt-enter"],
-  "--bind": defaultBind
+  "--bind": defaultBind,
 } as const
 
 const getExpectFromUserProcesses = async (userProcessesName: string) => {
@@ -30,7 +30,7 @@ const getExpectFromUserProcesses = async (userProcessesName: string) => {
     return {
       "--expect": Object.entries(userProcesses)
         .map(([key]) => key)
-        .filter((key) => key !== "enter")
+        .filter((key) => key !== "enter"),
     }
   }
 
@@ -50,10 +50,10 @@ export const generateOptions = async ({
   defaultProcesses,
   userProcessesName,
   userOptions,
-  resumeQuery
+  resumeQuery,
 }: OptionsArgs): Promise<FzfOptions> => {
   const expectFromDefaultProcess: FzfOptions = {
-    "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter")
+    "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter"),
   }
 
   const userExpectFromProcesses: FzfOptions = userProcessesName
@@ -67,7 +67,7 @@ export const generateOptions = async ({
     ...fzfCommandDefaultOptions,
     ...expectFromDefaultProcess,
     ...userExpectFromProcesses,
-    ...resumeQueryOption
+    ...resumeQueryOption,
   }
 
   userOptions.forEach((userOption) => {

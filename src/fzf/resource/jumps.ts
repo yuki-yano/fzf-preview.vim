@@ -24,5 +24,5 @@ const previewCommand = () => {
 export const jumpsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Jumps> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

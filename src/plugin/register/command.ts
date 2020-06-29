@@ -22,7 +22,7 @@ const registerCommand = ({
   defaultFzfOptionFunc,
   defaultProcessesName,
   enableDevIcons,
-  beforeCommandHook
+  beforeCommandHook,
 }: FzfCommand) => {
   pluginRegisterCommand(
     commandName,
@@ -50,7 +50,7 @@ const registerCommand = ({
         defaultProcesses,
         userProcessesName: processesName,
         userOptions: addFzfOptions,
-        resumeQuery
+        resumeQuery,
       })
       const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
@@ -60,8 +60,8 @@ const registerCommand = ({
           options: {
             processesName,
             enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons"),
-            currentFilePath: await currentFilePath()
-          }
+            currentFilePath: await currentFilePath(),
+          },
         })
       )
       await setResourceCommandName(commandName)
@@ -70,7 +70,7 @@ const registerCommand = ({
       await fzfRunner({
         source: await sourceFunc(sourceFuncArgs),
         handler: handlerName,
-        options: fzfOptions
+        options: fzfOptions,
       })
     },
     vimCommandOptions

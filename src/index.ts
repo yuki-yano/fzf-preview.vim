@@ -6,7 +6,7 @@ import {
   registerCommands,
   registerFunction,
   registerHandlers,
-  registerProcesses
+  registerProcesses,
 } from "@/plugin/register"
 
 module.exports = (plugin: NvimPlugin) => {

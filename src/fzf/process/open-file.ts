@@ -4,7 +4,7 @@ import {
   exportQuickfixConsumer,
   splitConsumer,
   tabeditConsumer,
-  vsplitConsumer
+  vsplitConsumer,
 } from "@/fzf/process/consumer"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
@@ -17,5 +17,5 @@ export const openFileProcesses: Processes = [
   createOpenFileProcess("ctrl-v", vsplitConsumer),
   createOpenFileProcess("ctrl-t", tabeditConsumer),
   createOpenFileProcess("ctrl-o", dropConsumer),
-  createOpenFileProcess("ctrl-q", exportQuickfixConsumer)
+  createOpenFileProcess("ctrl-q", exportQuickfixConsumer),
 ]

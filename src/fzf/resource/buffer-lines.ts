@@ -34,5 +34,5 @@ const previewCommand = () => {
 export const bufferLinesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"BufferLines> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

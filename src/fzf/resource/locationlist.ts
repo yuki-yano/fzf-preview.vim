@@ -28,5 +28,5 @@ const previewCommand = () => {
 export const locationListDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"LocationList> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

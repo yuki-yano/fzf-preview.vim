@@ -28,5 +28,5 @@ const previewCommand = async () => {
 export const changesDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({
   "--prompt": '"Changes> "',
   "--multi": true,
-  "--preview": await previewCommand()
+  "--preview": await previewCommand(),
 })

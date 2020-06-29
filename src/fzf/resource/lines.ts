@@ -30,5 +30,5 @@ const previewCommand = async () => {
 export const linesDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({
   "--prompt": '"Lines> "',
   "--multi": true,
-  "--preview": await previewCommand()
+  "--preview": await previewCommand(),
 })

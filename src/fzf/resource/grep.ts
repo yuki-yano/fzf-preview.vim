@@ -24,5 +24,5 @@ const previewCommand = () => {
 export const projectGrepDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectGrep> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

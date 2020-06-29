@@ -12,12 +12,12 @@ export const processesRunner = async ({
   processesFunctionName,
   expectKey,
   lines,
-  processesName
+  processesName,
 }: Args): Promise<void> => {
   await pluginCall("fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default_process", [
     processesFunctionName,
     expectKey,
     lines,
-    processesName
+    processesName,
   ])
 }

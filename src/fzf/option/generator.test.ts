@@ -14,18 +14,18 @@ describe("generateOptions", () => {
       "--bind": [
         {
           key: "ctrl-d",
-          action: "preview-page-down"
+          action: "preview-page-down",
         },
         {
           key: "ctrl-u",
-          action: "preview-page-up"
+          action: "preview-page-up",
         },
         {
           key: "?",
-          action: "toggle-preview"
-        }
+          action: "toggle-preview",
+        },
       ],
-      "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"]
+      "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"],
     }
   })
 
@@ -33,23 +33,23 @@ describe("generateOptions", () => {
     {
       name: "",
       key: "enter",
-      execute: (_: ConvertedLines) => {}
+      execute: (_: ConvertedLines) => {},
     },
     {
       name: "",
       key: "ctrl-a",
-      execute: (_: ConvertedLines) => {}
+      execute: (_: ConvertedLines) => {},
     },
     {
       name: "",
       key: "ctrl-b",
-      execute: (_: ConvertedLines) => {}
+      execute: (_: ConvertedLines) => {},
     },
     {
       name: "",
       key: "ctrl-c",
-      execute: (_: ConvertedLines) => {}
-    }
+      execute: (_: ConvertedLines) => {},
+    },
   ]
 
   describe("empty user processes", () => {
@@ -58,7 +58,7 @@ describe("generateOptions", () => {
         await generateOptions({
           fzfCommandDefaultOptions,
           defaultProcesses,
-          userOptions: []
+          userOptions: [],
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -69,7 +69,7 @@ describe("generateOptions", () => {
         await generateOptions({
           fzfCommandDefaultOptions,
           defaultProcesses: otherDefaultProcesses,
-          userOptions: []
+          userOptions: [],
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -83,7 +83,7 @@ describe("generateOptions", () => {
             enter: null,
             "ctrl-d": null,
             "ctrl-e": null,
-            "ctrl-f": null
+            "ctrl-f": null,
           })
         })
       )
@@ -95,7 +95,7 @@ describe("generateOptions", () => {
           fzfCommandDefaultOptions,
           defaultProcesses,
           userProcessesName: "foo",
-          userOptions: []
+          userOptions: [],
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -107,7 +107,7 @@ describe("generateOptions", () => {
             enter: null,
             "ctrl-d": null,
             "ctrl-e": null,
-            "ctrl-f": null
+            "ctrl-f": null,
           })
         })
       )
@@ -119,7 +119,7 @@ describe("generateOptions", () => {
           fzfCommandDefaultOptions,
           defaultProcesses: otherDefaultProcesses,
           userProcessesName: "foo",
-          userOptions: []
+          userOptions: [],
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -135,7 +135,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userProcessesName: "foo",
-        userOptions: []
+        userOptions: [],
       })
     ).rejects.toThrow("foo")
   })
@@ -145,7 +145,7 @@ describe("generateOptions", () => {
       await generateOptions({
         fzfCommandDefaultOptions,
         defaultProcesses,
-        userOptions: []
+        userOptions: [],
       })
     ).toEqual(fzfCommandDefaultOptions)
   })
@@ -153,13 +153,13 @@ describe("generateOptions", () => {
   it("added user options", async () => {
     const userOptions = [{ optionName: "foo" }, { optionName: "bar", value: "bar" }]
     const convertedUserOptions = {
-      bar: "bar"
+      bar: "bar",
     }
 
     const generatedOptions = await generateOptions({
       fzfCommandDefaultOptions,
       defaultProcesses,
-      userOptions
+      userOptions,
     })
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
     expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
@@ -171,7 +171,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
-        resumeQuery: undefined
+        resumeQuery: undefined,
       })
 
       expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
@@ -183,7 +183,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
-        resumeQuery: "foo"
+        resumeQuery: "foo",
       })
 
       const queryOption = { "--query": "foo" }

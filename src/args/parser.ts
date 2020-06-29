@@ -6,7 +6,7 @@ export const argsParser = (): Argv => {
   yargs.option("resume", { type: "boolean" })
   yargs.parserConfiguration({
     "camel-case-expansion": false,
-    "unknown-options-as-args": true
+    "unknown-options-as-args": true,
   })
   return yargs
 }

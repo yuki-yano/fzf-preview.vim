@@ -31,5 +31,5 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs): Promise<R
 export const directoryFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"DirectoryFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

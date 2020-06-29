@@ -26,7 +26,7 @@ const resourceFunctions: ResourceFunctions = {
   project_mrw: projectMrwFiles,
   old: oldFiles,
   mru: mruFiles,
-  mrw: mrwFiles
+  mrw: mrwFiles,
 }
 
 export const filesFromResources = async (args: SourceFuncArgs): Promise<ResourceLines> => {
@@ -45,5 +45,5 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ResourceFrom> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

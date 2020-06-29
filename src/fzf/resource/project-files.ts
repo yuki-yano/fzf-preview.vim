@@ -36,5 +36,5 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines
 export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

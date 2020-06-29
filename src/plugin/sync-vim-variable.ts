@@ -33,7 +33,7 @@ export const syncVimVariable = async (): Promise<void> => {
       dispatch(
         vimVariableActions.setGlobalVariable({
           name: variableName,
-          value
+          value,
         })
       )
     })

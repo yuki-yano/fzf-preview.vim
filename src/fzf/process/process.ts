@@ -13,5 +13,5 @@ export const createProcess: CreateProcess = (processesName) => (expectKey, lineC
     } else {
       await lineConsumer.consume(lines)
     }
-  }
+  },
 })

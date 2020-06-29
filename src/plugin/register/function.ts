@@ -16,7 +16,7 @@ export const registerFunction = (): void => {
       return targetProcessesDefinition.processes.reduce(
         (acc: { [key: string]: string }, cur) => ({
           ...acc,
-          [cur.key]: createProcessFunctionName(processesName as ProcessesName, cur.key)
+          [cur.key]: createProcessFunctionName(processesName as ProcessesName, cur.key),
         }),
         {}
       )

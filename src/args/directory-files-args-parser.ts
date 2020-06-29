@@ -7,6 +7,6 @@ export const parseDictionaryFilesArgs = (args: string): SourceFuncArgs => {
 
   return {
     args: options._.length > 0 ? [options._[0]] : [],
-    extraArgs: []
+    extraArgs: [],
   }
 }

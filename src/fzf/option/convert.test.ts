@@ -4,16 +4,16 @@ import { FzfOptions } from "@/type"
 const defaultBind = [
   {
     key: "ctrl-d",
-    action: "preview-page-down"
+    action: "preview-page-down",
   },
   {
     key: "ctrl-u",
-    action: "preview-page-up"
+    action: "preview-page-up",
   },
   {
     key: "?",
-    action: "toggle-preview"
-  }
+    action: "toggle-preview",
+  },
 ]
 
 describe("joinBind", () => {
@@ -30,7 +30,7 @@ describe("fzfOptionsToString", () => {
       options = {
         "--ansi": true,
         "--bind": defaultBind,
-        "--expect": ["ctrl-x", "ctrl-v", "ctrl-t"]
+        "--expect": ["ctrl-x", "ctrl-v", "ctrl-t"],
       }
     })
 
@@ -64,14 +64,14 @@ describe("fzfOptionsToString", () => {
     it('--foo: undefined, --bar: "bar"', () => {
       options = {
         "--foo": undefined,
-        "--bar": "bar"
+        "--bar": "bar",
       }
       expect(fzfOptionsToString(options)).toBe("--foo --bar=bar")
     })
 
     it('use double quote in value: --foobar: ""foo bar""', () => {
       options = {
-        "--foobar": '"foo bar"'
+        "--foobar": '"foo bar"',
       }
       expect(fzfOptionsToString(options)).toBe('--foobar="foo bar"')
     })
@@ -79,7 +79,7 @@ describe("fzfOptionsToString", () => {
     // If not enclosed in double quotes, another args is used
     it('not use double quote in value: --foobar: "foo bar"', () => {
       options = {
-        "--foobar": "foo bar"
+        "--foobar": "foo bar",
       }
       expect(fzfOptionsToString(options)).toBe("--foobar=foo bar")
     })

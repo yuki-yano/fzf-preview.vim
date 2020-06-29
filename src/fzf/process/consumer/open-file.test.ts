@@ -59,7 +59,7 @@ describe("open file consumer", () => {
       await exportQuickfixConsumer.consume(lines)
       expect(exportQuickFix).toHaveBeenCalledWith([
         { filename: "foo.txt", lnum: 10, text: "" },
-        { filename: "bar.txt", lnum: 20, text: "foobar" }
+        { filename: "bar.txt", lnum: 20, text: "foobar" },
       ])
     })
 

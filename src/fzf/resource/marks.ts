@@ -24,5 +24,5 @@ const previewCommand = () => {
 export const marksDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Marks> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

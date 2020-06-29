@@ -9,9 +9,9 @@ const setupStore = () => {
     reducer: {
       vimVariable: vimVariableModule.reducer,
       executeCommand: executeCommandModule.reducer,
-      resume: resumeModule.reducer
+      resume: resumeModule.reducer,
     },
-    middleware: getDefaultMiddleware()
+    middleware: getDefaultMiddleware(),
   })
 
   return store

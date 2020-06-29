@@ -4,6 +4,6 @@ import type { ProcessesDefinition } from "@/type"
 export const processesDefinition: ProcessesDefinition = [
   {
     name: "open-file",
-    processes: openFileProcesses
-  }
+    processes: openFileProcesses,
+  },
 ]

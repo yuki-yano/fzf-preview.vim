@@ -15,7 +15,7 @@ const parseConvertedLine = (convertedLine: ConvertedLine): ParsedLine => {
 
   if ((!fileAndLineNumberResult || !fileAndLineNumberResult.groups) && fileResult && fileResult.groups) {
     return {
-      file: fileResult.groups.file
+      file: fileResult.groups.file,
     }
   }
 
@@ -24,7 +24,7 @@ const parseConvertedLine = (convertedLine: ConvertedLine): ParsedLine => {
     return {
       file,
       lineNumber: Number(lineNumber),
-      text
+      text,
     }
   }
 
@@ -44,7 +44,7 @@ const createOpenFileConsumer = (openCommand: OpenCommand) =>
     const openFileFormat: OpenFile = {
       openCommand: convertOpenCommand(openCommand),
       file,
-      lineNumber
+      lineNumber,
     }
 
     await openFile(openFileFormat)
@@ -63,7 +63,7 @@ export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
       const { file, lineNumber, text } = parsedLine
       if (lineNumber == null && text == null) {
         return {
-          filename: file
+          filename: file,
         }
       }
 
@@ -71,7 +71,7 @@ export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
         return {
           filename: file,
           lnum: lineNumber,
-          text
+          text,
         }
       }
 

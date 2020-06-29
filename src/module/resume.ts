@@ -22,6 +22,6 @@ export const resumeModule = createSlice({
     setQuery: (state, { payload }: PayloadAction<{ commandName: FzfCommandName; query: string }>) => {
       const { commandName, query } = payload
       state[commandName] = query
-    }
-  }
+    },
+  },
 })

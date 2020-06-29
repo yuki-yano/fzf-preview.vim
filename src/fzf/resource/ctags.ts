@@ -15,5 +15,5 @@ const previewCommand = () => {
 export const ctagsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Ctags> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

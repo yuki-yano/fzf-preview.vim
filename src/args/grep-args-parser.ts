@@ -7,6 +7,6 @@ export const parseGrepArgs = (args: string): SourceFuncArgs => {
 
   return {
     args: options._.length > 0 ? options._ : [],
-    extraArgs: []
+    extraArgs: [],
   }
 }

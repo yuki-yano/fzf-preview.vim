@@ -18,6 +18,6 @@ export const parseResources = (args: string): SourceFuncArgs => {
 
   return {
     args: resources,
-    extraArgs: []
+    extraArgs: [],
   }
 }

@@ -19,5 +19,5 @@ export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
 export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Buffers> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

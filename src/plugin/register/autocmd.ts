@@ -5,12 +5,12 @@ export const registerAutocmd = (): void => {
   pluginRegisterAutocmd("BufEnter,VimEnter,BufWinEnter,BufWritePost", (fileName: string) => appendMruFile(fileName), {
     sync: false,
     pattern: "*",
-    eval: 'expand("<afile>:p")'
+    eval: 'expand("<afile>:p")',
   })
 
   pluginRegisterAutocmd("BufWritePost", (fileName: string) => appendMrwFile(fileName), {
     sync: false,
     pattern: "*",
-    eval: 'expand("<afile>:p")'
+    eval: 'expand("<afile>:p")',
   })
 }

@@ -9,5 +9,5 @@ export const FILE_RESOURCES = [
   "project_mrw",
   "old",
   "mru",
-  "mrw"
+  "mrw",
 ] as const

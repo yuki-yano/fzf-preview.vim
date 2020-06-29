@@ -28,5 +28,5 @@ const previewCommand = () => {
 export const quickFixDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"QuickFix> "',
   "--multi": true,
-  "--preview": previewCommand()
+  "--preview": previewCommand(),
 })

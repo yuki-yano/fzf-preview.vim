@@ -12,6 +12,6 @@ export const fzfRunner = async ({ source, handler, options }: Parameter): Promis
   await pluginCall("fzf_preview#remote#runner#fzf_run", {
     source,
     handler,
-    options: fzfOptionsToString(options)
+    options: fzfOptionsToString(options),
   })
 }

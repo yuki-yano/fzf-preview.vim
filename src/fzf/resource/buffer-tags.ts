@@ -37,5 +37,5 @@ const previewCommand = async () => {
 export const bufferTagsDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({
   "--prompt": '"BufferTags> "',
   "--multi": true,
-  "--preview": await previewCommand()
+  "--preview": await previewCommand(),
 })

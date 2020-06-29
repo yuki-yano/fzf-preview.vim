@@ -30,5 +30,5 @@ export const dropGitStatusPrefix = createConvertDropPrefix(3)
 export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitStatus> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}"`,
 })

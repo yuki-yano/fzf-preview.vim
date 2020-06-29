@@ -37,7 +37,7 @@ const runProcess = async (
       processesFunctionName: createProcessFunctionName(defaultProcessesName, expectKey),
       expectKey,
       lines: convertedLines,
-      processesName
+      processesName,
     })
   }
 }

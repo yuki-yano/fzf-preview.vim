@@ -20,5 +20,5 @@ export const oldFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> =>
 export const oldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"OldFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`
+  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
 })

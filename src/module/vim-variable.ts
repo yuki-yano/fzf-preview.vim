@@ -30,8 +30,8 @@ const initialState: State = {
     fzfPreviewLinesCommand: "",
     fzfPreviewGrepPreviewCmd: "",
     fzfPreviewCustomOpenFileProcesses: 0,
-    fzfPreviewBuffersJump: 0
-  }
+    fzfPreviewBuffersJump: 0,
+  },
 }
 
 type CustomProcesses = {
@@ -74,6 +74,6 @@ export const vimVariableModule = createSlice({
           state.global[name] = value
         }
       }
-    }
-  }
+    },
+  },
 })
