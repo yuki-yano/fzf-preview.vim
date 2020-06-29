@@ -10,12 +10,6 @@ export const expandHome = (filePath: string): string => {
   return filePath
 }
 
-// TODO: function name
-export const collapseHome = (filePath: string): string => {
-  const home = process.env.HOME as string
-  return filePath.replace(new RegExp(`${home}`), "~")
-}
-
 export const existsFile = (filePath: string): boolean => {
   try {
     const stats = fs.statSync(filePath)
