@@ -6,7 +6,7 @@ function! fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default
     let Process = processes[a:expect_key]
 
     if type(Process) == v:t_string
-      call call(Process, [a:lines])
+      call call(Process, a:lines)
     elseif type(Process) == v:t_func
       call Process(a:lines)
     endif
