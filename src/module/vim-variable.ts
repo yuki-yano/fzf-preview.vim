@@ -28,8 +28,22 @@ const initialState: State = {
     fzfPreviewGrepCmd: "",
     fzfPreviewCacheDirectory: "",
     fzfPreviewLinesCommand: "",
-    fzfPreviewGrepPreviewCmd: ""
+    fzfPreviewGrepPreviewCmd: "",
+    fzfPreviewCustomOpenFileProcesses: false
   }
+}
+
+type CustomProcesses = {
+  [key: string]: string
+}
+
+const replaceProcessesExpectKey = (customProcesses: CustomProcesses) => {
+  const processes = { ...customProcesses }
+  if (processes[""] != null && processes.enter == null) {
+    processes.enter = processes[""]
+  }
+  delete processes[""]
+  return processes
 }
 
 export const vimVariableModule = createSlice({
@@ -43,7 +57,22 @@ export const vimVariableModule = createSlice({
       return state
     },
     setGlobalVariable: (state, { payload }: PayloadAction<GlobalVariable>) => {
-      state.global[payload.name] = payload.value
+      const { name, value } = payload
+
+      switch (name) {
+        case "fzfPreviewCustomOpenFileProcesses": {
+          if (typeof value === "object") {
+            state.global[name] = replaceProcessesExpectKey(value as CustomProcesses)
+          } else {
+            state.global[name] = value
+          }
+          break
+        }
+
+        default: {
+          state.global[name] = value
+        }
+      }
     }
   }
 })

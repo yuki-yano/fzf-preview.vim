@@ -13,10 +13,13 @@ export const registerFunction = (): void => {
         throw new Error(`Processes not found: "${processesName}"`)
       }
 
-      return targetProcessesDefinition.processes.reduce((acc: { [key: string]: string }, cur) => {
-        const expectKey = cur.key !== "" ? cur.key : "enter"
-        return { ...acc, [expectKey]: createProcessFunctionName(processesName as ProcessesName, cur.key) }
-      }, {})
+      return targetProcessesDefinition.processes.reduce(
+        (acc: { [key: string]: string }, cur) => ({
+          ...acc,
+          [cur.key]: createProcessFunctionName(processesName as ProcessesName, cur.key)
+        }),
+        {}
+      )
     },
     { sync: true }
   )

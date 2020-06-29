@@ -11,7 +11,7 @@ import type { Processes } from "@/type"
 const createOpenFileProcess = createProcess("open-file")
 
 export const openFileProcesses: Processes = [
-  createOpenFileProcess("", editConsumer),
+  createOpenFileProcess("enter", editConsumer),
   createOpenFileProcess("ctrl-x", splitConsumer),
   createOpenFileProcess("ctrl-v", vsplitConsumer),
   createOpenFileProcess("ctrl-t", tabeditConsumer),

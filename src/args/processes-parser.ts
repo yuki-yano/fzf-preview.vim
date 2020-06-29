@@ -1,5 +1,6 @@
 import { argsParser } from "@/args/parser"
-import type { ArgsOptions } from "@/type"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
+import type { ArgsOptions, ProcessesName } from "@/type"
 
 const parseOptions = (options: ArgsOptions) => {
   const processesArgs = options.processes
@@ -11,9 +12,32 @@ const parseOptions = (options: ArgsOptions) => {
   throw new Error("--processes option can only be used once")
 }
 
-export const parseProcesses = (args: string): string | undefined => {
+export const parseProcesses = (defaultProcessesName: ProcessesName, args: string): string | undefined => {
   const parser = argsParser()
   const options = parser.parse(args)
 
-  return parseOptions(options)
+  if (parseOptions(options) != null) {
+    return parseOptions(options)
+  }
+
+  switch (defaultProcessesName) {
+    case "open-file": {
+      const customProcesses = globalVariableSelector("fzfPreviewCustomOpenFileProcesses")
+      if (customProcesses !== false) {
+        if (typeof customProcesses === "object" && !Array.isArray(customProcesses)) {
+          return "fzf_preview_custom_open_file_processes"
+        } else {
+          throw new Error(
+            `Custom open file processes must be dictionary variable. Value: "${customProcesses.toString()}"`
+          )
+        }
+      }
+
+      return undefined
+    }
+
+    default: {
+      return undefined
+    }
+  }
 }

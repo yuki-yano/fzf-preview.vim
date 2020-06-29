@@ -36,7 +36,7 @@ const registerCommand = ({
       }
 
       const addFzfOptions = parseAddFzfArgs(args)
-      const processesName = parseProcesses(args)
+      const processesName = parseProcesses(defaultProcessesName, args)
       const resumeQuery = await parseResume(commandName, args)
 
       const defaultOptions = defaultFzfOptionFunc()
@@ -65,7 +65,7 @@ const registerCommand = ({
         })
       )
       await setResourceCommandName(commandName)
-      await dispatch(saveStore())
+      await dispatch(saveStore({ modules: ["executeCommand"] }))
 
       await fzfRunner({
         source: await sourceFunc(sourceFuncArgs),

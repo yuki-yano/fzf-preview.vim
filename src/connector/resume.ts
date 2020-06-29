@@ -10,5 +10,5 @@ export const setResourceCommandName = async (commandName: string): Promise<void>
 
 export const dispatchResumeQuery = async ([commandName, query]: [FzfPreviewCommandList, string]): Promise<void> => {
   dispatch(resumeModule.actions.setQuery({ commandName, query }))
-  await dispatch(saveStore())
+  await dispatch(saveStore({ modules: ["resume"] }))
 }

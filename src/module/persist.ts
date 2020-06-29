@@ -3,17 +3,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { PERSIST_LOAD_RESUME, PERSIST_LOAD_STORE, PERSIST_SAVE_STORE } from "@/const/module"
 import { executeCommandModule } from "@/module/execute-command"
 import { resumeModule } from "@/module/resume"
-import { vimVariableModule } from "@/module/vim-variable"
 import { pluginCall } from "@/plugin"
 import type { AppDispatch, RootState } from "@/store"
 
-export const loadStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
+type Modules = ["vimVariable", "executeCommand", "resume"]
+
+export const loadExecuteCommandStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,
   async (_: undefined, { dispatch }) => {
     const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
       RootState
     >
-    dispatch(vimVariableModule.actions.restore(restoredStore.vimVariable))
     dispatch(executeCommandModule.actions.restore(restoredStore.executeCommand))
   }
 )
@@ -28,9 +28,14 @@ export const loadResume = createAsyncThunk<void, undefined, { dispatch: AppDispa
   }
 )
 
-export const saveStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
-  PERSIST_SAVE_STORE,
-  async (_: undefined, { getState }) => {
-    await pluginCall("fzf_preview#remote#store#persist_store", getState())
-  }
-)
+export const saveStore = createAsyncThunk<
+  void,
+  { modules: Array<Modules[number]> },
+  { dispatch: AppDispatch; state: RootState }
+>(PERSIST_SAVE_STORE, async ({ modules }, { getState }) => {
+  await Promise.all(
+    modules.map(async (module) => {
+      await pluginCall("fzf_preview#remote#store#persist_store", [getState()[module], module])
+    })
+  )
+})

@@ -25,14 +25,14 @@ describe("generateOptions", () => {
           action: "toggle-preview"
         }
       ],
-      "--expect": ["", "ctrl-x", "ctrl-v", "ctrl-t", "ctrl-q"]
+      "--expect": ["enter", "ctrl-x", "ctrl-v", "ctrl-t", "ctrl-q"]
     }
   })
 
   const otherDefaultProcesses: Processes = [
     {
       name: "",
-      key: "",
+      key: "enter",
       execute: (_: ConvertedLines) => {}
     },
     {
@@ -64,7 +64,7 @@ describe("generateOptions", () => {
     })
 
     it("other default processes", async () => {
-      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-a", "ctrl-b", "ctrl-c"]
+      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-a", "ctrl-b", "ctrl-c"]
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
@@ -80,7 +80,7 @@ describe("generateOptions", () => {
       ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<Record<string, unknown>>((resolve) => {
           resolve({
-            "": null,
+            enter: null,
             "ctrl-d": null,
             "ctrl-e": null,
             "ctrl-f": null
@@ -88,7 +88,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
         await generateOptions({
@@ -104,7 +104,7 @@ describe("generateOptions", () => {
       ;(pluginGetVar as jest.Mock).mockReturnValue(
         new Promise<Record<string, unknown>>((resolve) => {
           resolve({
-            "": null,
+            enter: null,
             "ctrl-d": null,
             "ctrl-e": null,
             "ctrl-f": null
@@ -112,7 +112,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["", "ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
         await generateOptions({
