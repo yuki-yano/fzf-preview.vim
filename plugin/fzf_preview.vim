@@ -125,7 +125,7 @@ if !exists('g:fzf_preview_custom_default_processors')
 endif
 
 if !exists('g:fzf_preview_custom_open_file_processes')
-  let g:fzf_preview_custom_open_file_processes = v:false
+  let g:fzf_preview_custom_open_file_processes = 0
 endif
 
 if !exists('g:fzf_preview_fzf_preview_window_option')

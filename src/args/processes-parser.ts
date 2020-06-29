@@ -23,7 +23,7 @@ export const parseProcesses = (defaultProcessesName: ProcessesName, args: string
   switch (defaultProcessesName) {
     case "open-file": {
       const customProcesses = globalVariableSelector("fzfPreviewCustomOpenFileProcesses")
-      if (customProcesses !== false) {
+      if (customProcesses !== 0) {
         if (typeof customProcesses === "object" && !Array.isArray(customProcesses)) {
           return "fzf_preview_custom_open_file_processes"
         } else {
