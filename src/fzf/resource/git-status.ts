@@ -22,7 +22,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> =
     throw new Error(`Failed to get the file list. command: "${gitStatusCommand}"`)
   }
 
-  return stdout.split("\n")
+  return stdout.split("\n").filter((line) => line !== "")
 }
 
 export const dropGitStatusPrefix = createConvertDropPrefix(3)
