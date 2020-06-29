@@ -514,6 +514,14 @@ DEPRECATED: Use g:fzf_preview_custom_default_processors
 
 
 DEPRECATED: Use g:fzf_preview_custom_default_processors
+*g:fzf_preview_drop_key_map*
+    This map is used when drop command executed.
+    Options are a string passed directly to fzf's "--expect" option.
+
+    Default value is 'ctrl-o'
+
+
+DEPRECATED: Use g:fzf_preview_custom_default_processors
 *g:fzf_preview_build_quickfix_key_map*
     This map is used when building QuickFix from fzf.
     Options are a string passed directly to fzf's "--expect" option.
