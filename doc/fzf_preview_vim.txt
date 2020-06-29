@@ -478,13 +478,6 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0
 
 
-*g:fzf_preview_devicons_limit*
-    Devicons can make fzf-preview slow when the number of results is high.
-    By default icons are disable when number of results is higher this value.
-
-    Default value is 5000
-
-
 *g:fzf_preview_dev_icon_prefix_length*
     Set how many bytes devicon is represented.
 

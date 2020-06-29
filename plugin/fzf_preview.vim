@@ -148,10 +148,6 @@ if !exists('g:fzf_full_preview_toggle_key')
   let g:fzf_full_preview_toggle_key = '<C-s>'
 endif
 
-if !exists('g:fzf_preview_devicons_limit')
-  let g:fzf_preview_devicons_limit = 5000
-endif
-
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
