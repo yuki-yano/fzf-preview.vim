@@ -1,5 +1,6 @@
 import { exportQuickFix, openFile } from "@/connector/open-file"
 import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { ConvertedLine, ExportQuickFix, OpenCommand, OpenFile } from "@/type"
 
 type ParsedLine = {
@@ -30,10 +31,22 @@ const parseConvertedLine = (convertedLine: ConvertedLine): ParsedLine => {
   throw new Error(`ConvertedLine is invalid: '${convertedLine}'`)
 }
 
+const convertOpenCommand = (openCommand: OpenCommand): OpenCommand => {
+  if (openCommand === "edit" && globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
+    return "drop"
+  }
+  return openCommand
+}
+
 const createOpenFileConsumer = (openCommand: OpenCommand) =>
   createSingleLineConsumer(async (convertedLine) => {
     const { file, lineNumber } = parseConvertedLine(convertedLine)
-    const openFileFormat: OpenFile = { openCommand, file, lineNumber }
+    const openFileFormat: OpenFile = {
+      openCommand: convertOpenCommand(openCommand),
+      file,
+      lineNumber
+    }
+
     await openFile(openFileFormat)
   })
 
@@ -41,6 +54,7 @@ export const editConsumer = createOpenFileConsumer("edit")
 export const splitConsumer = createOpenFileConsumer("split")
 export const vsplitConsumer = createOpenFileConsumer("vsplit")
 export const tabeditConsumer = createOpenFileConsumer("tabedit")
+export const dropConsumer = createOpenFileConsumer("drop")
 
 export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
   const quickFixList: Array<ExportQuickFix> = lines

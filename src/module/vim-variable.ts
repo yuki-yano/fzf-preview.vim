@@ -29,7 +29,8 @@ const initialState: State = {
     fzfPreviewCacheDirectory: "",
     fzfPreviewLinesCommand: "",
     fzfPreviewGrepPreviewCmd: "",
-    fzfPreviewCustomOpenFileProcesses: false
+    fzfPreviewCustomOpenFileProcesses: false,
+    fzfPreviewBuffersJump: 0
   }
 }
 

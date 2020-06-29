@@ -30,4 +30,4 @@ export type BulkLineConsumer = {
 
 export type CreateProcess = (processesName: ProcessesName) => (expectKey: string, lineConsumer: LineConsumer) => Process
 
-export type OpenCommand = "edit" | "split" | "vsplit" | "tabedit"
+export type OpenCommand = "edit" | "split" | "vsplit" | "tabedit" | "drop"

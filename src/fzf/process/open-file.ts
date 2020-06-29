@@ -1,4 +1,5 @@
 import {
+  dropConsumer,
   editConsumer,
   exportQuickfixConsumer,
   splitConsumer,
@@ -15,5 +16,6 @@ export const openFileProcesses: Processes = [
   createOpenFileProcess("ctrl-x", splitConsumer),
   createOpenFileProcess("ctrl-v", vsplitConsumer),
   createOpenFileProcess("ctrl-t", tabeditConsumer),
+  createOpenFileProcess("ctrl-o", dropConsumer),
   createOpenFileProcess("ctrl-q", exportQuickfixConsumer)
 ]

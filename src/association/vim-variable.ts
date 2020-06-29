@@ -11,5 +11,6 @@ export const vimVariableAssociation = {
   fzfPreviewCacheDirectory: "fzf_preview_cache_directory",
   fzfPreviewLinesCommand: "fzf_preview_lines_command",
   fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
-  fzfPreviewCustomOpenFileProcesses: "fzf_preview_custom_open_file_processes"
+  fzfPreviewCustomOpenFileProcesses: "fzf_preview_custom_open_file_processes",
+  fzfPreviewBuffersJump: "fzf_preview_buffers_jump"
 } as const
