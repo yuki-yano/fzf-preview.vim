@@ -1,5 +1,6 @@
 import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses, parseResume } from "@/args"
 import { commandDefinition } from "@/association/command"
+import { convertForFzf } from "@/connector/convert-for-fzf"
 import { setResourceCommandName } from "@/connector/resume"
 import { handlerName } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
@@ -12,7 +13,15 @@ import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
 import { currentFilePath } from "@/system/file"
-import type { FzfCommand } from "@/type"
+import type { FzfCommand, ResourceLines } from "@/type"
+
+const enableDevIconsResult = (source: ResourceLines, enableDevIcons: boolean) => {
+  return (
+    enableDevIcons &&
+    globalVariableSelector("fzfPreviewUseDevIcons") !== 0 &&
+    globalVariableSelector("fzfPreviewDevIconsLimit") > source.length
+  )
+}
 
 const registerCommand = ({
   commandName,
@@ -21,7 +30,9 @@ const registerCommand = ({
   vimCommandOptions,
   defaultFzfOptionFunc,
   defaultProcessesName,
+  enableConvertForFzf,
   enableDevIcons,
+  enablePostProcessCommand,
   beforeCommandHook,
 }: FzfCommand) => {
   pluginRegisterCommand(
@@ -54,12 +65,13 @@ const registerCommand = ({
       })
       const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
+      const source = await sourceFunc(sourceFuncArgs)
       dispatch(
         executeCommandModule.actions.setExecuteCommand({
           commandName,
           options: {
             processesName,
-            enableDevIcons: enableDevIcons && globalVariableSelector("fzfPreviewUseDevIcons"),
+            enableDevIcons: enableDevIconsResult(source, enableDevIcons),
             currentFilePath: await currentFilePath(),
           },
         })
@@ -68,7 +80,11 @@ const registerCommand = ({
       await dispatch(saveStore({ modules: ["executeCommand"] }))
 
       await fzfRunner({
-        source: await sourceFunc(sourceFuncArgs),
+        source: await convertForFzf(source, {
+          enableConvertForFzf,
+          enableDevIcons: enableDevIconsResult(source, enableDevIcons),
+          enablePostProcessCommand,
+        }),
         handler: handlerName,
         options: fzfOptions,
       })

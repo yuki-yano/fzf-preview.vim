@@ -1,14 +1,13 @@
 scriptencoding utf-8
 
-function! fzf_preview#remote#converter#convert_for_fzf(files, ...) abort
-  let disable_postprocess_command = get(a:, 1, 0)
-  if g:fzf_preview_filelist_postprocess_command !=# '' && !disable_postprocess_command
+function! fzf_preview#remote#converter#convert_for_fzf(files, enable_dev_icons, enable_postprocess_command) abort
+  if g:fzf_preview_filelist_postprocess_command !=# '' && a:enable_postprocess_command
     let filenames = s:postprocess_filename(a:files)
   else
     let filenames = copy(a:files)
   endif
 
-  if g:fzf_preview_use_dev_icons
+  if a:enable_dev_icons
     let devicons = s:create_dev_icon_list(a:files)
   else
     let devicons = map(copy(a:files), "''")

@@ -1,6 +1,4 @@
-import { convertForFzf } from "@/connector/convert-for-fzf"
 import { getOldFiles } from "@/connector/old-files"
-import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
@@ -10,15 +8,7 @@ export const projectOldFiles = async (_args: SourceFuncArgs): Promise<ResourceLi
     throw new Error("The current directory is not a git project")
   }
 
-  const files = filterProjectEnabledFile(await getOldFiles())
-
-  const { enableDevIcons } = executeCommandSelector().options
-  if (enableDevIcons) {
-    const convertedFiles = await convertForFzf(files)
-    return convertedFiles
-  } else {
-    return files
-  }
+  return filterProjectEnabledFile(await getOldFiles())
 }
 
 export const projectOldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

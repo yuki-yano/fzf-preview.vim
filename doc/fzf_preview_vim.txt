@@ -484,6 +484,13 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 2
 
 
+*g:fzf_preview_dev_icons_limit*
+    Devicons can make fzf-preview slow when the number of results is high.
+    By default icons are disable when number of results is higher this value.
+
+    Default value is 5000
+
+
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
     Default value is 'ansi-dark'

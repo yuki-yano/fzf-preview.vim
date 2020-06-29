@@ -153,6 +153,10 @@ if !exists('g:fzf_preview_dev_icon_prefix_string_length')
   let g:fzf_preview_dev_icon_prefix_string_length = 3
 endif
 
+if !exists('g:fzf_preview_dev_icons_limit')
+  let g:fzf_preview_dev_icons_limit = 5000
+endif
+
 if !exists('g:fzf_preview_layout')
   let g:fzf_preview_layout = 'top split new'
 endif

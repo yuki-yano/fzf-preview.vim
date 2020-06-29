@@ -1,9 +1,8 @@
-import { convertForFzf } from "@/connector/convert-for-fzf"
-import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs): Promise<ResourceLines> => {
   const filelistCommand = globalVariableSelector("fzfPreviewDirectoryFilesCommand")
 
@@ -17,15 +16,7 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs): Promise<R
     throw new Error(`Failed to get the file list. command: "${filelistCommand} ${arg || ""}"`)
   }
 
-  const files = stdout.split("\n").filter((file) => file !== "")
-
-  const { enableDevIcons } = executeCommandSelector().options
-  if (enableDevIcons) {
-    const convertedFiles = await convertForFzf(files)
-    return convertedFiles
-  } else {
-    return files
-  }
+  return stdout.split("\n").filter((file) => file !== "")
 }
 
 export const directoryFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

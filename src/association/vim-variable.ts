@@ -1,6 +1,7 @@
 export const vimVariableAssociation = {
   fzfPreviewUseDevIcons: "fzf_preview_use_dev_icons",
   fzfPreviewDevIconPrefixStringLength: "fzf_preview_dev_icon_prefix_string_length",
+  fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
   fzfPreviewCommand: "fzf_preview_command",
   fzfPreviewFilelistCommand: "fzf_preview_filelist_command",
   fzfPreviewGitFilesCommand: "fzf_preview_git_files_command",

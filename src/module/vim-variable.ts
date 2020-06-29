@@ -19,6 +19,7 @@ const initialState: State = {
   global: {
     fzfPreviewUseDevIcons: false,
     fzfPreviewDevIconPrefixStringLength: 0,
+    fzfPreviewDevIconsLimit: 5000,
     fzfPreviewCommand: "",
     fzfPreviewFilelistCommand: "",
     fzfPreviewGitFilesCommand: "",

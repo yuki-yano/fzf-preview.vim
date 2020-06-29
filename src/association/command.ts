@@ -69,7 +69,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewGitFiles",
@@ -78,7 +80,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewDirectoryFiles",
@@ -88,7 +92,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewGitStatus",
@@ -97,7 +103,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewBuffers",
@@ -106,7 +114,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewAllBuffers",
@@ -115,7 +125,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewProjectOldFiles",
@@ -124,7 +136,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectOldFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewProjectMruFiles",
@@ -133,7 +147,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectMruFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewProjectMrwFiles",
@@ -142,7 +158,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectMrwFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewLines",
@@ -151,7 +169,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: linesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewBufferLines",
@@ -160,7 +180,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: bufferLinesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewCtags",
@@ -169,7 +191,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: ctagsDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewBufferTags",
@@ -178,7 +202,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: bufferTagsDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewOldFiles",
@@ -187,7 +213,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: oldFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewMruFiles",
@@ -196,7 +224,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: mruFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewMrwFiles",
@@ -205,7 +235,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: mrwFilesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
   {
     commandName: "TSFzfPreviewQuickFix",
@@ -214,7 +246,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: quickFixDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewLocationList",
@@ -223,7 +257,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: locationListDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewJumps",
@@ -232,7 +268,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: jumpsDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewChanges",
@@ -241,7 +279,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: changesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewMarks",
@@ -250,7 +290,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: marksDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewProjectGrep",
@@ -260,7 +302,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectGrepDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
   {
     commandName: "TSFzfPreviewProjectCommandGrep",
@@ -270,7 +314,9 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: projectCommandGrepDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: false,
     enableDevIcons: false,
+    enablePostProcessCommand: false,
     beforeCommandHook: dispatchDefaultQueryForCommandGrep,
   },
   {
@@ -281,6 +327,8 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: filesFromResourcesDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: true,
   },
 ] as const

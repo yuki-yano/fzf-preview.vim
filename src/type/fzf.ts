@@ -51,7 +51,9 @@ export type FzfCommand = {
     | { [optionName: string]: string | boolean | undefined }
     | Promise<{ [optionName: string]: string | boolean | undefined }>
   defaultProcessesName: ProcessesName
+  enableConvertForFzf: boolean
   enableDevIcons: boolean
+  enablePostProcessCommand: boolean
   beforeCommandHook?: (args: string) => void
 }
 
