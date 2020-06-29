@@ -28,7 +28,9 @@ const getExpectFromUserProcesses = async (userProcessesName: string) => {
 
   if (typeof userProcesses === "object" && !Array.isArray(userProcesses)) {
     return {
-      "--expect": Object.entries(userProcesses).map(([key]) => key)
+      "--expect": Object.entries(userProcesses)
+        .map(([key]) => key)
+        .filter((key) => key !== "enter")
     }
   }
 
@@ -50,7 +52,9 @@ export const generateOptions = async ({
   userOptions,
   resumeQuery
 }: OptionsArgs): Promise<FzfOptions> => {
-  const expectFromDefaultProcess: FzfOptions = { "--expect": defaultProcesses.map(({ key }) => key) }
+  const expectFromDefaultProcess: FzfOptions = {
+    "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter")
+  }
 
   const userExpectFromProcesses: FzfOptions = userProcessesName
     ? await getExpectFromUserProcesses(userProcessesName)

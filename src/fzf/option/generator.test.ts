@@ -25,7 +25,7 @@ describe("generateOptions", () => {
           action: "toggle-preview"
         }
       ],
-      "--expect": ["enter", "ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"]
+      "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"]
     }
   })
 
@@ -64,7 +64,7 @@ describe("generateOptions", () => {
     })
 
     it("other default processes", async () => {
-      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-a", "ctrl-b", "ctrl-c"]
+      fzfCommandDefaultOptions["--expect"] = ["ctrl-a", "ctrl-b", "ctrl-c"]
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
@@ -88,7 +88,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions["--expect"] = ["ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
         await generateOptions({
@@ -112,7 +112,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["enter", "ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions["--expect"] = ["ctrl-d", "ctrl-e", "ctrl-f"]
 
       expect(
         await generateOptions({
