@@ -1,6 +1,6 @@
 import { getAllBuffers } from "@/connector/buffers"
 import { createSplitConverter } from "@/fzf/converter"
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { filePreviewCommand } from "@/fzf/util"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
@@ -24,5 +24,5 @@ export const dropBufnr = (line: SelectedLine): ConvertedLine => createSplitConve
 export const allBuffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"AllBuffers> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
+  "--preview": filePreviewCommand(),
 })

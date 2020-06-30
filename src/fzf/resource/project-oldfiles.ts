@@ -1,5 +1,5 @@
 import { getOldFiles } from "@/connector/old-files"
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { filePreviewCommand } from "@/fzf/util"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -14,5 +14,5 @@ export const projectOldFiles = async (_args: SourceFuncArgs): Promise<ResourceLi
 export const projectOldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectOldFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
+  "--preview": filePreviewCommand(),
 })

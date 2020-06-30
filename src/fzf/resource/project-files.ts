@@ -1,3 +1,4 @@
+import { filePreviewCommand } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
@@ -27,5 +28,5 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines
 export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
+  "--preview": filePreviewCommand(),
 })

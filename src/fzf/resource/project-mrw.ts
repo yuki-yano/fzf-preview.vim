@@ -1,4 +1,4 @@
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { filePreviewCommand } from "@/fzf/util"
 import { readMrwFile } from "@/system/mr"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
@@ -14,5 +14,5 @@ export const projectMrwFiles = async (_args: SourceFuncArgs): Promise<ResourceLi
 export const projectMrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectMrwFiles> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
+  "--preview": filePreviewCommand(),
 })

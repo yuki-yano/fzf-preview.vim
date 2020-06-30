@@ -9,7 +9,7 @@ import { projectFiles } from "@/fzf/resource/project-files"
 import { projectMruFiles } from "@/fzf/resource/project-mru"
 import { projectMrwFiles } from "@/fzf/resource/project-mrw"
 import { projectOldFiles } from "@/fzf/resource/project-oldfiles"
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { filePreviewCommand } from "@/fzf/util"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
 type ResourceFunctions = {
@@ -45,5 +45,5 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ResourceFrom> "',
   "--multi": true,
-  "--preview": `"${globalVariableSelector("fzfPreviewCommand") as string}"`,
+  "--preview": filePreviewCommand(),
 })
