@@ -137,10 +137,6 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMarks                             " Select mark (Required [Python3](https://www.python.org/))
 
-:FzfPreviewConflict                          " Select conflict (Required [Python3](https://www.python.org/))
-
-:FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
-
 :FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 ```
 

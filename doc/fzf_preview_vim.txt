@@ -186,15 +186,6 @@ COMMANDS                                        *fzf-preview-commands*
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
 
-                                                *:FzfPreviewConflict*
-:FzfPreviewConflict
-     List git conflict file and line from the project.
-
-                                                *:FzfPreviewBlamePR*
-:FzfPreviewBlamePR
-     The PR corresponding to each line is displayed and
-     the selected PR is opened in the browser.
-
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
      Select a resource and generate a file list.
