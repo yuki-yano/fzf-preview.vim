@@ -11,7 +11,6 @@ CONTENTS                                   *fzf-preview-contents*
     Installation                           |fzf-preview-installation|
     Mappings                               |fzf-preview-mappings|
     Commands                               |fzf-preview-commands|
-    Deprecated Commands                    |fzf-preview-deprecated-commands|
     Keymap                                  |fzf-preview-keymap|
 
 ==============================================================================
@@ -478,10 +477,10 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0
 
 
-*g:fzf_preview_dev_icon_prefix_length*
-    Set how many bytes devicon is represented.
+*g:fzf_preview_dev_icon_prefix_string_length*
+    Set how many string length devicon is represented.
 
-    Default value is 2
+    Default value is 3
 
 
 *g:fzf_preview_dev_icons_limit*
@@ -495,70 +494,6 @@ OPTIONS                                         *fzf-preview-options*
     The theme used in the bat preview.
     Default value is 'ansi-dark'
 
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_split_key_map*
-    This map is used when splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-x'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_vsplit_key_map*
-    This map is used when vertical splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-v'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_tabedit_key_map*
-    This map is used when new tabpage and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-t'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_drop_key_map*
-    This map is used when drop command executed.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-o'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_build_quickfix_key_map*
-    This map is used when building QuickFix from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-q'
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_preview_layout*
-    This value is the layout displayed when executing the fzf command.
-
-    Default value is 'top split new'
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_preview_rate*
-    Calculate the size of the fzf window based on this value.
-    In the case of 0.3, windows with 0.3 times the size of
-    &lines are generated.
-
-    Default value is 0.3
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_full_preview_toggle_key*
-    It is a mapping for switching the fzf window to full screen.
-    You press this key, the display changes with the value set
-    with g:fzf_preview_rate.
-
-    Default value is '<C-s>'
 
 ==============================================================================
 FUNCTIONS                                       *fzf-preview-functions*
@@ -615,9 +550,6 @@ DEFAULT KEYMAP                                  *fzf-preview-keymap*
 
 ?
   - Toggle Preview
-
-<C-s> # DEPRECATED
-  - Toggle window size of fzf, normal size and full-screen
 
 ==============================================================================
 EXAMPLE                                         *fzf-preview-mappings*

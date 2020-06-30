@@ -197,10 +197,6 @@ nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
 
 ?
   Toggle display of preview screen
-
-DEPRECATED
-<C-s> (Neovim Only)
-  Toggle window size of fzf, normal size and full-screen
 ```
 
 ## Customization

@@ -79,30 +79,6 @@ if !exists('g:fzf_preview_fzf_color_option')
   let g:fzf_preview_fzf_color_option = ''
 endif
 
-if !exists('g:fzf_preview_split_key_map')
-  let g:fzf_preview_split_key_map = 'ctrl-x'
-endif
-
-if !exists('g:fzf_preview_vsplit_key_map')
-  let g:fzf_preview_vsplit_key_map = 'ctrl-v'
-endif
-
-if !exists('g:fzf_preview_tabedit_key_map')
-  let g:fzf_preview_tabedit_key_map = 'ctrl-t'
-endif
-
-if !exists('g:fzf_preview_drop_key_map')
-  let g:fzf_preview_drop_key_map = 'ctrl-o'
-endif
-
-if !exists('g:fzf_preview_build_quickfix_key_map')
-  let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
-endif
-
-if !exists('g:fzf_preview_custom_default_processors')
-  let g:fzf_preview_custom_default_processors = {}
-endif
-
 if !exists('g:fzf_preview_custom_open_file_processes')
   let g:fzf_preview_custom_open_file_processes = 0
 endif
@@ -123,29 +99,12 @@ if !exists('g:fzf_preview_use_dev_icons')
   let g:fzf_preview_use_dev_icons = 0
 endif
 
-if !exists('g:fzf_preview_dev_icon_prefix_length')
-  let g:fzf_preview_dev_icon_prefix_length = 5
-endif
-
-" TypeScript work around
 if !exists('g:fzf_preview_dev_icon_prefix_string_length')
   let g:fzf_preview_dev_icon_prefix_string_length = 3
 endif
 
 if !exists('g:fzf_preview_dev_icons_limit')
   let g:fzf_preview_dev_icons_limit = 5000
-endif
-
-if !exists('g:fzf_preview_layout')
-  let g:fzf_preview_layout = 'top split new'
-endif
-
-if !exists('g:fzf_preview_rate')
-  let g:fzf_preview_rate = 0.3
-endif
-
-if !exists('g:fzf_full_preview_toggle_key')
-  let g:fzf_full_preview_toggle_key = '<C-s>'
 endif
 
 let s:save_cpo = &cpoptions
