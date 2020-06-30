@@ -33,6 +33,7 @@ const initialState: State = {
     fzfPreviewLinesCommand: "",
     fzfPreviewGrepPreviewCmd: "",
     fzfPreviewCustomOpenFileProcesses: 0,
+    fzfPreviewFzfColorOption: "",
     fzfPreviewBuffersJump: 0,
   },
 }

@@ -4,7 +4,6 @@ export const vimVariableAssociation = {
   fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
   fzfPreviewCommand: "fzf_preview_command",
   fzfBinaryPreviewCommand: "fzf_binary_preview_command",
-  fzfBinaryPreviewCommand: "fzf_binary_preview_command",
   fzfPreviewIfBinaryCommand: "fzf_preview_if_binary_command",
   fzfPreviewFilelistCommand: "fzf_preview_filelist_command",
   fzfPreviewGitFilesCommand: "fzf_preview_git_files_command",
@@ -16,5 +15,6 @@ export const vimVariableAssociation = {
   fzfPreviewLinesCommand: "fzf_preview_lines_command",
   fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
   fzfPreviewCustomOpenFileProcesses: "fzf_preview_custom_open_file_processes",
+  fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
   fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
 } as const

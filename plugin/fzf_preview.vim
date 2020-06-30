@@ -5,20 +5,8 @@ if exists('s:loaded')
 endif
 let s:loaded = 1
 
-if !exists('g:fzf_preview_use_floating_window')
-  let g:fzf_preview_use_floating_window = has('nvim') ? 1 : 0
-endif
-
 if !exists('g:fzf_preview_floating_window_rate')
   let g:fzf_preview_floating_window_rate = 0.9
-endif
-
-if !exists('g:fzf_preview_floating_window_winblend')
-  if &termguicolors
-    let g:fzf_preview_floating_window_winblend = 15
-  else
-    let g:fzf_preview_floating_window_winblend = 0
-  endif
 endif
 
 if !exists('g:fzf_preview_quit_map')
@@ -83,17 +71,8 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
 
-if !exists('g:fzf_preview_open_pr_command')
-  let g:fzf_preview_open_pr_command = expand('<sfile>:h:h') . '/bin/git_blame_pr'
-endif
-
 if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
-endif
-
-if !exists('g:fzf_preview_preview_key_bindings')
-  let g:fzf_preview_preview_key_bindings =
-        \ 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 endif
 
 if !exists('g:fzf_preview_fzf_color_option')

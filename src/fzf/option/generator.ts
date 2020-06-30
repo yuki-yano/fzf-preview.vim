@@ -1,3 +1,4 @@
+import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
 import type { AddFzfArgs, FzfOptions, Processes, ResumeQuery } from "@/type"
 
@@ -56,6 +57,11 @@ export const generateOptions = async ({
     "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter"),
   }
 
+  const colorOption: FzfOptions =
+    globalVariableSelector("fzfPreviewFzfColorOption") === ""
+      ? {}
+      : { "--color": `"${globalVariableSelector("fzfPreviewFzfColorOption") as string}"` }
+
   const userExpectFromProcesses: FzfOptions = userProcessesName
     ? await getExpectFromUserProcesses(userProcessesName)
     : {}
@@ -66,6 +72,7 @@ export const generateOptions = async ({
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
     ...expectFromDefaultProcess,
+    ...colorOption,
     ...userExpectFromProcesses,
     ...resumeQueryOption,
   }
