@@ -57,6 +57,11 @@ export const generateOptions = async ({
     "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter"),
   }
 
+  const previewWindowOption: FzfOptions =
+    globalVariableSelector("fzfPreviewFzfPreviewWindowOption") === ""
+      ? {}
+      : { "--preview-window": `"${globalVariableSelector("fzfPreviewFzfPreviewWindowOption") as string}"` }
+
   const colorOption: FzfOptions =
     globalVariableSelector("fzfPreviewFzfColorOption") === ""
       ? {}
@@ -72,6 +77,7 @@ export const generateOptions = async ({
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
     ...expectFromDefaultProcess,
+    ...previewWindowOption,
     ...colorOption,
     ...userExpectFromProcesses,
     ...resumeQueryOption,

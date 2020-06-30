@@ -15,6 +15,7 @@ export const vimVariableAssociation = {
   fzfPreviewLinesCommand: "fzf_preview_lines_command",
   fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
   fzfPreviewCustomOpenFileProcesses: "fzf_preview_custom_open_file_processes",
+  fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
   fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
   fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
 } as const
