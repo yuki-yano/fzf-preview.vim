@@ -63,7 +63,7 @@ const vimCommandOptions = {
 
 export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
-    commandName: "TSFzfPreviewProjectFiles",
+    commandName: "FzfPreviewProjectFiles",
     sourceFunc: projectFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -74,7 +74,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewGitFiles",
+    commandName: "FzfPreviewGitFiles",
     sourceFunc: gitFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -85,7 +85,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewDirectoryFiles",
+    commandName: "FzfPreviewDirectoryFiles",
     sourceFunc: directoryFiles,
     convertLine: convertIdentity,
     sourceFuncArgsParser: parseDictionaryFilesArgs,
@@ -97,7 +97,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewGitStatus",
+    commandName: "FzfPreviewGitStatus",
     sourceFunc: gitStatus,
     convertLine: dropGitStatusPrefix,
     vimCommandOptions,
@@ -108,7 +108,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewBuffers",
+    commandName: "FzfPreviewBuffers",
     sourceFunc: buffers,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -119,7 +119,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewAllBuffers",
+    commandName: "FzfPreviewAllBuffers",
     sourceFunc: allBuffers,
     convertLine: dropBufnr,
     vimCommandOptions,
@@ -130,7 +130,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewProjectOldFiles",
+    commandName: "FzfPreviewProjectOldFiles",
     sourceFunc: projectOldFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -141,7 +141,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewProjectMruFiles",
+    commandName: "FzfPreviewProjectMruFiles",
     sourceFunc: projectMruFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -152,7 +152,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewProjectMrwFiles",
+    commandName: "FzfPreviewProjectMrwFiles",
     sourceFunc: projectMrwFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -163,7 +163,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewLines",
+    commandName: "FzfPreviewLines",
     sourceFunc: lines,
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
@@ -174,7 +174,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewBufferLines",
+    commandName: "FzfPreviewBufferLines",
     sourceFunc: bufferLines,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -185,7 +185,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewCtags",
+    commandName: "FzfPreviewCtags",
     sourceFunc: ctags,
     convertLine: convertTags,
     vimCommandOptions,
@@ -196,7 +196,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewBufferTags",
+    commandName: "FzfPreviewBufferTags",
     sourceFunc: bufferTags,
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
@@ -207,7 +207,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewOldFiles",
+    commandName: "FzfPreviewOldFiles",
     sourceFunc: oldFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -218,7 +218,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewMruFiles",
+    commandName: "FzfPreviewMruFiles",
     sourceFunc: mruFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -229,7 +229,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewMrwFiles",
+    commandName: "FzfPreviewMrwFiles",
     sourceFunc: mrwFiles,
     convertLine: convertIdentity,
     vimCommandOptions,
@@ -240,7 +240,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: true,
   },
   {
-    commandName: "TSFzfPreviewQuickFix",
+    commandName: "FzfPreviewQuickFix",
     sourceFunc: quickFix,
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
@@ -251,7 +251,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewLocationList",
+    commandName: "FzfPreviewLocationList",
     sourceFunc: locationList,
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
@@ -262,7 +262,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewJumps",
+    commandName: "FzfPreviewJumps",
     sourceFunc: jumps,
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
@@ -273,7 +273,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewChanges",
+    commandName: "FzfPreviewChanges",
     sourceFunc: changes,
     convertLine: convertLineToFileAndText,
     vimCommandOptions,
@@ -284,7 +284,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewMarks",
+    commandName: "FzfPreviewMarks",
     sourceFunc: marks,
     convertLine: convertGrepToFileAndText,
     vimCommandOptions,
@@ -295,7 +295,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewProjectGrep",
+    commandName: "FzfPreviewProjectGrep",
     sourceFunc: projectGrep,
     convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseGrepArgs,
@@ -307,7 +307,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enablePostProcessCommand: false,
   },
   {
-    commandName: "TSFzfPreviewProjectCommandGrep",
+    commandName: "FzfPreviewProjectCommandGrep",
     sourceFunc: projectCommandGrep,
     convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseGrepArgs,
@@ -320,7 +320,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     beforeCommandHook: dispatchDefaultQueryForCommandGrep,
   },
   {
-    commandName: "TSFzfPreviewFromResources",
+    commandName: "FzfPreviewFromResources",
     sourceFunc: filesFromResources,
     convertLine: convertIdentity,
     sourceFuncArgsParser: parseResources,
