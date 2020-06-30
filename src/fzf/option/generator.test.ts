@@ -186,7 +186,7 @@ describe("generateOptions", () => {
         resumeQuery: "foo",
       })
 
-      const queryOption = { "--query": "foo" }
+      const queryOption = { "--query": '"foo"' }
 
       expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
       expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...queryOption })

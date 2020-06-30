@@ -60,7 +60,7 @@ export const generateOptions = async ({
     ? await getExpectFromUserProcesses(userProcessesName)
     : {}
 
-  const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": resumeQuery }
+  const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` }
 
   const fzfCommandOptions = {
     ...defaultOptions,
