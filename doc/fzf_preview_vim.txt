@@ -51,6 +51,9 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
+- vim-bookmarks (Use FzfPreviewBookmarks)
+    https://github.com/MattesGroeger/vim-bookmarks
+
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
 
@@ -205,6 +208,11 @@ COMMANDS                                        *fzf-preview-commands*
 
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
+
+                                                *:FzfPreviewBookmarks*
+:FzfPreviewBookmarks
+     Select and open the bookmarks from vim-bookmarks
+
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*

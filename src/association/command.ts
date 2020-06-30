@@ -4,6 +4,8 @@ import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, co
 import {
   allBuffers,
   allBuffersDefaultOptions,
+  bookmarks,
+  bookmarksDefaultOptions,
   bufferLines,
   bufferLinesDefaultOptions,
   buffers,
@@ -330,5 +332,16 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+  },
+  {
+    commandName: "FzfPreviewBookmarks",
+    sourceFunc: bookmarks,
+    convertLine: convertGrepToFileAndText,
+    vimCommandOptions,
+    defaultFzfOptionFunc: bookmarksDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+    enablePostProcessCommand: false,
   },
 ] as const
