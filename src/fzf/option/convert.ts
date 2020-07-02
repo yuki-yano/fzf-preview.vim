@@ -23,7 +23,11 @@ const definedOptionsToArray = (options: FzfOptions) => {
     arrayOptions.push(`--bind=${options["--bind"]}`)
   }
   if (options["--expect"] && Array.isArray(options["--expect"])) {
-    arrayOptions.push(`--expect="${options["--expect"].join(",")}"`)
+    if (options["--expect"].length > 0) {
+      arrayOptions.push(`--expect="${options["--expect"].join(",")}"`)
+    } else {
+      arrayOptions.push(`--expect="alt-enter"`)
+    }
   } else if (options["--expect"] && typeof options["--expect"] === "string") {
     arrayOptions.push(`--expect=${options["--expect"]}`)
   }
