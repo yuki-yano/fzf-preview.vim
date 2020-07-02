@@ -80,7 +80,7 @@ const registerCommand = ({
       await dispatch(saveStore({ modules: ["executeCommand"] }))
 
       await fzfRunner({
-        source: await convertForFzf(source, {
+        source: convertForFzf(source, {
           enableConvertForFzf,
           enableDevIcons: enableDevIconsResult(source, enableDevIcons),
           enablePostProcessCommand,
