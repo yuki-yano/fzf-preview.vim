@@ -21,6 +21,7 @@ import {
   dispatchDefaultQueryForCommandGrep,
   dropBufnr,
   dropGitStatusPrefix,
+  dropYankroundLineNumber,
   filesFromResources,
   filesFromResourcesDefaultOptions,
   gitFiles,
@@ -55,6 +56,8 @@ import {
   projectOldFilesDefaultOptions,
   quickFix,
   quickFixDefaultOptions,
+  yankround,
+  yankroundDefaultOptions,
 } from "@/fzf/resource"
 import type { FzfCommand } from "@/type"
 
@@ -342,6 +345,17 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    enablePostProcessCommand: false,
+  },
+  {
+    commandName: "FzfPreviewYankround",
+    sourceFunc: yankround,
+    convertLine: dropYankroundLineNumber,
+    vimCommandOptions,
+    defaultFzfOptionFunc: yankroundDefaultOptions,
+    defaultProcessesName: "register",
+    enableConvertForFzf: false,
+    enableDevIcons: false,
     enablePostProcessCommand: false,
   },
 ] as const

@@ -107,6 +107,10 @@ if !exists('g:fzf_preview_dev_icons_limit')
   let g:fzf_preview_dev_icons_limit = 5000
 endif
 
+if !exists('g:fzf_preview_yankround_preview_command')
+  let g:fzf_preview_yankround_preview_command = expand('<sfile>:h:h') . '/bin/preview_yankround_register'
+endif
+
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
@@ -121,9 +125,16 @@ augroup END
 
 augroup fzf_preview_initialized
   autocmd!
+  autocmd VimEnter * call s:fzf_preview_init()
   autocmd VimEnter * silent doautocmd User fzf_preview#initialized
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
+
+function! s:fzf_preview_init() abort
+  if exists('g:yankround_dir')
+    let $FZF_PREVIEW_YANKROUND_DIR = fnamemodify(g:yankround_dir, ':p') . '/history'
+  endif
+endfunction
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo

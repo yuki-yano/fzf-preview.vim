@@ -60,6 +60,7 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
+- yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
 
 #### Appearance
 
@@ -150,6 +151,8 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 :FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 
 :FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+
+:FzfPreviewYankround                         " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
 ```
 
 ### Recommended mappings

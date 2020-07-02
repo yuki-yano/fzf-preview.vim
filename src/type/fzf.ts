@@ -36,6 +36,7 @@ export type FzfCommandName =
   | "FzfPreviewProjectCommandGrep"
   | "FzfPreviewFromResources"
   | "FzfPreviewBookmarks"
+  | "FzfPreviewYankround"
 
 export type SourceFuncArgs = {
   args: Array<string>
@@ -79,6 +80,7 @@ export type FzfCommandDefinitionDefaultOption = {
   "--phony"?: boolean
   "--bind"?: string
   "--query"?: string
+  "--with-nth"?: string
 }
 
 export type AddFzfArgs = {

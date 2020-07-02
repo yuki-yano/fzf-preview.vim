@@ -213,6 +213,10 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewBookmarks
      Select and open the bookmarks from vim-bookmarks
 
+                                                *:FzfPreviewYankround*
+:FzfPreviewYankround
+     Select register history and insert " register from yankround.vim
+
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
@@ -461,6 +465,11 @@ OPTIONS                                         *fzf-preview-options*
 
     Default value is 5000
 
+
+*g:fzf_preview_yankround_preview_command*
+    Command to preview yankround history.
+
+    Defaul value is expand('<sfile>:h:h') . '/bin/preview_yankround_register'
 
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
