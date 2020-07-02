@@ -61,6 +61,7 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
+- GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
 
 #### Appearance
 
@@ -153,6 +154,8 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 :FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
 
 :FzfPreviewYankround                         " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
+
+:FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
 ```
 
 ### Recommended mappings

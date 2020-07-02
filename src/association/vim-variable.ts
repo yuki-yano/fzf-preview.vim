@@ -22,4 +22,5 @@ export const vimVariableAssociation = {
   fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
   fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
   fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",
+  fzfPreviewBlamePrCommand: "fzf_preview_blame_pr_command",
 } as const

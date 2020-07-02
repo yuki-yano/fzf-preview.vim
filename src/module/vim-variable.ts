@@ -40,6 +40,7 @@ const initialState: State = {
     fzfPreviewFzfColorOption: "",
     fzfPreviewBuffersJump: 0,
     fzfPreviewYankroundPreviewCommand: "",
+    fzfPreviewBlamePrCommand: "",
   },
 }
 

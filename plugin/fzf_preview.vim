@@ -111,6 +111,10 @@ if !exists('g:fzf_preview_yankround_preview_command')
   let g:fzf_preview_yankround_preview_command = expand('<sfile>:h:h') . '/bin/preview_yankround_register'
 endif
 
+if !exists('g:fzf_preview_blame_pr_command')
+  let g:fzf_preview_blame_pr_command = expand('<sfile>:h:h') . '/bin/git_blame_pr'
+endif
+
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 

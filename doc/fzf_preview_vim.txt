@@ -217,6 +217,10 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewYankround
      Select register history and insert " register from yankround.vim
 
+                                                *:FzfPreviewBlamePR*
+:FzfPreviewBlamePR
+     The PR corresponding to each line is displayed and
+     the selected PR is opened in the browser.
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
@@ -470,6 +474,11 @@ OPTIONS                                         *fzf-preview-options*
     Command to preview yankround history.
 
     Defaul value is expand('<sfile>:h:h') . '/bin/preview_yankround_register'
+
+*g:fzf_preview_blame_pr_command*
+    Command to FzfPreviewBlamePR source.
+
+    Defaul value is expand('<sfile>:h:h') . '/bin/git_blame_pr'
 
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.

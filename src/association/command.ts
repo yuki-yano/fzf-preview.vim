@@ -1,9 +1,17 @@
 import { parseDictionaryFilesArgs, parseGrepArgs } from "@/args"
 import { parseResources } from "@/args/files-from-resources-parser"
-import { convertGrepToFileAndText, convertIdentity, convertLineToFileAndText, convertTags } from "@/fzf/converter"
+import {
+  convertBlamePr,
+  convertGrepToFileAndText,
+  convertIdentity,
+  convertLineToFileAndText,
+  convertTags,
+} from "@/fzf/converter"
 import {
   allBuffers,
   allBuffersDefaultOptions,
+  blamePr,
+  blamePrDefaultOptions,
   bookmarks,
   bookmarksDefaultOptions,
   bufferLines,
@@ -354,6 +362,17 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: yankroundDefaultOptions,
     defaultProcessesName: "register",
+    enableConvertForFzf: false,
+    enableDevIcons: false,
+    enablePostProcessCommand: false,
+  },
+  {
+    commandName: "FzfPreviewBlamePR",
+    sourceFunc: blamePr,
+    convertLine: convertBlamePr,
+    vimCommandOptions,
+    defaultFzfOptionFunc: blamePrDefaultOptions,
+    defaultProcessesName: "open-pr",
     enableConvertForFzf: false,
     enableDevIcons: false,
     enablePostProcessCommand: false,

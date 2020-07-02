@@ -37,6 +37,7 @@ export type FzfCommandName =
   | "FzfPreviewFromResources"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
+  | "FzfPreviewBlamePR"
 
 export type SourceFuncArgs = {
   args: Array<string>
