@@ -31,8 +31,8 @@ Plug 'yuki-ycino/fzf-preview.vim', { 'do': 'npm install' }
   - `g:fzf_preview_custom_default_processors` -> `g:fzf_preview_custom_open_file_processes`
   - `g:fzf_preview_dev_icon_prefix_length` -> `g:g:fzf_preview_dev_icon_prefix_string_length`
 - function
-  - `fzf_preview#resource_processor#get_processors` -> `fzf_preview#remote#process#get_open_file_processes`
-  - `fzf_preview#resource_processor#get_default_processors` -> `fzf_preview#remote#process#get_open_file_processes`
+  - `fzf_preview#resource_processor#get_processors()` -> `fzf_preview#remote#process#get_default_processes('open-file')`
+  - `fzf_preview#resource_processor#get_default_processors()` -> `fzf_preview#remote#process#get_default_processes('open-file')`
 
 ## Change command option
 

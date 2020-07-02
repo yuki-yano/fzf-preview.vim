@@ -6,7 +6,7 @@ import { ProcessesName } from "@/type"
 
 export const registerFunction = (): void => {
   pluginRegisterFunction(
-    "FzfPreviewGetDefaultProcessor",
+    "FzfPreviewGetDefaultProcesses",
     ([processesName]: Array<string>) => {
       const targetProcessesDefinition = processesDefinition.find((define) => define.name === processesName)
       if (targetProcessesDefinition == null) {
