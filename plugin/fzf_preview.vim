@@ -50,8 +50,8 @@ if !exists('g:fzf_preview_git_status_command')
 endif
 
 if !exists('g:fzf_preview_git_status_preview_command')
-  let g:fzf_preview_git_status_preview_command =  "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
-  \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+  let g:fzf_preview_git_status_preview_command =  '[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || ' .
+  \ '[[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || ' .
   \ g:fzf_preview_command
 endif
 
