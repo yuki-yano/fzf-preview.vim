@@ -1,7 +1,7 @@
-import { handlerName } from "@/const/fzf-handler"
+import { HANDLER_NAME } from "@/const/fzf-handler"
 import { callProcess } from "@/fzf/handler"
 import { pluginRegisterFunction } from "@/plugin"
 
 export const registerHandlers = (): void => {
-  pluginRegisterFunction(handlerName, callProcess, { sync: true })
+  pluginRegisterFunction(HANDLER_NAME, callProcess, { sync: true })
 }

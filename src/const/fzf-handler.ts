@@ -1,1 +1,1 @@
-export const handlerName = "FzfPreviewHandleResource"
+export const HANDLER_NAME = "FzfPreviewHandleResource"

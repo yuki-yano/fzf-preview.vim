@@ -2,7 +2,7 @@ import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses, parseResume 
 import { commandDefinition } from "@/association/command"
 import { convertForFzf } from "@/connector/convert-for-fzf"
 import { setResourceCommandName } from "@/connector/resume"
-import { handlerName } from "@/const/fzf-handler"
+import { HANDLER_NAME } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
@@ -85,7 +85,7 @@ const registerCommand = ({
           enableDevIcons: enableDevIconsResult(source, enableDevIcons),
           enablePostProcessCommand,
         }),
-        handler: handlerName,
+        handler: HANDLER_NAME,
         options: fzfOptions,
       })
     },
