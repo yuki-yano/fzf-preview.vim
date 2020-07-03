@@ -4,6 +4,8 @@ export const vimVariableAssociation = {
   fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
   webDevIconsUnicodeDecorateFileNodesDefaultSymbol: "WebDevIconsUnicodeDecorateFileNodesDefaultSymbol",
   webDevIconsUnicodeDecorateFileNodesExtensionSymbols: "WebDevIconsUnicodeDecorateFileNodesExtensionSymbols",
+  webDevIconsUnicodeDecorateFileNodesExactSymbols: "WebDevIconsUnicodeDecorateFileNodesExactSymbols",
+  webDevIconsUnicodeDecorateFileNodesPatternSymbols: "WebDevIconsUnicodeDecorateFileNodesPatternSymbols",
   fzfPreviewFilelistPostProcessCommand: "fzf_preview_filelist_postprocess_command",
   fzfPreviewCommand: "fzf_preview_command",
   fzfBinaryPreviewCommand: "fzf_binary_preview_command",

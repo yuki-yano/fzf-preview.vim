@@ -1,3 +1,4 @@
+import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import type { ResourceLines } from "@/type"
@@ -31,8 +32,26 @@ const createDevIconsList = (files: Array<string>) => {
   const extensionIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExtensionSymbols") as {
     [key: string]: string
   }
+  const exactIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExactSymbols") as {
+    [key: string]: string
+  }
+  const patternIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesPatternSymbols") as {
+    [key: string]: string
+  }
 
   return files.map((file) => {
+    if (USE_DEV_ICONS_PATTERN_LIMIT > files.length) {
+      for (const [regexp, icon] of Object.entries(patternIcons)) {
+        if (new RegExp(regexp).exec(file)) {
+          return icon
+        }
+      }
+    }
+
+    if (exactIcons[file.toLowerCase()] != null) {
+      return exactIcons[file.toLowerCase()]
+    }
+
     const extension = file.split(".").slice(-1)[0]
     return extensionIcons[extension] != null ? extensionIcons[extension] : defaultIcon
   })
