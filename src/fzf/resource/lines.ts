@@ -19,7 +19,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
     throw new Error(`Failed lines command: "${linesCommand}"`)
   }
 
-  return stdout.split("\n")
+  return stdout.split("\n").filter((line) => line !== "")
 }
 
 const previewCommand = async () => {
