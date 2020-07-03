@@ -12,7 +12,7 @@ const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValu
   try {
     return await pluginGetVar(variableName)
   } catch (_error) {
-    logger.warn(`g:${variableName} is not defined`)
+    logger.info(`g:${variableName} is not defined`)
     return new Promise((resolve) => {
       resolve(null)
     })
