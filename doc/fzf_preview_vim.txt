@@ -248,7 +248,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     augroup END
 
     function! s:fzf_preview_settings() abort
-      let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_open_file_processes()
+      let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
       let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
     endfunction
 
@@ -424,7 +424,7 @@ OPTIONS                                         *fzf-preview-options*
     Set the processes when selecting an element with fzf in dictionary.
     Dictionary format is { 'input key': |String|(Global function name) or |Funcref| }
     An empty key corresponds to the return key.
-    Default |String| can be get with |fzf_preview#remote#process#get_open_file_processes|
+    Default |String| can be get with |fzf_preview#remote#process#get_default_processes|
 
     Default value is 0
 
@@ -489,8 +489,9 @@ OPTIONS                                         *fzf-preview-options*
 ==============================================================================
 FUNCTIONS                                       *fzf-preview-functions*
 
-*fzf_preview#remote#process#get_open_file_processes*
-    Get the initial value of the open file processes
+*fzf_preview#remote#process#get_default_processes*
+    Get the initial value of the processes.
+    processes_name is only 'open-file'.
 
     value is  {
                 'ctrl-o': 'FzfPreviewOpenFileCtrlO',

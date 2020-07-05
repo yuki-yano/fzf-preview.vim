@@ -247,7 +247,7 @@ function! s:fugitive_patch(paths) abort
 endfunction
 
 function! s:fzf_preview_settings() abort
-  let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_open_file_processes()
+  let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file')
   let g:fzf_preview_fugitive_processes['ctrl-a'] = function('s:fugitive_add')
   let g:fzf_preview_fugitive_processes['ctrl-r'] = function('s:fugitive_reset')
   let g:fzf_preview_fugitive_processes['ctrl-c'] = function('s:fugitive_patch')
@@ -329,7 +329,7 @@ let g:fzf_preview_fzf_color_option = ''
 " Do not use with g:fzf_preview_*_key_map
 let g:fzf_preview_custom_open_file_processes = 0
 " For example, set split to ctrl-s
-"let g:fzf_preview_custom_open_file_processes = fzf_preview#remote#process#get_open_file_processes()
+"let g:fzf_preview_custom_open_file_processes = fzf_preview#remote#process#get_default_processes('open-file')
 "let g:fzf_preview_custom_open_file_processes['ctrl-s'] = g:fzf_preview_custom_open_file_processes['ctrl-x']
 "call remove(g:fzf_preview_custom_open_file_processes, 'ctrl-x')
 
@@ -384,7 +384,7 @@ augroup fzf_preview
 augroup END
 
 function! s:fzf_preview_settings() abort
-  let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_open_file_processes()
+  let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
   let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
 endfunction
 
@@ -423,7 +423,9 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-call fzf_preview#remote#process#get_open_file_processes()
+" processes_name is only 'open-file'.
+" There will be more in the future.
+call fzf_preview#remote#process#get_default_processes({processes_name})
 ```
 
 ## Inspiration
