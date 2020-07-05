@@ -195,6 +195,7 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewChanges*
 :FzfPreviewChanges
      Select and open the changelist
+
                                                 *:FzfPreviewMarks*
 :FzfPreviewMarks
      List marks from the project.
