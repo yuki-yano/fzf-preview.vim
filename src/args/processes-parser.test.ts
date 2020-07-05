@@ -6,7 +6,10 @@ describe("parseProcesses", () => {
   })
 
   it('parseProcesses("--foo --processes=foo_processes")', () => {
-    expect(parseProcesses("open-file", "--processes=foo_processes")).toBe("foo_processes")
+    expect(parseProcesses("open-file", "--processes=foo_processes")).toEqual({
+      type: "global_variable",
+      value: "foo_processes",
+    })
   })
 
   it('parseProcesses("--processes=foo_processes --processes=bar_processes")', () => {

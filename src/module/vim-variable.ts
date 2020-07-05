@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { mapKeys, mapValues } from "lodash"
 import { VimValue } from "neovim/lib/types/VimValue"
 
 import { VIM_VARIABLE } from "@/const/module"
@@ -37,7 +38,7 @@ const initialState: State = {
     fzfPreviewCacheDirectory: "",
     fzfPreviewLinesCommand: "",
     fzfPreviewGrepPreviewCmd: "",
-    fzfPreviewCustomOpenFileProcesses: 0,
+    fzfPreviewCustomProcesses: {},
     fzfPreviewFzfPreviewWindowOption: "",
     fzfPreviewFzfColorOption: "",
     fzfPreviewBuffersJump: 0,
@@ -48,15 +49,6 @@ const initialState: State = {
 
 type CustomProcesses = {
   [key: string]: string
-}
-
-const replaceProcessesExpectKey = (customProcesses: CustomProcesses) => {
-  const processes = { ...customProcesses }
-  if (processes[""] != null && processes.enter == null) {
-    processes.enter = processes[""]
-  }
-  delete processes[""]
-  return processes
 }
 
 export const vimVariableModule = createSlice({
@@ -73,11 +65,17 @@ export const vimVariableModule = createSlice({
       const { name, value } = payload
 
       switch (name) {
-        case "fzfPreviewCustomOpenFileProcesses": {
-          if (typeof value === "object") {
-            state.global[name] = replaceProcessesExpectKey(value as CustomProcesses)
+        case "fzfPreviewCustomProcesses": {
+          if (typeof value === "object" && !Array.isArray(value)) {
+            const customProcessesDictionary = mapValues(
+              value as { [key: string]: CustomProcesses },
+              (processes: CustomProcesses) =>
+                mapKeys(processes, (_, expectKey) => (expectKey === "" ? "enter" : expectKey))
+            )
+
+            state.global.fzfPreviewCustomProcesses = customProcessesDictionary
           } else {
-            state.global[name] = value
+            throw new Error("fzf_preview_custom_processes must be Dictionary variable")
           }
           break
         }

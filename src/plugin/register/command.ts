@@ -61,7 +61,7 @@ const registerCommand = ({
       }
 
       const addFzfOptions = parseAddFzfArgs(args)
-      const userProcessesName = parseProcesses(defaultProcessesName, args)
+      const userProcesses = parseProcesses(defaultProcessesName, args)
       const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc)
       const defaultProcesses = getDefaultProcesses(defaultProcessesName)
       const resumeQuery = await parseResume(commandName, args)
@@ -69,7 +69,7 @@ const registerCommand = ({
       const fzfOptions = await generateOptions({
         fzfCommandDefaultOptions,
         defaultProcesses,
-        userProcessesName,
+        userProcesses,
         userOptions: addFzfOptions,
         resumeQuery,
       })
@@ -82,7 +82,7 @@ const registerCommand = ({
         executeCommandModule.actions.setExecuteCommand({
           commandName,
           options: {
-            userProcessesName,
+            userProcesses,
             enableDevIcons,
             currentFilePath: await currentFilePath(),
           },

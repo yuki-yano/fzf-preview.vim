@@ -18,6 +18,22 @@ export type ProcessesDefinition = Array<{
   processes: Processes
 }>
 
+export type UserProcesses =
+  | {
+      type: "custom_processes_variable"
+      value: ProcessesName
+    }
+  | {
+      type: "global_variable"
+      value: string
+    }
+
+export type CustomProcessesVimVariable = {
+  [key in ProcessesName]: {
+    [key: string]: string
+  }
+}
+
 export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 export type SingleLineConsumer = {
   consume: (line: ConvertedLine) => Promise<void>

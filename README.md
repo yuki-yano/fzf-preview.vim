@@ -326,12 +326,11 @@ let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:previe
 let g:fzf_preview_fzf_color_option = ''
 
 " Set the processes when selecting an element with fzf
-" Do not use with g:fzf_preview_*_key_map
-let g:fzf_preview_custom_open_file_processes = 0
+let g:fzf_preview_custom_processes = {}
 " For example, set split to ctrl-s
-"let g:fzf_preview_custom_open_file_processes = fzf_preview#remote#process#get_default_processes('open-file')
-"let g:fzf_preview_custom_open_file_processes['ctrl-s'] = g:fzf_preview_custom_open_file_processes['ctrl-x']
-"call remove(g:fzf_preview_custom_open_file_processes, 'ctrl-x')
+" let g:fzf_preview_custom_processes['open-file'] = fzf_preview#remote#process#get_default_processes('open-file')
+" let g:fzf_preview_custom_processes['open-file']['ctrl-s'] = g:fzf_preview_custom_processes['open-file']['ctrl-x']
+" call remove(g:fzf_preview_custom_processes['open-file'], 'ctrl-x')
 
 " Use as fzf preview-window option
 let g:fzf_preview_fzf_preview_window_option = ''
@@ -365,9 +364,9 @@ $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 --procecces
 " Set process when selecting element with fzf started by this command.
 " Value must be a global variable name.
-" Variable is dictionary and format is same as g:fzf_preview_custom_open_file_processes.
+" Variable is dictionary and format is same as g:fzf_preview_custom_processes['open-file'].
 "
-" Most commands are passed a file path to the prosess function.
+" Most commands are passed a file path to the process function.
 " FzfPreviewAllBuffers will be passed “buffer {bufnr}”
 "
 " Value example: let g:foo_processes = {
@@ -423,8 +422,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is only 'open-file'.
-" There will be more in the future.
+" processes_name is 'open-file', 'register' and 'open-pr'.
 call fzf_preview#remote#process#get_default_processes({processes_name})
 ```
 

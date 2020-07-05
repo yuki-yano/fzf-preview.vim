@@ -230,7 +230,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     Set process when selecting element with fzf started by this command.
     Value must be a global variable name.
     Variable is dictionary and format is
-    same as |g:fzf_preview_custom_open_file_processes|.
+    same as get from |fzf_preview#remote#process#get_default_processes|.
 
     Most command pass a file paths to the process.
     FzfPreviewAllBuffers will be passed “buffer {bufnr}”
@@ -420,21 +420,25 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
-*g:fzf_preview_custom_open_file_processes*
-    Set the processes when selecting an element with fzf in dictionary.
-    Dictionary format is { 'input key': |String|(Global function name) or |Funcref| }
-    An empty key corresponds to the return key.
-    Default |String| can be get with |fzf_preview#remote#process#get_default_processes|
+*g:fzf_preview_custom_processes*
+    Set the custom processes.
+    Dictionary format is { '{processes_name}': { '{input_key}': |String|(Global function name) or |Funcref| } }
+    Default child value can be get with |fzf_preview#remote#process#get_default_processes|
 
-    Default value is 0
+    Default value is {}
 
     Example:  {
-                'ctrl-o': 'FzfPreviewOpenFileCtrlO',
-                'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
-                'ctrl-t': 'FzfPreviewOpenFileCtrlT',
-                'ctrl-v': 'FzfPreviewOpenFileCtrlV',
-                'ctrl-x': 'FzfPreviewOpenFileCtrlX',
-                'enter': 'FzfPreviewOpenFileEnter'
+                'open-file': {
+                  'ctrl-o': 'FzfPreviewOpenFileCtrlO',
+                  'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
+                  'ctrl-t': 'FzfPreviewOpenFileCtrlT',
+                  'ctrl-v': 'FzfPreviewOpenFileCtrlV',
+                  'ctrl-x': 'FzfPreviewOpenFileCtrlX',
+                  'enter': 'FzfPreviewOpenFileEnter'
+                },
+                'register': {
+                  'enter': 'FzfPreviewRegisterEnter'
+                }
               }
 
 
@@ -491,16 +495,17 @@ FUNCTIONS                                       *fzf-preview-functions*
 
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
-    processes_name is only 'open-file'.
+    processes_name is 'open-file', 'register' and 'open-pr'.
 
-    value is  {
-                'ctrl-o': 'FzfPreviewOpenFileCtrlO',
-                'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
-                'ctrl-t': 'FzfPreviewOpenFileCtrlT',
-                'ctrl-v': 'FzfPreviewOpenFileCtrlV',
-                'ctrl-x': 'FzfPreviewOpenFileCtrlX',
-                'enter': 'FzfPreviewOpenFileEnter'
-              }
+    value from 'open-file' is
+      {
+        'ctrl-o': 'FzfPreviewOpenFileCtrlO',
+        'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
+        'ctrl-t': 'FzfPreviewOpenFileCtrlT',
+        'ctrl-v': 'FzfPreviewOpenFileCtrlV',
+        'ctrl-x': 'FzfPreviewOpenFileCtrlX',
+        'enter': 'FzfPreviewOpenFileEnter'
+      }
 
 ==============================================================================
 DEFAULT KEYMAP                                  *fzf-preview-keymap*

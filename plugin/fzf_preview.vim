@@ -79,8 +79,8 @@ if !exists('g:fzf_preview_fzf_color_option')
   let g:fzf_preview_fzf_color_option = ''
 endif
 
-if !exists('g:fzf_preview_custom_open_file_processes')
-  let g:fzf_preview_custom_open_file_processes = 0
+if !exists('g:fzf_preview_custom_processes')
+  let g:fzf_preview_custom_processes = {}
 endif
 
 if !exists('g:fzf_preview_fzf_preview_window_option')

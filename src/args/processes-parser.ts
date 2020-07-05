@@ -1,43 +1,39 @@
+import { isObject } from "lodash"
+
 import { argsParser } from "@/args/parser"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { ArgsOptions, ProcessesName } from "@/type"
+import type { ArgsOptions, CustomProcessesVimVariable, ProcessesName, UserProcesses } from "@/type"
 
-const parseOptions = (options: ArgsOptions) => {
+const parseOptions = (options: ArgsOptions): UserProcesses | null => {
   const processesArgs = options.processes
 
-  if (typeof processesArgs === "string" || processesArgs === undefined) {
-    return processesArgs
+  if (processesArgs == null) {
+    return null
+  }
+
+  if (typeof processesArgs === "string") {
+    return { type: "global_variable", value: processesArgs }
   }
 
   throw new Error("--processes option can only be used once")
 }
 
-export const parseProcesses = (defaultProcessesName: ProcessesName, args: string): string | undefined => {
+export const parseProcesses = (defaultProcessesName: ProcessesName, args: string): UserProcesses | undefined => {
   const parser = argsParser()
   const options = parser.parse(args)
 
-  if (parseOptions(options) != null) {
-    return parseOptions(options)
+  const parsedOptions = parseOptions(options)
+  if (parsedOptions != null) {
+    return parsedOptions
   }
 
-  switch (defaultProcessesName) {
-    case "open-file": {
-      const customProcesses = globalVariableSelector("fzfPreviewCustomOpenFileProcesses")
-      if (customProcesses !== 0) {
-        if (typeof customProcesses === "object" && !Array.isArray(customProcesses)) {
-          return "fzf_preview_custom_open_file_processes"
-        } else {
-          throw new Error(
-            `Custom open file processes must be dictionary variable. Value: "${customProcesses.toString()}"`
-          )
-        }
-      }
-
-      return undefined
-    }
-
-    default: {
-      return undefined
-    }
+  const customProcessesDictionary = globalVariableSelector("fzfPreviewCustomProcesses")
+  if (
+    isObject(customProcessesDictionary) &&
+    isObject((customProcessesDictionary as CustomProcessesVimVariable)[defaultProcessesName])
+  ) {
+    return { type: "custom_processes_variable", value: defaultProcessesName }
   }
+
+  return undefined
 }

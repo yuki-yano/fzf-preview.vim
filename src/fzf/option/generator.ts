@@ -1,6 +1,8 @@
+import { isObject } from "lodash"
+
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
-import type { AddFzfArgs, FzfOptions, Processes, ResumeQuery } from "@/type"
+import type { AddFzfArgs, CustomProcessesVimVariable, FzfOptions, Processes, ResumeQuery, UserProcesses } from "@/type"
 
 const defaultBind = [
   {
@@ -24,14 +26,61 @@ export const defaultOptions: FzfOptions = {
   "--bind": defaultBind,
 } as const
 
-const getExpectFromUserProcesses = async (userProcessesName: string) => {
-  const userProcesses = await pluginGetVar(userProcessesName)
+const isCustomProcessesVimVariable = (
+  variable: unknown,
+  userProcesses: UserProcesses
+): variable is CustomProcessesVimVariable => {
+  if (userProcesses.type !== "custom_processes_variable") {
+    return false
+  }
 
-  if (typeof userProcesses === "object" && !Array.isArray(userProcesses)) {
-    return {
-      "--expect": Object.entries(userProcesses)
-        .map(([key]) => key)
-        .filter((key) => key !== "enter"),
+  return isObject(variable) && isObject((variable as CustomProcessesVimVariable)[userProcesses.value])
+}
+
+const getExpectFromDefaultProcesses = (defaultProcesses: Processes): FzfOptions => {
+  return { "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter") }
+}
+
+const getPreviewWindowOption = (): FzfOptions => {
+  const previewWindowOptionVimValue = globalVariableSelector("fzfPreviewFzfPreviewWindowOption")
+  return previewWindowOptionVimValue == null || previewWindowOptionVimValue === ""
+    ? {}
+    : { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
+}
+
+const getColorOption = (): FzfOptions => {
+  const colorOptionVimValue = globalVariableSelector("fzfPreviewFzfColorOption")
+  return colorOptionVimValue == null || colorOptionVimValue === ""
+    ? {}
+    : { "--color": `"${colorOptionVimValue as string}"` }
+}
+
+const getExpectFromUserProcesses = async (userProcesses: UserProcesses | undefined): Promise<FzfOptions> => {
+  if (userProcesses == null) {
+    return {}
+  }
+
+  if (userProcesses.type === "global_variable") {
+    const userProcessesGlobalVariable = await pluginGetVar(userProcesses.value)
+
+    if (isObject(userProcessesGlobalVariable)) {
+      return {
+        "--expect": Object.entries(userProcessesGlobalVariable)
+          .map(([key]) => key)
+          .filter((key) => key !== "enter"),
+      }
+    }
+  }
+
+  if (userProcesses.type === "custom_processes_variable") {
+    const userProcessesCustomVariable = globalVariableSelector("fzfPreviewCustomProcesses")
+
+    if (isCustomProcessesVimVariable(userProcessesCustomVariable, userProcesses)) {
+      return {
+        "--expect": Object.entries(userProcessesCustomVariable[userProcesses.value])
+          .map(([key]) => key)
+          .filter((key) => key !== "enter"),
+      }
     }
   }
 
@@ -41,7 +90,7 @@ const getExpectFromUserProcesses = async (userProcessesName: string) => {
 type OptionsArgs = {
   fzfCommandDefaultOptions: FzfOptions
   defaultProcesses: Processes
-  userProcessesName?: string
+  userProcesses?: UserProcesses
   userOptions: Array<AddFzfArgs>
   resumeQuery?: ResumeQuery
 }
@@ -49,37 +98,19 @@ type OptionsArgs = {
 export const generateOptions = async ({
   fzfCommandDefaultOptions,
   defaultProcesses,
-  userProcessesName,
+  userProcesses,
   userOptions,
   resumeQuery,
 }: OptionsArgs): Promise<FzfOptions> => {
-  const expectFromDefaultProcess: FzfOptions = {
-    "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter"),
-  }
-
-  const previewWindowOption: FzfOptions =
-    globalVariableSelector("fzfPreviewFzfPreviewWindowOption") === ""
-      ? {}
-      : { "--preview-window": `"${globalVariableSelector("fzfPreviewFzfPreviewWindowOption") as string}"` }
-
-  const colorOption: FzfOptions =
-    globalVariableSelector("fzfPreviewFzfColorOption") === ""
-      ? {}
-      : { "--color": `"${globalVariableSelector("fzfPreviewFzfColorOption") as string}"` }
-
-  const userExpectFromProcesses: FzfOptions = userProcessesName
-    ? await getExpectFromUserProcesses(userProcessesName)
-    : {}
-
   const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` }
 
   const fzfCommandOptions = {
     ...defaultOptions,
     ...fzfCommandDefaultOptions,
-    ...expectFromDefaultProcess,
-    ...previewWindowOption,
-    ...colorOption,
-    ...userExpectFromProcesses,
+    ...getExpectFromDefaultProcesses(defaultProcesses),
+    ...getPreviewWindowOption(),
+    ...getColorOption(),
+    ...(await getExpectFromUserProcesses(userProcesses)),
     ...resumeQueryOption,
   }
 

@@ -19,7 +19,7 @@ export const vimVariableAssociation = {
   fzfPreviewCacheDirectory: "fzf_preview_cache_directory",
   fzfPreviewLinesCommand: "fzf_preview_lines_command",
   fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
-  fzfPreviewCustomOpenFileProcesses: "fzf_preview_custom_open_file_processes",
+  fzfPreviewCustomProcesses: "fzf_preview_custom_processes",
   fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
   fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
   fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
