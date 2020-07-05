@@ -42,7 +42,7 @@ const runProcess = async (
   }
 }
 
-export const callProcess = async (lines: ConvertedLines): Promise<void> => {
+export const callProcess = async ([lines]: [ConvertedLines, ...Array<unknown>]): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadExecuteCommandStore())
   const executeCommand = executeCommandSelector()

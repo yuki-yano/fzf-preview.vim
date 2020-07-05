@@ -8,7 +8,7 @@ export const registerProcesses = (): void => {
     processes.forEach((process) => {
       pluginRegisterFunction(
         process.name,
-        async (lines: ConvertedLines) => {
+        async ([lines]: [ConvertedLines, ...Array<unknown>]) => {
           await syncVimVariable()
           await process.execute(lines)
         },
