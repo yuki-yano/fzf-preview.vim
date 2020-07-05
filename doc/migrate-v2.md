@@ -11,7 +11,7 @@ $ brew install node
 $ npm install -g neovim
 ```
 
-Run npm install after installing the plugin.
+Run `$npm install` and `:UpdateRemotePlugins` after installing the plugin.
 
 Dein:
 
@@ -22,7 +22,7 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 vim-plug:
 
 ```vim
-Plug 'yuki-ycino/fzf-preview.vim', { 'do': 'npm install' }
+Plug 'yuki-ycino/fzf-preview.vim', { 'do': ':FzfPreviewInstall' }
 ```
 
 ## Change settings variable and function name

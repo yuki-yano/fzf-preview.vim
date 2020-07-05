@@ -118,6 +118,8 @@ endif
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
+command! FzfPreviewInstall :call fzf_preview#install()
+
 augroup fzf_preview_buffers
   autocmd!
   if g:fzf_preview_quit_map

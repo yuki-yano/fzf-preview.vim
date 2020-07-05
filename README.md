@@ -82,7 +82,7 @@ $ npm install -g neovim
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
 
-Execute `npm install` when after installed plugin.
+Execute `npm install` and `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 
