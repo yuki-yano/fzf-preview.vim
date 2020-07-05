@@ -333,7 +333,7 @@ let g:fzf_preview_custom_processes = {}
 " call remove(g:fzf_preview_custom_processes['open-file'], 'ctrl-x')
 
 " Use as fzf preview-window option
-let g:fzf_preview_fzf_preview_window_option = ''
+let g:fzf_preview_fzf_preview_window_option = 'wrap'
 " let g:fzf_preview_fzf_preview_window_option = 'up:30%'
 
 " Command to be executed after file list creation
