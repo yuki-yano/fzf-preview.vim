@@ -10,7 +10,7 @@ export const execGrep = (args: string): ResourceLines => {
 
   if (stderr !== "" || status !== 0) {
     logger.error(stderr)
-    throw new Error(`Failed lines command: "${grepCommand} ${args}"`)
+    throw new Error(`Failed grep command: "${grepCommand} ${args}"`)
   }
 
   return stdout.split("\n").filter((line) => line !== "")
