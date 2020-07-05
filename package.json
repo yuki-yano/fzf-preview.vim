@@ -6,6 +6,7 @@
   "scripts": {
     "build": "ncc build src/index.ts --minify --out build",
     "dev": "ncc build src/index.ts --watch --out build",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "test": "jest",

@@ -1,9 +1,9 @@
-name: Run Jest
+name: Run CI
 
 on: push
 
 jobs:
-  test:
+  all:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,5 +11,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 13
-      - run: npm install
+      - run: npm install --ignore-script
+      - run: npm run typecheck
+      - run: npm run lint
       - run: npm run test
