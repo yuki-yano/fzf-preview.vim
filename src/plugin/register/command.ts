@@ -15,9 +15,23 @@ import { dispatch } from "@/store"
 import { currentFilePath } from "@/system/file"
 import type { FzfCommand, ResourceLines } from "@/type"
 
-const enableDevIconsResult = (source: ResourceLines, enableDevIcons: boolean) => {
+const getDefaultProcesses = (defaultProcessesName: string) => {
+  const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
+  if (targetProcessesDefinition == null) {
+    throw new Error(`Processes not found: "${defaultProcessesName}"`)
+  }
+  return targetProcessesDefinition.processes
+}
+
+const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOptionFunc"]) => {
+  const defaultOptions = defaultFzfOptionFunc()
+  // eslint-disable-next-line no-return-await
+  return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
+}
+
+const getEnableDevIcons = (source: ResourceLines, enableDevIconsCommandSetting: boolean) => {
   return (
-    enableDevIcons &&
+    enableDevIconsCommandSetting &&
     globalVariableSelector("fzfPreviewUseDevIcons") !== 0 &&
     globalVariableSelector("fzfPreviewDevIconsLimit") > source.length
   )
@@ -31,7 +45,7 @@ const registerCommand = ({
   defaultFzfOptionFunc,
   defaultProcessesName,
   enableConvertForFzf,
-  enableDevIcons,
+  enableDevIcons: enableDevIconsCommandSetting,
   enablePostProcessCommand,
   beforeCommandHook,
 }: FzfCommand) => {
@@ -47,31 +61,29 @@ const registerCommand = ({
       }
 
       const addFzfOptions = parseAddFzfArgs(args)
-      const processesName = parseProcesses(defaultProcessesName, args)
+      const userProcessesName = parseProcesses(defaultProcessesName, args)
+      const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc)
+      const defaultProcesses = getDefaultProcesses(defaultProcessesName)
       const resumeQuery = await parseResume(commandName, args)
 
-      const defaultOptions = defaultFzfOptionFunc()
-      const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
-      if (targetProcessesDefinition == null) {
-        throw new Error(`Processes not found: "${defaultProcessesName}"`)
-      }
-      const defaultProcesses = targetProcessesDefinition.processes
       const fzfOptions = await generateOptions({
-        fzfCommandDefaultOptions: defaultOptions instanceof Promise ? await defaultOptions : defaultOptions,
+        fzfCommandDefaultOptions,
         defaultProcesses,
-        userProcessesName: processesName,
+        userProcessesName,
         userOptions: addFzfOptions,
         resumeQuery,
       })
-      const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
 
+      const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
       const source = await sourceFunc(sourceFuncArgs)
+      const enableDevIcons = getEnableDevIcons(source, enableDevIconsCommandSetting)
+
       dispatch(
         executeCommandModule.actions.setExecuteCommand({
           commandName,
           options: {
-            processesName,
-            enableDevIcons: enableDevIconsResult(source, enableDevIcons),
+            userProcessesName,
+            enableDevIcons,
             currentFilePath: await currentFilePath(),
           },
         })
@@ -79,12 +91,14 @@ const registerCommand = ({
       await setResourceCommandName(commandName)
       await dispatch(saveStore({ modules: ["executeCommand"] }))
 
+      const sourceForFzf = convertForFzf(source, {
+        enableConvertForFzf,
+        enableDevIcons,
+        enablePostProcessCommand,
+      })
+
       await fzfRunner({
-        source: convertForFzf(source, {
-          enableConvertForFzf,
-          enableDevIcons: enableDevIconsResult(source, enableDevIcons),
-          enablePostProcessCommand,
-        }),
+        source: sourceForFzf,
         handler: HANDLER_NAME,
         options: fzfOptions,
       })

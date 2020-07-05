@@ -1,6 +1,6 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 
-import { ProcessesName } from "@/type/process"
+import { ConvertedLine, ProcessesName } from "@/type/process"
 
 export type ResourceLine = string
 export type ResourceLines = Array<ResourceLine>
@@ -47,7 +47,7 @@ export type SourceFuncArgs = {
 export type FzfCommand = {
   commandName: FzfCommandName
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<ResourceLines>
-  convertLine: (line: SelectedLine) => SelectedLine
+  convertLine: (line: SelectedLine) => ConvertedLine
   sourceFuncArgsParser?: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () =>

@@ -11,7 +11,7 @@ export type Process = {
 
 export type Processes = Array<Process>
 
-export type ProcessesName = typeof PROCESSES_NAME[number] | never
+export type ProcessesName = typeof PROCESSES_NAME[number]
 
 export type ProcessesDefinition = Array<{
   name: ProcessesName

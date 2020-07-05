@@ -22,7 +22,7 @@ const dropDevIcon = (lines: SelectedLines, enableDevIcons: VimValue) => {
 
 const runProcess = async (
   lines: ExpectKeyAndSelectedLines,
-  { commandName, options: { processesName, enableDevIcons } }: ExecuteCommandState
+  { commandName, options: { userProcessesName, enableDevIcons } }: ExecuteCommandState
 ) => {
   const expectKey = lines[0] === "" ? "enter" : lines[0]
   const selectedLines = lines.slice(1) as SelectedLines
@@ -37,7 +37,7 @@ const runProcess = async (
       processesFunctionName: createProcessFunctionName(defaultProcessesName, expectKey),
       expectKey,
       lines: convertedLines,
-      processesName,
+      userProcessesName,
     })
   }
 }

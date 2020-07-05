@@ -7,7 +7,7 @@ import type { FzfPreviewCommandList } from "@/type"
 export type State = {
   commandName?: FzfPreviewCommandList
   options: {
-    processesName?: string
+    userProcessesName?: string
     enableDevIcons: VimValue
     currentFilePath: string
   }
