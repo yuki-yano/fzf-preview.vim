@@ -48,7 +48,7 @@ export type FzfCommand = {
   commandName: FzfCommandName
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<ResourceLines>
   convertLine: (line: SelectedLine) => ConvertedLine
-  sourceFuncArgsParser?: (args: string) => SourceFuncArgs
+  sourceFuncArgsParser: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () =>
     | { [optionName: string]: string | boolean | undefined }

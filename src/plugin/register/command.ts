@@ -1,4 +1,4 @@
-import { parseAddFzfArgs, parseEmptySourceFuncArgs, parseProcesses, parseResume } from "@/args"
+import { parseAddFzfArgs, parseProcesses, parseResume } from "@/args"
 import { commandDefinition } from "@/association/command"
 import { convertForFzf } from "@/connector/convert-for-fzf"
 import { setResourceCommandName } from "@/connector/resume"
@@ -74,7 +74,7 @@ const registerCommand = ({
         resumeQuery,
       })
 
-      const sourceFuncArgs = sourceFuncArgsParser ? sourceFuncArgsParser(args) : parseEmptySourceFuncArgs(args)
+      const sourceFuncArgs = sourceFuncArgsParser(args)
       const source = await sourceFunc(sourceFuncArgs)
       const enableDevIcons = getEnableDevIcons(source, enableDevIconsCommandSetting)
 
