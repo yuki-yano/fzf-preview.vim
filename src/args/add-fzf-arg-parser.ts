@@ -1,27 +1,27 @@
 import { argsParser } from "@/args/parser"
-import type { AddFzfArgs, ArgsOptions } from "@/type"
+import type { AddFzfArg, ArgsOptions } from "@/type"
 
-const optionsToAddFzfArgs = (options: ArgsOptions): Array<string> => {
-  if (options["add-fzf-args"] && Array.isArray(options["add-fzf-args"])) {
-    return options["add-fzf-args"] as Array<string>
+const optionsToAddFzfArg = (options: ArgsOptions): Array<string> => {
+  if (options["add-fzf-arg"] && Array.isArray(options["add-fzf-arg"])) {
+    return options["add-fzf-arg"] as Array<string>
   }
-  if (options["add-fzf-args"] && typeof options["add-fzf-args"] === "string") {
-    return [options["add-fzf-args"]]
+  if (options["add-fzf-arg"] && typeof options["add-fzf-arg"] === "string") {
+    return [options["add-fzf-arg"]]
   }
   return []
 }
 
 const parseOptions = (options: ArgsOptions) => {
-  const addFzfArgs = optionsToAddFzfArgs(options)
+  const addFzfArg = optionsToAddFzfArg(options)
 
-  const notExistsValueOptions: Array<AddFzfArgs> = addFzfArgs
+  const notExistsValueOptions: Array<AddFzfArg> = addFzfArg
     .map((arg) => /(--?\S+)$/.exec(arg))
     .filter((match): match is RegExpExecArray => match != null && !match[0].includes("="))
     .map((match) => {
       return { optionName: match[1] }
     })
 
-  const existsValueOptions: Array<AddFzfArgs> = addFzfArgs
+  const existsValueOptions: Array<AddFzfArg> = addFzfArg
     .map((arg) => /(--?\S+)=(.+)$/.exec(arg))
     .filter((match): match is RegExpExecArray => match != null)
     .map((match) => ({ optionName: match[1], value: match[2] }))
@@ -29,7 +29,7 @@ const parseOptions = (options: ArgsOptions) => {
   return notExistsValueOptions.concat(existsValueOptions)
 }
 
-export const parseAddFzfArgs = (args: string): Array<AddFzfArgs> => {
+export const parseAddFzfArg = (args: string): Array<AddFzfArg> => {
   const parser = argsParser()
   const options = parser.parse(args)
 

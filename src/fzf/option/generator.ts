@@ -2,7 +2,7 @@ import { isObject } from "lodash"
 
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
-import type { AddFzfArgs, CustomProcessesVimVariable, FzfOptions, Processes, ResumeQuery, UserProcesses } from "@/type"
+import type { AddFzfArg, CustomProcessesVimVariable, FzfOptions, Processes, ResumeQuery, UserProcesses } from "@/type"
 
 const defaultBind = [
   {
@@ -91,7 +91,7 @@ type OptionsArgs = {
   fzfCommandDefaultOptions: FzfOptions
   defaultProcesses: Processes
   userProcesses?: UserProcesses
-  userOptions: Array<AddFzfArgs>
+  userOptions: Array<AddFzfArg>
   resumeQuery?: ResumeQuery
 }
 

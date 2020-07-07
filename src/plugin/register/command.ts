@@ -1,4 +1,4 @@
-import { parseAddFzfArgs, parseProcesses, parseResume } from "@/args"
+import { parseAddFzfArg, parseProcesses, parseResume } from "@/args"
 import { commandDefinition } from "@/association/command"
 import { convertForFzf } from "@/connector/convert-for-fzf"
 import { setResourceCommandName } from "@/connector/resume"
@@ -60,7 +60,7 @@ const registerCommand = ({
         beforeCommandHook(args)
       }
 
-      const addFzfOptions = parseAddFzfArgs(args)
+      const addFzfOptions = parseAddFzfArg(args)
       const userProcesses = parseProcesses(defaultProcessesName, args)
       const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc)
       const defaultProcesses = getDefaultProcesses(defaultProcessesName)

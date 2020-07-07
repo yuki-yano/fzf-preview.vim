@@ -84,7 +84,7 @@ export type FzfCommandDefinitionDefaultOption = {
   "--with-nth"?: string
 }
 
-export type AddFzfArgs = {
+export type AddFzfArg = {
   optionName: string
   value?: string
 }
