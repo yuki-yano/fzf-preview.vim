@@ -1,3 +1,11 @@
+# **Important:** Migrated to remote plugin (v2) written in Node
+
+Settings are incompatible.
+
+Please refer to the following documentation for more information on the migration
+
+[Migrate v2 guide](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/doc/migrate-v2.md)
+
 # fzf-preview.vim
 
 fzf-preview is a Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
@@ -5,7 +13,7 @@ fzf-preview is a Neovim plugin that provides collection of features to assist fi
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
-Neovim is highly recommended for this plugin because of its floating window system.
+This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ## Features
 
@@ -18,13 +26,6 @@ Neovim is highly recommended for this plugin because of its floating window syst
 7. jump lines from jumplist or changelist
 8. interactive grep and preview from the current project
 9. Export the selected items to QuickFix.
-10. execute the callback function for the selected item (processor)
-    - Deleting a buffer
-    - [tpope/vim-fugitive: fugitive.vim: A Git wrapper so awesome, it should be illegal](https://github.com/tpope/vim-fugitive)
-    - [liuchengxu/vista.vim: Viewer & Finder for LSP symbols and tags](https://github.com/liuchengxu/vista.vim)
-    - [MattesGroeger/vim-bookmarks: Vim bookmark plugin](https://github.com/MattesGroeger/vim-bookmarks)
-    - [LeafCage/yankround.vim: logging registers and reusing them.](https://github.com/LeafCage/yankround.vim)
-    - etc.
 
 ## Demo
 
@@ -47,6 +48,7 @@ Neovim is highly recommended for this plugin because of its floating window syst
 ## Requirements
 
 - **Neovim** <https://neovim.io/>
+- **Node** <https://nodejs.org/>
 - git <https://git-scm.com/>
 - fzf <https://github.com/junegunn/fzf>
 
@@ -56,8 +58,10 @@ Neovim is highly recommended for this plugin because of its floating window syst
 
 - **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
-- GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
+- vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
+- yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
+- GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
 
 #### Appearance
 
@@ -70,20 +74,28 @@ When bat is installed you can highlight the preview and see it. Otherwise, head 
 
 ## Installation
 
+Install the npm package [neovim](https://www.npmjs.com/package/neovim) to get the remote plugin working.
+
+```shell
+$ npm install -g neovim
+```
+
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
+
+Execute `npm install` and `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 
 ```vim
 set  runtimepath+=/usr/local/opt/fzf
-call dein#add('yuki-ycino/fzf-preview.vim')
+call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 ```
 
 or Using Dein:
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim')
+call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 ```
 
 ## Usage
@@ -137,11 +149,13 @@ call dein#add('yuki-ycino/fzf-preview.vim')
 
 :FzfPreviewMarks                             " Select mark (Required [Python3](https://www.python.org/))
 
-:FzfPreviewConflict                          " Select conflict (Required [Python3](https://www.python.org/))
+:FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
+
+:FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+
+:FzfPreviewYankround                         " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
 
 :FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
-
-:FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 ```
 
 ### Recommended mappings
@@ -197,10 +211,6 @@ nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
 
 ?
   Toggle display of preview screen
-
-DEPRECATED
-<C-s> (Neovim Only)
-  Toggle window size of fzf, normal size and full-screen
 ```
 
 ## Customization
@@ -208,7 +218,7 @@ DEPRECATED
 ### Example of Fugitive integration
 
 ```vim
-nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>
+nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus --processes=fzf_preview_fugitive_processes<CR>
 
 augroup fzf_preview
   autocmd!
@@ -237,10 +247,10 @@ function! s:fugitive_patch(paths) abort
 endfunction
 
 function! s:fzf_preview_settings() abort
-  let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
-  let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
-  let g:fzf_preview_fugitive_processors['ctrl-r'] = function('s:fugitive_reset')
-  let g:fzf_preview_fugitive_processors['ctrl-c'] = function('s:fugitive_patch')
+  let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file')
+  let g:fzf_preview_fugitive_processes['ctrl-a'] = function('s:fugitive_add')
+  let g:fzf_preview_fugitive_processes['ctrl-r'] = function('s:fugitive_reset')
+  let g:fzf_preview_fugitive_processes['ctrl-c'] = function('s:fugitive_patch')
 endfunction
 ```
 
@@ -261,14 +271,8 @@ set viminfo='1000
 " Add fzf quit mapping
 let g:fzf_preview_quit_map = 1
 
-" Use floating window (for neovim)
-let g:fzf_preview_use_floating_window = 1
-
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
-
-" floating window winblend value
-let g:fzf_preview_floating_window_winblend = 15
 
 " jump to the buffers by default, when possible
 let g:fzf_preview_buffers_jump = 0
@@ -321,16 +325,15 @@ let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:previe
 " Specify the color of fzf
 let g:fzf_preview_fzf_color_option = ''
 
-" Set the processors when selecting an element with fzf
-" Do not use with g:fzf_preview_*_key_map
-let g:fzf_preview_custom_default_processors = {}
+" Set the processes when selecting an element with fzf
+let g:fzf_preview_custom_processes = {}
 " For example, set split to ctrl-s
-" let g:fzf_preview_custom_default_processors = fzf_preview#resource_processor#get_default_processors()
-" call remove(g:fzf_preview_custom_default_processors, 'ctrl-x')
-" let g:fzf_preview_custom_default_processors['ctrl-s'] = function('fzf_preview#resource_processor#split')
+" let g:fzf_preview_custom_processes['open-file'] = fzf_preview#remote#process#get_default_processes('open-file')
+" let g:fzf_preview_custom_processes['open-file']['ctrl-s'] = g:fzf_preview_custom_processes['open-file']['ctrl-x']
+" call remove(g:fzf_preview_custom_processes['open-file'], 'ctrl-x')
 
 " Use as fzf preview-window option
-let g:fzf_preview_fzf_preview_window_option = ''
+let g:fzf_preview_fzf_preview_window_option = 'wrap'
 " let g:fzf_preview_fzf_preview_window_option = 'up:30%'
 
 " Command to be executed after file list creation
@@ -345,57 +348,29 @@ let g:fzf_preview_filelist_postprocess_command = ''
 let g:fzf_preview_use_dev_icons = 0
 
 " devicons character width
-let g:fzf_preview_dev_icon_prefix_length = 2
+let g:fzf_preview_dev_icon_prefix_string_length = 3
+
+" Devicons can make fzf-preview slow when the number of results is high
+" By default icons are disable when number of results is higher that 5000
+let g:fzf_preview_dev_icons_limit = 5000
 
 " The theme used in the bat preview
 $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
-
-" DEPRECATED
-" Use g:fzf_preview_custom_default_processors
-" Keyboard shortcut for opening files with split
-let g:fzf_preview_split_key_map = 'ctrl-x'
-
-" DEPRECATED
-" Use g:fzf_preview_custom_default_processors
-" Keyboard shortcut for opening files with vsplit
-let g:fzf_preview_vsplit_key_map = 'ctrl-v'
-
-" DEPRECATED
-" Use g:fzf_preview_custom_default_processors
-" Keyboard shortcut for opening files with tabedit
-let g:fzf_preview_tabedit_key_map = 'ctrl-t'
-
-" DEPRECATED
-" Use g:fzf_preview_custom_default_processors
-" Keyboard shortcut for building quickfix
-let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
-
-" DEPRECATED
-" fzf window layout
-let g:fzf_preview_layout = 'top split new'
-
-" DEPRECATED
-" Rate of fzf window
-let g:fzf_preview_rate = 0.3
-
-" DEPRECATED
-" Key to toggle fzf window size of normal size and full-screen
-let g:fzf_full_preview_toggle_key = '<C-s>'
 ```
 
 ### Command Options
 
 ```vim
--processors
-" Set processor when selecting element with fzf started by this command.
+--procecces
+" Set process when selecting element with fzf started by this command.
 " Value must be a global variable name.
-" Variable is dictionary and format is same as g:fzf_preview_custom_default_processors.
+" Variable is dictionary and format is same as g:fzf_preview_custom_processes['open-file'].
 "
-" Most commands are passed a file path to the processor function.
+" Most commands are passed a file path to the process function.
 " FzfPreviewAllBuffers will be passed “buffer {bufnr}”
 "
-" Value example: let g:foo_processors = {
-"                \ '':       function('fzf_preview#resource_processor#edit'),
+" Value example: let g:foo_processes = {
+"                \ '':       'FzfPreviewOpenFileEnter',
 "                \ 'ctrl-x': function('s:foo_function'),
 "                \ }
 "
@@ -408,8 +383,8 @@ augroup fzf_preview
 augroup END
 
 function! s:fzf_preview_settings() abort
-  let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
-  let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_lines')
+  let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
+  let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
 endfunction
 
 function! s:buffers_delete_from_lines(lines) abort
@@ -423,75 +398,32 @@ function! s:buffers_delete_from_lines(lines) abort
   endfor
 endfunction
 
-nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
 
 
--add-fzf-arg
+--add-fzf-arg
 " Set the arguments to be passed when executing fzf.
 " This value is added to the default options.
 " Value must be a string without spaces.
 
 " Example: Exclude filename with FzfPreviewProjectGrep
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--nth=3<Space>
+nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
 
 
--resume
+--resume
 " Reuse the input that was last used to select the element with fzf.
 " Do not need to pass a value for this option.
 
 " Example: Reuse last query for project grep.
-nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep -resume<Space>
-
-
-" EXPERIMENTAL: Specifications may change.
--overwrite-fzf-args
-" Set the arguments to be passed when executing fzf.
-" Value must be a global variable name.
-" Variable is string and format is shell command options.
-" This option is experimental.
-"
-" Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
-"
-
-" Example: Exclude filename with FzfPreviewProjectGrep
-
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options()
-  let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
-endfunction
-
-nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -overwrite-fzf-args=g:fzf_preview_grep_command_options<Space>
+nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 ```
 
 ### Function
 
 ```vim
-" Function to display the floating window used by this plugin
-call fzf_preview#window#create_centered_floating_window()
-
-" Example
-call fzf#run({
-\ 'source':  files,
-\ 'sink':   'edit',
-\ 'window': 'call fzf_preview#window#create_centered_floating_window()',
-\ })
-
-" Get the initial value of the process executed when selecting the element of fzf
-call fzf_preview#resource_processor#get_default_processors()
-
-" Get the current value of the process executed when selecting the element of fzf
-" Use in fzf_preview#initialized event.
-call fzf_preview#resource_processor#get_processors()
-
-" EXPERIMENTAL: Specifications may change.
-" Get the common value of the passed when executed fzf.
-" Use in fzf_preview#initialized event.
-call fzf_preview#command#get_common_command_options()
+" Get the initial value of the open file processes
+" processes_name is 'open-file', 'register' and 'open-pr'.
+call fzf_preview#remote#process#get_default_processes({processes_name})
 ```
 
 ## Inspiration

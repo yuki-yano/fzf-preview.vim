@@ -11,8 +11,7 @@ CONTENTS                                   *fzf-preview-contents*
     Installation                           |fzf-preview-installation|
     Mappings                               |fzf-preview-mappings|
     Commands                               |fzf-preview-commands|
-    Deprecated Commands                    |fzf-preview-deprecated-commands|
-    Keymap                                  |fzf-preview-keymap|
+    Keymap                                 |fzf-preview-keymap|
 
 ==============================================================================
 INTRODUCTION                              *fzf-preview-introduction*
@@ -22,6 +21,9 @@ INTRODUCTION                              *fzf-preview-introduction*
 Requirements:
 - Neovim
     https://neovim.io/
+
+- Node
+    https://nodejs.org/
 
 - git
     https://git-scm.com/
@@ -49,25 +51,37 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
+- vim-bookmarks (Use FzfPreviewBookmarks)
+    https://github.com/MattesGroeger/vim-bookmarks
+
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
 
 ==============================================================================
 INSTALLATION                                     *fzf-preview-installation*
 
+Install the npm package [neovim](https://www.npmjs.com/package/neovim)
+to get the remote plugin working.
+
+>
+    $ npm install -g neovim
+<
+
 Use Dein, vim-plug or any Vim plugin manager of your choice.
+Execute `npm install` and `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 >
+>
     set  runtimepath+=/usr/local/opt/fzf
-    call dein#add('yuki-ycino/fzf-preview.vim')
+    call dein#add('yuki-ycino/fzf-preview.vim', {'build': 'npm install'})
 <
 
 or Using Dein:
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('yuki-ycino/fzf-preview.vim')
+    call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
 <
 
 ==============================================================================
@@ -98,7 +112,7 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewAllBuffers*
 :FzfPreviewAllBuffers
      Select and open all buffers(include not file).
-     Pass the value to the processor function in the format "buffer {bufnr}""
+     Pass the value to the process function in the format "buffer {bufnr}""
 
                                                 *:FzfPreviewProjectOldFiles*
 
@@ -181,20 +195,12 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewChanges*
 :FzfPreviewChanges
      Select and open the changelist
+
                                                 *:FzfPreviewMarks*
 :FzfPreviewMarks
      List marks from the project.
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
-
-                                                *:FzfPreviewConflict*
-:FzfPreviewConflict
-     List git conflict file and line from the project.
-
-                                                *:FzfPreviewBlamePR*
-:FzfPreviewBlamePR
-     The PR corresponding to each line is displayed and
-     the selected PR is opened in the browser.
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
@@ -204,20 +210,33 @@ COMMANDS                                        *fzf-preview-commands*
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
 
+                                                *:FzfPreviewBookmarks*
+:FzfPreviewBookmarks
+     Select and open the bookmarks from vim-bookmarks
+
+                                                *:FzfPreviewYankround*
+:FzfPreviewYankround
+     Select register history and insert " register from yankround.vim
+
+                                                *:FzfPreviewBlamePR*
+:FzfPreviewBlamePR
+     The PR corresponding to each line is displayed and
+     the selected PR is opened in the browser.
+
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
 
--processors
-    Set processor when selecting element with fzf started by this command.
+--processes
+    Set process when selecting element with fzf started by this command.
     Value must be a global variable name.
     Variable is dictionary and format is
-    same as |g:fzf_preview_custom_default_processors|.
+    same as get from |fzf_preview#remote#process#get_default_processes|.
 
-    Most command pass a file paths to the processor.
+    Most command pass a file paths to the process.
     FzfPreviewAllBuffers will be passed “buffer {bufnr}”
 
-    Value example: let g:foo_processors = {
-                   \ '':       function('fzf_preview#resource_processor#edit'),
+    Value example: let g:foo_processes = {
+                   \ 'enter':  'FzfPreviewOpenFileEnter',
                    \ 'ctrl-x': function('s:foo_function'),
                    \ }
 
@@ -229,8 +248,8 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     augroup END
 
     function! s:fzf_preview_settings() abort
-      let g:fzf_preview_buffer_delete_processors = fzf_preview#resource_processor#get_default_processors()
-      let g:fzf_preview_buffer_delete_processors['ctrl-x'] = function('s:buffers_delete_from_lines')
+      let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
+      let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
     endfunction
 
     function! s:buffers_delete_from_lines(lines) abort
@@ -244,62 +263,30 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
       endfor
     endfunction
 
-    nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers -processors=g:fzf_preview_buffer_delete_processors<CR>
+    nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
 <
 
--add-fzf-arg
+--add-fzf-arg
     Set the arguments to be passed when executing fzf.
     This value is added to the default options.
     Value must be a string without spaces.
 
     Usage example: Exclude filename with FzfPreviewProjectGrep
 >
-    nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--nth=3<Space>
+    nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
 <
 
--resume
+--resume
     Reuse the input that was last used to select the element with fzf.
     Do not need to pass a value for this option.
 
     Usage example: Reuse last query for project grep.
 >
-    nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep -resume<Space>
-<
-
-EXPERIMENTAL: Specifications may change.
--overwrite-fzf-args
-    Set the arguments to be passed when executing fzf.
-    Value must be a global variable name.
-    Variable is string and format is shell command options.
-    This option is experimental.
-
-    Value example: let g:foo_arguments = '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
-
-    Usage example: Exclude filename with FzfPreviewProjectGrep
->
-    augroup fzf_preview
-      autocmd!
-      autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-    augroup END
-
-    function! s:fzf_preview_settings() abort
-      let g:fzf_preview_grep_command_options = fzf_preview#command#get_common_command_options()
-      let g:fzf_preview_grep_command_options = g:fzf_preview_grep_command_options . ' --nth=3'
-    endfunction
-
-    nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep -overwrite-fzf-args=g:fzf_preview_grep_command_options<Space>
+    nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 <
 
 ==============================================================================
 OPTIONS                                         *fzf-preview-options*
-
-*g:fzf_preview_use_floating_window*
-    If this value is 1, display fzf window using Floating Window
-    This value is for Neovim
-
-    Default value is 1
-    Ref: https://github.com/Blacksuan19/init.nvim
-
 
 *g:fzf_preview_floating_window_rate*
     This value is used for the size of the floating window.
@@ -308,13 +295,6 @@ OPTIONS                                         *fzf-preview-options*
     Set between 0 and 1.
 
     Default value is 0.9
-
-
-*g:fzf_preview_floating_window_winblend*
-    This value is used for the value of winblend in the floating window.
-    Set a value between 0 and 100.
-
-    Default value is 15
 
 
 *g:fzf_preview_quit_map*
@@ -440,29 +420,33 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 
-*g:fzf_preview_custom_default_processors*
-    Set the processors when selecting an element with fzf in dictionary.
-    Dictionary format is { 'input key': |Funcref| }
-    An empty key corresponds to the return key.
-    Default |Funcref| can be get with |fzf_preview#resource_processor#get_default_processors|
-    Do not use with g:fzf_preview_*_key_map
+*g:fzf_preview_custom_processes*
+    Set the custom processes.
+    Dictionary format is { '{processes_name}': { '{input_key}': |String|(Global function name) or |Funcref| } }
+    Default child value can be get with |fzf_preview#remote#process#get_default_processes|
 
     Default value is {}
 
-    Example: {
-               '':       function('fzf_preview#resource_processor#edit'),
-               'ctrl-x': function('fzf_preview#resource_processor#split'),
-               'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
-               'ctrl-t': function('fzf_preview#resource_processor#tabedit'),
-               'ctrl-q': function('fzf_preview#resource_processor#export_quickfix')
-             }
+    Example:  {
+                'open-file': {
+                  'ctrl-o': 'FzfPreviewOpenFileCtrlO',
+                  'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
+                  'ctrl-t': 'FzfPreviewOpenFileCtrlT',
+                  'ctrl-v': 'FzfPreviewOpenFileCtrlV',
+                  'ctrl-x': 'FzfPreviewOpenFileCtrlX',
+                  'enter': 'FzfPreviewOpenFileEnter'
+                },
+                'register': {
+                  'enter': 'FzfPreviewRegisterEnter'
+                }
+              }
 
 
 *g:fzf_preview_fzf_preview_window_option*
     Used as fzf preview-window option
     For example, 'up:30%'
 
-    Default value is ''
+    Default value is 'wrap'
 
 
 *g:fzf_preview_filelist_postprocess_command*
@@ -478,109 +462,50 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0
 
 
-*g:fzf_preview_dev_icon_prefix_length*
-    Set how many bytes devicon is represented.
+*g:fzf_preview_dev_icon_prefix_string_length*
+    Set how many string length devicon is represented.
 
-    Default value is 2
+    Default value is 3
 
+
+*g:fzf_preview_dev_icons_limit*
+    Devicons can make fzf-preview slow when the number of results is high.
+    By default icons are disable when number of results is higher this value.
+
+    Default value is 5000
+
+
+*g:fzf_preview_yankround_preview_command*
+    Command to preview yankround history.
+
+    Defaul value is expand('<sfile>:h:h') . '/bin/preview_yankround_register'
+
+*g:fzf_preview_blame_pr_command*
+    Command to FzfPreviewBlamePR source.
+
+    Defaul value is expand('<sfile>:h:h') . '/bin/git_blame_pr'
 
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
     Default value is 'ansi-dark'
 
 
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_split_key_map*
-    This map is used when splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-x'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_vsplit_key_map*
-    This map is used when vertical splitting and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-v'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_tabedit_key_map*
-    This map is used when new tabpage and opening files from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-t'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_drop_key_map*
-    This map is used when drop command executed.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-o'
-
-
-DEPRECATED: Use g:fzf_preview_custom_default_processors
-*g:fzf_preview_build_quickfix_key_map*
-    This map is used when building QuickFix from fzf.
-    Options are a string passed directly to fzf's "--expect" option.
-
-    Default value is 'ctrl-q'
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_preview_layout*
-    This value is the layout displayed when executing the fzf command.
-
-    Default value is 'top split new'
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_preview_rate*
-    Calculate the size of the fzf window based on this value.
-    In the case of 0.3, windows with 0.3 times the size of
-    &lines are generated.
-
-    Default value is 0.3
-
-
-DEPRECATED: Works when floating window is not used
-*g:fzf_full_preview_toggle_key*
-    It is a mapping for switching the fzf window to full screen.
-    You press this key, the display changes with the value set
-    with g:fzf_preview_rate.
-
-    Default value is '<C-s>'
-
 ==============================================================================
 FUNCTIONS                                       *fzf-preview-functions*
 
-*fzf_preview#resource_processor#get_default_processors*
-    Get the initial value of the process executed
-    when selecting the element of fzf
+*fzf_preview#remote#process#get_default_processes*
+    Get the initial value of the processes.
+    processes_name is 'open-file', 'register' and 'open-pr'.
 
-    value is {
-               '':       function('fzf_preview#resource_processor#edit'),
-               'ctrl-x': function('fzf_preview#resource_processor#split'),
-               'ctrl-v': function('fzf_preview#resource_processor#vsplit'),
-               'ctrl-t': function('fzf_preview#resource_processor#vsplit'),
-               'ctrl-q': function('fzf_preview#resource_processor#export_quickfix')
-             }
-
-
-*fzf_preview#resource_processor#get_processors*
-    Get the current value of the process executed
-    when selecting the element of fzf
-    Use in fzf_preview#initialized event.
-
-
-EXPERIMENTAL: Specifications may change.
-*fzf_preview#command#get_common_command_options*
-    Get the common value of the passed when executed fzf.
-    Use in fzf_preview#initialized event.
-
-    value is: '--multi --reverse --ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+    value from 'open-file' is
+      {
+        'ctrl-o': 'FzfPreviewOpenFileCtrlO',
+        'ctrl-q': 'FzfPreviewOpenFileCtrlQ',
+        'ctrl-t': 'FzfPreviewOpenFileCtrlT',
+        'ctrl-v': 'FzfPreviewOpenFileCtrlV',
+        'ctrl-x': 'FzfPreviewOpenFileCtrlX',
+        'enter': 'FzfPreviewOpenFileEnter'
+      }
 
 ==============================================================================
 DEFAULT KEYMAP                                  *fzf-preview-keymap*
@@ -597,6 +522,9 @@ DEFAULT KEYMAP                                  *fzf-preview-keymap*
 <C-t>
   - Open tabedit
 
+<C-o>
+  - Open drop
+
 <C-q>
   - Build QuickFix
 
@@ -608,9 +536,6 @@ DEFAULT KEYMAP                                  *fzf-preview-keymap*
 
 ?
   - Toggle Preview
-
-<C-s> # DEPRECATED
-  - Toggle window size of fzf, normal size and full-screen
 
 ==============================================================================
 EXAMPLE                                         *fzf-preview-mappings*
