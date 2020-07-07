@@ -112,6 +112,7 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewAllBuffers*
 :FzfPreviewAllBuffers
      Select and open all buffers(include not file).
+     Use open-bufnr processes.
      Pass the value to the process function in the format "buffer {bufnr}""
 
                                                 *:FzfPreviewProjectOldFiles*
@@ -217,11 +218,13 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewYankround*
 :FzfPreviewYankround
      Select register history and insert " register from yankround.vim
+     Use register processes.
 
                                                 *:FzfPreviewBlamePR*
 :FzfPreviewBlamePR
      The PR corresponding to each line is displayed and
      the selected PR is opened in the browser.
+     Use open-pr processes.
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
@@ -495,7 +498,7 @@ FUNCTIONS                                       *fzf-preview-functions*
 
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
-    processes_name is 'open-file', 'register' and 'open-pr'.
+    processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
 
     value from 'open-file' is
       {

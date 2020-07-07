@@ -19,7 +19,8 @@ export const allBuffers = async (_args: SourceFuncArgs): Promise<ResourceLines> 
   return alignedAllBufferLists.map((list) => list.join(SPACER).trim())
 }
 
-export const dropBufnr = (line: SelectedLine): ConvertedLine => createSplitConverter(" ")(line).pop() as string
+export const extractBufnrAndAddPrefix = (line: SelectedLine): ConvertedLine =>
+  `buffer ${createSplitConverter(" ")(line)[0]}`
 
 export const allBuffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"AllBuffers> "',

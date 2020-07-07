@@ -422,7 +422,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is 'open-file', 'register' and 'open-pr'.
+" processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
 call fzf_preview#remote#process#get_default_processes({processes_name})
 ```
 
