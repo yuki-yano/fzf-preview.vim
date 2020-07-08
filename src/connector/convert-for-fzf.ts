@@ -9,6 +9,24 @@ type Options = {
   enablePostProcessCommand: boolean
 }
 
+const splitFileNameAndPrefix = (files: Array<string>) => {
+  return files.reduce(
+    (acc: [Array<string>, Array<string>], cur) => {
+      const splitted = cur.split(" ")
+      if (splitted.length >= 2) {
+        acc[0].push(`${splitted[0]} `)
+        acc[1].push(splitted[1])
+        return acc
+      } else {
+        acc[0].push("")
+        acc[1].push(splitted[0])
+        return acc
+      }
+    },
+    [[], []]
+  )
+}
+
 const postProcessFileName = (files: Array<string>) => {
   const postProcessCommand = globalVariableSelector("fzfPreviewFilelistPostProcessCommand") as string
 
@@ -64,14 +82,16 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
     return lines
   }
 
-  const postProcessedLines = enablePostProcessCommand ? postProcessFileName(lines) : lines
+  const [prefixes, files] = splitFileNameAndPrefix(lines)
+
+  const postProcessedLines = enablePostProcessCommand ? postProcessFileName(files) : files
 
   if (enableDevIcons) {
     // eslint-disable-next-line no-control-regex
-    const files = postProcessedLines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0])
-    const icons = createDevIconsList(files)
+    const convertedFiles = postProcessedLines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0])
+    const icons = createDevIconsList(convertedFiles)
 
-    return postProcessedLines.map((line, i) => `${icons[i]}  ${line}`)
+    return postProcessedLines.map((file, i) => `${icons[i]}  ${prefixes[i]}${file}`)
   }
 
   return postProcessedLines

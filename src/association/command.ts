@@ -27,6 +27,7 @@ import {
   directoryFiles,
   directoryFilesDefaultOptions,
   dispatchDefaultQueryForCommandGrep,
+  dropBufferPrefix,
   dropGitStatusPrefix,
   dropYankroundLineNumber,
   extractBufnrAndAddPrefix,
@@ -126,7 +127,7 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
   {
     commandName: "FzfPreviewBuffers",
     sourceFunc: buffers,
-    convertLine: convertIdentity,
+    convertLine: dropBufferPrefix,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
