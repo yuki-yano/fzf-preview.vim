@@ -1,3 +1,4 @@
+" TODO: Command other than fzf-preview saves wrong resumes
 let s:resource_command_name = ''
 
 function! fzf_preview#remote#window#set_resource_command_name(command_name) abort
