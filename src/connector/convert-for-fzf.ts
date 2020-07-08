@@ -9,17 +9,17 @@ type Options = {
   enablePostProcessCommand: boolean
 }
 
-const splitFileNameAndPrefix = (files: Array<string>) => {
-  return files.reduce(
+const splitBufferPrefixAndLines = (lines: Array<string>) => {
+  return lines.reduce(
     (acc: [Array<string>, Array<string>], cur) => {
-      const splitted = cur.split(" ")
-      if (splitted.length >= 2) {
-        acc[0].push(`${splitted[0]} `)
-        acc[1].push(splitted[1])
+      const result = /^\+ (?<line>.*)/.exec(cur)
+      if (result && result.groups) {
+        acc[0].push("+ ")
+        acc[1].push(result.groups.line)
         return acc
       } else {
         acc[0].push("")
-        acc[1].push(splitted[0])
+        acc[1].push(cur)
         return acc
       }
     },
@@ -82,7 +82,7 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
     return lines
   }
 
-  const [prefixes, files] = splitFileNameAndPrefix(lines)
+  const [prefixes, files] = splitBufferPrefixAndLines(lines)
 
   const postProcessedLines = enablePostProcessCommand ? postProcessFileName(files) : files
 
