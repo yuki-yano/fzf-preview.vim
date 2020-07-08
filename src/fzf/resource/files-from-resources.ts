@@ -39,7 +39,14 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     files.push(...filesFromResource)
   }
 
-  return Array.from(new Set(files))
+  return Array.from(
+    new Set(
+      files.map((file) => {
+        const splitted = file.split(" ")
+        return splitted.length >= 2 ? splitted[1] : splitted[0]
+      })
+    )
+  )
 }
 
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
