@@ -11,8 +11,6 @@ describe("generateOptions", () => {
   let fzfCommandDefaultOptions: FzfOptions = {}
 
   beforeEach(() => {
-    ;(globalVariableSelector as jest.Mock).mockImplementation((_) => {})
-
     fzfCommandDefaultOptions = {
       "--ansi": true,
       "--bind": [
