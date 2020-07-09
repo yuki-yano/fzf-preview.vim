@@ -1,5 +1,6 @@
 import { exportQuickFix, openFile } from "@/connector/open-file"
 import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { ConvertedLine, ExportQuickFix, OpenCommand, OpenFile } from "@/type"
 
@@ -78,5 +79,6 @@ export const exportQuickfixConsumer = createBulkLineConsumer(async (lines) => {
       throw new Error(`ConvertedLine is invalid: '${parsedLine.toString()}'`)
     })
 
-  await exportQuickFix(quickFixList)
+  const title = executeCommandSelector().commandName as string
+  await exportQuickFix(quickFixList, { title })
 })

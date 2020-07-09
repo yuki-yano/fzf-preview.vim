@@ -8,7 +8,11 @@ export const openFile = async ({ openCommand, file, lineNumber }: OpenFile): Pro
   }
 }
 
-export const exportQuickFix = async (quickFixList: Array<ExportQuickFix>): Promise<void> => {
-  await pluginCall("setqflist", [quickFixList])
+type Option = {
+  title?: string
+}
+
+export const exportQuickFix = async (quickFixList: Array<ExportQuickFix>, option?: Option): Promise<void> => {
+  await pluginCall("setqflist", [[], "r", { items: quickFixList, ...option }])
   await pluginCommand("copen")
 }
