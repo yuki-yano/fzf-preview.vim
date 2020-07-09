@@ -10,24 +10,24 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
   plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
   env: {
-    jest: true
+    jest: true,
   },
   parserOptions: {
     warnOnUnsupportedTypeScriptVersion: false,
     sourceType: "module",
-    project: "./tsconfig.json"
+    project: "./tsconfig.json",
   },
   settings: {
     "import/resolver": {
-      typescript: {}
+      typescript: {},
     },
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts"]
-    }
+      "@typescript-eslint/parser": [".ts"],
+    },
   },
   rules: {
     complexity: ["error", 7],
@@ -39,8 +39,8 @@ module.exports = {
       "error",
       {
         props: true,
-        ignorePropertyModificationsFor: ["draft", "state"]
-      }
+        ignorePropertyModificationsFor: ["draft", "state"],
+      },
     ],
 
     "simple-import-sort/sort": "warn",
@@ -60,7 +60,7 @@ module.exports = {
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": "off",
 
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
   },
   overrides: [
     {
@@ -68,11 +68,11 @@ module.exports = {
       extends: ["plugin:jest/recommended", "plugin:jest/style"],
       plugins: ["jest"],
       env: {
-        jest: true
+        jest: true,
       },
       rules: {
-        "@typescript-eslint/no-empty-function": "off"
-      }
-    }
-  ]
+        "@typescript-eslint/no-empty-function": "off",
+      },
+    },
+  ],
 }
