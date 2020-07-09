@@ -1,15 +1,18 @@
 module.exports = {
   moduleFileExtensions: ["js", "ts"],
   transform: {
-    "^.+\\.ts$": "ts-jest"
+    "^.+\\.ts$": "ts-jest",
   },
   globals: {
     "ts-jest": {
-      tsConfig: "tsconfig.json"
-    }
+      tsConfig: "tsconfig.json",
+    },
   },
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1"
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
-  testMatch: ["**/*.test.ts"]
+  testMatch: ["**/*.test.ts"],
+  restoreMocks: true,
+  clearMocks: true,
+  resetMocks: true,
 }

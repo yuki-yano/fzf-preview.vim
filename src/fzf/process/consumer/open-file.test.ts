@@ -1,7 +1,9 @@
 import { exportQuickFix, openFile } from "@/connector/open-file"
 import { editConsumer, exportQuickfixConsumer, splitConsumer } from "@/fzf/process/consumer/open-file"
+import { executeCommandSelector } from "@/module/selector/execute-command"
 
 jest.mock("@/connector/open-file")
+jest.mock("@/module/selector/execute-command")
 
 describe("open file consumer", () => {
   describe("open command", () => {
@@ -44,23 +46,26 @@ describe("open file consumer", () => {
   })
 
   describe("export quickfix", () => {
-    beforeEach(() => {
-      ;(exportQuickFix as jest.Mock).mockClear()
-    })
-
     it("with only filename", async () => {
+      ;(executeCommandSelector as jest.Mock).mockImplementation(() => ({ commandName: "fooCommand" }))
       const lines = ["foo.txt", "bar.txt"]
       await exportQuickfixConsumer.consume(lines)
-      expect(exportQuickFix).toHaveBeenCalledWith([{ filename: "foo.txt" }, { filename: "bar.txt" }])
+      expect(exportQuickFix).toHaveBeenCalledWith([{ filename: "foo.txt" }, { filename: "bar.txt" }], {
+        title: "fooCommand",
+      })
     })
 
     it("with filename, line number and text", async () => {
+      ;(executeCommandSelector as jest.Mock).mockImplementation(() => ({ commandName: "fooCommand" }))
       const lines = ["foo.txt:10", "bar.txt:20:foobar"]
       await exportQuickfixConsumer.consume(lines)
-      expect(exportQuickFix).toHaveBeenCalledWith([
-        { filename: "foo.txt", lnum: 10, text: "" },
-        { filename: "bar.txt", lnum: 20, text: "foobar" },
-      ])
+      expect(exportQuickFix).toHaveBeenCalledWith(
+        [
+          { filename: "foo.txt", lnum: 10, text: "" },
+          { filename: "bar.txt", lnum: 20, text: "foobar" },
+        ],
+        { title: "fooCommand" }
+      )
     })
 
     it("with invalid converted line", async () => {
