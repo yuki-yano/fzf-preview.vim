@@ -11,7 +11,7 @@ type ParsedLine = {
 
 const parseConvertedLine = (convertedLine: ConvertedLine): ParsedLine => {
   const fileResult = /^(?<file>\S+)/.exec(convertedLine)
-  const fileAndLineNumberResult = /^(?<file>\S+):(?<lineNumber>\d+):?(?<text>.*)/.exec(convertedLine)
+  const fileAndLineNumberResult = /^(?<file>\S+?):(?<lineNumber>\d+):?(?<text>.*)/.exec(convertedLine)
 
   if ((!fileAndLineNumberResult || !fileAndLineNumberResult.groups) && fileResult && fileResult.groups) {
     return {
