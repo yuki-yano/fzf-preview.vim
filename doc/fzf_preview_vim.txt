@@ -342,12 +342,12 @@ OPTIONS                                         *fzf-preview-options*
         Default value is 'rg --files --hidden --follow --no-messages --glob "!.git/*" --glob \!"* *"'
 
     Not installed ripgrep:
-        Default value is 'git ls-files --exclude-standard'
+        Default value is 'git ls-files --exclude-standard --existing-only'
 
 *g:fzf_preview_git_files_command*
     This is the command used to search for files in the git repository.
 
-    Default value is 'git ls-files --exclude-standard'
+    Default value is 'git ls-files --exclude-standard --existing-only'
 
 
 *g:fzf_preview_directory_files_command*
