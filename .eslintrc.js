@@ -55,6 +55,7 @@ module.exports = {
     "@typescript-eslint/restrict-plus-operands": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
 
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": "off",
