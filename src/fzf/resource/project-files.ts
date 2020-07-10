@@ -22,7 +22,7 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines
     throw new Error(`Failed to get the file list. command: "${filelistCommand}"`)
   }
 
-  return stdout.split("\n").filter((file) => file !== "")
+  return stdout.split("\n").filter((file) => file !== "" && !file.includes(" "))
 }
 
 export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
