@@ -33,12 +33,12 @@ if !exists('g:fzf_preview_filelist_command')
   if executable('rg')
     let g:fzf_preview_filelist_command = "rg --files --hidden --no-messages --glob '!.git/*' --glob \!'* *'"
   else
-    let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard --existing-only'
+    let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'
   endif
 endif
 
 if !exists('g:fzf_preview_git_files_command')
-  let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard --existing-only'
+  let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
 endif
 
 if !exists('g:fzf_preview_directory_files_command')
