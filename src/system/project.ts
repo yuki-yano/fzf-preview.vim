@@ -17,10 +17,8 @@ const getProjectRoot = () => {
   return stdout.trim()
 }
 
-export const projectRoot = getProjectRoot()
-
-export const filePathToProjectFilePath = (filePath: string): string | null => {
-  const regex = new RegExp(`^${projectRoot}/(?<fileName>.+)`)
+const filePathToProjectFilePath = (filePath: string): string | null => {
+  const regex = new RegExp(`^${getProjectRoot()}/(?<fileName>.+)`)
   const execArray = regex.exec(filePath)
 
   if (execArray == null || execArray.groups == null) {
