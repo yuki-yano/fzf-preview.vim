@@ -1,4 +1,4 @@
-import { getBuffers } from "@/connector/buffers"
+import { getOtherBuffers } from "@/connector/buffers"
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { isGitDirectory } from "@/system/project"
@@ -8,14 +8,10 @@ import type {
   ResourceLines,
   SelectedLine,
   SourceFuncArgs,
+  VimBuffer,
 } from "@/type"
 
-type Buffer = {
-  fileName: string
-  modified: boolean
-}
-
-const bufferToString = (buffer: Buffer) => {
+const bufferToString = (buffer: VimBuffer) => {
   if (buffer.modified) {
     return `+ ${buffer.fileName}`
   } else {
@@ -24,17 +20,17 @@ const bufferToString = (buffer: Buffer) => {
 }
 
 export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
-  const bufferList = (await getBuffers()) as ResourceLines
+  const rawBuffers = (await getOtherBuffers()) as ResourceLines
 
   // TODO: sort with mru
   if (!isGitDirectory()) {
-    return bufferList
+    return rawBuffers
   }
 
   const { mruFiles } = cacheSelector()
 
-  const bufferFiles = bufferList.map<Buffer>((buffer) => {
-    const splitted = buffer.split(" ")
+  const bufferFiles = rawBuffers.map<VimBuffer>((line) => {
+    const splitted = line.split(" ")
     if (splitted[0] === "+") {
       return { fileName: splitted[1], modified: true }
     } else {
@@ -43,8 +39,8 @@ export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
   })
 
   const sortedBufferList = mruFiles
-    .map<Buffer | undefined>((file) => bufferFiles.find((buffer) => buffer.fileName === file))
-    .filter((buffer): buffer is Buffer => buffer != null)
+    .map<VimBuffer | undefined>((file) => bufferFiles.find((buffer) => buffer.fileName === file))
+    .filter((buffer): buffer is VimBuffer => buffer != null)
 
   return Array.from(new Set(sortedBufferList.concat(bufferFiles))).map((buffer) => bufferToString(buffer))
 }
