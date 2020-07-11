@@ -1,10 +1,9 @@
 import { filePreviewCommand } from "@/fzf/util"
-import { existsFile } from "@/system/file"
-import { readMruFile } from "@/system/mr"
+import { cacheSelector } from "@/module/selector/cache"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const mruFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> =>
-  (await readMruFile()).filter((file) => existsFile(file))
+// eslint-disable-next-line @typescript-eslint/require-await
+export const mruFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> => cacheSelector().mruFiles
 
 export const mruFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"MruFiles> "',

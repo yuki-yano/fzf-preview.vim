@@ -1,7 +1,7 @@
 import { getBuffers } from "@/connector/buffers"
 import { filePreviewCommand } from "@/fzf/util"
-import { readMruFile } from "@/system/mr"
-import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
+import { cacheSelector } from "@/module/selector/cache"
+import { isGitDirectory } from "@/system/project"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
@@ -31,7 +31,7 @@ export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
     return bufferList
   }
 
-  const mruFiles = filterProjectEnabledFile(await readMruFile())
+  const { mruFiles } = cacheSelector()
 
   const bufferFiles = bufferList.map<Buffer>((buffer) => {
     const splitted = buffer.split(" ")

@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
+import { cacheModule } from "@/module/cache"
 import { executeCommandModule } from "@/module/execute-command"
 import { resumeModule } from "@/module/resume"
 import { vimVariableModule } from "@/module/vim-variable"
@@ -9,6 +10,7 @@ const setupStore = () => {
     reducer: {
       vimVariable: vimVariableModule.reducer,
       executeCommand: executeCommandModule.reducer,
+      cache: cacheModule.reducer,
       resume: resumeModule.reducer,
     },
     middleware: getDefaultMiddleware(),

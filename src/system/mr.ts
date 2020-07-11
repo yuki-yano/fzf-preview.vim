@@ -1,12 +1,9 @@
 import fs from "fs"
 
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { existsDirectory, expandHome } from "@/system/file"
 
-const cacheDirectory = async () => {
-  // TODO: Reduce the number of sync executions
-  await syncVimVariable()
+const cacheDirectory = () => {
   const cacheDir = globalVariableSelector("fzfPreviewCacheDirectory")
 
   if (typeof cacheDir !== "string" || cacheDir === "") {
@@ -16,8 +13,8 @@ const cacheDirectory = async () => {
   return cacheDir
 }
 
-const readFileOrCreateDirectory = async (cacheFile: string) => {
-  const cacheDirectoryPath = expandHome(await cacheDirectory())
+const readFileOrCreateDirectory = (cacheFile: string) => {
+  const cacheDirectoryPath = expandHome(cacheDirectory())
   if (!existsDirectory(cacheDirectoryPath)) {
     fs.mkdirSync(cacheDirectoryPath, { recursive: true })
   }
@@ -29,30 +26,30 @@ const readFileOrCreateDirectory = async (cacheFile: string) => {
   }
 }
 
-const mruFilePath = async () => `${await cacheDirectory()}/mru`
-const mrwFilePath = async () => `${await cacheDirectory()}/mrw`
+const mruFilePath = () => `${cacheDirectory()}/mru`
+const mrwFilePath = () => `${cacheDirectory()}/mrw`
 
-const readFile = async (filePath: string) => {
-  const files = await readFileOrCreateDirectory(filePath)
+const readFile = (filePath: string) => {
+  const files = readFileOrCreateDirectory(filePath)
   return files
 }
 
-export const readMruFile = async (): Promise<Array<string>> => {
-  const files = await readFile(await mruFilePath())
+export const readMruFile = (): Array<string> => {
+  const files = readFile(mruFilePath())
   return files
 }
-export const readMrwFile = async (): Promise<Array<string>> => {
-  const files = await readFile(await mrwFilePath())
+export const readMrwFile = (): Array<string> => {
+  const files = readFile(mrwFilePath())
   return files
 }
 
-const appendFile = async (filePath: string, cacheFilePath: string) => {
-  const files = await readFileOrCreateDirectory(cacheFilePath)
+const appendFile = (filePath: string, cacheFilePath: string) => {
+  const files = readFileOrCreateDirectory(cacheFilePath)
 
   files.unshift(filePath)
   const uniqFiles = Array.from(new Set(files.filter((file) => file !== "")))
   fs.writeFileSync(cacheFilePath, uniqFiles.join("\n"))
 }
 
-export const appendMruFile = async (filePath: string): Promise<void> => appendFile(filePath, await mruFilePath())
-export const appendMrwFile = async (filePath: string): Promise<void> => appendFile(filePath, await mrwFilePath())
+export const appendMruFile = (filePath: string): void => appendFile(filePath, mruFilePath())
+export const appendMrwFile = (filePath: string): void => appendFile(filePath, mrwFilePath())

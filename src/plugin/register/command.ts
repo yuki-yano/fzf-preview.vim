@@ -6,7 +6,7 @@ import { HANDLER_NAME } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
-import { saveStore } from "@/module/persist"
+import { loadCache, saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginRegisterCommand } from "@/plugin"
 import { fzfRunner } from "@/plugin/fzf-runner"
@@ -52,6 +52,7 @@ const registerCommand = ({
   pluginRegisterCommand(
     commandName,
     async (param: Array<string>) => {
+      await dispatch(loadCache())
       const args = param[0] != null ? param[0] : ""
 
       await syncVimVariable()
@@ -89,7 +90,7 @@ const registerCommand = ({
         })
       )
       await setResourceCommandName(commandName)
-      await dispatch(saveStore({ modules: ["executeCommand"] }))
+      await dispatch(saveStore({ modules: ["executeCommand", "cache"] }))
 
       const sourceForFzf = convertForFzf(source, {
         enableConvertForFzf,
