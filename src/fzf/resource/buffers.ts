@@ -20,29 +20,20 @@ const bufferToString = (buffer: VimBuffer) => {
 }
 
 export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
-  const rawBuffers = (await getOtherBuffers()) as ResourceLines
+  const bufferList = await getOtherBuffers()
 
   // TODO: sort with mru
   if (!isGitDirectory()) {
-    return rawBuffers
+    return bufferList.map((buffer) => buffer.fileName)
   }
 
   const { mruFiles } = cacheSelector()
 
-  const bufferFiles = rawBuffers.map<VimBuffer>((line) => {
-    const splitted = line.split(" ")
-    if (splitted[0] === "+") {
-      return { fileName: splitted[1], modified: true }
-    } else {
-      return { fileName: splitted[0], modified: false }
-    }
-  })
-
   const sortedBufferList = mruFiles
-    .map<VimBuffer | undefined>((file) => bufferFiles.find((buffer) => buffer.fileName === file))
+    .map<VimBuffer | undefined>((file) => bufferList.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)
 
-  return Array.from(new Set(sortedBufferList.concat(bufferFiles))).map((buffer) => bufferToString(buffer))
+  return Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer))
 }
 
 export const dropBufferPrefix = (line: SelectedLine): ConvertedLine => {
