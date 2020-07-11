@@ -1,7 +1,7 @@
 import { getBuffers } from "@/connector/buffers"
 import { filePreviewCommand } from "@/fzf/util"
 import { readMruFile } from "@/system/mr"
-import { filterProjectEnabledFile } from "@/system/project"
+import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
@@ -25,6 +25,12 @@ const bufferToString = (buffer: Buffer) => {
 
 export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   const bufferList = (await getBuffers()) as ResourceLines
+
+  // TODO: sort with mru
+  if (!isGitDirectory()) {
+    return bufferList
+  }
+
   const mruFiles = filterProjectEnabledFile(await readMruFile())
 
   const bufferFiles = bufferList.map<Buffer>((buffer) => {
