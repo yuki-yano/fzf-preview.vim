@@ -1,4 +1,4 @@
 function! fzf_preview#install() abort
-  !npm install
+  !yarn install
   UpdateRemotePlugins
 endfunction

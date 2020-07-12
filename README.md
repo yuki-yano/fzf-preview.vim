@@ -49,6 +49,7 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 - **Neovim** <https://neovim.io/>
 - **Node** <https://nodejs.org/>
+- **Yarn** <https://classic.yarnpkg.com/>
 - git <https://git-scm.com/>
 - fzf <https://github.com/junegunn/fzf>
 
@@ -77,25 +78,25 @@ When bat is installed you can highlight the preview and see it. Otherwise, head 
 Install the npm package [neovim](https://www.npmjs.com/package/neovim) to get the remote plugin working.
 
 ```shell
-$ npm install -g neovim
+$ yarn install -g neovim
 ```
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
 
-Execute `npm install` and `:UpdateRemotePlugins` when after installed plugin.
+Execute `yarn install` and `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 
 ```vim
 set  runtimepath+=/usr/local/opt/fzf
-call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
 or Using Dein:
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
 ## Usage

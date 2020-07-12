@@ -2,7 +2,7 @@
 
 ## Installing Remote Plugin
 
-Install [Node](https://nodejs.org/) and install the [neovim](https://www.npmjs.com/package/neovim) package with npm.
+Install [Node](https://nodejs.org/), [Yarn](https://classic.yarnpkg.com/) and install the [neovim](https://www.npmjs.com/package/neovim) package with npm.
 
 If you are using MacOS and Homebrew:
 
@@ -11,12 +11,12 @@ $ brew install node
 $ npm install -g neovim
 ```
 
-Run `$npm install` and `:UpdateRemotePlugins` after installing the plugin.
+Run `$yarn install` and `:UpdateRemotePlugins` after installing the plugin.
 
 Dein:
 
 ```vim
-call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
 vim-plug:
