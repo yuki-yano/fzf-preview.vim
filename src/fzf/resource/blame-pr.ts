@@ -1,5 +1,3 @@
-import { logger } from "neovim/lib/utils/logger"
-
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import { currentFilePath, existsFile } from "@/system/file"
@@ -15,7 +13,6 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
   const { stdout, stderr, status } = execCommand(`${openPrCommand} ${file}`)
 
   if (stderr !== "" || status !== 0) {
-    logger.error(stderr)
     throw new Error(`Failed open pr command: "${openPrCommand}"`)
   }
 

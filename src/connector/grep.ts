@@ -1,5 +1,3 @@
-import { logger } from "neovim/lib/utils/logger"
-
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 import type { ResourceLines } from "@/type"
@@ -9,7 +7,6 @@ export const execGrep = (args: string): ResourceLines => {
   const { stdout, stderr, status } = execCommand(`${grepCommand} ${args}`)
 
   if (stderr !== "" || status !== 0) {
-    logger.error(stderr)
     throw new Error(`Failed grep command: "${grepCommand} ${args}"`)
   }
 

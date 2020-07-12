@@ -1,5 +1,3 @@
-import { logger } from "neovim/lib/utils/logger"
-
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execCommand } from "@/system/command"
 
@@ -8,7 +6,6 @@ export const execLines = (filePath: string): Array<string> => {
   const { stdout, stderr, status } = execCommand(`${linesCommand} ${filePath}`)
 
   if (stderr !== "" || status !== 0) {
-    logger.error(stderr)
     throw new Error(`Failed lines command: "${linesCommand}"`)
   }
 
