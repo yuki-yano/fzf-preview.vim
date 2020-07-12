@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "author": "yuki-yano",
   "license": "MIT",
@@ -11,7 +11,8 @@
   "files": [
     "lib",
     "autoload",
-    "plugin"
+    "plugin",
+    "bin"
   ],
   "keywords": [
     "coc.nvim",
