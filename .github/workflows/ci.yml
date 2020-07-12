@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 13
-      - run: npm install --ignore-script
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm run test
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run typecheck
+      - run: yarn run lint
+      - run: yarn run test

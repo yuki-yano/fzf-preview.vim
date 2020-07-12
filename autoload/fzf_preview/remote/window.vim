@@ -10,7 +10,11 @@ function! fzf_preview#remote#window#set_fzf_last_query(...) abort
     let matches = matchlist(getline('.'), '^\w\+\>.\(\(\w\|\s\|''\)\+\)')
     if len(matches) > 0
       let query = substitute(substitute(matches[1], '\s\+$', '', ''), '^\s\+', '', '')
-      call FzfPreviewDispatchResumeQuery(s:resource_command_name, query)
+      if exists(':FzfPreviewRemoteEnvironment')
+        call FzfPreviewDispatchResumeQuery(s:resource_command_name, query)
+      else
+        call CocAction('runCommand', 'fzf-preview.DispatchResumeQuery', [s:resource_command_name, query])
+      endif
     endif
 
     call timer_start(50, function('fzf_preview#remote#window#set_fzf_last_query'))

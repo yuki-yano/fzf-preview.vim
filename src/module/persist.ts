@@ -2,12 +2,23 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 import { PERSIST_LOAD_CACHE, PERSIST_LOAD_RESUME, PERSIST_LOAD_STORE, PERSIST_SAVE_STORE } from "@/const/module"
 import { cacheModule } from "@/module/cache"
+import { environmentModule } from "@/module/environment"
 import { executeCommandModule } from "@/module/execute-command"
 import { resumeModule } from "@/module/resume"
 import { pluginCall } from "@/plugin"
 import type { AppDispatch, RootState } from "@/store"
 
-type Modules = ["vimVariable", "executeCommand", "resume", "cache"]
+type Modules = ["environment", "vimVariable", "executeCommand", "cache", "resume"]
+
+export const loadEnvironment = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
+  PERSIST_LOAD_STORE,
+  async (_: undefined, { dispatch }) => {
+    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
+      RootState
+    >
+    dispatch(environmentModule.actions.restore(restoredStore.environment))
+  }
+)
 
 export const loadExecuteCommandStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,

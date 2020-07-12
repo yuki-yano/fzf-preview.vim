@@ -16,14 +16,21 @@ CONTENTS                                   *fzf-preview-contents*
 ==============================================================================
 INTRODUCTION                              *fzf-preview-introduction*
 
-*fzf-preview* is a Neovim plugin to provide some fzf sources with preview.
+*fzf-preview* is coc extensions or Neovim remote plugin to provide some fzf
+sources with preview.
 
 Requirements:
-- Neovim
+- Neovim (Remote Plugin)
     https://neovim.io/
+
+- coc.nvim (coc extensions)
+    https://github.com/neoclide/coc.nvim
 
 - Node
     https://nodejs.org/
+
+- Yarn (Remote Plugin)
+    https://classic.yarnpkg.com/
 
 - git
     https://git-scm.com/
@@ -58,7 +65,7 @@ Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
 
 ==============================================================================
-INSTALLATION                                     *fzf-preview-installation*
+REMOTE PLUGIN INSTALLATION                *fzf-preview-remote-installation*
 
 Install the npm package [neovim](https://www.npmjs.com/package/neovim)
 to get the remote plugin working.
@@ -68,49 +75,63 @@ to get the remote plugin working.
 <
 
 Use Dein, vim-plug or any Vim plugin manager of your choice.
-Execute `npm install` and `:UpdateRemotePlugins` when after installed plugin.
+Execute `yarn install` and `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 >
 >
     set  runtimepath+=/usr/local/opt/fzf
-    call dein#add('yuki-ycino/fzf-preview.vim', {'build': 'npm install'})
+    call dein#add('yuki-ycino/fzf-preview.vim', {'build': 'yarn install'})
 <
 
 or Using Dein:
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'npm install' })
+    call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 <
+
+==============================================================================
+COC EXTENSION INSTALLATION                   *fzf-preview-coc-installation*
+
+Install the [coc.nvim](https://github.com/neoclide/coc.nvim)
+Install coc extensions fzf-preview.
+
+:CocInstall coc-fzf-preview
 
 ==============================================================================
 COMMANDS                                        *fzf-preview-commands*
 
                                                 *:FzfPreviewProjectFiles*
 :FzfPreviewProjectFiles
+:CocCommand fzf-preview.ProjectFiles
      Select and open git repository files from project. 
 
                                                 *:FzfPreviewGitFiles*
 :FzfPreviewGitFiles
+:CocCommand fzf-preview.GitFiles
      Select and open git repository files from git ls-files.
 
                                                 *:FzfPreviewDirectoryFiles*
 :FzfPreviewDirectoryFiles {path or none}
+:CocCommand fzf-preview.DirectoryFiles {path or none}
      Select and open directory files from ripgrep with fzf interface.
      Default to current working directory.
 
                                                 *:FzfPreviewGitStatus*
 :FzfPreviewGitStatus
+:CocCommand fzf-preview.GitStatus
      Select files that have been changed with git.
      Use git diff preview.
 
                                                 *:FzfPreviewBuffers*
 :FzfPreviewBuffers
+:CocCommand fzf-preview.Buffers
      Select and open file buffers.
 
                                                 *:FzfPreviewAllBuffers*
 :FzfPreviewAllBuffers
+:CocCommand fzf-preview.AllBuffers
      Select and open all buffers(include not file).
      Use open-bufnr processes.
      Pass the value to the process function in the format "buffer {bufnr}""
@@ -118,33 +139,39 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewProjectOldFiles*
 
 :FzfPreviewProjectOldFiles
+:CocCommand fzf-preview.ProjectOldFiles
      Select and open the past open files in the project using fzf.
      The target file is selected from  |v:oldfiles|.
 
                                                 *:FzfPreviewProjectMruFiles*
 :FzfPreviewProjectMruFiles
+:CocCommand fzf-preview.ProjectMruFiles
      Select and open the past open files in the project using fzf.
      The target file is selected from most recently used.
 
                                                 *:FzfPreviewProjectMrwFiles*
 :FzfPreviewMrwFiles
+:CocCommand fzf-preview.MrwFiles
      Select and open the past open files in the project using fzf.
      The target file is selected from most recently written.
 
                                                 *:FzfPreviewProjectGrep*
 :FzfPreviewProjectGrep
+:CocCommand fzf-preview.ProjectGrep
      Search text from the project.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
 
                                                 *:FzfPreviewProjectCommandGrep*
 :FzfPreviewProjectCommandGrep
+:CocCommand fzf-preview.ProjectCommandGrep
      Search for projects with advanced integration with ripgrep.
      Since the search is done using ripgrep, FZF's fuzzy fines do not work.
      Ref: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
 
                                                 *:FzfPreviewCTags*
 :FzfPreviewCtags
+:CocCommand fzf-preview.Ctags
      Select tags from tags file
      The same script as FzfPreviewProjectGrep is used for preview.
      Required: |universal-ctags|
@@ -154,57 +181,69 @@ COMMANDS                                        *fzf-preview-commands*
 
                                                 *:FzfPreviewBufferTags*
 :FzfPreviewBufferTags
+:CocCommand fzf-preview.BufferTags
      Select from tags of currently open buffer
      The same script as FzfPreviewProjectGrep is used for preview.
      Required: |universal-ctags|
 
                                                 *:FzfPreviewOldFiles*
 :FzfPreviewOldFiles
+:CocCommand fzf-preview.OldFiles
      Select and open the opened file.
      For the target file, see |v:oldfiles|.
 
                                                 *:FzfPreviewMruFiles*
 :FzfPreviewMruFiles
+:CocCommand fzf-preview.MruFiles
      Select and open the opened file.
      For the target file, most recently used.
 
                                                 *:FzfPreviewMrwFiles*
 :FzfPreviewMrwFiles
+:CocCommand fzf-preview.MrwFiles
      Select and open the opened file.
      For the target file, most recently written.
 
                                                 *:FzfPreviewQuickFix*
 :FzfPreviewQuickFix
+:CocCommand fzf-preview.QuickFix
      Select and open the QuickFix item.
 
                                                 *:FzfPreviewLocationList*
 :FzfPreviewLocationList
+:CocCommand fzf-preview.LocationList
      Select and open the LocationList item.
 
                                                 *:FzfPreviewLines*
 :FzfPreviewLines
+:CocCommand fzf-preview.Lines
      Select line from current buffer.
 
                                                 *:FzfPreviewBufferLines*
 :FzfPreviewBufferLines
+:CocCommand fzf-preview.BufferLines
      Select line from all buffer
 
                                                 *:FzfPreviewJumps*
 :FzfPreviewJumps
+:CocCommand fzf-preview.Jumps
      Select and open the jumplist
 
                                                 *:FzfPreviewChanges*
 :FzfPreviewChanges
+:CocCommand fzf-preview.Changes
      Select and open the changelist
 
                                                 *:FzfPreviewMarks*
 :FzfPreviewMarks
+:CocCommand fzf-preview.Marks
      List marks from the project.
      The retrieved result is displayed in file name, number of lines.
      The same script as FzfPreviewProjectGrep is used for preview.
 
                                                 *:FzfPreviewFromResources*
 :FzfPreviewFromResources
+:CocCommand fzf-preview.FromResources
      Select a resource and generate a file list.
      From there, select the file using the fzf interface.
 
@@ -213,15 +252,18 @@ COMMANDS                                        *fzf-preview-commands*
 
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
+:CocCommand fzf-preview.Bookmarks
      Select and open the bookmarks from vim-bookmarks
 
                                                 *:FzfPreviewYankround*
 :FzfPreviewYankround
+:CocCommand fzf-preview.Yankround
      Select register history and insert " register from yankround.vim
      Use register processes.
 
                                                 *:FzfPreviewBlamePR*
 :FzfPreviewBlamePR
+:CocCommand fzf-preview.BlamePR
      The PR corresponding to each line is displayed and
      the selected PR is opened in the browser.
      Use open-pr processes.
@@ -240,7 +282,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
 
     Value example: let g:foo_processes = {
                    \ 'enter':  'FzfPreviewOpenFileEnter',
-                   \ 'ctrl-x': function('s:foo_function'),
+                   \ 'ctrl-x': get(function('s:foo_function'), 'name'),
                    \ }
 
     Usage example: 'bdelete!' buffers
@@ -252,7 +294,8 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
 
     function! s:fzf_preview_settings() abort
       let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
-      let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
+      " let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
+      let g:fzf_preview_buffer_delete_processes['ctrl-x'] = get(function('s:buffers_delete_from_lines'), 'name')
     endfunction
 
     function! s:buffers_delete_from_lines(lines) abort
@@ -267,6 +310,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     endfunction
 
     nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
+    " nnoremap <silent> <Leader>b :<C-u>CocCommand fzf-preview.Buffers --processes=fzf_preview_buffer_delete_processes<CR>
 <
 
 --add-fzf-arg
@@ -277,6 +321,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     Usage example: Exclude filename with FzfPreviewProjectGrep
 >
     nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
+    " nnoremap <Leader>g :<C-u>CocCommand fzf-preview.ProjectGrep --add-fzf-arg=--nth=3<Space>
 <
 
 --resume
@@ -286,6 +331,7 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
     Usage example: Reuse last query for project grep.
 >
     nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
+    " nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep --resume<Space>
 <
 
 ==============================================================================
@@ -425,7 +471,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_custom_processes*
     Set the custom processes.
-    Dictionary format is { '{processes_name}': { '{input_key}': |String|(Global function name) or |Funcref| } }
+    Dictionary format is { '{processes_name}': { '{input_key}': |String|(Global function name) } }
     Default child value can be get with |fzf_preview#remote#process#get_default_processes|
 
     Default value is {}
@@ -454,7 +500,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_filelist_postprocess_command*
     Can execute piped commands before the file list is passed to fzf
-    For example, you can add color to the file list by setting 'xargs ls -U -—color' .
+    For example, you can add color to the file list by setting 'xargs ls -1 -U --color' .
 
     Default value is ''
 
@@ -498,7 +544,9 @@ FUNCTIONS                                       *fzf-preview-functions*
 
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
+    Args is {process_name} and {plugin_type (optional)}.
     processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
+    plugin_type is 'remote' or 'coc'. Default value is 'remote'.
 
     value from 'open-file' is
       {
@@ -508,6 +556,16 @@ FUNCTIONS                                       *fzf-preview-functions*
         'ctrl-v': 'FzfPreviewOpenFileCtrlV',
         'ctrl-x': 'FzfPreviewOpenFileCtrlX',
         'enter': 'FzfPreviewOpenFileEnter'
+      }
+
+    value from 'open-file' and 'coc' is
+      {
+        'ctrl-o': 'OpenFileCtrlO',
+        'ctrl-q': 'OpenFileCtrlQ',
+        'ctrl-t': 'OpenFileCtrlT',
+        'ctrl-v': 'OpenFileCtrlV',
+        'ctrl-x': 'OpenFileCtrlX',
+        'enter': 'OpenFileEnter'
       }
 
 ==============================================================================
