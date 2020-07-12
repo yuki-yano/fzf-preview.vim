@@ -102,7 +102,7 @@ set  runtimepath+=/usr/local/opt/fzf
 call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
-or Using Dein:
+or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -111,7 +111,14 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 
 ### coc extensions
 
-Install the [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
+Install the [fzf](https://github.com/junegunn/fzf), [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
+
+```
+call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
+```
+
+and
 
 ```vim
 :CocInstall coc-fzf-preview
