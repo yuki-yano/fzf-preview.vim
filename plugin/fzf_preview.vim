@@ -129,10 +129,16 @@ augroup fzf_preview_buffers
   endif
 augroup END
 
+function! s:doautocmd_from_remote_plugin() abort
+  if exists(':FzfPreviewRemoteEnvironment')
+    silent doautocmd User fzf_preview#initialized
+  endif
+endfunction
+
 augroup fzf_preview_initialized
   autocmd!
   autocmd VimEnter * call s:fzf_preview_init()
-  autocmd VimEnter * silent doautocmd User fzf_preview#initialized
+  autocmd VimEnter * call s:doautocmd_from_remote_plugin()
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
 

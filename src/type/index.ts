@@ -1,3 +1,4 @@
+export * from "@/type/plugin"
 export * from "@/type/args"
 export * from "@/type/command"
 export * from "@/type/vim-variable"

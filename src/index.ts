@@ -1,32 +1,24 @@
 import { NvimPlugin } from "neovim"
 
-import { setPlugin } from "@/plugin"
-import {
-  registerAutocmd,
-  registerCommands,
-  registerFunction,
-  registerHandlers,
-  registerProcesses,
-} from "@/plugin/register"
+import { setRemotePlugin } from "@/plugin"
+import { registerAutocmd, registerFunction, registerProcesses, registerRemoteCommands } from "@/register/remote"
 
 module.exports = (plugin: NvimPlugin) => {
-  setPlugin(plugin)
+  setRemotePlugin(plugin)
 
   if (process.env.FZF_PREVIEW_DEBUG === "1") {
     plugin.setOptions({ dev: true, alwaysInit: true })
   }
 
-  registerCommands()
-  registerHandlers()
+  registerRemoteCommands()
   registerProcesses()
   registerAutocmd()
   registerFunction()
 
   plugin.registerCommand(
-    "HelloFzfPreview",
+    "FzfPreviewRemoteEnvironment",
     async (_args: Array<string>) => {
-      await plugin.nvim.command("echo 'Hello FzfPreview!'")
-      console.log("Hello FzfPreview!")
+      await plugin.nvim.command("echo 'fzf-preview is remote plugin'")
     },
     { nargs: "*" }
   )

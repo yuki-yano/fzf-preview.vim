@@ -1,13 +1,12 @@
 import { cacheModule } from "@/module/cache"
 import { loadCache, saveStore } from "@/module/persist"
-import { pluginRegisterAutocmd } from "@/plugin"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
 import { existsFile } from "@/system/file"
 import { appendMruFile, appendMrwFile, readMruFile, readMrwFile } from "@/system/mr"
 import { filterProjectEnabledFile, getProjectRoot } from "@/system/project"
 
-const cacheMr = async (fileName: string) => {
+export const cacheMr = async (fileName: string): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadCache())
 
@@ -26,7 +25,7 @@ const cacheMr = async (fileName: string) => {
   await dispatch(saveStore({ modules: ["cache"] }))
 }
 
-const cacheMrw = async (fileName: string) => {
+export const cacheMrw = async (fileName: string): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadCache())
 
@@ -36,32 +35,4 @@ const cacheMrw = async (fileName: string) => {
   appendMrwFile(fileName)
 
   await dispatch(saveStore({ modules: ["cache"] }))
-}
-
-export const registerAutocmd = (): void => {
-  pluginRegisterAutocmd(
-    "BufEnter,BufWinEnter,DirChanged",
-    async (fileName: string) => {
-      if (existsFile(fileName)) {
-        await cacheMr(fileName)
-      }
-    },
-    {
-      sync: false,
-      pattern: "*",
-      eval: 'expand("<afile>:p")',
-    }
-  )
-
-  pluginRegisterAutocmd("VimEnter", cacheMr, {
-    sync: false,
-    pattern: "*",
-    eval: 'expand("<afile>:p")',
-  })
-
-  pluginRegisterAutocmd("BufWritePost", cacheMrw, {
-    sync: false,
-    pattern: "*",
-    eval: 'expand("<afile>:p")',
-  })
 }

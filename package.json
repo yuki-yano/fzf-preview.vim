@@ -1,6 +1,6 @@
 {
-  "name": "fzf-preview.vim",
-  "version": "0.0.0",
+  "name": "coc-fzf-preview",
+  "version": "0.0.7",
   "description": "",
   "author": "yuki-yano",
   "license": "MIT",
@@ -8,9 +8,28 @@
     "url": "git@github.com:yuki-ycino/fzf-preview.vim"
   },
   "main": "./lib/index.js",
+  "files": [
+    "lib",
+    "autoload",
+    "plugin"
+  ],
+  "keywords": [
+    "coc.nvim",
+    "fzf"
+  ],
+  "engines": {
+    "coc": "^0.0.77"
+  },
+  "activationEvents": [
+    "*"
+  ],
   "scripts": {
-    "build": "webpack --config webpack.remote.js",
-    "dev": "webpack --watch --config webpack.remote.js",
+    "build": "npm-run-all --parallel build:*",
+    "build:remote": "webpack --config webpack.remote.js",
+    "build:coc": "webpack --config webpack.coc.js",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:remote": "webpack --watch --config webpack.remote.js",
+    "dev:coc": "webpack --watch --config webpack.coc.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
@@ -18,11 +37,12 @@
     "test:watch": "jest --watch",
     "cli": "ts-node --files -r tsconfig-paths/register",
     "clean": "rimraf lib rplugin/node/fzf-preview.vim/index.js",
-    "postinstall": "yarn run build"
+    "postinstall": "yarn run build:remote"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "camelcase": "^6.0.0",
+    "coc.nvim": "^0.0.77",
     "lodash": "^4.17.19",
     "neovim": "^4.9.0",
     "printf": "^0.5.3",
@@ -45,6 +65,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "jest": "^26.0.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.1.1",

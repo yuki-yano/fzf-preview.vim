@@ -3,6 +3,7 @@ export const PERSIST_LOAD_CACHE = "persist/loadCache"
 export const PERSIST_LOAD_RESUME = "persist/loadResume"
 export const PERSIST_SAVE_STORE = "persist/saveStore"
 
+export const ENVIRONMENT = "environment"
 export const VIM_VARIABLE = "vim_variable"
 export const EXECUTE_COMMAND = "execute_command"
 export const CACHE = "cache"
