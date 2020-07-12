@@ -1,4 +1,4 @@
-# **Important:** Migrated to remote plugin (v2) written in Node
+# **Important:** Migrated to remote plugin and coc extensions (v2) written in Node
 
 Settings are incompatible.
 
@@ -8,7 +8,8 @@ Please refer to the following documentation for more information on the migratio
 
 # fzf-preview.vim
 
-fzf-preview is a Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
+fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
+Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
@@ -47,17 +48,24 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ## Requirements
 
-- **Neovim** <https://neovim.io/>
 - **Node** <https://nodejs.org/>
 - **Yarn** <https://classic.yarnpkg.com/>
 - git <https://git-scm.com/>
 - fzf <https://github.com/junegunn/fzf>
 
+### Remote Plugin
+
+- **Neovim** <https://neovim.io/>
+
+### coc extensions
+
+- **coc.nvim** <https://github.com/neoclide/coc.nvim>
+
 ### Optional
 
 #### Functional
 
-- **Python3 (Used grep preview)** (Recomended) <https://www.python.org/>
+- **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
@@ -68,17 +76,19 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 When bat is installed you can highlight the preview and see it. Otherwise, head will be used
 
-- **bat (Add color to the preview)** (Recomended) <https://github.com/sharkdp/bat>
+- **bat (Add color to the preview)** (Recommended) <https://github.com/sharkdp/bat>
 - exa (Use color to the file list) <https://github.com/ogham/exa>
   - exa on mac `brew install findutils`
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 ## Installation
 
+### Remote Plugin
+
 Install the npm package [neovim](https://www.npmjs.com/package/neovim) to get the remote plugin working.
 
 ```shell
-$ yarn install -g neovim
+$ npm install -g neovim
 ```
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
@@ -99,67 +109,104 @@ call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
+### coc extensions
+
+Install the [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
+
+```vim
+:CocInstall coc-fzf-preview
+```
+
 ## Usage
 
 ### Command
 
 ```vim
 :FzfPreviewProjectFiles                      " Select project files
+:CocCommand fzf-preview.ProjectFiles
 
 :FzfPreviewGitFiles                          " Select file from git ls-files
+:CocCommand fzf-preview.GitFiles
 
 :FzfPreviewDirectoryFiles {path or none}     " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+:CocCommand fzf-preview.DirectoryFiles
 
 :FzfPreviewGitStatus                         " Select git status listed file
+:CocCommand fzf-preview.GitStatus
 
 :FzfPreviewBuffers                           " Select file buffers
+:CocCommand fzf-preview.Buffers
 
 :FzfPreviewAllBuffers                        " Select all buffers
+:CocCommand fzf-preview.AllBuffers
 
 :FzfPreviewProjectOldFiles                   " Select project files from oldfiles
+:CocCommand fzf-preview.ProjectOldFiles
 
 :FzfPreviewProjectMruFiles                   " Select project mru (Most Recently Used) files
+:CocCommand fzf-preview.ProjectMruFiles
 
 :FzfPreviewProjectMrwFiles                   " Select project mrw (Most Recently Written) files
+:CocCommand fzf-preview.ProjectMruFiles
 
 :FzfPreviewProjectGrep {word}                " Grep project files from args word (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.ProjectGrep {word}
 
 :FzfPreviewProjectCommandGrep {word or none} " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.ProjectCommandGrep {word or none}
 
 :FzfPreviewCtags                             " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:CocCommand fzf-preview.Ctags
 
 :FzfPreviewBufferTags                        " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:CocCommand fzf-preview.BufferTags
 
 :FzfPreviewOldFiles                          " Select files from oldfiles
+:CocCommand fzf-preview.OldFiles
 
 :FzfPreviewMruFiles                          " Select mru (Most Recently Used) files
+:CocCommand fzf-preview.MruFiles
 
 :FzfPreviewMrwFiles                          " Select mrw (Most Recently Written) files
+:CocCommand fzf-preview.MrwFiles
 
 :FzfPreviewQuickFix                          " Select line from QuickFix (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.QuickFix
 
 :FzfPreviewLocationList                      " Select line from LocationList (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.LocationList
 
 :FzfPreviewLines                             " Select line from current buffer (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.Lines
 
 :FzfPreviewBufferLines                       " Select line from loaded buffer (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.BufferLines
 
 :FzfPreviewJumps                             " Select jumplist item (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.Jumps
 
 :FzfPreviewChanges                           " Select changelist item (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.Changes
 
 :FzfPreviewMarks                             " Select mark (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.Marks
 
 :FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
+:CocCommand fzf-preview.FromResources
 
 :FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+:CocCommand fzf-preview.Bookmarks
 
 :FzfPreviewYankround                         " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
+:CocCommand fzf-preview.Yankround
 
 :FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
+:CocCommand fzf-preview.BlamePR
 ```
 
 ### Recommended mappings
+
+#### Remote Plugin
 
 ```vim
 nmap <Leader>f [fzf-p]
@@ -179,6 +226,28 @@ xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=s
 nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTags<CR>
 nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFix<CR>
 nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
+```
+
+#### coc extensions
+
+```vim
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
+
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 ```
 
 ### Fzf window Keymaps
@@ -218,8 +287,11 @@ nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationList<CR>
 
 ### Example of Fugitive integration
 
+Comment out line is settings for coc extensions.
+
 ```vim
 nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus --processes=fzf_preview_fugitive_processes<CR>
+" nnoremap <silent> [fzf-p]gs :<C-u>CocCommand fzf-preview.GitStatus --processes=fzf_preview_fugitive_processes<CR>
 
 augroup fzf_preview
   autocmd!
@@ -249,9 +321,10 @@ endfunction
 
 function! s:fzf_preview_settings() abort
   let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file')
-  let g:fzf_preview_fugitive_processes['ctrl-a'] = function('s:fugitive_add')
-  let g:fzf_preview_fugitive_processes['ctrl-r'] = function('s:fugitive_reset')
-  let g:fzf_preview_fugitive_processes['ctrl-c'] = function('s:fugitive_patch')
+  " let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
+  let g:fzf_preview_fugitive_processes['ctrl-a'] = get(function('s:fugitive_add'), 'name')
+  let g:fzf_preview_fugitive_processes['ctrl-r'] = get(function('s:fugitive_reset'), 'name')
+  let g:fzf_preview_fugitive_processes['ctrl-c'] = get(function('s:fugitive_patch'), 'name')
 endfunction
 ```
 
@@ -330,6 +403,8 @@ let g:fzf_preview_fzf_color_option = ''
 let g:fzf_preview_custom_processes = {}
 " For example, set split to ctrl-s
 " let g:fzf_preview_custom_processes['open-file'] = fzf_preview#remote#process#get_default_processes('open-file')
+" on coc extensions
+" let g:fzf_preview_custom_processes['open-file'] = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
 " let g:fzf_preview_custom_processes['open-file']['ctrl-s'] = g:fzf_preview_custom_processes['open-file']['ctrl-x']
 " call remove(g:fzf_preview_custom_processes['open-file'], 'ctrl-x')
 
@@ -339,7 +414,7 @@ let g:fzf_preview_fzf_preview_window_option = 'wrap'
 
 " Command to be executed after file list creation
 let g:fzf_preview_filelist_postprocess_command = ''
-" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls  -1 -U --color'      " Use dircolors
+" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls  -1 -U --color'     " Use dircolors
 " let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" exa -1 --color=always' " Use exa
 " on Mac
 " let g:fzf_preview_filelist_postprocess_command = 'gxargs -d "\n" exa -1 --color=always' "use exa
@@ -361,8 +436,10 @@ $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 
 ### Command Options
 
+Comment out line is settings for coc extensions.
+
 ```vim
---procecces
+--processes
 " Set process when selecting element with fzf started by this command.
 " Value must be a global variable name.
 " Variable is dictionary and format is same as g:fzf_preview_custom_processes['open-file'].
@@ -372,7 +449,7 @@ $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 "
 " Value example: let g:foo_processes = {
 "                \ '':       'FzfPreviewOpenFileEnter',
-"                \ 'ctrl-x': function('s:foo_function'),
+"                \ 'ctrl-x': get(function('s:foo_function'), 'name'),
 "                \ }
 "
 
@@ -385,7 +462,8 @@ augroup END
 
 function! s:fzf_preview_settings() abort
   let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
-  let g:fzf_preview_buffer_delete_processes['ctrl-x'] = function('s:buffers_delete_from_lines')
+  " let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
+  let g:fzf_preview_buffer_delete_processes['ctrl-x'] = get(function('s:buffers_delete_from_lines'), 'name')
 endfunction
 
 function! s:buffers_delete_from_lines(lines) abort
@@ -400,6 +478,7 @@ function! s:buffers_delete_from_lines(lines) abort
 endfunction
 
 nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
+" nnoremap <silent> <Leader>b :<C-u>CocCommand fzf-preview.Buffers --processes=fzf_preview_buffer_delete_processes<CR>
 
 
 --add-fzf-arg
@@ -409,6 +488,7 @@ nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buff
 
 " Example: Exclude filename with FzfPreviewProjectGrep
 nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
+" nnoremap <Leader>g :<C-u>CocCommand fzf-preview.ProjectGrep --add-fzf-arg=--nth=3<Space>
 
 
 --resume
@@ -417,6 +497,7 @@ nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
 
 " Example: Reuse last query for project grep.
 nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
+" nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep --resume<Space>
 ```
 
 ### Function
@@ -424,12 +505,9 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 ```vim
 " Get the initial value of the open file processes
 " processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
-call fzf_preview#remote#process#get_default_processes({processes_name})
+" plugin_type is 'remote' or 'coc'. Default value is 'remote'
+call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
-
-## Inspiration
-
-- [Blacksuan19/init.nvim: An Opinionated Minimalist Neovim Configuration](https://github.com/Blacksuan19/init.nvim)
 
 ## License
 
