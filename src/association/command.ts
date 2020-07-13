@@ -22,8 +22,6 @@ import {
   bufferTagsDefaultOptions,
   changes,
   changesDefaultOptions,
-  cocReferences,
-  cocReferencesDefaultOptions,
   ctags,
   ctagsDefaultOptions,
   directoryFiles,
@@ -72,7 +70,7 @@ import {
 } from "@/fzf/resource"
 import type { FzfCommand } from "@/type"
 
-const vimCommandOptions = {
+export const vimCommandOptions = {
   nargs: "?",
   sync: true,
 } as const
@@ -366,18 +364,6 @@ export const commandDefinition: ReadonlyArray<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-  },
-  {
-    commandName: "FzfPreviewCocReferences",
-    sourceFunc: cocReferences,
-    convertLine: convertGrepToFileAndText,
-    sourceFuncArgsParser: parseEmptySourceFuncArgs,
-    vimCommandOptions,
-    defaultFzfOptionFunc: cocReferencesDefaultOptions,
-    defaultProcessesName: "open-file",
-    enableConvertForFzf: true,
-    enableDevIcons: true,
-    enablePostProcessCommand: false,
   },
   {
     commandName: "FzfPreviewBookmarks",

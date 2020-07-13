@@ -250,11 +250,6 @@ COMMANDS                                        *fzf-preview-commands*
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
 
-                                                *:FzfPreviewCocReferences*
-:FzfPreviewCocReferences
-:CocCommand fzf-preview.CocReferences
-     Select and open the references from coc.nvim
-
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
 :CocCommand fzf-preview.Bookmarks
@@ -272,6 +267,11 @@ COMMANDS                                        *fzf-preview-commands*
      The PR corresponding to each line is displayed and
      the selected PR is opened in the browser.
      Use open-pr processes.
+
+                                                *:FzfPreviewCocReferences*
+:CocCommand fzf-preview.CocReferences
+     Select and open the references from coc.nvim.
+     only coc extensions.
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*

@@ -202,9 +202,6 @@ and
 :FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
 
-:FzfPreviewCocReferences                     " Select references from coc.nvim (Required [coc.nvim](https://github.com/neoclide/coc.nvim))
-:CocCommand fzf-preview.CocReferences
-
 :FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
 :CocCommand fzf-preview.Bookmarks
 
@@ -213,6 +210,8 @@ and
 
 :FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
 :CocCommand fzf-preview.BlamePR
+
+:CocCommand fzf-preview.CocReferences        " Select references from coc.nvim (only coc extensions)
 ```
 
 ### Recommended mappings

@@ -3,7 +3,7 @@ import { CommandManager } from "coc.nvim/lib/commands"
 import { Workspace } from "coc.nvim/lib/workspace"
 import { mapValues } from "lodash"
 
-import { commandDefinition } from "@/association/command"
+import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
 import { cacheMr, cacheMrw } from "@/fzf/cache"
@@ -42,7 +42,7 @@ export const initializeExtension = async (workspace: Workspace): Promise<void> =
 }
 
 export const registerCommands = (commandManager: CommandManager): Array<Disposable> => {
-  return commandDefinition.map((fzfCommand) => {
+  return cocCommandDefinition.map((fzfCommand) => {
     return commandManager.registerCommand(
       `fzf-preview.${removeFzfPreviewPrefix(fzfCommand.commandName)}`,
       async (...params: Array<string>) => {
