@@ -250,6 +250,11 @@ COMMANDS                                        *fzf-preview-commands*
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
 
+                                                *:FzfPreviewCocReferences*
+:FzfPreviewCocReferences
+:CocCommand fzf-preview.CocReferences
+     Select and open the references from coc.nvim
+
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
 :CocCommand fzf-preview.Bookmarks
