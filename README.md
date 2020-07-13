@@ -113,7 +113,7 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 
 Install the [fzf](https://github.com/junegunn/fzf), [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
 
-```
+```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
 ```
