@@ -1,6 +1,6 @@
 import { createConvertDropPrefix } from "@/fzf/converter/drop-prefix-converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execCommand } from "@/system/command"
+import { execSyncCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -16,7 +16,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> =
     return []
   }
 
-  const { stdout, stderr, status } = execCommand(gitStatusCommand)
+  const { stdout, stderr, status } = execSyncCommand(gitStatusCommand)
 
   if (stderr !== "" || status !== 0) {
     throw new Error(`Failed to get the file list. command: "${gitStatusCommand}"`)

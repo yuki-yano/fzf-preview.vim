@@ -1,11 +1,11 @@
 import { IS_GIT_DIRECTORY_COMMAND } from "@/const/system"
 import { cacheSelector } from "@/module/selector/cache"
-import { execCommand } from "@/system/command"
+import { execSyncCommand } from "@/system/command"
 import { existsFile } from "@/system/file"
 import type { ResourceLines } from "@/type"
 
 export const isGitDirectory = (): boolean => {
-  const { status } = execCommand(IS_GIT_DIRECTORY_COMMAND)
+  const { status } = execSyncCommand(IS_GIT_DIRECTORY_COMMAND)
   return typeof status === "number" && status === 0
 }
 
@@ -14,11 +14,21 @@ export const getProjectRoot = (): string => {
     return ""
   }
 
-  const { stdout } = execCommand(IS_GIT_DIRECTORY_COMMAND)
+  const { stdout } = execSyncCommand(IS_GIT_DIRECTORY_COMMAND)
   return stdout.trim()
 }
 
-const filePathToProjectFilePath = (filePath: string): string | null => {
+export const dropFileProtocol = (uri: string): string => {
+  const result = /file:\/\/(?<path>\S+)/.exec(uri)
+
+  if (result && result.groups) {
+    return result.groups.path
+  }
+
+  return uri
+}
+
+export const filePathToProjectFilePath = (filePath: string): string | null => {
   const { projectRoot } = cacheSelector()
   const regex = new RegExp(`^${projectRoot}/(?<fileName>.+)`)
   const execArray = regex.exec(filePath)

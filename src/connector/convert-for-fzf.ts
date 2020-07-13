@@ -1,6 +1,6 @@
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execCommand } from "@/system/command"
+import { execSyncCommand } from "@/system/command"
 import type { ResourceLines } from "@/type"
 
 type Options = {
@@ -36,7 +36,7 @@ const postProcessFileName = (files: Array<string>) => {
 
   const command = `echo "${files.join("\n")}" | ${postProcessCommand}`
 
-  const { stdout, stderr, status } = execCommand(command)
+  const { stdout, stderr, status } = execSyncCommand(command)
 
   if (stderr !== "" || status !== 0) {
     throw new Error(`Failed post process command: ${postProcessCommand}`)

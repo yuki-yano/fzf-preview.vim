@@ -1,5 +1,5 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execCommand } from "@/system/command"
+import { execSyncCommand } from "@/system/command"
 import { currentFilePath, existsFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -10,7 +10,7 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
 
   const file = await currentFilePath()
   const openPrCommand = globalVariableSelector("fzfPreviewBlamePrCommand") as string
-  const { stdout, stderr, status } = execCommand(`${openPrCommand} ${file}`)
+  const { stdout, stderr, status } = execSyncCommand(`${openPrCommand} ${file}`)
 
   if (stderr !== "" || status !== 0) {
     throw new Error(`Failed open pr command: "${openPrCommand}"`)
