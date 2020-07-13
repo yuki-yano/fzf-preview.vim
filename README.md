@@ -9,6 +9,7 @@ Please refer to the following documentation for more information on the migratio
 # fzf-preview.vim
 
 fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
+
 Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
