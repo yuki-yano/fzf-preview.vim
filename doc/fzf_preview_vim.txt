@@ -271,7 +271,17 @@ COMMANDS                                        *fzf-preview-commands*
                                                 *:FzfPreviewCocReferences*
 :CocCommand fzf-preview.CocReferences
      Select and open the references from coc.nvim.
-     only coc extensions.
+     Only coc extensions.
+
+                                                *:FzfPreviewCocDiagnostics*
+:CocCommand fzf-preview.CocDiagnostics
+     Select and open the diagnostics from coc.nvim.
+     Only coc extensions.
+
+                                                *:FzfPreviewCocCurrentDiagnostics*
+:CocCommand fzf-preview.CocCurrentDiagnostics
+     Select and open the current file diagnostics from coc.nvim.
+     Only coc extensions.
 
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*

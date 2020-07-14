@@ -36,6 +36,8 @@ export type FzfCommandName =
   | "FzfPreviewProjectCommandGrep"
   | "FzfPreviewFromResources"
   | "FzfPreviewCocReferences"
+  | "FzfPreviewCocDiagnostics"
+  | "FzfPreviewCocCurrentDiagnostics"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
   | "FzfPreviewBlamePR"

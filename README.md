@@ -130,88 +130,92 @@ and
 ### Command
 
 ```vim
-:FzfPreviewProjectFiles                      " Select project files
+:FzfPreviewProjectFiles                       " Select project files
 :CocCommand fzf-preview.ProjectFiles
 
-:FzfPreviewGitFiles                          " Select file from git ls-files
+:FzfPreviewGitFiles                           " Select file from git ls-files
 :CocCommand fzf-preview.GitFiles
 
-:FzfPreviewDirectoryFiles {path or none}     " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+:FzfPreviewDirectoryFiles {path or none}      " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
 :CocCommand fzf-preview.DirectoryFiles
 
-:FzfPreviewGitStatus                         " Select git status listed file
+:FzfPreviewGitStatus                          " Select git status listed file
 :CocCommand fzf-preview.GitStatus
 
-:FzfPreviewBuffers                           " Select file buffers
+:FzfPreviewBuffers                            " Select file buffers
 :CocCommand fzf-preview.Buffers
 
-:FzfPreviewAllBuffers                        " Select all buffers
+:FzfPreviewAllBuffers                         " Select all buffers
 :CocCommand fzf-preview.AllBuffers
 
-:FzfPreviewProjectOldFiles                   " Select project files from oldfiles
+:FzfPreviewProjectOldFiles                    " Select project files from oldfiles
 :CocCommand fzf-preview.ProjectOldFiles
 
-:FzfPreviewProjectMruFiles                   " Select project mru (Most Recently Used) files
+:FzfPreviewProjectMruFiles                    " Select project mru (Most Recently Used) files
 :CocCommand fzf-preview.ProjectMruFiles
 
-:FzfPreviewProjectMrwFiles                   " Select project mrw (Most Recently Written) files
+:FzfPreviewProjectMrwFiles                    " Select project mrw (Most Recently Written) files
 :CocCommand fzf-preview.ProjectMruFiles
 
-:FzfPreviewProjectGrep {word}                " Grep project files from args word (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrep {word}                 " Grep project files from args word (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.ProjectGrep {word}
 
-:FzfPreviewProjectCommandGrep {word or none} " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
-:CocCommand fzf-preview.ProjectCommandGrep {word or none}
+:FzfPreviewProjectCommandGrep {word or none}  " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
+:CocCommand fzf-preview.ProjectCommandGrep {w ord or none}
 
-:FzfPreviewCtags                             " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:FzfPreviewCtags                              " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Ctags
 
-:FzfPreviewBufferTags                        " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:FzfPreviewBufferTags                         " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :CocCommand fzf-preview.BufferTags
 
-:FzfPreviewOldFiles                          " Select files from oldfiles
+:FzfPreviewOldFiles                           " Select files from oldfiles
 :CocCommand fzf-preview.OldFiles
 
-:FzfPreviewMruFiles                          " Select mru (Most Recently Used) files
+:FzfPreviewMruFiles                           " Select mru (Most Recently Used) files
 :CocCommand fzf-preview.MruFiles
 
-:FzfPreviewMrwFiles                          " Select mrw (Most Recently Written) files
+:FzfPreviewMrwFiles                           " Select mrw (Most Recently Written) files
 :CocCommand fzf-preview.MrwFiles
 
-:FzfPreviewQuickFix                          " Select line from QuickFix (Required [Python3](https://www.python.org/))
+:FzfPreviewQuickFix                           " Select line from QuickFix (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.QuickFix
 
-:FzfPreviewLocationList                      " Select line from LocationList (Required [Python3](https://www.python.org/))
+:FzfPreviewLocationList                       " Select line from LocationList (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.LocationList
 
-:FzfPreviewLines                             " Select line from current buffer (Required [Python3](https://www.python.org/))
+:FzfPreviewLines                              " Select line from current buffer (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Lines
 
-:FzfPreviewBufferLines                       " Select line from loaded buffer (Required [Python3](https://www.python.org/))
+:FzfPreviewBufferLines                        " Select line from loaded buffer (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.BufferLines
 
-:FzfPreviewJumps                             " Select jumplist item (Required [Python3](https://www.python.org/))
+:FzfPreviewJumps                              " Select jumplist item (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Jumps
 
-:FzfPreviewChanges                           " Select changelist item (Required [Python3](https://www.python.org/))
+:FzfPreviewChanges                            " Select changelist item (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Changes
 
-:FzfPreviewMarks                             " Select mark (Required [Python3](https://www.python.org/))
+:FzfPreviewMarks                              " Select mark (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Marks
 
-:FzfPreviewFromResources                     " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
+:FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
 
-:FzfPreviewBookmarks                         " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+:FzfPreviewBookmarks                          " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
 :CocCommand fzf-preview.Bookmarks
 
-:FzfPreviewYankround                         " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
+:FzfPreviewYankround                          " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
 :CocCommand fzf-preview.Yankround
 
-:FzfPreviewBlamePR                           " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
+:FzfPreviewBlamePR                            " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
 :CocCommand fzf-preview.BlamePR
 
-:CocCommand fzf-preview.CocReferences        " Select references from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocReferences         " Select references from coc.nvim (only coc extensions)
+
+:CocCommand fzf-preview.CocDiagnostics        " Select diagnostics from coc.nvim (only coc extensions)
+
+:CocCommand fzf-preview.CocCurrentDiagnostics " Select current file diagnostics from coc.nvim (only coc extensions)
 ```
 
 ### Recommended mappings

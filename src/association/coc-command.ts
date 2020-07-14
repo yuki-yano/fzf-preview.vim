@@ -1,7 +1,14 @@
 import { parseEmptySourceFuncArgs } from "@/args"
 import { commandDefinition, vimCommandOptions } from "@/association/command"
 import { convertGrepToFileAndText } from "@/fzf/converter"
-import { cocReferences, cocReferencesDefaultOptions } from "@/fzf/resource/coc"
+import {
+  cocCurrentDiagnostics,
+  cocCurrentDiagnosticsDefaultOptions,
+  cocDiagnostics,
+  cocDiagnosticsDefaultOptions,
+  cocReferences,
+  cocReferencesDefaultOptions,
+} from "@/fzf/resource/coc"
 
 export const cocCommandDefinition = commandDefinition.concat([
   {
@@ -11,6 +18,30 @@ export const cocCommandDefinition = commandDefinition.concat([
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocReferencesDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+    enablePostProcessCommand: false,
+  },
+  {
+    commandName: "FzfPreviewCocDiagnostics",
+    sourceFunc: cocDiagnostics,
+    convertLine: convertGrepToFileAndText,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+    enablePostProcessCommand: false,
+  },
+  {
+    commandName: "FzfPreviewCocCurrentDiagnostics",
+    sourceFunc: cocCurrentDiagnostics,
+    convertLine: convertGrepToFileAndText,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocCurrentDiagnosticsDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
