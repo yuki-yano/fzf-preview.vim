@@ -1,7 +1,7 @@
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath, existsFile } from "@/system/file"
+import { currentFilePath } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import { filterProjectEnabledFile, isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
@@ -21,7 +21,7 @@ export const projectMruFiles = async (_args: SourceFuncArgs): Promise<ResourceLi
     throw new Error("The current directory is not a git project")
   }
 
-  const mruFiles = readMruFile().filter((file) => existsFile(file))
+  const mruFiles = readMruFile()
   return filterProjectEnabledFile(mruFiles).filter((file) => file !== currentFile)
 }
 
