@@ -1,3 +1,4 @@
+const webpack = require("webpack")
 const path = require("path")
 const { merge } = require("webpack-merge")
 const common = require("./webpack.common.js")
@@ -12,4 +13,11 @@ module.exports = merge(common, {
     filename: "index.js",
     libraryTarget: "commonjs",
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      PLUGIN: JSON.stringify({
+        ENV: "coc",
+      }),
+    }),
+  ],
 })

@@ -1,6 +1,5 @@
 import { VimValue } from "neovim/lib/types/VimValue"
 
-import { commandDefinition } from "@/association/command"
 import { createProcessFunctionName } from "@/fzf/util"
 import { State as ExecuteCommandState } from "@/module/execute-command"
 import { loadEnvironment, loadExecuteCommandStore } from "@/module/persist"
@@ -10,6 +9,15 @@ import { processesRunner } from "@/plugin/process-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
 import type { ConvertedLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
+
+/* eslint-disable */
+const commands: Array<FzfCommand> =
+  PLUGIN.ENV === "remote"
+    ? (require("@/association/command").commandDefinition as Array<FzfCommand>)
+    : PLUGIN.ENV === "coc"
+    ? (require("@/association/coc-command").cocCommandDefinition as Array<FzfCommand>)
+    : []
+/* eslint-enable */
 
 const dropDevIcon = (lines: SelectedLines, enableDevIcons: VimValue) => {
   const devIconPrefixLength = globalVariableSelector("fzfPreviewDevIconPrefixStringLength")
@@ -27,7 +35,7 @@ const runProcess = async (
   const expectKey = lines[0] === "" ? "enter" : lines[0]
   const selectedLines = lines.slice(1) as SelectedLines
 
-  const { defaultProcessesName, convertLine } = commandDefinition.find(
+  const { defaultProcessesName, convertLine } = commands.find(
     (command) => command.commandName === commandName
   ) as FzfCommand
   const convertedLines = dropDevIcon(selectedLines, enableDevIcons).map(convertLine)
