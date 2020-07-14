@@ -1,7 +1,7 @@
 import { commandDefinition } from "@/association/command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheMrw } from "@/fzf/cache"
+import { cacheMr, cacheMrw, cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
@@ -10,7 +10,8 @@ import { pluginRegisterAutocmd, pluginRegisterCommand, pluginRegisterFunction } 
 import { existsFile } from "@/system/file"
 import { ConvertedLines } from "@/type"
 
-export const initializeRemotePlugin = async (fileName: string): Promise<void> => {
+const initializeRemotePlugin = async (fileName: string): Promise<void> => {
+  cacheProjectRoot()
   await cacheMr(fileName)
 }
 
@@ -54,8 +55,25 @@ export const registerFunction = (): void => {
 }
 
 export const registerAutocmd = (): void => {
+  pluginRegisterAutocmd("VimEnter", initializeRemotePlugin, {
+    sync: false,
+    pattern: "*",
+    eval: 'expand("<afile>:p")',
+  })
+
   pluginRegisterAutocmd(
-    "BufEnter,BufWinEnter,DirChanged",
+    "DirChanged",
+    () => {
+      cacheProjectRoot()
+    },
+    {
+      sync: false,
+      pattern: "*",
+    }
+  )
+
+  pluginRegisterAutocmd(
+    "BufEnter,BufWinEnter",
     async (fileName: string) => {
       if (existsFile(fileName)) {
         await cacheMr(fileName)
@@ -67,12 +85,6 @@ export const registerAutocmd = (): void => {
       eval: 'expand("<afile>:p")',
     }
   )
-
-  pluginRegisterAutocmd("VimEnter", initializeRemotePlugin, {
-    sync: false,
-    pattern: "*",
-    eval: 'expand("<afile>:p")',
-  })
 
   pluginRegisterAutocmd("BufWritePost", cacheMrw, {
     sync: false,

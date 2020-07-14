@@ -6,7 +6,7 @@ import { mapValues } from "lodash"
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheMrw } from "@/fzf/cache"
+import { cacheMr, cacheMrw, cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
@@ -35,6 +35,7 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
 
 export const initializeExtension = async (workspace: Workspace): Promise<void> => {
   setCocClient(workspace.nvim)
+  cacheProjectRoot()
   await cacheMr("")
 }
 
@@ -76,7 +77,15 @@ export const registerFunctions = (commandManager: CommandManager): Array<Disposa
 export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
   return [
     workspace.registerAutocmd({
-      event: "BufEnter,BufWinEnter,DirChanged",
+      event: "DirChanged",
+      request: true,
+      callback: () => {
+        cacheProjectRoot()
+      },
+      pattern: "*",
+    }),
+    workspace.registerAutocmd({
+      event: "BufEnter,BufWinEnter",
       request: true,
       callback: async (fileName: string) => {
         if (existsFile(fileName)) {

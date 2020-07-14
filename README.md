@@ -393,6 +393,12 @@ let g:fzf_preview_git_status_preview_command =  "[[ $(git diff -- {-1}) != \"\" 
 " Commands used for project grep
 let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 
+" MRU and MRW cache directory
+let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
+
+" Use look-ahead cache for MRU and MRW
+let g:fzf_preview_use_look_ahead_mr_cache = 0
+
 " Commands used for current file lines
 let g:fzf_preview_lines_command = 'cat'
 " let g:fzf_preview_lines_command = 'bat --color=always --style=grid --theme=ansi-dark --plain'

@@ -75,6 +75,10 @@ if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 endif
 
+if !exists('g:fzf_preview_use_look_ahead_mr_cache')
+  let g:fzf_preview_use_look_ahead_mr_cache = 0
+endif
+
 if !exists('g:fzf_preview_fzf_color_option')
   let g:fzf_preview_fzf_color_option = ''
 endif
