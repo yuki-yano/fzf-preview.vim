@@ -6,14 +6,11 @@ import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { environmentModule } from "@/module/environment"
 import { pluginRegisterAutocmd, pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
-import { dispatch } from "@/store"
 import { existsFile } from "@/system/file"
 import { ConvertedLines } from "@/type"
 
 export const initializeRemotePlugin = async (fileName: string): Promise<void> => {
-  dispatch(environmentModule.actions.setEnvironment({ environment: "remote" }))
   await cacheMr(fileName)
 }
 

@@ -86,7 +86,7 @@ export const executeCommand = async (
     })
   )
   await setResourceCommandName(commandName)
-  await dispatch(saveStore({ modules: ["environment", "executeCommand", "cache"] }))
+  await dispatch(saveStore({ modules: ["executeCommand", "cache"] }))
 
   const sourceForFzf = convertForFzf(source, {
     enableConvertForFzf,

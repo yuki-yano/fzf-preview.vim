@@ -2,7 +2,7 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import { createProcessFunctionName } from "@/fzf/util"
 import { State as ExecuteCommandState } from "@/module/execute-command"
-import { loadEnvironment, loadExecuteCommandStore } from "@/module/persist"
+import { loadExecuteCommandStore } from "@/module/persist"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { processesRunner } from "@/plugin/process-runner"
@@ -53,7 +53,6 @@ const runProcess = async (
 export const callProcess = async ([lines]: [ConvertedLines, ...Array<unknown>]): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadExecuteCommandStore())
-  await dispatch(loadEnvironment())
   const executeCommand = executeCommandSelector()
   await runProcess(lines, executeCommand)
 }

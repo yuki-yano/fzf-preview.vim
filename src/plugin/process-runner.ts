@@ -1,6 +1,5 @@
-import { environmentSelector } from "@/module/selector/environment"
 import { pluginCall } from "@/plugin"
-import type { ConvertedLines, Environment, UserProcesses } from "@/type"
+import type { ConvertedLines, UserProcesses } from "@/type"
 
 type Args = {
   processesFunctionName: string
@@ -27,9 +26,8 @@ export const processesRunner = async ({
   lines,
   userProcesses,
 }: Args): Promise<void> => {
-  const environment = environmentSelector().env as Environment
   await pluginCall("fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default_process", [
-    environment,
+    PLUGIN.ENV,
     processesFunctionName,
     expectKey,
     lines,

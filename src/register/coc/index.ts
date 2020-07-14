@@ -11,9 +11,7 @@ import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { environmentModule } from "@/module/environment"
 import { setCocClient } from "@/plugin"
-import { dispatch } from "@/store"
 import { existsFile } from "@/system/file"
 import type { ConvertedLines } from "@/type"
 
@@ -37,7 +35,6 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
 
 export const initializeExtension = async (workspace: Workspace): Promise<void> => {
   setCocClient(workspace.nvim)
-  dispatch(environmentModule.actions.setEnvironment({ environment: "coc" }))
   await cacheMr("")
 }
 
