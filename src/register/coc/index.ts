@@ -1,7 +1,7 @@
 import { Disposable, ExtensionContext } from "coc.nvim"
 import { CommandManager } from "coc.nvim/lib/commands"
 import { Workspace } from "coc.nvim/lib/workspace"
-import { mapValues } from "lodash"
+import { mapValues, flatMap } from "lodash"
 
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
@@ -51,7 +51,7 @@ export const registerCommands = (commandManager: CommandManager): Array<Disposab
 }
 
 export const registerProcesses = (commandManager: CommandManager): Array<Disposable> => {
-  return processesDefinition.flatMap(({ processes }) => {
+  return flatMap(processesDefinition, ({ processes }) => {
     return processes.map((process) => {
       return commandManager.registerCommand(
         `fzf-preview.${removeFzfPreviewPrefix(process.name)}`,
