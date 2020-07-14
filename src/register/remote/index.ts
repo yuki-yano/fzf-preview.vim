@@ -13,7 +13,7 @@ import { existsFile } from "@/system/file"
 import { ConvertedLines } from "@/type"
 
 export const initializeRemotePlugin = async (fileName: string): Promise<void> => {
-  dispatch(environmentModule.actions.setEnvironment({ environment: "coc" }))
+  dispatch(environmentModule.actions.setEnvironment({ environment: "remote" }))
   await cacheMr(fileName)
 }
 
