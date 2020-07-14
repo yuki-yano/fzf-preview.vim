@@ -1,6 +1,5 @@
 import fs from "fs"
 
-import { MR_LIMIT } from "@/const/mr"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { existsDirectory, expandHome } from "@/system/file"
 
@@ -43,14 +42,3 @@ export const readMrwFile = (): Array<string> => {
   const files = readFile(mrwFilePath())
   return files
 }
-
-const appendFile = (filePath: string, cacheFilePath: string) => {
-  const files = readFileOrCreateDirectory(cacheFilePath)
-
-  files.unshift(filePath)
-  const uniqFiles = Array.from(new Set(files.filter((file) => file !== ""))).slice(0, MR_LIMIT)
-  fs.writeFileSync(cacheFilePath, uniqFiles.join("\n"))
-}
-
-export const appendMruFile = (filePath: string): void => appendFile(filePath, mruFilePath())
-export const appendMrwFile = (filePath: string): void => appendFile(filePath, mrwFilePath())

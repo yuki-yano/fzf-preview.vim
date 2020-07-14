@@ -1,18 +1,20 @@
 import { commandDefinition } from "@/association/command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheMrw, cacheProjectRoot } from "@/fzf/cache"
+import { cacheMr, cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
+import { saveStore } from "@/module/persist"
 import { pluginRegisterAutocmd, pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
-import { existsFile } from "@/system/file"
+import { dispatch } from "@/store"
 import { ConvertedLines } from "@/type"
 
-const initializeRemotePlugin = async (fileName: string): Promise<void> => {
+const initializeRemotePlugin = async (): Promise<void> => {
   cacheProjectRoot()
-  await cacheMr(fileName)
+  await cacheMr()
+  await dispatch(saveStore({ modules: ["cache"] }))
 }
 
 export const registerRemoteCommands = (): void => {
@@ -51,6 +53,7 @@ export const registerFunction = (): void => {
     { sync: true }
   )
 
+  pluginRegisterFunction("FzfPreviewCacheMr", cacheMr, { sync: false })
   pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
 }
 
@@ -58,7 +61,6 @@ export const registerAutocmd = (): void => {
   pluginRegisterAutocmd("VimEnter", initializeRemotePlugin, {
     sync: false,
     pattern: "*",
-    eval: 'expand("<afile>:p")',
   })
 
   pluginRegisterAutocmd(
@@ -71,24 +73,4 @@ export const registerAutocmd = (): void => {
       pattern: "*",
     }
   )
-
-  pluginRegisterAutocmd(
-    "BufEnter,BufWinEnter",
-    async (fileName: string) => {
-      if (existsFile(fileName)) {
-        await cacheMr(fileName)
-      }
-    },
-    {
-      sync: false,
-      pattern: "*",
-      eval: 'expand("<afile>:p")',
-    }
-  )
-
-  pluginRegisterAutocmd("BufWritePost", cacheMrw, {
-    sync: false,
-    pattern: "*",
-    eval: 'expand("<afile>:p")',
-  })
 }

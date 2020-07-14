@@ -6,13 +6,12 @@ import { mapValues } from "lodash"
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheMrw, cacheProjectRoot } from "@/fzf/cache"
+import { cacheMr, cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
 import { setCocClient } from "@/plugin"
-import { existsFile } from "@/system/file"
 import type { ConvertedLines } from "@/type"
 
 const removeFzfPreviewPrefix = (name: string) => {
@@ -36,7 +35,7 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
 export const initializeExtension = async (workspace: Workspace): Promise<void> => {
   setCocClient(workspace.nvim)
   cacheProjectRoot()
-  await cacheMr("")
+  await cacheMr()
 }
 
 export const registerCommands = (commandManager: CommandManager): Array<Disposable> => {
@@ -70,6 +69,7 @@ export const registerFunctions = (commandManager: CommandManager): Array<Disposa
     commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
+    commandManager.registerCommand("fzf-preview.CacheMr", cacheMr),
     commandManager.registerCommand("fzf-preview.DispatchResumeQuery", dispatchResumeQuery),
   ]
 }
@@ -83,24 +83,6 @@ export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
         cacheProjectRoot()
       },
       pattern: "*",
-    }),
-    workspace.registerAutocmd({
-      event: "BufEnter,BufWinEnter",
-      request: true,
-      callback: async (fileName: string) => {
-        if (existsFile(fileName)) {
-          await cacheMr(fileName)
-        }
-      },
-      pattern: "*",
-      arglist: ['expand("<afile>:p")'],
-    }),
-    workspace.registerAutocmd({
-      event: "BufWritePost",
-      request: true,
-      callback: cacheMrw,
-      pattern: "*",
-      arglist: ['expand("<afile>:p")'],
     }),
   ]
 }

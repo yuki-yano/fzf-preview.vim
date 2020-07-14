@@ -56,3 +56,13 @@ function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, s
 
   return result
 endfunction
+
+function! fzf_preview#remote#util#uniq(list) abort
+  let result = []
+  for item in a:list
+    if index(result, item) == -1
+      call add(result, item)
+    endif
+  endfor
+  return result
+endfunction

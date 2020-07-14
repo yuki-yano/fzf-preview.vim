@@ -133,9 +133,33 @@ augroup fzf_preview_buffers
   endif
 augroup END
 
-function! s:doautocmd_from_remote_plugin() abort
-  if exists(':FzfPreviewRemoteEnvironment')
-    silent doautocmd User fzf_preview#initialized
+augroup fzf_preview_mr
+  autocmd!
+  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
+  autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
+
+  if g:fzf_preview_use_look_ahead_mr_cache != 0
+    autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call fzf_preview#remote#mr#cache_mr()
+  endif
+augroup END
+
+function! s:mru_append(path) abort
+  if s:enable_file(a:path)
+    call fzf_preview#remote#mr#append(a:path, fzf_preview#remote#mr#mru_file_path())
+  endif
+endfunction
+
+function! s:mrw_append(path) abort
+  if s:enable_file(a:path)
+    call fzf_preview#remote#mr#append(a:path, fzf_preview#remote#mr#mrw_file_path())
+  endif
+endfunction
+
+function! s:enable_file(path) abort
+  if bufnr('%') != expand('<abuf>') || a:path == ''
+    return v:false
+  else
+    return v:true
   endif
 endfunction
 
@@ -145,6 +169,12 @@ augroup fzf_preview_initialized
   autocmd VimEnter * call s:doautocmd_from_remote_plugin()
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
+
+function! s:doautocmd_from_remote_plugin() abort
+  if exists(':FzfPreviewRemoteEnvironment')
+    silent doautocmd User fzf_preview#initialized
+  endif
+endfunction
 
 function! s:fzf_preview_init() abort
   if exists('g:yankround_dir')
