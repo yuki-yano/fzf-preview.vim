@@ -1,7 +1,7 @@
 import { Disposable, ExtensionContext } from "coc.nvim"
 import { CommandManager } from "coc.nvim/lib/commands"
 import { Workspace } from "coc.nvim/lib/workspace"
-import { mapValues, flatMap } from "lodash"
+import { flatMap, mapValues } from "lodash"
 
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
