@@ -161,7 +161,7 @@ and
 :CocCommand fzf-preview.ProjectGrep {word}
 
 :FzfPreviewProjectCommandGrep {word or none}  " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
-:CocCommand fzf-preview.ProjectCommandGrep {w ord or none}
+:CocCommand fzf-preview.ProjectCommandGrep {word or none}
 
 :FzfPreviewCtags                              " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Ctags
