@@ -1,10 +1,10 @@
 import { getBookmarks } from "@/connector/bookmarks"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const bookmarks = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const bookmarks = async (_args: SourceFuncArgs): Promise<Resource> => {
   const bookmarkList = await getBookmarks()
-  return bookmarkList
+  return { lines: bookmarkList }
 }
 
 const previewCommand = () => {

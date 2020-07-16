@@ -5,7 +5,7 @@ import { isGitDirectory } from "@/system/project"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
-  ResourceLines,
+  Resource,
   SelectedLine,
   SourceFuncArgs,
   VimBuffer,
@@ -19,12 +19,12 @@ const bufferToString = (buffer: VimBuffer) => {
   }
 }
 
-export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
   const bufferList = await getOtherBuffers()
 
   // TODO: sort with mru
   if (!isGitDirectory()) {
-    return bufferList.map((buffer) => buffer.fileName)
+    return { lines: bufferList.map((buffer) => buffer.fileName) }
   }
 
   const { mruFiles } = cacheSelector()
@@ -33,7 +33,9 @@ export const buffers = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
     .map<VimBuffer | undefined>((file) => bufferList.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)
 
-  return Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer))
+  const lines = Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer))
+
+  return { lines }
 }
 
 export const dropBufferPrefix = (line: SelectedLine): ConvertedLine => {

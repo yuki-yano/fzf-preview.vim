@@ -2,15 +2,15 @@ import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { readMruFile } from "@/system/mr"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const mruFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const mruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-    return cacheSelector().mrwFiles
+    return { lines: cacheSelector().mrwFiles }
   }
 
-  return readMruFile()
+  return { lines: readMruFile() }
 }
 
 export const mruFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

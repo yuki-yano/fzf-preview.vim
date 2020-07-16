@@ -9,8 +9,10 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
+import type { FzfCommand } from "@/type"
 
-export const cocCommandDefinition = commandDefinition.concat([
+export const cocCommandDefinition: Array<FzfCommand> = [
+  ...commandDefinition,
   {
     commandName: "FzfPreviewCocReferences",
     sourceFunc: cocReferences,
@@ -47,4 +49,4 @@ export const cocCommandDefinition = commandDefinition.concat([
     enableDevIcons: true,
     enablePostProcessCommand: false,
   },
-])
+]

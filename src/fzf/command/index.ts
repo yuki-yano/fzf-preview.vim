@@ -27,11 +27,11 @@ const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOpt
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
 }
 
-const getEnableDevIcons = (source: ResourceLines, enableDevIconsCommandSetting: boolean) => {
+const getEnableDevIcons = (resourceLines: ResourceLines, enableDevIconsCommandSetting: boolean) => {
   return (
     enableDevIconsCommandSetting &&
     globalVariableSelector("fzfPreviewUseDevIcons") !== 0 &&
-    globalVariableSelector("fzfPreviewDevIconsLimit") > source.length
+    globalVariableSelector("fzfPreviewDevIconsLimit") > resourceLines.length
   )
 }
 
@@ -63,17 +63,19 @@ export const executeCommand = async (
   const defaultProcesses = getDefaultProcesses(defaultProcessesName)
   const resumeQuery = await parseResume(commandName, args)
 
+  const sourceFuncArgs = sourceFuncArgsParser(args)
+  const resource = await sourceFunc(sourceFuncArgs)
+  const dynamicOptions = resource.options
+  const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
+
   const fzfOptions = await generateOptions({
     fzfCommandDefaultOptions,
+    dynamicOptions,
     defaultProcesses,
     userProcesses,
     userOptions: addFzfOptions,
     resumeQuery,
   })
-
-  const sourceFuncArgs = sourceFuncArgsParser(args)
-  const source = await sourceFunc(sourceFuncArgs)
-  const enableDevIcons = getEnableDevIcons(source, enableDevIconsCommandSetting)
 
   dispatch(
     executeCommandModule.actions.setExecuteCommand({
@@ -88,14 +90,14 @@ export const executeCommand = async (
   await setResourceCommandName(commandName)
   await dispatch(saveStore({ modules: ["executeCommand", "cache"] }))
 
-  const sourceForFzf = convertForFzf(source, {
+  const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,
     enableDevIcons,
     enablePostProcessCommand,
   })
 
   await fzfRunner({
-    source: sourceForFzf,
+    source: resourceForFzf,
     handler: HANDLER_NAME,
     options: fzfOptions,
   })

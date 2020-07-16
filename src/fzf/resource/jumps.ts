@@ -1,10 +1,10 @@
 import { getJumps } from "@/connector/jumps"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const jumps = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const jumps = async (_args: SourceFuncArgs): Promise<Resource> => {
   const jumpList = await getJumps()
-  return jumpList
+  return { lines: jumpList }
 }
 
 const previewCommand = () => {

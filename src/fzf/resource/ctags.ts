@@ -1,10 +1,10 @@
 import { getCtags } from "@/connector/tags"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const ctags = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const ctags = async (_args: SourceFuncArgs): Promise<Resource> => {
   const tagList = await getCtags()
-  return tagList
+  return { lines: tagList }
 }
 
 const previewCommand = () => {

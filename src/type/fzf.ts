@@ -1,16 +1,26 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
+import { Merge } from "type-fest"
 
 import { ConvertedLine, ProcessesName } from "@/type/process"
 
 export type ResourceLine = string
 export type ResourceLines = Array<ResourceLine>
 
+export type FzfCommandDynamicOption = {
+  "--header": string
+}
+
+export type Resource = {
+  lines: ResourceLines
+  options?: FzfCommandDynamicOption
+}
+
 export type SelectedLine = string
 export type SelectedLines = Array<SelectedLine>
 
 export type ExpectKeyAndSelectedLines = Array<string>
 
-export type FzfCommandName =
+type RemoteFzfCommandName =
   | "FzfPreviewProjectFiles"
   | "FzfPreviewGitFiles"
   | "FzfPreviewDirectoryFiles"
@@ -35,21 +45,21 @@ export type FzfCommandName =
   | "FzfPreviewProjectGrep"
   | "FzfPreviewProjectCommandGrep"
   | "FzfPreviewFromResources"
-  | "FzfPreviewCocReferences"
-  | "FzfPreviewCocDiagnostics"
-  | "FzfPreviewCocCurrentDiagnostics"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
   | "FzfPreviewBlamePR"
+
+type CocFzfCommandName = "FzfPreviewCocReferences" | "FzfPreviewCocDiagnostics" | "FzfPreviewCocCurrentDiagnostics"
+
+export type FzfCommandName = RemoteFzfCommandName | CocFzfCommandName
 
 export type SourceFuncArgs = {
   args: Array<string>
   extraArgs: Array<string>
 }
 
-export type FzfCommand = {
-  commandName: FzfCommandName
-  sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<ResourceLines>
+type FzfCommandBase = {
+  sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Resource>
   convertLine: (line: SelectedLine) => ConvertedLine
   sourceFuncArgsParser: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
@@ -62,6 +72,22 @@ export type FzfCommand = {
   enablePostProcessCommand: boolean
   beforeCommandHook?: (args: string) => void
 }
+
+export type RemoteFzfCommand = Merge<
+  FzfCommandBase,
+  {
+    commandName: RemoteFzfCommandName
+  }
+>
+
+export type CocFzfCommand = Merge<
+  FzfCommandBase,
+  {
+    commandName: CocFzfCommandName
+  }
+>
+
+export type FzfCommand = RemoteFzfCommand | CocFzfCommand
 
 export type FzfOptions = {
   "--ansi"?: boolean

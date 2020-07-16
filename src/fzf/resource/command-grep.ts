@@ -4,7 +4,7 @@ import { executeCommandModule } from "@/module/execute-command"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { dispatch } from "@/store"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 const defaultQuery = () => {
   const executeCommandExtra = executeCommandSelector().extra
@@ -15,10 +15,10 @@ const defaultQuery = () => {
   }
 }
 
-export const projectCommandGrep = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const projectCommandGrep = async (_args: SourceFuncArgs): Promise<Resource> => {
   const grepArgs = defaultQuery() === "" ? "." : defaultQuery()
   const lines = await execGrep(grepArgs)
-  return lines
+  return { lines }
 }
 
 const previewCommand = () => {

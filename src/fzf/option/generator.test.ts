@@ -54,6 +54,34 @@ describe("generateOptions", () => {
     },
   ]
 
+  describe("dynamic options", () => {
+    it("undefined", async () => {
+      expect(
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          dynamicOptions: undefined,
+          defaultProcesses,
+          userOptions: [],
+        })
+      ).toEqual(fzfCommandDefaultOptions)
+    })
+
+    it("for grep", async () => {
+      const grepArgs = "foo"
+      expect(
+        await generateOptions({
+          fzfCommandDefaultOptions,
+          dynamicOptions: { "--header": `"Grep from: ${grepArgs}"` },
+          defaultProcesses,
+          userOptions: [],
+        })
+      ).toEqual({
+        ...fzfCommandDefaultOptions,
+        "--header": `"Grep from: ${grepArgs}"`,
+      })
+    })
+  })
+
   describe("empty user processes", () => {
     it("open file process", async () => {
       expect(

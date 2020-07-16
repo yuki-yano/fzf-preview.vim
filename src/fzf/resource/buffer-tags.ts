@@ -1,14 +1,14 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { currentFilePath, existsFile } from "@/system/file"
 import { getBufferTags } from "@/system/tags"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
 const SPACER = "  "
 
-export const bufferTags = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!existsFile(await currentFilePath())) {
-    return []
+    return { lines: [] }
   }
 
   const file = await currentFilePath()
@@ -26,7 +26,7 @@ export const bufferTags = async (_args: SourceFuncArgs): Promise<ResourceLines> 
     })
     .sort((a, b) => Number(a[0]) - Number(b[0]))
 
-  return alignLists(parsedTags).map((tag) => tag.join(SPACER).trim())
+  return { lines: alignLists(parsedTags).map((tag) => tag.join(SPACER).trim()) }
 }
 
 const previewCommand = async () => {

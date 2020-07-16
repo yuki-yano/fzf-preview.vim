@@ -1,11 +1,11 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
 import { currentFilePath, existsFile } from "@/system/file"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const blamePr = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!existsFile(await currentFilePath())) {
-    return []
+    return { lines: [] }
   }
 
   const file = await currentFilePath()
@@ -16,7 +16,7 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<ResourceLines> => 
     throw new Error(`Failed open pr command: "${openPrCommand}"`)
   }
 
-  return stdout.split("\n").filter((line) => line !== "")
+  return { lines: stdout.split("\n").filter((line) => line !== "") }
 }
 
 export const blamePrDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

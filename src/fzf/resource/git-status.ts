@@ -2,10 +2,10 @@ import { createConvertDropPrefix } from "@/fzf/converter/drop-prefix-converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -13,7 +13,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> =
   const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
 
   if (typeof gitStatusCommand !== "string") {
-    return []
+    return { lines: [] }
   }
 
   const { stdout, stderr, status } = execSyncCommand(gitStatusCommand)
@@ -22,7 +22,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<ResourceLines> =
     throw new Error(`Failed to get the file list. command: "${gitStatusCommand}"`)
   }
 
-  return stdout.split("\n").filter((line) => line !== "")
+  return { lines: stdout.split("\n").filter((line) => line !== "") }
 }
 
 export const dropGitStatusPrefix = createConvertDropPrefix(3)
