@@ -39457,8 +39457,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectGrepDefaultOptions = exports.projectGrep = void 0;
 const grep_1 = __webpack_require__(366);
 const vim_variable_1 = __webpack_require__(288);
-// eslint-disable-next-line @typescript-eslint/require-await
-exports.projectGrep = async (args) => grep_1.execGrep(args.args.join(" "));
+exports.projectGrep = async (args) => {
+    const lines = grep_1.execGrep(args.args.join(" "));
+    return lines;
+};
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
     return `"${grepPreviewCommand} {}"`;
@@ -39479,14 +39481,11 @@ exports.projectGrepDefaultOptions = () => ({
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGrep = void 0;
 const vim_variable_1 = __webpack_require__(288);
-const command_1 = __webpack_require__(325);
-exports.execGrep = (args) => {
+const plugin_1 = __webpack_require__(1);
+exports.execGrep = async (args) => {
     const grepCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepCmd");
-    const { stdout, stderr, status } = command_1.execSyncCommand(`${grepCommand} ${args}`);
-    if (stderr !== "" || status !== 0) {
-        throw new Error(`Failed grep command: "${grepCommand} ${args}"`);
-    }
-    return stdout.split("\n").filter((line) => line !== "");
+    const lines = (await plugin_1.pluginCall("fzf_preview#remote#resource#grep#get", [`${grepCommand} ${args}`]));
+    return lines;
 };
 
 
@@ -39513,10 +39512,10 @@ const defaultQuery = () => {
         return "";
     }
 };
-// eslint-disable-next-line @typescript-eslint/require-await
 exports.projectCommandGrep = async (_args) => {
     const grepArgs = defaultQuery() === "" ? "." : defaultQuery();
-    return grep_1.execGrep(grepArgs);
+    const lines = await grep_1.execGrep(grepArgs);
+    return lines;
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
