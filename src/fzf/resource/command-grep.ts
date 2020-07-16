@@ -15,10 +15,10 @@ const defaultQuery = () => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const projectCommandGrep = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
   const grepArgs = defaultQuery() === "" ? "." : defaultQuery()
-  return execGrep(grepArgs)
+  const lines = await execGrep(grepArgs)
+  return lines
 }
 
 const previewCommand = () => {
