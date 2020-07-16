@@ -47,6 +47,8 @@ export const registerProcesses = (): void => {
 export const registerFunction = (): void => {
   pluginRegisterFunction(HANDLER_NAME, callProcess, { sync: true })
 
+  pluginRegisterFunction("FzfPreviewInitializeRemotePlugin", initializeRemotePlugin, { sync: false })
+
   pluginRegisterFunction(
     "FzfPreviewGetDefaultProcesses",
     ([processesName]: Array<string>) => getDefaultProcesses(processesName),
@@ -54,15 +56,11 @@ export const registerFunction = (): void => {
   )
 
   pluginRegisterFunction("FzfPreviewCacheMr", cacheMr, { sync: false })
+
   pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
 }
 
 export const registerAutocmd = (): void => {
-  pluginRegisterAutocmd("VimEnter", initializeRemotePlugin, {
-    sync: false,
-    pattern: "*",
-  })
-
   pluginRegisterAutocmd(
     "DirChanged",
     () => {
