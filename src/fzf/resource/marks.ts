@@ -1,10 +1,10 @@
 import { getMarks } from "@/connector/marks"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const marks = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const marks = async (_args: SourceFuncArgs): Promise<Resource> => {
   const markList = await getMarks()
-  return markList
+  return { lines: markList }
 }
 
 const previewCommand = () => {

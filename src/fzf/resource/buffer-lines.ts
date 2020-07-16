@@ -1,12 +1,12 @@
 import { getBuffers } from "@/connector/buffers"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { readFile } from "@/system/file"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const bufferLines = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const bufferLines = async (_args: SourceFuncArgs): Promise<Resource> => {
   const buffers = await getBuffers()
 
-  return buffers.reduce((acc: Array<string>, cur) => {
+  const lines = buffers.reduce((acc: Array<string>, cur) => {
     const fileLines = readFile(cur.fileName)
       .split("\n")
       .map((line, lineIndex) => `${cur.fileName}:${lineIndex + 1}:${line}`)
@@ -14,6 +14,8 @@ export const bufferLines = async (_args: SourceFuncArgs): Promise<ResourceLines>
 
     return [...acc, ...fileLines]
   }, [])
+
+  return { lines }
 }
 
 const previewCommand = () => {

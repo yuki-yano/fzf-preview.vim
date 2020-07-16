@@ -1,10 +1,10 @@
 import { getCurrentDiagnostics } from "@/connector/coc"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const cocCurrentDiagnostics = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const cocCurrentDiagnostics = async (_args: SourceFuncArgs): Promise<Resource> => {
   const diagnostics = await getCurrentDiagnostics()
-  return diagnostics
+  return { lines: diagnostics }
 }
 
 const previewCommand = () => {

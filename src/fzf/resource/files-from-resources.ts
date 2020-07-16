@@ -10,10 +10,10 @@ import { projectMruFiles } from "@/fzf/resource/project-mru"
 import { projectMrwFiles } from "@/fzf/resource/project-mrw"
 import { projectOldFiles } from "@/fzf/resource/project-oldfiles"
 import { filePreviewCommand } from "@/fzf/util"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 type ResourceFunctions = {
-  [key in typeof FILE_RESOURCES[number]]: (args: SourceFuncArgs) => Promise<ResourceLines>
+  [key in typeof FILE_RESOURCES[number]]: (args: SourceFuncArgs) => Promise<Resource>
 }
 
 const resourceFunctions: ResourceFunctions = {
@@ -29,17 +29,17 @@ const resourceFunctions: ResourceFunctions = {
   mrw: mrwFiles,
 }
 
-export const filesFromResources = async (args: SourceFuncArgs): Promise<ResourceLines> => {
+export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource> => {
   const emptySourceFuncArgs = { args: [], extraArgs: [] }
   const files: ResourceLines = []
 
   for (const resource of args.args) {
     // eslint-disable-next-line no-await-in-loop
     const filesFromResource = await resourceFunctions[resource as typeof FILE_RESOURCES[number]](emptySourceFuncArgs)
-    files.push(...filesFromResource)
+    files.push(...filesFromResource.lines)
   }
 
-  return Array.from(
+  const lines = Array.from(
     new Set(
       files.map((file) => {
         const splitted = file.split(" ")
@@ -47,6 +47,8 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
       })
     )
   )
+
+  return { lines }
 }
 
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

@@ -1,17 +1,11 @@
 import { getYankround } from "@/connector/yankround"
 import { createSplitConverter } from "@/fzf/converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type {
-  ConvertedLine,
-  FzfCommandDefinitionDefaultOption,
-  ResourceLines,
-  SelectedLine,
-  SourceFuncArgs,
-} from "@/type"
+import type { ConvertedLine, FzfCommandDefinitionDefaultOption, Resource, SelectedLine, SourceFuncArgs } from "@/type"
 
-export const yankround = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const yankround = async (_args: SourceFuncArgs): Promise<Resource> => {
   const lines = await getYankround()
-  return lines
+  return { lines }
 }
 
 export const dropYankroundLineNumber = (line: SelectedLine): ConvertedLine =>

@@ -1,3 +1,3 @@
-import { commandDefinition } from "@/association/command"
+import { cocCommandDefinition } from "@/association/coc-command"
 
-export type FzfPreviewCommandList = typeof commandDefinition[number]["commandName"]
+export type FzfPreviewCommandList = typeof cocCommandDefinition[number]["commandName"]

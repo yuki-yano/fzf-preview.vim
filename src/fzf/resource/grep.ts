@@ -1,10 +1,14 @@
 import { execGrep } from "@/connector/grep"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const projectGrep = async (args: SourceFuncArgs): Promise<ResourceLines> => {
-  const lines = execGrep(args.args.join(" "))
-  return lines
+export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
+  const grepArgs = args.args.join(" ")
+  const lines = await execGrep(grepArgs)
+  return {
+    lines,
+    options: { "--header": `"Grep from: ${grepArgs}"` },
+  }
 }
 
 const previewCommand = () => {

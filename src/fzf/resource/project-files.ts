@@ -2,10 +2,10 @@ import { filePreviewCommand } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
 import { isGitDirectory } from "@/system/project"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const projectFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!isGitDirectory()) {
     throw new Error("The current directory is not a git project")
   }
@@ -13,7 +13,7 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines
   const filelistCommand = globalVariableSelector("fzfPreviewFilelistCommand")
 
   if (typeof filelistCommand !== "string") {
-    return []
+    return { lines: [] }
   }
 
   const { stdout, stderr, status } = execSyncCommand(filelistCommand)
@@ -22,7 +22,7 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<ResourceLines
     throw new Error(`Failed to get the file list. command: "${filelistCommand}"`)
   }
 
-  return stdout.split("\n").filter((file) => file !== "" && !file.includes(" "))
+  return { lines: stdout.split("\n").filter((file) => file !== "" && !file.includes(" ")) }
 }
 
 export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

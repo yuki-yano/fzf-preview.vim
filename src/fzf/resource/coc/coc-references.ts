@@ -3,10 +3,14 @@ import { languages, workspace } from "coc.nvim"
 import { getLineFromFile } from "@/connector/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { dropFileProtocol, filePathToProjectFilePath } from "@/system/project"
-import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const cocReferences = async (_args: SourceFuncArgs): Promise<ResourceLines> => {
+export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> => {
   const { document, position } = await workspace.getCurrentState()
+
+  const ranges = await languages.getSelectionRanges(document, [position])
+  const currentSymbol = ranges && ranges[0] ? document.getText(ranges[0].range) : ""
+
   const locs = await languages.getReferences(document, { includeDeclaration: false }, position)
 
   const resourceLines = await Promise.all(
@@ -21,7 +25,10 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<ResourceLine
     })
   )
 
-  return resourceLines.filter((line) => line !== "")
+  return {
+    lines: resourceLines.filter((line) => line !== ""),
+    options: { "--header": `"Symbol: ${currentSymbol}"` },
+  }
 }
 
 const previewCommand = () => {

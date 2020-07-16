@@ -89,6 +89,7 @@ const getExpectFromUserProcesses = async (userProcesses: UserProcesses | undefin
 
 type OptionsArgs = {
   fzfCommandDefaultOptions: FzfOptions
+  dynamicOptions?: FzfOptions
   defaultProcesses: Processes
   userProcesses?: UserProcesses
   userOptions: Array<AddFzfArg>
@@ -97,6 +98,7 @@ type OptionsArgs = {
 
 export const generateOptions = async ({
   fzfCommandDefaultOptions,
+  dynamicOptions,
   defaultProcesses,
   userProcesses,
   userOptions,
@@ -106,6 +108,7 @@ export const generateOptions = async ({
 
   const fzfCommandOptions = {
     ...defaultOptions,
+    ...dynamicOptions,
     ...fzfCommandDefaultOptions,
     ...getExpectFromDefaultProcesses(defaultProcesses),
     ...getPreviewWindowOption(),
