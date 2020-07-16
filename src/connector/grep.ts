@@ -1,14 +1,10 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execSyncCommand } from "@/system/command"
+import { pluginCall } from "@/plugin"
 import type { ResourceLines } from "@/type"
 
-export const execGrep = (args: string): ResourceLines => {
+export const execGrep = async (args: string): Promise<ResourceLines> => {
   const grepCommand = globalVariableSelector("fzfPreviewGrepCmd") as string
-  const { stdout, stderr, status } = execSyncCommand(`${grepCommand} ${args}`)
+  const lines = (await pluginCall("fzf_preview#remote#resource#grep#get", [`${grepCommand} ${args}`])) as ResourceLines
 
-  if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed grep command: "${grepCommand} ${args}"`)
-  }
-
-  return stdout.split("\n").filter((line) => line !== "")
+  return lines
 }

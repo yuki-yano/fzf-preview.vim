@@ -2,8 +2,10 @@ import { execGrep } from "@/connector/grep"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, ResourceLines, SourceFuncArgs } from "@/type"
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export const projectGrep = async (args: SourceFuncArgs): Promise<ResourceLines> => execGrep(args.args.join(" "))
+export const projectGrep = async (args: SourceFuncArgs): Promise<ResourceLines> => {
+  const lines = execGrep(args.args.join(" "))
+  return lines
+}
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
