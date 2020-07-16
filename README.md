@@ -94,20 +94,22 @@ $ npm install -g neovim
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
 
-Execute `yarn install` and `:UpdateRemotePlugins` when after installed plugin.
+Install `release` branch and execute `:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 
 ```vim
 set  runtimepath+=/usr/local/opt/fzf
-call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
+" call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
 or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
+" call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 ```
 
 ### coc extensions
@@ -116,7 +118,7 @@ Install the [fzf](https://github.com/junegunn/fzf), [coc.nvim](https://github.co
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('neoclide/coc.nvim', {'merged': 0, 'rev': 'release'})
+call dein#add('neoclide/coc.nvim', { 'merged': 0, 'rev': 'release' })
 ```
 
 and

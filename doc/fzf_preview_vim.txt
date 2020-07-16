@@ -75,20 +75,23 @@ to get the remote plugin working.
 <
 
 Use Dein, vim-plug or any Vim plugin manager of your choice.
-Execute `yarn install` and `:UpdateRemotePlugins` when after installed plugin.
+Install release branch (or install `master` branch and run `$yarn install`) and
+`:UpdateRemotePlugins` when after installed plugin.
 
 If you are using MacOS and installed fzf using Homebrew:
 >
 >
     set  runtimepath+=/usr/local/opt/fzf
-    call dein#add('yuki-ycino/fzf-preview.vim', {'build': 'yarn install'})
+    call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
+    " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 <
 
-or Using Dein:
+or
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
+    call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
+    " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
 <
 
 ==============================================================================
