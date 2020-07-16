@@ -108,8 +108,8 @@ export const generateOptions = async ({
 
   const fzfCommandOptions = {
     ...defaultOptions,
-    ...dynamicOptions,
     ...fzfCommandDefaultOptions,
+    ...dynamicOptions,
     ...getExpectFromDefaultProcesses(defaultProcesses),
     ...getPreviewWindowOption(),
     ...getColorOption(),
