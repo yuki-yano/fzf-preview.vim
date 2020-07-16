@@ -216,15 +216,12 @@ exports.registerProcesses = () => {
 };
 exports.registerFunction = () => {
     plugin_1.pluginRegisterFunction(fzf_handler_1.HANDLER_NAME, handler_1.callProcess, { sync: true });
+    plugin_1.pluginRegisterFunction("FzfPreviewInitializeRemotePlugin", initializeRemotePlugin, { sync: false });
     plugin_1.pluginRegisterFunction("FzfPreviewGetDefaultProcesses", ([processesName]) => function_1.getDefaultProcesses(processesName), { sync: true });
     plugin_1.pluginRegisterFunction("FzfPreviewCacheMr", cache_1.cacheMr, { sync: false });
     plugin_1.pluginRegisterFunction("FzfPreviewDispatchResumeQuery", resume_1.dispatchResumeQuery, { sync: false });
 };
 exports.registerAutocmd = () => {
-    plugin_1.pluginRegisterAutocmd("VimEnter", initializeRemotePlugin, {
-        sync: false,
-        pattern: "*",
-    });
     plugin_1.pluginRegisterAutocmd("DirChanged", () => {
         cache_1.cacheProjectRoot();
     }, {
