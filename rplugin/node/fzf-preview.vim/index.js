@@ -37837,13 +37837,13 @@ exports.projectFiles = async (_args) => {
     }
     const filelistCommand = vim_variable_1.globalVariableSelector("fzfPreviewFilelistCommand");
     if (typeof filelistCommand !== "string") {
-        return [];
+        return { lines: [] };
     }
     const { stdout, stderr, status } = command_1.execSyncCommand(filelistCommand);
     if (stderr !== "" || status !== 0) {
         throw new Error(`Failed to get the file list. command: "${filelistCommand}"`);
     }
-    return stdout.split("\n").filter((file) => file !== "" && !file.includes(" "));
+    return { lines: stdout.split("\n").filter((file) => file !== "" && !file.includes(" ")) };
 };
 exports.projectFilesDefaultOptions = () => ({
     "--prompt": '"ProjectFiles> "',
@@ -38158,13 +38158,13 @@ exports.gitFiles = async (_args) => {
     }
     const gitFilesCommand = vim_variable_1.globalVariableSelector("fzfPreviewGitFilesCommand");
     if (typeof gitFilesCommand !== "string") {
-        return [];
+        return { lines: [] };
     }
     const { stdout, stderr, status } = command_1.execSyncCommand(gitFilesCommand);
     if (stderr !== "" || status !== 0) {
         throw new Error(`Failed to get the file list. command: "${gitFilesCommand}"`);
     }
-    return stdout.split("\n").filter((file) => file !== "");
+    return { lines: stdout.split("\n").filter((file) => file !== "") };
 };
 exports.gitFilesDefaultOptions = () => ({
     "--prompt": '"GitFiles> "',
@@ -38188,13 +38188,17 @@ const command_1 = __webpack_require__(325);
 exports.directoryFiles = async ({ args: [arg] }) => {
     const filelistCommand = vim_variable_1.globalVariableSelector("fzfPreviewDirectoryFilesCommand");
     if (typeof filelistCommand !== "string") {
-        return [];
+        return { lines: [] };
     }
     const { stdout, stderr, status } = command_1.execSyncCommand(`${filelistCommand} ${arg || ""}`);
     if (stderr !== "" || status !== 0) {
         throw new Error(`Failed to get the file list. command: "${filelistCommand} ${arg || ""}"`);
     }
-    return stdout.split("\n").filter((file) => file !== "");
+    const options = arg ? { "--header": `Directory: ${arg}` } : undefined;
+    return {
+        lines: stdout.split("\n").filter((file) => file !== ""),
+        options,
+    };
 };
 exports.directoryFilesDefaultOptions = () => ({
     "--prompt": '"DirectoryFiles> "',
@@ -38222,13 +38226,13 @@ exports.gitStatus = async (_args) => {
     }
     const gitStatusCommand = vim_variable_1.globalVariableSelector("fzfPreviewGitStatusCommand");
     if (typeof gitStatusCommand !== "string") {
-        return [];
+        return { lines: [] };
     }
     const { stdout, stderr, status } = command_1.execSyncCommand(gitStatusCommand);
     if (stderr !== "" || status !== 0) {
         throw new Error(`Failed to get the file list. command: "${gitStatusCommand}"`);
     }
-    return stdout.split("\n").filter((line) => line !== "");
+    return { lines: stdout.split("\n").filter((line) => line !== "") };
 };
 exports.dropGitStatusPrefix = drop_prefix_converter_1.createConvertDropPrefix(3);
 exports.gitStatusDefaultOptions = () => ({
@@ -38262,13 +38266,14 @@ exports.buffers = async (_args) => {
     const bufferList = await buffers_1.getOtherBuffers();
     // TODO: sort with mru
     if (!project_1.isGitDirectory()) {
-        return bufferList.map((buffer) => buffer.fileName);
+        return { lines: bufferList.map((buffer) => buffer.fileName) };
     }
     const { mruFiles } = cache_1.cacheSelector();
     const sortedBufferList = mruFiles
         .map((file) => bufferList.find((buffer) => buffer.fileName === file))
         .filter((buffer) => buffer != null);
-    return Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer));
+    const lines = Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer));
+    return { lines };
 };
 exports.dropBufferPrefix = (line) => {
     const result = /\+ (?<fileName>\S+)/.exec(line);
@@ -38332,7 +38337,8 @@ const SPACER = "  ";
 exports.allBuffers = async (_args) => {
     const allBufferList = await buffers_1.getAllBuffers();
     const alignedAllBufferLists = align_1.alignLists(allBufferList.map((buffer) => buffer.split(" ")));
-    return alignedAllBufferLists.map((list) => list.join(SPACER).trim());
+    const lines = alignedAllBufferLists.map((list) => list.join(SPACER).trim());
+    return { lines };
 };
 exports.extractBufnrAndAddPrefix = (line) => `buffer ${converter_1.createSplitConverter(" ")(line)[0]}`;
 exports.allBuffersDefaultOptions = () => ({
@@ -38873,7 +38879,7 @@ exports.projectOldFiles = async (_args) => {
     if (!project_1.isGitDirectory()) {
         throw new Error("The current directory is not a git project");
     }
-    return project_1.filterProjectEnabledFile(await old_files_1.getOldFiles());
+    return { lines: project_1.filterProjectEnabledFile(await old_files_1.getOldFiles()) };
 };
 exports.projectOldFilesDefaultOptions = () => ({
     "--prompt": '"ProjectOldFiles> "',
@@ -38914,13 +38920,13 @@ exports.projectMruFiles = async (_args) => {
         if (cache_1.cacheSelector().projectRoot === "") {
             throw new Error("The current directory is not a git project");
         }
-        return cache_1.cacheSelector().projectMruFiles.filter((file) => file !== currentFile);
+        return { lines: cache_1.cacheSelector().projectMruFiles.filter((file) => file !== currentFile) };
     }
     if (!project_1.isGitDirectory) {
         throw new Error("The current directory is not a git project");
     }
     const mruFiles = mr_1.readMruFile();
-    return project_1.filterProjectEnabledFile(mruFiles).filter((file) => file !== currentFile);
+    return { lines: project_1.filterProjectEnabledFile(mruFiles).filter((file) => file !== currentFile) };
 };
 exports.projectMruFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMruFiles> "',
@@ -38998,13 +39004,13 @@ exports.projectMrwFiles = async (_args) => {
         if (cache_1.cacheSelector().projectRoot === "") {
             throw new Error("The current directory is not a git project");
         }
-        return cache_1.cacheSelector().projectMrwFiles.filter((file) => file !== currentFile);
+        return { lines: cache_1.cacheSelector().projectMrwFiles.filter((file) => file !== currentFile) };
     }
     if (!project_1.isGitDirectory) {
         throw new Error("The current directory is not a git project");
     }
     const mrwFiles = mr_1.readMrwFile();
-    return project_1.filterProjectEnabledFile(mrwFiles).filter((file) => file !== currentFile);
+    return { lines: project_1.filterProjectEnabledFile(mrwFiles).filter((file) => file !== currentFile) };
 };
 exports.projectMrwFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMrwFiles> "',
@@ -39026,9 +39032,9 @@ const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(330);
 exports.lines = async (_args) => {
     if (!file_1.existsFile(await file_1.currentFilePath())) {
-        return [];
+        return { lines: [] };
     }
-    return lines_1.execLines(await file_1.currentFilePath());
+    return { lines: lines_1.execLines(await file_1.currentFilePath()) };
 };
 const previewCommand = async () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39074,13 +39080,14 @@ const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(330);
 exports.bufferLines = async (_args) => {
     const buffers = await buffers_1.getBuffers();
-    return buffers.reduce((acc, cur) => {
+    const lines = buffers.reduce((acc, cur) => {
         const fileLines = file_1.readFile(cur.fileName)
             .split("\n")
             .map((line, lineIndex) => `${cur.fileName}:${lineIndex + 1}:${line}`)
             .slice(0, -1);
         return [...acc, ...fileLines];
     }, []);
+    return { lines };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39105,7 +39112,7 @@ const tags_1 = __webpack_require__(350);
 const vim_variable_1 = __webpack_require__(288);
 exports.ctags = async (_args) => {
     const tagList = await tags_1.getCtags();
-    return tagList;
+    return { lines: tagList };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39145,7 +39152,7 @@ const align_1 = __webpack_require__(337);
 const SPACER = "  ";
 exports.bufferTags = async (_args) => {
     if (!file_1.existsFile(await file_1.currentFilePath())) {
-        return [];
+        return { lines: [] };
     }
     const file = await file_1.currentFilePath();
     const parsedTags = tags_1.getBufferTags(file)
@@ -39156,7 +39163,7 @@ exports.bufferTags = async (_args) => {
         return [lineNumber, tagName, tagField];
     })
         .sort((a, b) => Number(a[0]) - Number(b[0]));
-    return align_1.alignLists(parsedTags).map((tag) => tag.join(SPACER).trim());
+    return { lines: align_1.alignLists(parsedTags).map((tag) => tag.join(SPACER).trim()) };
 };
 const previewCommand = async () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39199,7 +39206,9 @@ exports.oldFilesDefaultOptions = exports.oldFiles = void 0;
 const old_files_1 = __webpack_require__(342);
 const util_1 = __webpack_require__(323);
 const file_1 = __webpack_require__(330);
-exports.oldFiles = async (_args) => (await old_files_1.getOldFiles()).filter((file) => file_1.existsFile(file));
+exports.oldFiles = async (_args) => ({
+    lines: (await old_files_1.getOldFiles()).filter((file) => file_1.existsFile(file)),
+});
 exports.oldFilesDefaultOptions = () => ({
     "--prompt": '"OldFiles> "',
     "--multi": true,
@@ -39222,9 +39231,9 @@ const mr_1 = __webpack_require__(344);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mruFiles = async (_args) => {
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return cache_1.cacheSelector().mrwFiles;
+        return { lines: cache_1.cacheSelector().mrwFiles };
     }
-    return mr_1.readMruFile();
+    return { lines: mr_1.readMruFile() };
 };
 exports.mruFilesDefaultOptions = () => ({
     "--prompt": '"MruFiles> "',
@@ -39248,9 +39257,9 @@ const mr_1 = __webpack_require__(344);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mrwFiles = async (_args) => {
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return cache_1.cacheSelector().mrwFiles;
+        return { lines: cache_1.cacheSelector().mrwFiles };
     }
-    return mr_1.readMrwFile();
+    return { lines: mr_1.readMrwFile() };
 };
 exports.mrwFilesDefaultOptions = () => ({
     "--prompt": '"MrwFiles> "',
@@ -39271,10 +39280,11 @@ const quickfix_and_locationlist_1 = __webpack_require__(357);
 const util_1 = __webpack_require__(323);
 const vim_variable_1 = __webpack_require__(288);
 exports.quickFix = async (_args) => {
-    return (await quickfix_and_locationlist_1.getQuickFix()).map((line) => {
+    const lines = (await quickfix_and_locationlist_1.getQuickFix()).map((line) => {
         const { fileName, lineNumber, text } = util_1.parseQuickFixAndLocationListLine(line);
         return `${fileName}:${lineNumber}:${text}`;
     });
+    return { lines };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39311,10 +39321,13 @@ exports.locationListDefaultOptions = exports.locationList = void 0;
 const quickfix_and_locationlist_1 = __webpack_require__(357);
 const util_1 = __webpack_require__(323);
 const vim_variable_1 = __webpack_require__(288);
-exports.locationList = async (_args) => (await quickfix_and_locationlist_1.getLocationList()).map((line) => {
-    const { fileName, lineNumber, text } = util_1.parseQuickFixAndLocationListLine(line);
-    return `${fileName}:${lineNumber}:${text}`;
-});
+exports.locationList = async (_args) => {
+    const lines = (await quickfix_and_locationlist_1.getLocationList()).map((line) => {
+        const { fileName, lineNumber, text } = util_1.parseQuickFixAndLocationListLine(line);
+        return `${fileName}:${lineNumber}:${text}`;
+    });
+    return { lines };
+};
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
     return `"${grepPreviewCommand} {}"`;
@@ -39338,7 +39351,7 @@ const jumps_1 = __webpack_require__(360);
 const vim_variable_1 = __webpack_require__(288);
 exports.jumps = async (_args) => {
     const jumpList = await jumps_1.getJumps();
-    return jumpList;
+    return { lines: jumpList };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39385,7 +39398,7 @@ exports.changes = async (_args) => {
         const { lineNumber, text } = result.groups;
         return [lineNumber, text];
     });
-    return align_1.alignLists(changeLists).map((change) => change.join(SPACER).trim());
+    return { lines: align_1.alignLists(changeLists).map((change) => change.join(SPACER).trim()) };
 };
 const previewCommand = async () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39422,7 +39435,7 @@ const marks_1 = __webpack_require__(364);
 const vim_variable_1 = __webpack_require__(288);
 exports.marks = async (_args) => {
     const markList = await marks_1.getMarks();
-    return markList;
+    return { lines: markList };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39458,8 +39471,12 @@ exports.projectGrepDefaultOptions = exports.projectGrep = void 0;
 const grep_1 = __webpack_require__(366);
 const vim_variable_1 = __webpack_require__(288);
 exports.projectGrep = async (args) => {
-    const lines = grep_1.execGrep(args.args.join(" "));
-    return lines;
+    const grepArgs = args.args.join(" ");
+    const lines = await grep_1.execGrep(grepArgs);
+    return {
+        lines,
+        options: { "--header": `"Grep from: ${grepArgs}"` },
+    };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39515,7 +39532,7 @@ const defaultQuery = () => {
 exports.projectCommandGrep = async (_args) => {
     const grepArgs = defaultQuery() === "" ? "." : defaultQuery();
     const lines = await grep_1.execGrep(grepArgs);
-    return lines;
+    return { lines };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39574,12 +39591,13 @@ exports.filesFromResources = async (args) => {
     for (const resource of args.args) {
         // eslint-disable-next-line no-await-in-loop
         const filesFromResource = await resourceFunctions[resource](emptySourceFuncArgs);
-        files.push(...filesFromResource);
+        files.push(...filesFromResource.lines);
     }
-    return Array.from(new Set(files.map((file) => {
+    const lines = Array.from(new Set(files.map((file) => {
         const splitted = file.split(" ");
         return splitted.length >= 2 ? splitted[1] : splitted[0];
     })));
+    return { lines };
 };
 exports.filesFromResourcesDefaultOptions = () => ({
     "--prompt": '"ResourceFrom> "',
@@ -39600,7 +39618,7 @@ const bookmarks_1 = __webpack_require__(370);
 const vim_variable_1 = __webpack_require__(288);
 exports.bookmarks = async (_args) => {
     const bookmarkList = await bookmarks_1.getBookmarks();
-    return bookmarkList;
+    return { lines: bookmarkList };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39638,7 +39656,7 @@ const converter_1 = __webpack_require__(312);
 const vim_variable_1 = __webpack_require__(288);
 exports.yankround = async (_args) => {
     const lines = await yankround_1.getYankround();
-    return lines;
+    return { lines };
 };
 exports.dropYankroundLineNumber = (line) => converter_1.createSplitConverter(" ")(line).slice(1).join(" ");
 const previewCommand = () => {
@@ -39679,7 +39697,7 @@ const command_1 = __webpack_require__(325);
 const file_1 = __webpack_require__(330);
 exports.blamePr = async (_args) => {
     if (!file_1.existsFile(await file_1.currentFilePath())) {
-        return [];
+        return { lines: [] };
     }
     const file = await file_1.currentFilePath();
     const openPrCommand = vim_variable_1.globalVariableSelector("fzfPreviewBlamePrCommand");
@@ -39687,7 +39705,7 @@ exports.blamePr = async (_args) => {
     if (stderr !== "" || status !== 0) {
         throw new Error(`Failed open pr command: "${openPrCommand}"`);
     }
-    return stdout.split("\n").filter((line) => line !== "");
+    return { lines: stdout.split("\n").filter((line) => line !== "") };
 };
 exports.blamePrDefaultOptions = () => ({
     "--prompt": '"Blame PR> "',
@@ -39886,10 +39904,10 @@ const getDefaultOptions = async (defaultFzfOptionFunc) => {
     // eslint-disable-next-line no-return-await
     return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions;
 };
-const getEnableDevIcons = (source, enableDevIconsCommandSetting) => {
+const getEnableDevIcons = (resourceLines, enableDevIconsCommandSetting) => {
     return (enableDevIconsCommandSetting &&
         vim_variable_1.globalVariableSelector("fzfPreviewUseDevIcons") !== 0 &&
-        vim_variable_1.globalVariableSelector("fzfPreviewDevIconsLimit") > source.length);
+        vim_variable_1.globalVariableSelector("fzfPreviewDevIconsLimit") > resourceLines.length);
 };
 exports.executeCommand = async (args, { commandName, sourceFunc, sourceFuncArgsParser, defaultFzfOptionFunc, defaultProcessesName, enableConvertForFzf, enableDevIcons: enableDevIconsCommandSetting, enablePostProcessCommand, beforeCommandHook, }) => {
     await store_1.dispatch(persist_1.loadCache());
@@ -39902,16 +39920,18 @@ exports.executeCommand = async (args, { commandName, sourceFunc, sourceFuncArgsP
     const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc);
     const defaultProcesses = getDefaultProcesses(defaultProcessesName);
     const resumeQuery = await args_1.parseResume(commandName, args);
+    const sourceFuncArgs = sourceFuncArgsParser(args);
+    const resource = await sourceFunc(sourceFuncArgs);
+    const dynamicOptions = resource.options;
+    const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting);
     const fzfOptions = await generator_1.generateOptions({
         fzfCommandDefaultOptions,
+        dynamicOptions,
         defaultProcesses,
         userProcesses,
         userOptions: addFzfOptions,
         resumeQuery,
     });
-    const sourceFuncArgs = sourceFuncArgsParser(args);
-    const source = await sourceFunc(sourceFuncArgs);
-    const enableDevIcons = getEnableDevIcons(source, enableDevIconsCommandSetting);
     store_1.dispatch(execute_command_1.executeCommandModule.actions.setExecuteCommand({
         commandName,
         options: {
@@ -39922,13 +39942,13 @@ exports.executeCommand = async (args, { commandName, sourceFunc, sourceFuncArgsP
     }));
     await resume_1.setResourceCommandName(commandName);
     await store_1.dispatch(persist_1.saveStore({ modules: ["executeCommand", "cache"] }));
-    const sourceForFzf = convert_for_fzf_1.convertForFzf(source, {
+    const resourceForFzf = convert_for_fzf_1.convertForFzf(resource.lines, {
         enableConvertForFzf,
         enableDevIcons,
         enablePostProcessCommand,
     });
     await fzf_runner_1.fzfRunner({
-        source: sourceForFzf,
+        source: resourceForFzf,
         handler: fzf_handler_1.HANDLER_NAME,
         options: fzfOptions,
     });
@@ -40099,9 +40119,9 @@ const getExpectFromUserProcesses = async (userProcesses) => {
     }
     throw new Error("--processes must be dictionary variable");
 };
-exports.generateOptions = async ({ fzfCommandDefaultOptions, defaultProcesses, userProcesses, userOptions, resumeQuery, }) => {
+exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, defaultProcesses, userProcesses, userOptions, resumeQuery, }) => {
     const resumeQueryOption = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` };
-    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), fzfCommandDefaultOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
+    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), dynamicOptions), fzfCommandDefaultOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
     userOptions.forEach((userOption) => {
         fzfCommandOptions[userOption.optionName] = userOption.value;
     });
@@ -40653,7 +40673,8 @@ const args_1 = __webpack_require__(4);
 const command_1 = __webpack_require__(3);
 const converter_1 = __webpack_require__(312);
 const coc_1 = __webpack_require__(405);
-exports.cocCommandDefinition = command_1.commandDefinition.concat([
+exports.cocCommandDefinition = [
+    ...command_1.commandDefinition,
     {
         commandName: "FzfPreviewCocReferences",
         sourceFunc: coc_1.cocReferences,
@@ -40690,7 +40711,7 @@ exports.cocCommandDefinition = command_1.commandDefinition.concat([
         enableDevIcons: true,
         enablePostProcessCommand: false,
     },
-]);
+];
 
 
 /***/ }),
@@ -40729,6 +40750,8 @@ const vim_variable_1 = __webpack_require__(288);
 const project_1 = __webpack_require__(328);
 exports.cocReferences = async (_args) => {
     const { document, position } = await coc_nvim_1.workspace.getCurrentState();
+    const ranges = await coc_nvim_1.languages.getSelectionRanges(document, [position]);
+    const currentSymbol = ranges && ranges[0] ? document.getText(ranges[0].range) : "";
     const locs = await coc_nvim_1.languages.getReferences(document, { includeDeclaration: false }, position);
     const resourceLines = await Promise.all(locs.map(async (loc) => {
         const line = loc.range.start.line + 1;
@@ -40739,7 +40762,10 @@ exports.cocReferences = async (_args) => {
         const text = await util_1.getLineFromFile(file, line);
         return `${file}:${line}:${text}`;
     }));
-    return resourceLines.filter((line) => line !== "");
+    return {
+        lines: resourceLines.filter((line) => line !== ""),
+        options: { "--header": `"Symbol: ${currentSymbol}"` },
+    };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -103568,7 +103594,7 @@ const coc_1 = __webpack_require__(799);
 const vim_variable_1 = __webpack_require__(288);
 exports.cocDiagnostics = async (_args) => {
     const diagnostics = await coc_1.getDiagnostics();
-    return diagnostics;
+    return { lines: diagnostics };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -103627,7 +103653,7 @@ const coc_1 = __webpack_require__(799);
 const vim_variable_1 = __webpack_require__(288);
 exports.cocCurrentDiagnostics = async (_args) => {
     const diagnostics = await coc_1.getCurrentDiagnostics();
-    return diagnostics;
+    return { lines: diagnostics };
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
