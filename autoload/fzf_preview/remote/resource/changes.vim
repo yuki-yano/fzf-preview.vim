@@ -13,7 +13,7 @@ function! fzf_preview#remote#resource#changes#get() abort
   endfor
 
   call reverse(list)
-  let list = fzf_preview#util#uniq(list)
+  let list = fzf_preview#remote#util#uniq(list)
 
   return list
 endfunction
