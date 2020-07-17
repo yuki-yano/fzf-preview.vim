@@ -48,7 +48,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     )
   )
 
-  return { lines }
+  return { lines, options: { "--header": `"Resources: ${args.args.join(" ")}"` } }
 }
 
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
