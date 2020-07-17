@@ -3,14 +3,7 @@ import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { existsFile } from "@/system/file"
-import type {
-  ConvertedLine,
-  FzfCommandDefinitionDefaultOption,
-  Resource,
-  SelectedLine,
-  SourceFuncArgs,
-  VimBuffer,
-} from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
 import { alignLists } from "@/util/align"
 
 const bufferToArray = (buffer: VimBuffer) => {
