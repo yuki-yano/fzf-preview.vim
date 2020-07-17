@@ -364,6 +364,15 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0.9
 
 
+*g:fzf_preview_default_fzf_options*
+    It is used as the default option when starting fzf.
+    Set a dictionary variable whose option name is key.
+    The string you pass to value is automatically enclosed in double quotes.
+    If the value to be passed to the option is empty, set v:true.
+
+    Default value is  { '--reverse': v:true }
+
+
 *g:fzf_preview_quit_map*
     If this value is 1, mapping that will safely quit
     in fzf's normal mode and visual mode is added

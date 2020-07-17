@@ -1,4 +1,4 @@
-import { isObject } from "lodash"
+import { isObject, mapValues } from "lodash"
 
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
@@ -25,6 +25,20 @@ export const defaultOptions: FzfOptions = {
   "--expect": ["alt-enter"],
   "--bind": defaultBind,
 } as const
+
+const getUserDefaultOptions = (): FzfOptions => {
+  const userDefaultOptions = globalVariableSelector("fzfPreviewDefaultFzfOptions")
+  if (!isObject(userDefaultOptions)) {
+    throw new Error("g:fzf_preview_default_fzf_options must be dictionary variable.")
+  }
+
+  return mapValues(userDefaultOptions, (value) => {
+    if (typeof value === "string") {
+      return `"${value}"`
+    }
+    return value
+  })
+}
 
 const isCustomProcessesVimVariable = (
   variable: unknown,
@@ -108,6 +122,7 @@ export const generateOptions = async ({
 
   const fzfCommandOptions = {
     ...defaultOptions,
+    ...getUserDefaultOptions(),
     ...fzfCommandDefaultOptions,
     ...dynamicOptions,
     ...getExpectFromDefaultProcesses(defaultProcesses),
