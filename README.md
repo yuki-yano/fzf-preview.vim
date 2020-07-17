@@ -99,14 +99,6 @@ Install `release` branch and execute `:UpdateRemotePlugins` when after installed
 If you are using MacOS and installed fzf using Homebrew:
 
 ```vim
-set  runtimepath+=/usr/local/opt/fzf
-call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
-" call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
-```
-
-or
-
-```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
 " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
