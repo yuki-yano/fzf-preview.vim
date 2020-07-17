@@ -9,24 +9,6 @@ type Options = {
   enablePostProcessCommand: boolean
 }
 
-const splitBufferPrefixAndLines = (lines: Array<string>) => {
-  return lines.reduce(
-    (acc: [Array<string>, Array<string>], cur) => {
-      const result = /^\+ (?<line>.*)/.exec(cur)
-      if (result && result.groups) {
-        acc[0].push("+ ")
-        acc[1].push(result.groups.line)
-        return acc
-      } else {
-        acc[0].push("")
-        acc[1].push(cur)
-        return acc
-      }
-    },
-    [[], []]
-  )
-}
-
 const postProcessFileName = (files: Array<string>) => {
   const postProcessCommand = globalVariableSelector("fzfPreviewFilelistPostProcessCommand") as string
 
@@ -82,16 +64,14 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
     return lines
   }
 
-  const [prefixes, files] = splitBufferPrefixAndLines(lines)
-
-  const postProcessedLines = enablePostProcessCommand ? postProcessFileName(files) : files
+  const postProcessedLines = enablePostProcessCommand ? postProcessFileName(lines) : lines
 
   if (enableDevIcons) {
     // eslint-disable-next-line no-control-regex
     const convertedFiles = postProcessedLines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0])
     const icons = createDevIconsList(convertedFiles)
 
-    return postProcessedLines.map((file, i) => `${icons[i]}  ${prefixes[i]}${file}`)
+    return postProcessedLines.map((file, i) => `${icons[i]}  ${file}`)
   }
 
   return postProcessedLines

@@ -1,5 +1,5 @@
 import { FILE_RESOURCES } from "@/const/fzf-option"
-import { buffers } from "@/fzf/resource/buffers"
+import { fileFormatBuffers } from "@/fzf/resource/buffers"
 import { directoryFiles } from "@/fzf/resource/directory-files"
 import { gitFiles } from "@/fzf/resource/git-files"
 import { mruFiles } from "@/fzf/resource/mru"
@@ -20,7 +20,7 @@ const resourceFunctions: ResourceFunctions = {
   project: projectFiles,
   git: gitFiles,
   directory: directoryFiles,
-  buffer: buffers,
+  buffer: fileFormatBuffers,
   project_old: projectOldFiles,
   project_mru: projectMruFiles,
   project_mrw: projectMrwFiles,
@@ -39,14 +39,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     files.push(...filesFromResource.lines)
   }
 
-  const lines = Array.from(
-    new Set(
-      files.map((file) => {
-        const splitted = file.split(" ")
-        return splitted.length >= 2 ? splitted[1] : splitted[0]
-      })
-    )
-  )
+  const lines = Array.from(new Set(files))
 
   return { lines, options: { "--header": `"Resources: ${args.args.join(" ")}"` } }
 }

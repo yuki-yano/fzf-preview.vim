@@ -1,4 +1,4 @@
-import { setRegister } from "@/fzf/process/consumer"
+import { setRegister } from "@/fzf/process/consumer/register"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 

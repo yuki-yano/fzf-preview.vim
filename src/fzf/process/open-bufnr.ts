@@ -3,7 +3,7 @@ import {
   splitBufnrConsumer,
   tabeditBufnrConsumer,
   vsplitBufnrConsumer,
-} from "@/fzf/process/consumer"
+} from "@/fzf/process/consumer/open-bufnr"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 

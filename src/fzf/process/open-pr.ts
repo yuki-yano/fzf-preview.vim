@@ -1,4 +1,4 @@
-import { openPr } from "@/fzf/process/consumer"
+import { openPr } from "@/fzf/process/consumer/open-pr"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 

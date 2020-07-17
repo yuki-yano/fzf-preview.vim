@@ -136,10 +136,10 @@ and
 :FzfPreviewGitStatus                          " Select git status listed file
 :CocCommand fzf-preview.GitStatus
 
-:FzfPreviewBuffers                            " Select file buffers
+:FzfPreviewBuffers                            " Select file buffers. Used open-buffer processes.
 :CocCommand fzf-preview.Buffers
 
-:FzfPreviewAllBuffers                         " Select all buffers
+:FzfPreviewAllBuffers                         " Select all buffers. Used open-bufnr processes
 :CocCommand fzf-preview.AllBuffers
 
 :FzfPreviewProjectOldFiles                    " Select project files from oldfiles
@@ -279,7 +279,8 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
   current window instead.
 
 <C-q>
-  Build QuickFix
+  Build QuickFix in open-file processes.
+  Execute :bdelete! command from open-buffer processes.
 
 <C-d>
   Preview page down
@@ -470,34 +471,6 @@ Comment out line is settings for coc extensions.
 "                \ }
 "
 
-" Example: 'bdelete!' buffers
-
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
-  " let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
-  let g:fzf_preview_buffer_delete_processes['ctrl-x'] = get(function('s:buffers_delete_from_lines'), 'name')
-endfunction
-
-function! s:buffers_delete_from_lines(lines) abort
-  for line in a:lines
-    let matches = matchlist(line, '^buffer \(\d\+\)$')
-    if len(matches) >= 1
-      execute 'bdelete! ' . matches[1]
-    else
-      execute 'bdelete! ' . line
-    endif
-  endfor
-endfunction
-
-nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
-" nnoremap <silent> <Leader>b :<C-u>CocCommand fzf-preview.Buffers --processes=fzf_preview_buffer_delete_processes<CR>
-
-
 --add-fzf-arg
 " Set the arguments to be passed when executing fzf.
 " This value is added to the default options.
@@ -521,7 +494,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
+" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'register' and 'open-pr'.
 " plugin_type is 'remote' or 'coc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```

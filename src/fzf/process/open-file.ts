@@ -5,7 +5,7 @@ import {
   splitConsumer,
   tabeditConsumer,
   vsplitConsumer,
-} from "@/fzf/process/consumer"
+} from "@/fzf/process/consumer/open-file"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
