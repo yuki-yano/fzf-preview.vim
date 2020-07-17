@@ -37403,6 +37403,7 @@ const lodash_1 = __webpack_require__(287);
 const module_1 = __webpack_require__(300);
 const initialState = {
     global: {
+        fzfPreviewDefaultFzfOptions: {},
         fzfPreviewUseDevIcons: false,
         fzfPreviewDevIconPrefixStringLength: 0,
         fzfPreviewDevIconsLimit: 5000,
@@ -39844,6 +39845,7 @@ exports.syncVimVariable = async () => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.vimVariableAssociation = void 0;
 exports.vimVariableAssociation = {
+    fzfPreviewDefaultFzfOptions: "fzf_preview_default_fzf_options",
     fzfPreviewUseDevIcons: "fzf_preview_use_dev_icons",
     fzfPreviewDevIconPrefixStringLength: "fzf_preview_dev_icon_prefix_string_length",
     fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
@@ -40086,6 +40088,18 @@ exports.defaultOptions = {
     "--expect": ["alt-enter"],
     "--bind": defaultBind,
 };
+const getUserDefaultOptions = () => {
+    const userDefaultOptions = vim_variable_1.globalVariableSelector("fzfPreviewDefaultFzfOptions");
+    if (!lodash_1.isObject(userDefaultOptions)) {
+        throw new Error("g:fzf_preview_default_fzf_options must be dictionary variable.");
+    }
+    return lodash_1.mapValues(userDefaultOptions, (value) => {
+        if (typeof value === "string") {
+            return `"${value}"`;
+        }
+        return value;
+    });
+};
 const isCustomProcessesVimVariable = (variable, userProcesses) => {
     if (userProcesses.type !== "custom_processes_variable") {
         return false;
@@ -40135,7 +40149,7 @@ const getExpectFromUserProcesses = async (userProcesses) => {
 };
 exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, defaultProcesses, userProcesses, userOptions, resumeQuery, }) => {
     const resumeQueryOption = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` };
-    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
+    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), getUserDefaultOptions()), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
     userOptions.forEach((userOption) => {
         fzfCommandOptions[userOption.optionName] = userOption.value;
     });
