@@ -81,14 +81,6 @@ Install release branch (or install `master` branch and run `$yarn install`) and
 If you are using MacOS and installed fzf using Homebrew:
 >
 >
-    set  runtimepath+=/usr/local/opt/fzf
-    call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
-    " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
-<
-
-or
-
->
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
     " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
@@ -302,34 +294,6 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
                    \ 'enter':  'FzfPreviewOpenFileEnter',
                    \ 'ctrl-x': get(function('s:foo_function'), 'name'),
                    \ }
-
-    Usage example: 'bdelete!' buffers
->
-    augroup fzf_preview
-      autocmd!
-      autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-    augroup END
-
-    function! s:fzf_preview_settings() abort
-      let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file')
-      " let g:fzf_preview_buffer_delete_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
-      let g:fzf_preview_buffer_delete_processes['ctrl-x'] = get(function('s:buffers_delete_from_lines'), 'name')
-    endfunction
-
-    function! s:buffers_delete_from_lines(lines) abort
-      for line in a:lines
-        let matches = matchlist(line, '^buffer \(\d\+\)$')
-        if len(matches) >= 1
-          execute 'bdelete! ' . matches[1]
-        else
-          execute 'bdelete! ' . line
-        endif
-      endfor
-    endfunction
-
-    nnoremap <silent> <Leader>b :<C-u>FzfPreviewBuffers --processes=fzf_preview_buffer_delete_processes<CR>
-    " nnoremap <silent> <Leader>b :<C-u>CocCommand fzf-preview.Buffers --processes=fzf_preview_buffer_delete_processes<CR>
-<
 
 --add-fzf-arg
     Set the arguments to be passed when executing fzf.
@@ -579,7 +543,8 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
     Args is {process_name} and {plugin_type (optional)}.
-    processes_name is 'open-file', 'open-bufnr', 'register' and 'open-pr'.
+    processes_name is 'open-file', 'open-buffer', 'open-bufnr',
+    'register' and 'open-pr'.
     plugin_type is 'remote' or 'coc'. Default value is 'remote'.
 
     value from 'open-file' is
@@ -621,7 +586,8 @@ DEFAULT KEYMAP                                  *fzf-preview-keymap*
   - Open drop
 
 <C-q>
-  - Build QuickFix
+  - Build QuickFix from open-file processes.
+  - Execute :bdelete! command from open-buffer processes.
 
 <C-d>
   - Preview page down

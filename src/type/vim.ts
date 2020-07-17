@@ -1,4 +1,7 @@
 export type VimBuffer = {
   fileName: string
-  modified: boolean
+  bufnr: number
+  isCurrent: boolean
+  isAlternate: boolean
+  isModified: boolean
 }

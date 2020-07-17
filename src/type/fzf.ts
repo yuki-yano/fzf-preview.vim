@@ -7,7 +7,8 @@ export type ResourceLine = string
 export type ResourceLines = Array<ResourceLine>
 
 export type FzfCommandDynamicOption = {
-  "--header": string
+  "--header"?: string
+  "--header-lines"?: string
 }
 
 export type Resource = {

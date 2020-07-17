@@ -1,7 +1,8 @@
-import { getOtherBuffers } from "@/connector/buffers"
+import { getAlternateBuffer, getCurrentBuffer, getOtherBuffers } from "@/connector/buffers"
 import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
+import { existsFile } from "@/system/file"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
@@ -10,45 +11,78 @@ import type {
   SourceFuncArgs,
   VimBuffer,
 } from "@/type"
+import { alignLists } from "@/util/align"
 
-const bufferToString = (buffer: VimBuffer) => {
-  if (buffer.modified) {
-    return `+ ${buffer.fileName}`
-  } else {
-    return buffer.fileName
-  }
+const bufferToArray = (buffer: VimBuffer) => {
+  return [
+    `[${buffer.bufnr}] `,
+    `${buffer.isAlternate ? "#" : ""}`,
+    `${buffer.isCurrent ? "%" : ""}`,
+    `${buffer.isModified ? " [+] " : ""}`,
+    ` ${buffer.fileName}`,
+  ]
 }
 
-export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const bufferList = await getOtherBuffers()
+const existsBuffer = (buffer: VimBuffer): boolean => {
+  return existsFile(buffer.fileName)
+}
 
-  // TODO: sort with mru
-  if (!(await isGitDirectory())) {
-    return { lines: bufferList.map((buffer) => buffer.fileName) }
+const getSimpleBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
+  const currentBuffer = await getCurrentBuffer()
+  const alternateBuffer = await getAlternateBuffer()
+  const otherBuffers = await getOtherBuffers()
+
+  if (options && options.ignoreCurrentBuffer) {
+    return [alternateBuffer, ...otherBuffers]
   }
+  return [currentBuffer, alternateBuffer, ...otherBuffers]
+}
+
+const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
+  const currentBuffer = await getCurrentBuffer()
+  const alternateBuffer = await getAlternateBuffer()
+  const otherBuffers = await getOtherBuffers()
 
   const { mruFiles } = cacheSelector()
 
-  const sortedBufferList = mruFiles
-    .map<VimBuffer | undefined>((file) => bufferList.find((buffer) => buffer.fileName === file))
+  const sortedBuffers = mruFiles
+    .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)
 
-  const lines = Array.from(new Set(sortedBufferList.concat(bufferList))).map((buffer) => bufferToString(buffer))
-
-  return { lines }
+  if (options && options.ignoreCurrentBuffer) {
+    return Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) =>
+      existsBuffer(buffer)
+    )
+  }
+  return Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) =>
+    existsBuffer(buffer)
+  )
 }
 
-export const dropBufferPrefix = (line: SelectedLine): ConvertedLine => {
-  const result = /\+ (?<fileName>\S+)/.exec(line)
-  if (result == null) {
-    return line
+export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
+  // TODO: sort with mru
+  if (!(await isGitDirectory())) {
+    const alignedLists = alignLists((await getSimpleBuffers()).map((buffer) => bufferToArray(buffer)))
+    return { lines: alignedLists.map((list) => list.join("").trim()) }
   }
 
-  if (result.groups) {
-    return result.groups.fileName
+  const alignedLists = alignLists((await getGitProjectBuffers()).map((buffer) => bufferToArray(buffer)))
+
+  return {
+    lines: alignedLists.map((list) => list.join("").trim()),
+    options: { "--header-lines": existsBuffer(await getCurrentBuffer()) ? "1" : "0" },
+  }
+}
+
+export const fileFormatBuffers = async (_args: SourceFuncArgs): Promise<Resource> => {
+  // TODO: sort with mru
+  if (!(await isGitDirectory())) {
+    return { lines: (await getSimpleBuffers({ ignoreCurrentBuffer: true })).map((buffer) => buffer.fileName) }
   }
 
-  throw new Error(`Unexpected buffer line: "${line}"`)
+  return {
+    lines: (await getGitProjectBuffers({ ignoreCurrentBuffer: true })).map((buffer) => buffer.fileName),
+  }
 }
 
 export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
