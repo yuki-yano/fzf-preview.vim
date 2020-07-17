@@ -7,8 +7,8 @@ import { existsFile } from "@/system/file"
 import { readMruFile, readMrwFile } from "@/system/mr"
 import { filterProjectEnabledFile, getProjectRoot } from "@/system/project"
 
-export const cacheProjectRoot = (): void => {
-  const projectRoot = getProjectRoot()
+export const cacheProjectRoot = async (): Promise<void> => {
+  const projectRoot = await getProjectRoot()
   dispatch(cacheModule.actions.setProjectRoot({ projectRoot }))
 }
 

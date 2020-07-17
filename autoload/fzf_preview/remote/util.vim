@@ -1,3 +1,12 @@
+function! fzf_preview#remote#util#is_git_directory() abort
+  silent !git rev-parse --show-toplevel
+  if v:shell_error
+    return v:false
+  else
+    return v:true
+  endif
+endfunction
+
 function! fzf_preview#remote#util#project_root() abort
   silent !git rev-parse --show-toplevel
   if v:shell_error

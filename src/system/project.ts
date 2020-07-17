@@ -1,16 +1,12 @@
+import { isGitDirectory } from "@/connector/util"
 import { IS_GIT_DIRECTORY_COMMAND } from "@/const/system"
 import { cacheSelector } from "@/module/selector/cache"
 import { execSyncCommand } from "@/system/command"
 import { existsFile } from "@/system/file"
 import type { ResourceLines } from "@/type"
 
-export const isGitDirectory = (): boolean => {
-  const { status } = execSyncCommand(IS_GIT_DIRECTORY_COMMAND)
-  return typeof status === "number" && status === 0
-}
-
-export const getProjectRoot = (): string => {
-  if (!isGitDirectory()) {
+export const getProjectRoot = async (): Promise<string> => {
+  if (!(await isGitDirectory())) {
     return ""
   }
 

@@ -34,7 +34,7 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
 
 export const initializeExtension = async (workspace: Workspace): Promise<void> => {
   setCocClient(workspace.nvim)
-  cacheProjectRoot()
+  await cacheProjectRoot()
   await cacheMr()
 }
 
@@ -79,8 +79,8 @@ export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
     workspace.registerAutocmd({
       event: "DirChanged",
       request: true,
-      callback: () => {
-        cacheProjectRoot()
+      callback: async () => {
+        await cacheProjectRoot()
       },
       pattern: "*",
     }),
