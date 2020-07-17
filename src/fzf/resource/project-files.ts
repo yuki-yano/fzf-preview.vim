@@ -1,12 +1,11 @@
+import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
-import { isGitDirectory } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const projectFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!isGitDirectory()) {
+  if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
 

@@ -1,7 +1,7 @@
 import { getOtherBuffers } from "@/connector/buffers"
+import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
-import { isGitDirectory } from "@/system/project"
 import type {
   ConvertedLine,
   FzfCommandDefinitionDefaultOption,
@@ -23,7 +23,7 @@ export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
   const bufferList = await getOtherBuffers()
 
   // TODO: sort with mru
-  if (!isGitDirectory()) {
+  if (!(await isGitDirectory())) {
     return { lines: bufferList.map((buffer) => buffer.fileName) }
   }
 

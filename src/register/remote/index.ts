@@ -12,7 +12,7 @@ import { dispatch } from "@/store"
 import { ConvertedLines } from "@/type"
 
 const initializeRemotePlugin = async (): Promise<void> => {
-  cacheProjectRoot()
+  await cacheProjectRoot()
   await cacheMr()
   await dispatch(saveStore({ modules: ["cache"] }))
 }
@@ -63,8 +63,8 @@ export const registerFunction = (): void => {
 export const registerAutocmd = (): void => {
   pluginRegisterAutocmd(
     "DirChanged",
-    () => {
-      cacheProjectRoot()
+    async () => {
+      await cacheProjectRoot()
     },
     {
       sync: false,
