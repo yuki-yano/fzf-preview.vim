@@ -358,11 +358,14 @@ set viminfo='1000
 - Set values for each variable. The default settings are as follows.
 
 ```vim
-" Add fzf quit mapping
-let g:fzf_preview_quit_map = 1
-
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
+
+" fzf command default options
+let g:fzf_preview_default_fzf_options = { '--reverse': v:true }
+
+" Add fzf quit mapping
+let g:fzf_preview_quit_map = 1
 
 " jump to the buffers by default, when possible
 let g:fzf_preview_buffers_jump = 0

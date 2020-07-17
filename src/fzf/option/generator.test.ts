@@ -11,6 +11,10 @@ describe("generateOptions", () => {
   let fzfCommandDefaultOptions: FzfOptions = {}
 
   beforeEach(() => {
+    ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) =>
+      variableName === "fzfPreviewDefaultFzfOptions" ? { "--reverse": true } : undefined
+    )
+
     fzfCommandDefaultOptions = {
       "--ansi": true,
       "--bind": [
@@ -28,6 +32,7 @@ describe("generateOptions", () => {
         },
       ],
       "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"],
+      "--reverse": true,
     }
   })
 
@@ -157,22 +162,26 @@ describe("generateOptions", () => {
 
   describe("set user processes from custom processes variable", () => {
     beforeEach(() => {
-      ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) =>
-        variableName === "fzfPreviewCustomProcesses"
-          ? {
-              "open-file": {
-                "ctrl-h": "",
-                "ctrl-i": "",
-                "ctrl-j": "",
-              },
-              register: {
-                "ctrl-k": "",
-                "ctrl-l": "",
-                "ctrl-m": "",
-              },
-            }
-          : undefined
-      )
+      ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) => {
+        if (variableName === "fzfPreviewDefaultFzfOptions") {
+          return { "--reverse": true }
+        } else if (variableName === "fzfPreviewCustomProcesses") {
+          return {
+            "open-file": {
+              "ctrl-h": "",
+              "ctrl-i": "",
+              "ctrl-j": "",
+            },
+            register: {
+              "ctrl-k": "",
+              "ctrl-l": "",
+              "ctrl-m": "",
+            },
+          }
+        } else {
+          return undefined
+        }
+      })
     })
 
     it("open file processes", async () => {
@@ -218,9 +227,15 @@ describe("generateOptions", () => {
   })
 
   it("set --preview-window options", async () => {
-    ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) =>
-      variableName === "fzfPreviewFzfPreviewWindowOption" ? "foo" : undefined
-    )
+    ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) => {
+      if (variableName === "fzfPreviewDefaultFzfOptions") {
+        return { "--reverse": true }
+      } else if (variableName === "fzfPreviewFzfPreviewWindowOption") {
+        return "foo"
+      } else {
+        return undefined
+      }
+    })
 
     expect(
       await generateOptions({
@@ -228,13 +243,19 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
       })
-    ).toEqual({ ...fzfCommandDefaultOptions, ...{ "--preview-window": '"foo"' } })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": '"foo"' })
   })
 
   it("set --color options", async () => {
-    ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) =>
-      variableName === "fzfPreviewFzfColorOption" ? "foo" : undefined
-    )
+    ;(globalVariableSelector as jest.Mock).mockImplementation((variableName) => {
+      if (variableName === "fzfPreviewDefaultFzfOptions") {
+        return { "--reverse": true }
+      } else if (variableName === "fzfPreviewFzfColorOption") {
+        return "foo"
+      } else {
+        return undefined
+      }
+    })
 
     expect(
       await generateOptions({
@@ -242,7 +263,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
       })
-    ).toEqual({ ...fzfCommandDefaultOptions, ...{ "--color": '"foo"' } })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--color": '"foo"' })
   })
 
   it("empty user options", async () => {

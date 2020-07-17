@@ -9,6 +9,12 @@ if !exists('g:fzf_preview_floating_window_rate')
   let g:fzf_preview_floating_window_rate = 0.9
 endif
 
+if !exists('g:fzf_preview_default_fzf_options')
+  let g:fzf_preview_default_fzf_options = {
+  \ '--reverse': v:true,
+  \ }
+endif
+
 if !exists('g:fzf_preview_quit_map')
   let g:fzf_preview_quit_map = 1
 endif
