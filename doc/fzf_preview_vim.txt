@@ -29,9 +29,6 @@ Requirements:
 - Node
     https://nodejs.org/
 
-- Yarn (Remote Plugin)
-    https://classic.yarnpkg.com/
-
 - git
     https://git-scm.com/
 
@@ -44,6 +41,9 @@ Requirements:
 
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
+
+- Yarn (Build latest remote plugin)
+    https://classic.yarnpkg.com/
 
 - GitHub cli (Require integrate with GitHub)
     https://github.com/cli/cli
