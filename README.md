@@ -49,7 +49,6 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 ## Requirements
 
 - **Node** <https://nodejs.org/>
-- **Yarn** <https://classic.yarnpkg.com/>
 - git <https://git-scm.com/>
 - fzf <https://github.com/junegunn/fzf>
 
@@ -67,6 +66,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 - **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
+- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
