@@ -77,6 +77,10 @@ if !exists('g:fzf_preview_grep_preview_cmd')
   let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
 endif
 
+if !exists('g:fzf_preview_disable_mru')
+  let g:fzf_preview_disable_mru = 0
+endif
+
 if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 endif
@@ -141,8 +145,11 @@ augroup END
 
 augroup fzf_preview_mr
   autocmd!
-  autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
-  autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
+
+  if g:fzf_preview_disable_mru == 0
+    autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
+    autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
+  endif
 
   if g:fzf_preview_use_look_ahead_mr_cache != 0
     autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call fzf_preview#remote#mr#cache_mr()
