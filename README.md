@@ -398,6 +398,9 @@ let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
 " MRU and MRW cache directory
 let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 
+" If this value is not 0, disable mru and mrw
+let g:fzf_preview_disable_mru = 0
+
 " Use look-ahead cache for MRU and MRW
 let g:fzf_preview_use_look_ahead_mr_cache = 0
 

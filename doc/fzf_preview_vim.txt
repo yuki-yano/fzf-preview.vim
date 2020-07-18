@@ -427,6 +427,12 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 'expand('~/.cache/vim/fzf_preview')'
 
 
+*g:fzf_preview_disable_mru*
+    If this value is not 0, disable mru and mrw.
+
+    Default value is 0
+
+
 *g:fzf_preview_use_look_ahead_mr_cache*
     Use look-ahead cache for MRU and MRW.
     If you want to enable look-ahead caching with BufEnter and BufWinEnter, set the value to 1.
