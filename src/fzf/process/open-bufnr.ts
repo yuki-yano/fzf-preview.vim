@@ -1,4 +1,5 @@
 import {
+  deleteBufnrConsumer,
   editBufnrConsumer,
   splitBufnrConsumer,
   tabeditBufnrConsumer,
@@ -14,4 +15,5 @@ export const openBufnrProcesses: Processes = [
   createOpenBufnrProcess("ctrl-x", splitBufnrConsumer),
   createOpenBufnrProcess("ctrl-v", vsplitBufnrConsumer),
   createOpenBufnrProcess("ctrl-t", tabeditBufnrConsumer),
+  createOpenBufnrProcess("ctrl-q", deleteBufnrConsumer),
 ]

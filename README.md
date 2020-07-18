@@ -31,21 +31,21 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ## Demo
 
-### Project Files
+### Open file and :bdelete
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/73932616-18138380-491e-11ea-9078-de222fb47998.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/87848670-5aa1a900-c91d-11ea-9a89-adbb0e30db39.gif "fzf-preview")
 
-### Git Status (Integrate with Fugitive)
+### Git Status with add, reset and patch (Integrate with Fugitive)
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/75104517-506cce80-564d-11ea-917d-8f5ceabfd557.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/87848834-a2750000-c91e-11ea-8452-803bfc0d43c1.gif "fzf-preview")
 
-### Project Grep
+### Grep
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/73932630-1ea1fb00-491e-11ea-8547-4fd68e45857b.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/87848887-2cbd6400-c91f-11ea-8ef0-b1d01106db83.gif "fzf-preview")
 
-### Export QuickFix
+### Export quickfix and refactor (with vim-qfreplace)
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/74020208-68e9b180-49dc-11ea-9cbb-6e7423d065df.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/87848923-92115500-c91f-11ea-8ee6-7188e1f8fdea.gif "fzf-preview")
 
 ## Requirements
 
@@ -280,7 +280,7 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 <C-q>
   Build QuickFix in open-file processes.
-  Execute :bdelete! command from open-buffer processes.
+  Execute :bdelete! command from open-buffer and open-bufnr processes.
 
 <C-d>
   Preview page down
