@@ -15,7 +15,6 @@ Remote Plugin only works with Neovim, but you can use coc extensions also works 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
-This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ## Features
 
