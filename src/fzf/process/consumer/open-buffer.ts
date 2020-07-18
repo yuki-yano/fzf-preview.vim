@@ -26,11 +26,8 @@ const createDeleteBufferConsumer = () =>
   createSingleLineConsumer(async (convertedLine) => {
     const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine)
 
-    console.error(convertedLine)
-    console.error(result)
     if (result && result.groups) {
       const { bufnr } = result.groups
-      console.error(bufnr)
       await deleteBuffer(bufnr)
     }
   })
