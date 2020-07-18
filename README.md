@@ -13,8 +13,8 @@ fzf-preview is a coc extensions and Neovim plugin that provides collection of fe
 Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
-e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
+e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
 ## Features
 
@@ -34,7 +34,7 @@ e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the bu
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848670-5aa1a900-c91d-11ea-9a89-adbb0e30db39.gif "fzf-preview")
 
-### Git Status with add, reset and patch (Integrate with Fugitive)
+### Git Status with add, reset and patch (Integrate with [Fugitive](https://github.com/tpope/vim-fugitive))
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848834-a2750000-c91e-11ea-8452-803bfc0d43c1.gif "fzf-preview")
 
@@ -42,7 +42,7 @@ e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the bu
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848887-2cbd6400-c91f-11ea-8ef0-b1d01106db83.gif "fzf-preview")
 
-### Export quickfix and refactor (with vim-qfreplace)
+### Export quickfix and refactor (with [vim-qfreplace](https://github.com/thinca/vim-qfreplace))
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848923-92115500-c91f-11ea-8ee6-7188e1f8fdea.gif "fzf-preview")
 
