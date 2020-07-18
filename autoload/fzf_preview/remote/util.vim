@@ -1,6 +1,6 @@
 function! fzf_preview#remote#util#is_git_directory() abort
-  silent !git rev-parse --show-toplevel
-  if v:shell_error
+  let git_root = system('git rev-parse --show-toplevel 2>/dev/null')
+  if git_root ==# ''
     return v:false
   else
     return v:true
@@ -8,13 +8,12 @@ function! fzf_preview#remote#util#is_git_directory() abort
 endfunction
 
 function! fzf_preview#remote#util#project_root() abort
-  silent !git rev-parse --show-toplevel
-  if v:shell_error
+  let git_root = system('git rev-parse --show-toplevel 2>/dev/null')
+  if git_root ==# ''
     echomsg 'The current directory is not a git project'
     return ''
   endif
 
-  let git_root = system('git rev-parse --show-toplevel')
   return strpart(git_root, 0, strlen(git_root) - 1)
 endfunction
 
