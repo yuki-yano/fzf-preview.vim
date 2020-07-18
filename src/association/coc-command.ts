@@ -9,6 +9,7 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
+import { cocDiagnosticsSyntax, cocReferencesSyntax } from "@/fzf/resource/coc/syntax"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -24,6 +25,7 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: cocReferencesSyntax,
   },
   {
     commandName: "FzfPreviewCocDiagnostics",
@@ -36,6 +38,7 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: cocDiagnosticsSyntax,
   },
   {
     commandName: "FzfPreviewCocCurrentDiagnostics",
@@ -48,5 +51,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: cocDiagnosticsSyntax,
   },
 ]

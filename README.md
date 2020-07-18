@@ -502,6 +502,10 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
 
+## Inspired by
+
+- [antoinemadec/coc-fzf](https://github.com/antoinemadec/coc-fzf)
+
 ## License
 
 The MIT License (MIT)

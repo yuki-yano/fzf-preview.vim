@@ -72,6 +72,7 @@ type FzfCommandBase = {
   enableDevIcons: boolean
   enablePostProcessCommand: boolean
   beforeCommandHook?: (args: string) => void
+  syntaxCommands?: Array<string>
 }
 
 export type RemoteFzfCommand = Merge<
