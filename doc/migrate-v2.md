@@ -17,18 +17,18 @@ $ npm install -g neovim
 
 Install release branch (or install `master` branch and run `$yarn install`) and `:UpdateRemotePlugins` after installing the plugin.
 
+vim-plug:
+
+```vim
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+" Plug 'yuki-ycino/fzf-preview.vim', { 'do': ':FzfPreviewInstall' }
+```
+
 Dein:
 
 ```vim
 call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
 " call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
-```
-
-vim-plug:
-
-```vim
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release' }
-" Plug 'yuki-ycino/fzf-preview.vim', { 'do': ':FzfPreviewInstall' }
 ```
 
 ### Installing coc extensions

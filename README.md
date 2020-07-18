@@ -96,7 +96,12 @@ Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/ju
 
 Install `release` branch and execute `:UpdateRemotePlugins` when after installed plugin.
 
-If you are using MacOS and installed fzf using Homebrew:
+```vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+```
+
+or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -109,8 +114,13 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
 Install the [fzf](https://github.com/junegunn/fzf), [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
 
 ```vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+```
+
+```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('neoclide/coc.nvim', { 'merged': 0, 'rev': 'release' })
+call dein#add('neoclide/coc.nvim', { 'rev': 'release', 'merged': 0 })
 ```
 
 and
