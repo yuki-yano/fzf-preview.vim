@@ -67,6 +67,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
+import { grepFormatBaseSyntax } from "@/fzf/resource/syntax"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -206,6 +207,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewCtags",
@@ -278,6 +280,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewLocationList",
@@ -290,6 +293,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewJumps",
@@ -302,6 +306,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewChanges",
@@ -326,6 +331,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewProjectGrep",
@@ -375,6 +381,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewYankround",
