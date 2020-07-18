@@ -1,5 +1,5 @@
 import { pluginCall, pluginCommand } from "@/plugin"
-import type { ResourceLines, VimBuffer } from "@/type"
+import type { VimBuffer } from "@/type"
 
 export const getBuffers = async (): Promise<Array<VimBuffer>> => {
   const buffers = (await pluginCall("fzf_preview#remote#resource#buffers#get")) as Array<VimBuffer>
@@ -21,8 +21,10 @@ export const getOtherBuffers = async (): Promise<Array<VimBuffer>> => {
   return buffers
 }
 
-export const getAllBuffers = async (): Promise<ResourceLines> =>
-  (await pluginCall("fzf_preview#remote#resource#all_buffers#get")) as ResourceLines
+export const getAllBuffers = async (): Promise<Array<VimBuffer>> => {
+  const buffers = (await pluginCall("fzf_preview#remote#resource#all_buffers#get")) as Array<VimBuffer>
+  return buffers
+}
 
 export const deleteBuffer = async (bufnr: string): Promise<void> => {
   await pluginCommand(`bdelete! ${bufnr}`)

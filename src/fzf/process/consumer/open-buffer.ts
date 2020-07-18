@@ -2,7 +2,7 @@ import { deleteBuffer } from "@/connector/buffers"
 import { openFile } from "@/connector/open-file"
 import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { OpenCommand, OpenFile } from "@/type"
+import type { OpenCommand, OpenFile, SingleLineConsumer } from "@/type"
 
 const convertOpenCommand = (openCommand: OpenCommand): OpenCommand => {
   if (openCommand === "edit" && globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
@@ -22,11 +22,11 @@ const createOpenBufferConsumer = (openCommand: OpenCommand) =>
     await openFile(openFileFormat)
   })
 
-const createDeleteBufferConsumer = () =>
+export const createDeleteBufferConsumer = (): SingleLineConsumer =>
   createSingleLineConsumer(async (convertedLine) => {
     const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine)
 
-    if (result && result.groups) {
+    if (result != null && result.groups != null) {
       const { bufnr } = result.groups
       await deleteBuffer(bufnr)
     }

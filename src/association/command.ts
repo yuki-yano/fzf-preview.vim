@@ -29,7 +29,6 @@ import {
   dispatchDefaultQueryForCommandGrep,
   dropGitStatusPrefix,
   dropYankroundLineNumber,
-  extractBufnrAndAddPrefix,
   filesFromResources,
   filesFromResourcesDefaultOptions,
   gitFiles,
@@ -139,7 +138,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewAllBuffers",
     sourceFunc: allBuffers,
-    convertLine: extractBufnrAndAddPrefix,
+    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,

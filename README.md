@@ -280,7 +280,7 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 <C-q>
   Build QuickFix in open-file processes.
-  Execute :bdelete! command from open-buffer processes.
+  Execute :bdelete! command from open-buffer and open-bufnr processes.
 
 <C-d>
   Preview page down

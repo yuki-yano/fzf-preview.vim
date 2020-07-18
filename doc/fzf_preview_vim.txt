@@ -129,7 +129,6 @@ COMMANDS                                        *fzf-preview-commands*
 :CocCommand fzf-preview.AllBuffers
      Select and open all buffers(include not file).
      Use open-bufnr processes.
-     Pass the value to the process function in the format "buffer {bufnr}""
 
                                                 *:FzfPreviewProjectOldFiles*
 
@@ -593,7 +592,7 @@ DEFAULT KEYMAP                                  *fzf-preview-keymap*
 
 <C-q>
   - Build QuickFix from open-file processes.
-  - Execute :bdelete! command from open-buffer processes.
+  - Execute :bdelete! command from open-buffer and open-bufnr processes.
 
 <C-d>
   - Preview page down

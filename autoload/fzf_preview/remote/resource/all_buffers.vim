@@ -9,9 +9,15 @@ function! fzf_preview#remote#resource#all_buffers#get() abort
   endfor
 
   let buffers = map(copy(getbufinfo({ 'buflisted': 1 })),
-  \ { _, buffer -> buffer['bufnr'] . ' ' . fnamemodify(buffer['name'], ':.') }
+  \ { _, buffer -> {
+  \     'fileName': fnamemodify(buffer['name'], ':.'),
+  \     'bufnr': buffer['bufnr'],
+  \     'isCurrent': v:false,
+  \     'isAlternate': v:false,
+  \     'isModified': v:false,
+  \   }
+  \ }
   \ )
 
   return buffers
 endfunction
-
