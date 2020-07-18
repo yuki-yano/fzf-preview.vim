@@ -312,7 +312,7 @@ exports.commandDefinition = [
     {
         commandName: "FzfPreviewAllBuffers",
         sourceFunc: resource_1.allBuffers,
-        convertLine: resource_1.extractBufnrAndAddPrefix,
+        convertLine: converter_1.convertIdentity,
         sourceFuncArgsParser: args_1.parseEmptySourceFuncArgs,
         vimCommandOptions: exports.vimCommandOptions,
         defaultFzfOptionFunc: resource_1.allBuffersDefaultOptions,
@@ -38259,7 +38259,10 @@ exports.getOtherBuffers = async () => {
     const buffers = (await plugin_1.pluginCall("fzf_preview#remote#resource#buffers#get_other_buffers"));
     return buffers;
 };
-exports.getAllBuffers = async () => (await plugin_1.pluginCall("fzf_preview#remote#resource#all_buffers#get"));
+exports.getAllBuffers = async () => {
+    const buffers = (await plugin_1.pluginCall("fzf_preview#remote#resource#all_buffers#get"));
+    return buffers;
+};
 exports.deleteBuffer = async (bufnr) => {
     await plugin_1.pluginCommand(`bdelete! ${bufnr}`);
 };
@@ -38850,19 +38853,17 @@ exports.transpose = (table) => table[0].map((_, index) => table.map((row) => row
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allBuffersDefaultOptions = exports.extractBufnrAndAddPrefix = exports.allBuffers = void 0;
+exports.allBuffersDefaultOptions = exports.allBuffers = void 0;
 const buffers_1 = __webpack_require__(333);
-const converter_1 = __webpack_require__(312);
 const util_1 = __webpack_require__(327);
 const align_1 = __webpack_require__(336);
 const SPACER = "  ";
 exports.allBuffers = async (_args) => {
-    const allBufferList = await buffers_1.getAllBuffers();
-    const alignedAllBufferLists = align_1.alignLists(allBufferList.map((buffer) => buffer.split(" ")));
-    const lines = alignedAllBufferLists.map((list) => list.join(SPACER).trim());
+    const buffers = await buffers_1.getAllBuffers();
+    const alignedBuffers = align_1.alignLists(buffers.map((buffer) => [`[${buffer.bufnr}]`, buffer.fileName]));
+    const lines = alignedBuffers.map((list) => list.join(SPACER).trim());
     return { lines };
 };
-exports.extractBufnrAndAddPrefix = (line) => `buffer ${converter_1.createSplitConverter(" ")(line)[0]}`;
 exports.allBuffersDefaultOptions = () => ({
     "--prompt": '"AllBuffers> "',
     "--multi": true,
@@ -40271,7 +40272,7 @@ exports.openBufferProcesses = [
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBufferConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = void 0;
+exports.deleteBufferConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = exports.createDeleteBufferConsumer = void 0;
 const buffers_1 = __webpack_require__(333);
 const open_file_1 = __webpack_require__(389);
 const consumer_1 = __webpack_require__(390);
@@ -40290,13 +40291,10 @@ const createOpenBufferConsumer = (openCommand) => consumer_1.createSingleLineCon
     };
     await open_file_1.openFile(openFileFormat);
 });
-const createDeleteBufferConsumer = () => consumer_1.createSingleLineConsumer(async (convertedLine) => {
+exports.createDeleteBufferConsumer = () => consumer_1.createSingleLineConsumer(async (convertedLine) => {
     const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine);
-    console.error(convertedLine);
-    console.error(result);
-    if (result && result.groups) {
+    if (result != null && result.groups != null) {
         const { bufnr } = result.groups;
-        console.error(bufnr);
         await buffers_1.deleteBuffer(bufnr);
     }
 });
@@ -40305,7 +40303,7 @@ exports.splitConsumer = createOpenBufferConsumer("split");
 exports.vsplitConsumer = createOpenBufferConsumer("vsplit");
 exports.tabeditConsumer = createOpenBufferConsumer("tabedit");
 exports.dropConsumer = createOpenBufferConsumer("drop");
-exports.deleteBufferConsumer = createDeleteBufferConsumer();
+exports.deleteBufferConsumer = exports.createDeleteBufferConsumer();
 
 
 /***/ }),
@@ -40389,6 +40387,7 @@ exports.openBufnrProcesses = [
     createOpenBufnrProcess("ctrl-x", open_bufnr_1.splitBufnrConsumer),
     createOpenBufnrProcess("ctrl-v", open_bufnr_1.vsplitBufnrConsumer),
     createOpenBufnrProcess("ctrl-t", open_bufnr_1.tabeditBufnrConsumer),
+    createOpenBufnrProcess("ctrl-q", open_bufnr_1.deleteBufnrConsumer),
 ];
 
 
@@ -40399,19 +40398,21 @@ exports.openBufnrProcesses = [
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tabeditBufnrConsumer = exports.vsplitBufnrConsumer = exports.splitBufnrConsumer = exports.editBufnrConsumer = void 0;
-const open_buffer_1 = __webpack_require__(394);
+exports.deleteBufnrConsumer = exports.tabeditBufnrConsumer = exports.vsplitBufnrConsumer = exports.splitBufnrConsumer = exports.editBufnrConsumer = void 0;
+const open_bufnr_1 = __webpack_require__(394);
 const consumer_1 = __webpack_require__(390);
+const open_buffer_1 = __webpack_require__(388);
 const createOpenBufnrConsumer = (openCommand) => consumer_1.createSingleLineConsumer(async (convertedLine) => {
-    const result = /^buffer (?<bufnr>\d+)/.exec(convertedLine);
+    const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine);
     if (result != null && result.groups != null) {
-        await open_buffer_1.openBufnr(openCommand, Number(result.groups.bufnr));
+        await open_bufnr_1.openBufnr(openCommand, result.groups.bufnr);
     }
 });
 exports.editBufnrConsumer = createOpenBufnrConsumer("edit");
 exports.splitBufnrConsumer = createOpenBufnrConsumer("split");
 exports.vsplitBufnrConsumer = createOpenBufnrConsumer("vsplit");
 exports.tabeditBufnrConsumer = createOpenBufnrConsumer("tabedit");
+exports.deleteBufnrConsumer = open_buffer_1.createDeleteBufferConsumer();
 
 
 /***/ }),
@@ -40424,7 +40425,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBufnr = void 0;
 const plugin_1 = __webpack_require__(1);
 exports.openBufnr = async (openCommand, bufnr) => {
-    await plugin_1.pluginCommand(`execute 'silent ${openCommand} | buffer ${bufnr}'`);
+    if (openCommand !== "edit") {
+        await plugin_1.pluginCommand(`execute 'silent ${openCommand} | buffer ${bufnr}'`);
+    }
+    await plugin_1.pluginCommand(`execute 'silent buffer ${bufnr}'`);
 };
 
 
