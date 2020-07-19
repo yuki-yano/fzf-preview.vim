@@ -66,7 +66,12 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { buffersFormatSyntax, fileListFormatBaseSyntax, grepFormatBaseSyntax } from "@/fzf/syntax"
+import {
+  buffersFormatSyntax,
+  fileListFormatBaseSyntax,
+  gitStatusFormatSyntax,
+  grepFormatBaseSyntax,
+} from "@/fzf/syntax"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -124,6 +129,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: false,
     enableDevIcons: false,
     enablePostProcessCommand: false,
+    syntaxCommands: gitStatusFormatSyntax,
   },
   {
     commandName: "FzfPreviewBuffers",
