@@ -298,6 +298,7 @@ exports.commandDefinition = [
         enableConvertForFzf: false,
         enableDevIcons: false,
         enablePostProcessCommand: false,
+        syntaxCommands: syntax_1.gitStatusFormatSyntax,
     },
     {
         commandName: "FzfPreviewBuffers",
@@ -39763,7 +39764,7 @@ exports.blamePrDefaultOptions = () => ({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buffersFormatSyntax = exports.grepFormatBaseSyntax = exports.fileListFormatBaseSyntax = void 0;
+exports.gitStatusFormatSyntax = exports.buffersFormatSyntax = exports.grepFormatBaseSyntax = exports.fileListFormatBaseSyntax = void 0;
 exports.fileListFormatBaseSyntax = [
     String.raw `syntax match FzfPreviewFileHeader /^\(>\|\s\)\(>\|\s\)\(\S\s\s\)\?\S\+\(\.\.\s\)\?/`,
     String.raw `syntax match FzfPreviewCount /^\s\s\d\+\/\d\+/ contained containedin=FzfPreviewFileHeader`,
@@ -39798,6 +39799,12 @@ exports.buffersFormatSyntax = [
     "highlight default link FzfPreviewBufferNumber Statement",
     "highlight default link FzfPreviewBufferDirectory Directory",
     "highlight default link FzfPreviewBufferModified SpecialChar",
+];
+exports.gitStatusFormatSyntax = [
+    String.raw `syntax match FzfPreviewGitStatusHeader /^\(>\|\s\)\(>\|\s\)[ A-Z?][ A-Z?]\s\S\+\(\.\.\s\)\?/`,
+    String.raw `syntax match FzfPreviewGitStatusFilePath /\s\([a-zA-Z0-9-_./]\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusHeader`,
+    String.raw `syntax match FzfPreviewGitStatusDirectory /\s\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusFilePath`,
+    "highlight default link FzfPreviewGitStatusDirectory Directory",
 ];
 
 
@@ -40903,7 +40910,7 @@ exports.cocReferences = async (_args) => {
             return "";
         }
         const text = await util_1.getLineFromFile(file, line);
-        return `${file}:${line}: ${text}`;
+        return `${file}:${line}:  ${text}`;
     }));
     return {
         lines: resourceLines.filter((line) => line !== ""),
@@ -103757,7 +103764,7 @@ const diagnosticItemToLine = (item, option) => {
     if (file == null || (option && option.currentFile !== file)) {
         return null;
     }
-    return `${file}:${item.lnum}: ${item.severity} ${item.message}`;
+    return `${file}:${item.lnum}:  ${item.severity} ${item.message}`;
 };
 exports.getDiagnostics = async () => {
     const diagnosticItems = (await plugin_1.pluginCall("CocAction", ["diagnosticList"]));
