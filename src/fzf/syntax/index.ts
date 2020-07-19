@@ -35,3 +35,11 @@ export const buffersFormatSyntax: Array<string> = [
   "highlight default link FzfPreviewBufferDirectory Directory",
   "highlight default link FzfPreviewBufferModified SpecialChar",
 ]
+
+export const gitStatusFormatSyntax: Array<string> = [
+  String.raw`syntax match FzfPreviewGitStatusHeader /^\(>\|\s\)\(>\|\s\)[ A-Z?][ A-Z?]\s\S\+\(\.\.\s\)\?/`,
+  String.raw`syntax match FzfPreviewGitStatusLine /\s[ A-Z?][ A-Z?]\s\S\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusHeader`,
+  String.raw`syntax match FzfPreviewGitStatusFilePath /\s\([a-zA-Z0-9-_./]\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusLine`,
+  String.raw`syntax match FzfPreviewGitStatusDirectory /\s\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusFilePath`,
+  "highlight default link FzfPreviewGitStatusDirectory Directory",
+]
