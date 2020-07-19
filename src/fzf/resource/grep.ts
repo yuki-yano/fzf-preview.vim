@@ -7,7 +7,7 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
   const lines = await execGrep(grepArgs)
   return {
     lines,
-    options: { "--header": `"Grep from: ${grepArgs}"` },
+    options: { "--header": `"[Grep from] ${grepArgs}"` },
   }
 }
 

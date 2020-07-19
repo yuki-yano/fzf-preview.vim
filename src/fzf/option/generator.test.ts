@@ -76,13 +76,13 @@ describe("generateOptions", () => {
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
-          dynamicOptions: { "--header": `"Grep from: ${grepArgs}"` },
+          dynamicOptions: { "--header": `"[Grep from] ${grepArgs}"` },
           defaultProcesses,
           userOptions: [],
         })
       ).toEqual({
         ...fzfCommandDefaultOptions,
-        "--header": `"Grep from: ${grepArgs}"`,
+        "--header": `"[Grep from] ${grepArgs}"`,
       })
     })
   })

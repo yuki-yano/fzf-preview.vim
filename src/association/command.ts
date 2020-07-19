@@ -66,7 +66,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { grepFormatBaseSyntax } from "@/fzf/resource/syntax"
+import { buffersFormatSyntax, fileListFormatBaseSyntax, grepFormatBaseSyntax } from "@/fzf/syntax"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -86,6 +86,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewGitFiles",
@@ -98,6 +99,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewDirectoryFiles",
@@ -134,6 +136,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: false,
     enableDevIcons: false,
     enablePostProcessCommand: false,
+    syntaxCommands: buffersFormatSyntax,
   },
   {
     commandName: "FzfPreviewAllBuffers",
@@ -158,6 +161,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewProjectMruFiles",
@@ -170,6 +174,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewProjectMrwFiles",
@@ -182,6 +187,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewLines",
@@ -243,6 +249,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewMruFiles",
@@ -255,6 +262,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewMrwFiles",
@@ -267,6 +275,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewQuickFix",
@@ -343,6 +352,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
+    syntaxCommands: grepFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewProjectCommandGrep",
@@ -368,6 +378,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewBookmarks",

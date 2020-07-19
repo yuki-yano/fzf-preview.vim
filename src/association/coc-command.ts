@@ -9,7 +9,7 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
-import { cocDiagnosticsSyntax, cocReferencesSyntax } from "@/fzf/resource/coc/syntax"
+import { cocDiagnosticsSyntax, cocReferencesSyntax } from "@/fzf/syntax/coc"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
