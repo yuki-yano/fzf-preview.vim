@@ -33,7 +33,7 @@ start = max(line_num - 10, 1)
 last = line_num + 100
 
 cats = [
-    f'bat --color=always --style=grid --theme={bat_theme} --plain',
+    f'bat --color=always --style=grid --theme="{bat_theme}" --plain',
     'cat'
 ]
 cat = list(filter(is_installed, cats))[0]
