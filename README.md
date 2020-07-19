@@ -158,7 +158,7 @@ and
 :CocCommand fzf-preview.ProjectMruFiles
 
 :FzfPreviewProjectMrwFiles                    " Select project mrw (Most Recently Written) files
-:CocCommand fzf-preview.ProjectMruFiles
+:CocCommand fzf-preview.ProjectMrwFiles
 
 :FzfPreviewProjectGrep {word}                 " Grep project files from args word (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.ProjectGrep {word}
