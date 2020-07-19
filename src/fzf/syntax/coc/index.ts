@@ -1,4 +1,4 @@
-import { grepFormatBaseSyntax } from "@/fzf/resource/syntax"
+import { grepFormatBaseSyntax } from "@/fzf/syntax"
 
 export const cocReferencesSyntax: Array<string> = grepFormatBaseSyntax
 
