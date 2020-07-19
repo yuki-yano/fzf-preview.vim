@@ -1,3 +1,4 @@
+import { gitProcesses } from "@/fzf/process/git"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
 import { openFileProcesses } from "@/fzf/process/open-file"
@@ -12,6 +13,10 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "open-file",
     processes: openFileProcesses,
+  },
+  {
+    name: "git",
+    processes: gitProcesses,
   },
   {
     name: "open-buffer",
