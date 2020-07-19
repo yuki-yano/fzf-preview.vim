@@ -1,0 +1,195 @@
+import camelcase from "camelcase"
+import { flatMap } from "lodash"
+
+import { DEV_ICONS_HIGHLIGHT_GROUP_NAME } from "@/const/fzf-syntax"
+
+// Ref: https://github.com/kristijanhusak/defx-icons/blob/master/plugin/defx_icons.vim
+
+const guiColors = {
+  brown: "905532",
+  aqua: "3AFFDB",
+  blue: "689FB6",
+  darkBlue: "44788E",
+  purple: "834F79",
+  lightPurple: "834F79",
+  red: "AE403F",
+  beige: "F5C06F",
+  yellow: "F09F17",
+  orange: "D4843E",
+  darkOrange: "F16529",
+  pink: "CB6F6F",
+  salmon: "EE6E73",
+  green: "8FAA54",
+  lightGreen: "31B53E",
+  default: "ABB2BF",
+} as const
+
+const termColors = {
+  brown: 130,
+  aqua: 66,
+  blue: 67,
+  darkBlue: 57,
+  purple: 60,
+  lightPurple: 103,
+  red: 131,
+  beige: 137,
+  yellow: 229,
+  orange: 208,
+  darkOrange: 166,
+  pink: 205,
+  salmon: 209,
+  green: 65,
+  lightGreen: 108,
+  default: 231,
+} as const
+
+type DevIcons = {
+  [key: string]: {
+    icon: string
+    color: string
+    termColor: number
+  }
+}
+
+// TODO
+const extensions: DevIcons = {
+  styl: { icon: "", color: guiColors.green, termColor: termColors.green },
+  // sass: { icon: "", color: guiColors.default, termColor: termColors.default },
+  scss: { icon: "", color: guiColors.pink, termColor: termColors.pink },
+  // htm: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  html: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  // slim: { icon: "", color: guiColors.orange, termColor: termColors.orange },
+  // ejs: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  css: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  // less: { icon: "", color: guiColors.darkBlue, termColor: termColors.darkBlue },
+  md: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  // markdown: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  // rmd: { icon: "", color: guiColors.default, termColor: termColors.default },
+  json: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  js: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  mjs: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  jsx: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  rb: { icon: "", color: guiColors.red, termColor: termColors.red },
+  php: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  py: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  pyc: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  pyo: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  pyd: { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+  coffee: { icon: "", color: guiColors.brown, termColor: termColors.brown },
+  mustache: { icon: "", color: guiColors.orange, termColor: termColors.orange },
+  hbs: { icon: "", color: guiColors.orange, termColor: termColors.orange },
+  conf: { icon: "", color: guiColors.default, termColor: termColors.default },
+  ini: { icon: "", color: guiColors.default, termColor: termColors.default },
+  yml: { icon: "", color: guiColors.default, termColor: termColors.default },
+  yaml: { icon: "", color: guiColors.default, termColor: termColors.default },
+  bat: { icon: "", color: guiColors.default, termColor: termColors.default },
+  toml: { icon: "", color: guiColors.default, termColor: termColors.default },
+  jpg: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  jpeg: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  bmp: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  png: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  gif: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  ico: { icon: "", color: guiColors.aqua, termColor: termColors.aqua },
+  twig: { icon: "", color: guiColors.green, termColor: termColors.green },
+  cpp: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  cxx: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  cc: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  cp: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  c: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  h: { icon: "", color: guiColors.default, termColor: termColors.default },
+  hpp: { icon: "", color: guiColors.default, termColor: termColors.default },
+  hxx: { icon: "", color: guiColors.default, termColor: termColors.default },
+  hs: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  lhs: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  lua: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  java: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  sh: { icon: "", color: guiColors.lightPurple, termColor: termColors.lightPurple },
+  // fish: { icon: "", color: guiColors.green, termColor: termColors.green },
+  // bash: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // zsh: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // ksh: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // csh: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // awk: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // ps1: { icon: "", color: guiColors.default, termColor: termColors.default },
+  ml: { icon: "λ", color: guiColors.yellow, termColor: termColors.yellow },
+  mli: { icon: "λ", color: guiColors.yellow, termColor: termColors.yellow },
+  diff: { icon: "", color: guiColors.default, termColor: termColors.default },
+  // db: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  sql: { icon: "", color: guiColors.darkBlue, termColor: termColors.darkBlue },
+  // dump: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  clj: { icon: "", color: guiColors.green, termColor: termColors.green },
+  cljc: { icon: "", color: guiColors.green, termColor: termColors.green },
+  cljs: { icon: "", color: guiColors.green, termColor: termColors.green },
+  edn: { icon: "", color: guiColors.green, termColor: termColors.green },
+  scala: { icon: "", color: guiColors.red, termColor: termColors.red },
+  go: { icon: "", color: guiColors.beige, termColor: termColors.beige },
+  dart: { icon: "", color: guiColors.default, termColor: termColors.default },
+  xul: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  sln: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  suo: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  pl: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  pm: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  t: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  rss: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  fsscript: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  fsx: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  fs: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  fsi: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  rs: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  rlib: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  d: { icon: "", color: guiColors.red, termColor: termColors.red },
+  erl: { icon: "", color: guiColors.lightPurple, termColor: termColors.lightPurple },
+  ex: { icon: "", color: guiColors.lightPurple, termColor: termColors.lightPurple },
+  exs: { icon: "", color: guiColors.lightPurple, termColor: termColors.lightPurple },
+  eex: { icon: "", color: guiColors.lightPurple, termColor: termColors.lightPurple },
+  hrl: { icon: "", color: guiColors.pink, termColor: termColors.pink },
+  vim: { icon: "", color: guiColors.green, termColor: termColors.green },
+  ai: { icon: "", color: guiColors.darkOrange, termColor: termColors.darkOrange },
+  psd: { icon: "", color: guiColors.darkBlue, termColor: termColors.darkBlue },
+  psb: { icon: "", color: guiColors.darkBlue, termColor: termColors.darkBlue },
+  ts: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+  tsx: { icon: "", color: guiColors.blue, termColor: termColors.default },
+  jl: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+  pp: { icon: "", color: guiColors.default, termColor: termColors.default },
+  vue: { icon: "﵂", color: guiColors.green, termColor: termColors.green },
+} as const
+
+// TODO
+// const exact: DevIcons = {
+//   "gruntfile.coffee": { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+//   "gruntfile.js": { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+//   "gruntfile.ls": { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+//   "gulpfile.coffee": { icon: "", color: guiColors.pink, termColor: termColors.pink },
+//   "gulpfile.js": { icon: "", color: guiColors.pink, termColor: termColors.pink },
+//   "gulpfile.ls": { icon: "", color: guiColors.pink, termColor: termColors.pink },
+//   dropbox: { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".ds_store": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".gitconfig": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".gitignore": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".bashrc": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".zshrc": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".vimrc": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".gvimrc": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   _vimrc: { icon: "", color: guiColors.default, termColor: termColors.default },
+//   _gvimrc: { icon: "", color: guiColors.default, termColor: termColors.default },
+//   ".bashprofile": { icon: "", color: guiColors.default, termColor: termColors.default },
+//   "favicon.ico": { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+//   license: { icon: "", color: guiColors.default, termColor: termColors.default },
+//   node_modules: { icon: "", color: guiColors.green, termColor: termColors.green },
+//   "react.jsx": { icon: "", color: guiColors.blue, termColor: termColors.blue },
+//   procfile: { icon: "", color: guiColors.purple, termColor: termColors.purple },
+//   dockerfile: { icon: "", color: guiColors.blue, termColor: termColors.blue },
+//   "docker-compose.yml": { icon: "", color: guiColors.yellow, termColor: termColors.yellow },
+// } as const
+
+export const devIconsHighlightCommands = (): Array<string> => {
+  const devIcons = extensions
+
+  return flatMap(Object.entries(devIcons), ([key, value]) => {
+    const group = `FzfPreviewExtension${camelcase(key, { pascalCase: true })}`
+    return [
+      `syntax match ${group} /[${value.icon}]/ contained containedin=${DEV_ICONS_HIGHLIGHT_GROUP_NAME}`,
+      `highlight default ${group} guifg=#${value.color} ctermfg=${value.termColor}`,
+    ]
+  })
+}
