@@ -17,7 +17,7 @@ export const directoryFiles = async ({ args: [arg] }: SourceFuncArgs): Promise<R
     throw new Error(`Failed to get the file list. command: "${filelistCommand} ${arg || ""}"`)
   }
 
-  const options: FzfCommandDynamicOption | undefined = arg ? { "--header": `Directory: ${arg}` } : undefined
+  const options: FzfCommandDynamicOption | undefined = arg ? { "--header": `[Directory] ${arg}` } : undefined
 
   return {
     lines: stdout.split("\n").filter((file) => file !== ""),

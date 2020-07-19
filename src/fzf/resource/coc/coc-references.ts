@@ -27,7 +27,7 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
 
   return {
     lines: resourceLines.filter((line) => line !== ""),
-    options: { "--header": `"Symbol: ${currentSymbol}"` },
+    options: { "--header": `"[Symbol] ${currentSymbol}"` },
   }
 }
 

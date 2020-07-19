@@ -13,9 +13,8 @@ fzf-preview is a coc extensions and Neovim plugin that provides collection of fe
 Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
-e.g. Fugitive(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
-This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
+e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
 ## Features
 
@@ -35,7 +34,7 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848670-5aa1a900-c91d-11ea-9a89-adbb0e30db39.gif "fzf-preview")
 
-### Git Status with add, reset and patch (Integrate with Fugitive)
+### Git Status with add, reset and patch (Integrate with [Fugitive](https://github.com/tpope/vim-fugitive))
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848834-a2750000-c91e-11ea-8452-803bfc0d43c1.gif "fzf-preview")
 
@@ -43,14 +42,13 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848887-2cbd6400-c91f-11ea-8ef0-b1d01106db83.gif "fzf-preview")
 
-### Export quickfix and refactor (with vim-qfreplace)
+### Export quickfix and refactor (with [vim-qfreplace](https://github.com/thinca/vim-qfreplace))
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/87848923-92115500-c91f-11ea-8ee6-7188e1f8fdea.gif "fzf-preview")
 
 ## Requirements
 
 - **Node** <https://nodejs.org/>
-- **Yarn** <https://classic.yarnpkg.com/>
 - git <https://git-scm.com/>
 - fzf <https://github.com/junegunn/fzf>
 
@@ -68,6 +66,7 @@ This plugin is implemented in Node's remote plugin, so it doesn't work in vim.
 
 - **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
+- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
@@ -96,7 +95,12 @@ Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/ju
 
 Install `release` branch and execute `:UpdateRemotePlugins` when after installed plugin.
 
-If you are using MacOS and installed fzf using Homebrew:
+```vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+```
+
+or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -109,8 +113,13 @@ call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
 Install the [fzf](https://github.com/junegunn/fzf), [coc.nvim](https://github.com/neoclide/coc.nvim) and install coc-fzf-preview
 
 ```vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+```
+
+```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('neoclide/coc.nvim', { 'merged': 0, 'rev': 'release' })
+call dein#add('neoclide/coc.nvim', { 'rev': 'release', 'merged': 0 })
 ```
 
 and
@@ -149,7 +158,7 @@ and
 :CocCommand fzf-preview.ProjectMruFiles
 
 :FzfPreviewProjectMrwFiles                    " Select project mrw (Most Recently Written) files
-:CocCommand fzf-preview.ProjectMruFiles
+:CocCommand fzf-preview.ProjectMrwFiles
 
 :FzfPreviewProjectGrep {word}                 " Grep project files from args word (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.ProjectGrep {word}

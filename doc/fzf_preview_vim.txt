@@ -29,9 +29,6 @@ Requirements:
 - Node
     https://nodejs.org/
 
-- Yarn (Remote Plugin)
-    https://classic.yarnpkg.com/
-
 - git
     https://git-scm.com/
 
@@ -44,6 +41,9 @@ Requirements:
 
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
+
+- Yarn (Build latest remote plugin)
+    https://classic.yarnpkg.com/
 
 - GitHub cli (Require integrate with GitHub)
     https://github.com/cli/cli
@@ -78,8 +78,13 @@ Use Dein, vim-plug or any Vim plugin manager of your choice.
 Install release branch (or install `master` branch and run `$yarn install`) and
 `:UpdateRemotePlugins` when after installed plugin.
 
-If you are using MacOS and installed fzf using Homebrew:
 >
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+<
+
+or
+
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
     call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
@@ -91,6 +96,22 @@ COC EXTENSION INSTALLATION                   *fzf-preview-coc-installation*
 
 Install the [coc.nvim](https://github.com/neoclide/coc.nvim)
 Install coc extensions fzf-preview.
+
+
+use vim-plug:
+>
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+<
+
+use dein:
+
+>
+    call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+    call dein#add('neoclide/coc.nvim', { 'rev': 'release', 'merged': 0 })
+<
+
+execute after
 
 :CocInstall coc-fzf-preview
 
