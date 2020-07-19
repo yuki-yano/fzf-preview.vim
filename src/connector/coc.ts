@@ -14,7 +14,7 @@ const diagnosticItemToLine = (item: DiagnosticItem, option?: { currentFile: stri
     return null
   }
 
-  return `${file}:${item.lnum}: ${item.severity} ${item.message}`
+  return `${file}:${item.lnum}:  ${item.severity} ${item.message}`
 }
 
 export const getDiagnostics = async (): Promise<Array<string>> => {

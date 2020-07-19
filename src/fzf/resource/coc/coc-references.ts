@@ -21,7 +21,7 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
         return ""
       }
       const text = await getLineFromFile(file, line)
-      return `${file}:${line}: ${text}`
+      return `${file}:${line}:  ${text}`
     })
   )
 
