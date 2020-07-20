@@ -294,7 +294,7 @@ exports.commandDefinition = [
         sourceFuncArgsParser: args_1.parseEmptySourceFuncArgs,
         vimCommandOptions: exports.vimCommandOptions,
         defaultFzfOptionFunc: resource_1.gitStatusDefaultOptions,
-        defaultProcessesName: "git",
+        defaultProcessesName: "git-status",
         enableConvertForFzf: false,
         enableDevIcons: false,
         enablePostProcessCommand: false,
@@ -40358,7 +40358,7 @@ exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, def
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeProcess = exports.processesDefinition = void 0;
-const git_1 = __webpack_require__(390);
+const git_status_1 = __webpack_require__(390);
 const open_buffer_1 = __webpack_require__(397);
 const open_bufnr_1 = __webpack_require__(399);
 const open_file_1 = __webpack_require__(402);
@@ -40373,8 +40373,8 @@ exports.processesDefinition = [
         processes: open_file_1.openFileProcesses,
     },
     {
-        name: "git",
-        processes: git_1.gitProcesses,
+        name: "git-status",
+        processes: git_status_1.gitStatusProcesses,
     },
     {
         name: "open-buffer",
@@ -40407,21 +40407,21 @@ exports.executeProcess = async (lines, process) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitProcesses = void 0;
+exports.gitStatusProcesses = void 0;
 const git_1 = __webpack_require__(391);
 const open_file_1 = __webpack_require__(394);
 const process_1 = __webpack_require__(396);
-const createGitProcess = process_1.createProcess("git");
-exports.gitProcesses = [
-    createGitProcess("enter", open_file_1.editConsumer),
-    createGitProcess("ctrl-x", open_file_1.splitConsumer),
-    createGitProcess("ctrl-v", open_file_1.vsplitConsumer),
-    createGitProcess("ctrl-t", open_file_1.tabeditConsumer),
-    createGitProcess("ctrl-o", open_file_1.dropConsumer),
-    createGitProcess("ctrl-q", open_file_1.exportQuickfixConsumer),
-    createGitProcess("ctrl-a", git_1.gitAddConsumer),
-    createGitProcess("ctrl-r", git_1.gitResetConsumer),
-    createGitProcess("ctrl-c", git_1.gitPatchConsumer),
+const createGitStatusProcess = process_1.createProcess("git-status");
+exports.gitStatusProcesses = [
+    createGitStatusProcess("enter", open_file_1.editConsumer),
+    createGitStatusProcess("ctrl-x", open_file_1.splitConsumer),
+    createGitStatusProcess("ctrl-v", open_file_1.vsplitConsumer),
+    createGitStatusProcess("ctrl-t", open_file_1.tabeditConsumer),
+    createGitStatusProcess("ctrl-o", open_file_1.dropConsumer),
+    createGitStatusProcess("ctrl-q", open_file_1.exportQuickfixConsumer),
+    createGitStatusProcess("ctrl-a", git_1.gitAddConsumer),
+    createGitStatusProcess("ctrl-r", git_1.gitResetConsumer),
+    createGitStatusProcess("ctrl-c", git_1.gitPatchConsumer),
 ];
 
 
