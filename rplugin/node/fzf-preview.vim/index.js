@@ -39954,7 +39954,7 @@ exports.fileListFormatBaseSyntax = [
     String.raw `syntax match FzfPreviewFileHeader /^\(>\|\s\)\(>\|\s\)\(\S\s\s\)\?\S\+\(\.\.\s\)\?/`,
     String.raw `syntax match FzfPreviewCount /^\s\s\d\+\/\d\+/ contained containedin=FzfPreviewFileHeader`,
     String.raw `syntax match FzfPreviewFilePath /\(\S\s\s\)\?[^>\[\] ]\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFileHeader`,
-    String.raw `syntax match FzfPreviewDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePath`,
+    String.raw `syntax match FzfPreviewDirectory /\([a-zA-Z0-9-_.@]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePath`,
     String.raw `syntax match FzfPreviewFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewFileHeader`,
     String.raw `syntax match ${fzf_syntax_1.DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewFilePath`,
     "highlight default link FzfPreviewDirectory Directory",
@@ -39963,9 +39963,9 @@ exports.grepFormatBaseSyntax = [
     String.raw `syntax match FzfPreviewGrepHeader /^\(>\|\s\)\(>\|\s\)\(\S\s\s\)\?\S\+\(\(:\d\+:\)\|\(\.\.\s\)\)/`,
     String.raw `syntax match FzfPreviewGrepFileLine /\(\S\s\s\)\?[^>]\+\(\(:\d\+:\)\|\(\.\.\s\)\|\(\s\+\)\)/ contained containedin=FzfPreviewGrepHeader`,
     String.raw `syntax match FzfPreviewFilePathAndLnum /[^>]\+\(:\d\+:\)/ contained containedin=FzfPreviewGrepFileLine`,
-    String.raw `syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePathAndLnum`,
+    String.raw `syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.@]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePathAndLnum`,
     String.raw `syntax match FzfPreviewGrepFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewGrepHeader`,
-    String.raw `syntax match ${fzf_syntax_1.DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match ${fzf_syntax_1.DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewFilePathAndLnum`,
     String.raw `syntax match FzfPreviewGrepLnum /:\d\+:/ contained containedin=FzfPreviewFilePathAndLnum`,
     String.raw `syntax match FzfPreviewGrepLnumDelimiter /:/ contained containedin=FzfPreviewGrepLnum`,
     "highlight default link FzfPreviewGrepDirectory Directory",
@@ -39978,7 +39978,7 @@ exports.buffersFormatSyntax = [
     String.raw `syntax match FzfPreviewBufferNumber /\[\d\+\]/ contained containedin=FzfPreviewBufferHeader`,
     String.raw `syntax match FzfPreviewCurrentNumber /\[\d\+\]\s\+%/ contained containedin=FzfPreviewBufferHeader`,
     String.raw `syntax match FzfPreviewBufferFilePath /\s\s[^#+\[\] ]\+\(\.\.\s\)\?/ contained containedin=FzfPreviewBufferHeader`,
-    String.raw `syntax match FzfPreviewBufferDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewBufferFilePath`,
+    String.raw `syntax match FzfPreviewBufferDirectory /\([a-zA-Z0-9-_.@]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewBufferFilePath`,
     String.raw `syntax match FzfPreviewBufferModified /\[+\]/ contained containedin=FzfPreviewBufferHeader`,
     "highlight default link FzfPreviewBufferNumber Statement",
     "highlight default link FzfPreviewBufferDirectory Directory",
@@ -39986,8 +39986,8 @@ exports.buffersFormatSyntax = [
 ];
 exports.gitStatusFormatSyntax = [
     String.raw `syntax match FzfPreviewGitStatusHeader /^\(>\|\s\)\(>\|\s\)[ A-Z?][ A-Z?]\s\S\+\(\.\.\s\)\?/`,
-    String.raw `syntax match FzfPreviewGitStatusFilePath /\s\([a-zA-Z0-9-_./]\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusHeader`,
-    String.raw `syntax match FzfPreviewGitStatusDirectory /\s\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusFilePath`,
+    String.raw `syntax match FzfPreviewGitStatusFilePath /\s\([a-zA-Z0-9-_./@]\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusHeader`,
+    String.raw `syntax match FzfPreviewGitStatusDirectory /\s\([a-zA-Z0-9-_.@]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGitStatusFilePath`,
     "highlight default link FzfPreviewGitStatusDirectory Directory",
 ];
 
@@ -40061,7 +40061,6 @@ exports.cacheMr = async () => {
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") === 0) {
         return;
     }
-    await store_1.dispatch(persist_1.loadCache());
     const mruFiles = mr_1.readMruFile();
     store_1.dispatch(cache_1.cacheModule.actions.setMruFiles({ mruFiles: await array_1.asyncFilter(mruFiles, (file) => file_1.existsFile(file)) }));
     store_1.dispatch(cache_1.cacheModule.actions.setProjectMruFiles({ projectMruFiles: await project_1.filterProjectEnabledFile(mruFiles) }));
