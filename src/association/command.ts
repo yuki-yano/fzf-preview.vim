@@ -121,6 +121,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
+    syntaxCommands: fileListFormatBaseSyntax,
   },
   {
     commandName: "FzfPreviewGitStatus",
