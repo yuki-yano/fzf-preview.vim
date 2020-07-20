@@ -4,7 +4,7 @@ import { currentFilePath, existsFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!existsFile(await currentFilePath())) {
+  if (!(await existsFile(await currentFilePath()))) {
     return { lines: [] }
   }
 

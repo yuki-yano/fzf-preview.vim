@@ -4,7 +4,8 @@ import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/
 
 export const gitAddConsumer = createBulkLineConsumer(async (convertedLines) => {
   for (const line of convertedLines) {
-    gitAdd(line)
+    // eslint-disable-next-line no-await-in-loop
+    await gitAdd(line)
   }
 
   await vimEchoMessage(`git add ${convertedLines.join(" ")}`)
@@ -12,7 +13,8 @@ export const gitAddConsumer = createBulkLineConsumer(async (convertedLines) => {
 
 export const gitResetConsumer = createBulkLineConsumer(async (convertedLines) => {
   for (const line of convertedLines) {
-    gitReset(line)
+    // eslint-disable-next-line no-await-in-loop
+    await gitReset(line)
   }
 
   await vimEchoMessage(`git reset ${convertedLines.join(" ")}`)

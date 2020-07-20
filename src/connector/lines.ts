@@ -1,13 +1,15 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execSyncCommand } from "@/system/command"
+import { pluginCall } from "@/plugin"
+import type { ResourceLines } from "@/type"
 
-export const execLines = (filePath: string): Array<string> => {
+export const execLines = async (filePath: string): Promise<ResourceLines> => {
   const linesCommand = globalVariableSelector("fzfPreviewLinesCommand") as string
-  const { stdout, stderr, status } = execSyncCommand(`${linesCommand} ${filePath}`)
-
-  if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed lines command: "${linesCommand}"`)
+  if (typeof linesCommand !== "string") {
+    return []
   }
 
-  return stdout.split("\n").filter((line) => line !== "")
+  const lines = (await pluginCall("fzf_preview#remote#resource#lines#get", [
+    `${linesCommand} ${filePath}`,
+  ])) as ResourceLines
+  return lines
 }

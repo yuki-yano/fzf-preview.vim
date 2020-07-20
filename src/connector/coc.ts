@@ -4,14 +4,14 @@ import { pluginCall } from "@/plugin"
 import { currentFilePath, existsFile } from "@/system/file"
 import { filePathToProjectFilePath } from "@/system/project"
 
-const diagnosticItemToLine = (item: DiagnosticItem, option?: { currentFile: string }): string | null => {
-  if (!existsFile(item.file)) {
-    return null
+const diagnosticItemToLine = async (item: DiagnosticItem, option?: { currentFile: string }): Promise<string> => {
+  if (!(await existsFile(item.file))) {
+    return ""
   }
 
   const file = filePathToProjectFilePath(item.file)
   if (file == null || (option && option.currentFile !== file)) {
-    return null
+    return ""
   }
 
   return `${file}:${item.lnum}:  ${item.severity} ${item.message}`
@@ -19,13 +19,17 @@ const diagnosticItemToLine = (item: DiagnosticItem, option?: { currentFile: stri
 
 export const getDiagnostics = async (): Promise<Array<string>> => {
   const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
-  return diagnosticItems.map((item) => diagnosticItemToLine(item)).filter((line): line is string => line != null)
+  const lines = await Promise.all(diagnosticItems.map(async (item) => await diagnosticItemToLine(item)))
+
+  return lines.filter((line) => line !== "")
 }
 
 export const getCurrentDiagnostics = async (): Promise<Array<string>> => {
   const currentFile = await currentFilePath()
   const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
-  return diagnosticItems
-    .map((item) => diagnosticItemToLine(item, { currentFile }))
-    .filter((line): line is string => line != null)
+  const lines = await Promise.all(
+    diagnosticItems.map(async (item) => await diagnosticItemToLine(item, { currentFile }))
+  )
+
+  return lines.filter((line) => line !== "")
 }

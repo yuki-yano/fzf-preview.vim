@@ -42,6 +42,7 @@ module.exports = {
         ignorePropertyModificationsFor: ["draft", "state"],
       },
     ],
+    "no-return-await": "off",
 
     "simple-import-sort/sort": "warn",
     "no-restricted-imports": ["error", { patterns: ["./", "../"] }],

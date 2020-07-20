@@ -5,6 +5,7 @@ import { cacheSelector } from "@/module/selector/cache"
 import { existsFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
 import { alignLists } from "@/util/align"
+import { asyncFilter } from "@/util/array"
 
 const bufferToArray = (buffer: VimBuffer) => {
   return [
@@ -16,8 +17,8 @@ const bufferToArray = (buffer: VimBuffer) => {
   ]
 }
 
-const existsBuffer = (buffer: VimBuffer): boolean => {
-  return existsFile(buffer.fileName)
+const existsBuffer = async (buffer: VimBuffer): Promise<boolean> => {
+  return await existsFile(buffer.fileName)
 }
 
 const getSimpleBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
@@ -43,12 +44,13 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
     .filter((buffer): buffer is VimBuffer => buffer != null)
 
   if (options && options.ignoreCurrentBuffer) {
-    return Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) =>
+    return await asyncFilter(Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])), (buffer) =>
       existsBuffer(buffer)
     )
   }
-  return Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) =>
-    existsBuffer(buffer)
+  return await asyncFilter(
+    Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])),
+    (buffer) => existsBuffer(buffer)
   )
 }
 
@@ -63,7 +65,7 @@ export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
 
   return {
     lines: alignedLists.map((list) => list.join("").trim()),
-    options: { "--header-lines": existsBuffer(await getCurrentBuffer()) ? "1" : "0" },
+    options: { "--header-lines": (await existsBuffer(await getCurrentBuffer())) ? "1" : "0" },
   }
 }
 
