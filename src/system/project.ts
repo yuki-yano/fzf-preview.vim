@@ -1,7 +1,5 @@
-import { isGitDirectory } from "@/connector/util"
-import { IS_GIT_DIRECTORY_COMMAND } from "@/const/system"
+import { getProjectRoot as execGetProjectRoot, isGitDirectory } from "@/connector/util"
 import { cacheSelector } from "@/module/selector/cache"
-import { execSyncCommand } from "@/system/command"
 import { existsFile } from "@/system/file"
 import type { ResourceLines } from "@/type"
 
@@ -10,8 +8,8 @@ export const getProjectRoot = async (): Promise<string> => {
     return ""
   }
 
-  const { stdout } = execSyncCommand(IS_GIT_DIRECTORY_COMMAND)
-  return stdout.trim()
+  const projectRoot = await execGetProjectRoot()
+  return projectRoot
 }
 
 export const dropFileProtocol = (uri: string): string => {
