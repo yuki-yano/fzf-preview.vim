@@ -9,9 +9,7 @@ export const execProjectFiles = async (): Promise<ResourceLines> => {
     return []
   }
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#project_files#get", [
-    `${filelistCommand}`,
-  ])) as ResourceLines
+  const lines = (await pluginCall("fzf_preview#remote#resource#project_files#get", [filelistCommand])) as ResourceLines
 
   return lines
 }

@@ -11,7 +11,9 @@ import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
+import { saveStore } from "@/module/persist"
 import { setCocClient } from "@/plugin"
+import { dispatch } from "@/store"
 import type { ConvertedLines } from "@/type"
 
 const removeFzfPreviewPrefix = (name: string) => {
@@ -36,6 +38,7 @@ export const initializeExtension = async (workspace: Workspace): Promise<void> =
   setCocClient(workspace.nvim)
   await cacheProjectRoot()
   await cacheMr()
+  await dispatch(saveStore({ modules: ["cache"] }))
 }
 
 export const registerCommands = (commandManager: CommandManager): Array<Disposable> => {
@@ -81,6 +84,8 @@ export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
       request: true,
       callback: async () => {
         await cacheProjectRoot()
+        await cacheMr()
+        await dispatch(saveStore({ modules: ["cache"] }))
       },
       pattern: "*",
     }),
