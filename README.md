@@ -486,6 +486,16 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
 
+## Others
+
+- How to use fish user?
+  - Set the `set shell` and `$SHELL`.
+
+```vim
+set shell=/bin/zsh
+let $SHELL = "/bin/zsh"
+```
+
 ## Inspired by
 
 - [antoinemadec/coc-fzf](https://github.com/antoinemadec/coc-fzf)
