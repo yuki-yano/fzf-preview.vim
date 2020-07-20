@@ -38131,7 +38131,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitStatus = exports.execGitFiles = void 0;
 const vim_variable_1 = __webpack_require__(288);
 const plugin_1 = __webpack_require__(1);
-const command_1 = __webpack_require__(324);
 exports.execGitFiles = async () => {
     const gitFilesCommand = vim_variable_1.globalVariableSelector("fzfPreviewGitFilesCommand");
     if (typeof gitFilesCommand !== "string") {
@@ -38148,17 +38147,11 @@ exports.execGitStatus = async () => {
     const lines = (await plugin_1.pluginCall("fzf_preview#remote#resource#git_status#get", [gitStatusCommand]));
     return lines;
 };
-exports.gitAdd = (file) => {
-    const { stderr, status } = command_1.execSyncCommand(`git add ${file}`);
-    if (stderr !== "" || status !== 0) {
-        throw new Error(`Failed: git add ${file}`);
-    }
+exports.gitAdd = async (file) => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#add", [file]);
 };
-exports.gitReset = (file) => {
-    const { stderr, status } = command_1.execSyncCommand(`git reset ${file}`);
-    if (stderr !== "" || status !== 0) {
-        throw new Error(`Failed: git reset ${file}`);
-    }
+exports.gitReset = async (file) => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#reset", [file]);
 };
 exports.gitPatch = async (file) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#git#patch", [file]);
@@ -38255,6 +38248,7 @@ const util_2 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
 const file_1 = __webpack_require__(337);
 const align_1 = __webpack_require__(338);
+const array_1 = __webpack_require__(341);
 const bufferToArray = (buffer) => {
     return [
         `[${buffer.bufnr}] `,
@@ -38264,8 +38258,8 @@ const bufferToArray = (buffer) => {
         ` ${buffer.fileName}`,
     ];
 };
-const existsBuffer = (buffer) => {
-    return file_1.existsFile(buffer.fileName);
+const existsBuffer = async (buffer) => {
+    return await file_1.existsFile(buffer.fileName);
 };
 const getSimpleBuffers = async (options) => {
     const currentBuffer = await buffers_1.getCurrentBuffer();
@@ -38285,9 +38279,9 @@ const getGitProjectBuffers = async (options) => {
         .map((file) => otherBuffers.find((buffer) => buffer.fileName === file))
         .filter((buffer) => buffer != null);
     if (options && options.ignoreCurrentBuffer) {
-        return Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) => existsBuffer(buffer));
+        return await array_1.asyncFilter(Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])), (buffer) => existsBuffer(buffer));
     }
-    return Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])).filter((buffer) => existsBuffer(buffer));
+    return await array_1.asyncFilter(Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])), (buffer) => existsBuffer(buffer));
 };
 exports.buffers = async (_args) => {
     // TODO: sort with mru
@@ -38298,7 +38292,7 @@ exports.buffers = async (_args) => {
     const alignedLists = align_1.alignLists((await getGitProjectBuffers()).map((buffer) => bufferToArray(buffer)));
     return {
         lines: alignedLists.map((list) => list.join("").trim()),
-        options: { "--header-lines": existsBuffer(await buffers_1.getCurrentBuffer()) ? "1" : "0" },
+        options: { "--header-lines": (await existsBuffer(await buffers_1.getCurrentBuffer())) ? "1" : "0" },
     };
 };
 exports.fileFormatBuffers = async (_args) => {
@@ -38383,13 +38377,13 @@ exports.expandHome = (filePath) => {
     }
     return filePath;
 };
-exports.existsFile = (filePath) => {
-    try {
-        const stats = fs_1.default.statSync(filePath);
-        return stats.isFile();
-    }
-    catch (_error) {
+exports.existsFile = async (filePath) => {
+    const result = (await plugin_1.pluginCall("filereadable", [filePath]));
+    if (result === 0) {
         return false;
+    }
+    else {
+        return true;
     }
 };
 exports.existsDirectory = (dirPath) => {
@@ -38925,8 +38919,12 @@ module.exports = require("stream");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transpose = void 0;
+exports.asyncFilter = exports.transpose = void 0;
 exports.transpose = (table) => table[0].map((_, index) => table.map((row) => row[index]));
+exports.asyncFilter = async (array, asyncCallback) => {
+    const bits = await Promise.all(array.map(asyncCallback));
+    return array.filter((_, i) => bits[i]);
+};
 
 
 /***/ }),
@@ -38970,7 +38968,7 @@ exports.projectOldFiles = async (_args) => {
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
     }
-    return { lines: project_1.filterProjectEnabledFile(await old_files_1.getOldFiles()) };
+    return { lines: await project_1.filterProjectEnabledFile(await old_files_1.getOldFiles()) };
 };
 exports.projectOldFilesDefaultOptions = () => ({
     "--prompt": '"ProjectOldFiles> "',
@@ -39002,6 +39000,7 @@ exports.filterProjectEnabledFile = exports.filePathToProjectFilePath = exports.d
 const util_1 = __webpack_require__(323);
 const cache_1 = __webpack_require__(336);
 const file_1 = __webpack_require__(337);
+const array_1 = __webpack_require__(341);
 exports.getProjectRoot = async () => {
     if (!(await util_1.isGitDirectory())) {
         return "";
@@ -39025,9 +39024,9 @@ exports.filePathToProjectFilePath = (filePath) => {
     }
     return execArray.groups.fileName;
 };
-exports.filterProjectEnabledFile = (filePaths) => {
-    return filePaths
-        .filter((file) => file_1.existsFile(file))
+exports.filterProjectEnabledFile = async (filePaths) => {
+    const existsFiles = await array_1.asyncFilter(filePaths, (file) => file_1.existsFile(file));
+    return existsFiles
         .map((filePath) => exports.filePathToProjectFilePath(filePath))
         .filter((filePath) => filePath != null);
 };
@@ -39060,7 +39059,7 @@ exports.projectMruFiles = async (_args) => {
         throw new Error("The current directory is not a git project");
     }
     const mruFiles = mr_1.readMruFile();
-    return { lines: project_1.filterProjectEnabledFile(mruFiles).filter((file) => file !== currentFile) };
+    return { lines: (await project_1.filterProjectEnabledFile(mruFiles)).filter((file) => file !== currentFile) };
 };
 exports.projectMruFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMruFiles> "',
@@ -39145,7 +39144,7 @@ exports.projectMrwFiles = async (_args) => {
         throw new Error("The current directory is not a git project");
     }
     const mrwFiles = mr_1.readMrwFile();
-    return { lines: project_1.filterProjectEnabledFile(mrwFiles).filter((file) => file !== currentFile) };
+    return { lines: (await project_1.filterProjectEnabledFile(mrwFiles)).filter((file) => file !== currentFile) };
 };
 exports.projectMrwFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMrwFiles> "',
@@ -39166,10 +39165,10 @@ const lines_1 = __webpack_require__(350);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
 exports.lines = async (_args) => {
-    if (!file_1.existsFile(await file_1.currentFilePath())) {
+    if (!(await file_1.existsFile(await file_1.currentFilePath()))) {
         return { lines: [] };
     }
-    return { lines: lines_1.execLines(await file_1.currentFilePath()) };
+    return { lines: await lines_1.execLines(await file_1.currentFilePath()) };
 };
 const previewCommand = async () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
@@ -39191,14 +39190,16 @@ exports.linesDefaultOptions = async () => ({
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execLines = void 0;
 const vim_variable_1 = __webpack_require__(288);
-const command_1 = __webpack_require__(324);
-exports.execLines = (filePath) => {
+const plugin_1 = __webpack_require__(1);
+exports.execLines = async (filePath) => {
     const linesCommand = vim_variable_1.globalVariableSelector("fzfPreviewLinesCommand");
-    const { stdout, stderr, status } = command_1.execSyncCommand(`${linesCommand} ${filePath}`);
-    if (stderr !== "" || status !== 0) {
-        throw new Error(`Failed lines command: "${linesCommand}"`);
+    if (typeof linesCommand !== "string") {
+        return [];
     }
-    return stdout.split("\n").filter((line) => line !== "");
+    const lines = (await plugin_1.pluginCall("fzf_preview#remote#resource#lines#get", [
+        `${linesCommand} ${filePath}`,
+    ]));
+    return lines;
 };
 
 
@@ -39286,7 +39287,7 @@ const tags_1 = __webpack_require__(355);
 const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 exports.bufferTags = async (_args) => {
-    if (!file_1.existsFile(await file_1.currentFilePath())) {
+    if (!(await file_1.existsFile(await file_1.currentFilePath()))) {
         return { lines: [] };
     }
     const file = await file_1.currentFilePath();
@@ -39341,9 +39342,13 @@ exports.oldFilesDefaultOptions = exports.oldFiles = void 0;
 const old_files_1 = __webpack_require__(344);
 const util_1 = __webpack_require__(327);
 const file_1 = __webpack_require__(337);
-exports.oldFiles = async (_args) => ({
-    lines: (await old_files_1.getOldFiles()).filter((file) => file_1.existsFile(file)),
-});
+const array_1 = __webpack_require__(341);
+exports.oldFiles = async (_args) => {
+    const files = await old_files_1.getOldFiles();
+    return {
+        lines: await array_1.asyncFilter(files, (file) => file_1.existsFile(file)),
+    };
+};
 exports.oldFilesDefaultOptions = () => ({
     "--prompt": '"OldFiles> "',
     "--multi": true,
@@ -39918,7 +39923,7 @@ const vim_variable_1 = __webpack_require__(288);
 const command_1 = __webpack_require__(324);
 const file_1 = __webpack_require__(337);
 exports.blamePr = async (_args) => {
-    if (!file_1.existsFile(await file_1.currentFilePath())) {
+    if (!(await file_1.existsFile(await file_1.currentFilePath()))) {
         return { lines: [] };
     }
     const file = await file_1.currentFilePath();
@@ -39956,11 +39961,12 @@ exports.fileListFormatBaseSyntax = [
 ];
 exports.grepFormatBaseSyntax = [
     String.raw `syntax match FzfPreviewGrepHeader /^\(>\|\s\)\(>\|\s\)\(\S\s\s\)\?\S\+\(\(:\d\+:\)\|\(\.\.\s\)\)/`,
-    String.raw `syntax match FzfPreviewGrepFilePathAndLnum /\(\S\s\s\)\?[^>]\+\(\(:\d\+:\)\|\(\.\.\s\)\)/ contained containedin=FzfPreviewGrepHeader`,
-    String.raw `syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
-    String.raw `syntax match FzfPreviewGrepFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewFileHeader`,
-    String.raw `syntax match ${fzf_syntax_1.DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
-    String.raw `syntax match FzfPreviewGrepLnum /:\d\+:/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
+    String.raw `syntax match FzfPreviewGrepFileLine /\(\S\s\s\)\?[^>]\+\(\(:\d\+:\)\|\(\.\.\s\)\|\(\s\+\)\)/ contained containedin=FzfPreviewGrepHeader`,
+    String.raw `syntax match FzfPreviewFilePathAndLnum /[^>]\+\(:\d\+:\)/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePathAndLnum`,
+    String.raw `syntax match FzfPreviewGrepFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewGrepHeader`,
+    String.raw `syntax match ${fzf_syntax_1.DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match FzfPreviewGrepLnum /:\d\+:/ contained containedin=FzfPreviewFilePathAndLnum`,
     String.raw `syntax match FzfPreviewGrepLnumDelimiter /:/ contained containedin=FzfPreviewGrepLnum`,
     "highlight default link FzfPreviewGrepDirectory Directory",
     "highlight default link FzfPreviewGrepLnum String",
@@ -40045,6 +40051,7 @@ const store_1 = __webpack_require__(289);
 const file_1 = __webpack_require__(337);
 const mr_1 = __webpack_require__(347);
 const project_1 = __webpack_require__(345);
+const array_1 = __webpack_require__(341);
 exports.cacheProjectRoot = async () => {
     const projectRoot = await project_1.getProjectRoot();
     store_1.dispatch(cache_1.cacheModule.actions.setProjectRoot({ projectRoot }));
@@ -40056,11 +40063,11 @@ exports.cacheMr = async () => {
     }
     await store_1.dispatch(persist_1.loadCache());
     const mruFiles = mr_1.readMruFile();
-    store_1.dispatch(cache_1.cacheModule.actions.setMruFiles({ mruFiles: mruFiles.filter((file) => file_1.existsFile(file)) }));
-    store_1.dispatch(cache_1.cacheModule.actions.setProjectMruFiles({ projectMruFiles: project_1.filterProjectEnabledFile(mruFiles) }));
+    store_1.dispatch(cache_1.cacheModule.actions.setMruFiles({ mruFiles: await array_1.asyncFilter(mruFiles, (file) => file_1.existsFile(file)) }));
+    store_1.dispatch(cache_1.cacheModule.actions.setProjectMruFiles({ projectMruFiles: await project_1.filterProjectEnabledFile(mruFiles) }));
     const mrwFiles = mr_1.readMrwFile();
-    store_1.dispatch(cache_1.cacheModule.actions.setMrwFiles({ mrwFiles: mrwFiles.filter((file) => file_1.existsFile(file)) }));
-    store_1.dispatch(cache_1.cacheModule.actions.setProjectMrwFiles({ projectMrwFiles: project_1.filterProjectEnabledFile(mrwFiles) }));
+    store_1.dispatch(cache_1.cacheModule.actions.setMrwFiles({ mrwFiles: await array_1.asyncFilter(mrwFiles, (file) => file_1.existsFile(file)) }));
+    store_1.dispatch(cache_1.cacheModule.actions.setProjectMrwFiles({ projectMrwFiles: await project_1.filterProjectEnabledFile(mrwFiles) }));
     await store_1.dispatch(persist_1.saveStore({ modules: ["cache"] }));
 };
 
@@ -40498,13 +40505,15 @@ const util_1 = __webpack_require__(323);
 const consumer_1 = __webpack_require__(395);
 exports.gitAddConsumer = consumer_1.createBulkLineConsumer(async (convertedLines) => {
     for (const line of convertedLines) {
-        git_1.gitAdd(line);
+        // eslint-disable-next-line no-await-in-loop
+        await git_1.gitAdd(line);
     }
     await util_1.vimEchoMessage(`git add ${convertedLines.join(" ")}`);
 });
 exports.gitResetConsumer = consumer_1.createBulkLineConsumer(async (convertedLines) => {
     for (const line of convertedLines) {
-        git_1.gitReset(line);
+        // eslint-disable-next-line no-await-in-loop
+        await git_1.gitReset(line);
     }
     await util_1.vimEchoMessage(`git reset ${convertedLines.join(" ")}`);
 });
@@ -104202,26 +104211,26 @@ exports.getCurrentDiagnostics = exports.getDiagnostics = void 0;
 const plugin_1 = __webpack_require__(1);
 const file_1 = __webpack_require__(337);
 const project_1 = __webpack_require__(345);
-const diagnosticItemToLine = (item, option) => {
-    if (!file_1.existsFile(item.file)) {
-        return null;
+const diagnosticItemToLine = async (item, option) => {
+    if (!(await file_1.existsFile(item.file))) {
+        return "";
     }
     const file = project_1.filePathToProjectFilePath(item.file);
     if (file == null || (option && option.currentFile !== file)) {
-        return null;
+        return "";
     }
     return `${file}:${item.lnum}:  ${item.severity} ${item.message}`;
 };
 exports.getDiagnostics = async () => {
     const diagnosticItems = (await plugin_1.pluginCall("CocAction", ["diagnosticList"]));
-    return diagnosticItems.map((item) => diagnosticItemToLine(item)).filter((line) => line != null);
+    const lines = await Promise.all(diagnosticItems.map(async (item) => await diagnosticItemToLine(item)));
+    return lines.filter((line) => line !== "");
 };
 exports.getCurrentDiagnostics = async () => {
     const currentFile = await file_1.currentFilePath();
     const diagnosticItems = (await plugin_1.pluginCall("CocAction", ["diagnosticList"]));
-    return diagnosticItems
-        .map((item) => diagnosticItemToLine(item, { currentFile }))
-        .filter((line) => line != null);
+    const lines = await Promise.all(diagnosticItems.map(async (item) => await diagnosticItemToLine(item, { currentFile })));
+    return lines.filter((line) => line !== "");
 };
 
 
@@ -104262,10 +104271,10 @@ const syntax_1 = __webpack_require__(380);
 exports.cocReferencesSyntax = syntax_1.grepFormatBaseSyntax;
 exports.cocDiagnosticsSyntax = [
     ...syntax_1.grepFormatBaseSyntax,
-    String.raw `syntax match FzfPreviewDiagnosticsError /\sError\s/`,
-    String.raw `syntax match FzfPreviewDiagnosticsWarning /\sWarning\s/`,
-    String.raw `syntax match FzfPreviewDiagnosticsInformation /\sInformation\s/`,
-    String.raw `syntax match FzfPreviewDiagnosticsHint /\sHint\s/`,
+    String.raw `syntax match FzfPreviewDiagnosticsError /\sError\s/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match FzfPreviewDiagnosticsWarning /\sWarning\s/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match FzfPreviewDiagnosticsInformation /\sInformation\s/ contained containedin=FzfPreviewGrepFileLine`,
+    String.raw `syntax match FzfPreviewDiagnosticsHint /\sHint\s/ contained containedin=FzfPreviewGrepFileLine`,
     "highlight default link FzfPreviewDiagnosticsError CocErrorSign",
     "highlight default link FzfPreviewDiagnosticsWarning CocWarningSign",
     "highlight default link FzfPreviewDiagnosticsInformation CocInfoSign",
