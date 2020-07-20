@@ -65,6 +65,8 @@ export const registerAutocmd = (): void => {
     "DirChanged",
     async () => {
       await cacheProjectRoot()
+      await cacheMr()
+      await dispatch(saveStore({ modules: ["cache"] }))
     },
     {
       sync: false,
