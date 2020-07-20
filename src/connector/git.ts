@@ -1,6 +1,5 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import { execSyncCommand } from "@/system/command"
 import type { ResourceLines } from "@/type"
 
 export const execGitFiles = async (): Promise<ResourceLines> => {
@@ -23,20 +22,12 @@ export const execGitStatus = async (): Promise<ResourceLines> => {
   return lines
 }
 
-export const gitAdd = (file: string): void => {
-  const { stderr, status } = execSyncCommand(`git add ${file}`)
-
-  if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed: git add ${file}`)
-  }
+export const gitAdd = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#add", [file])
 }
 
-export const gitReset = (file: string): void => {
-  const { stderr, status } = execSyncCommand(`git reset ${file}`)
-
-  if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed: git reset ${file}`)
-  }
+export const gitReset = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#reset", [file])
 }
 
 export const gitPatch = async (file: string): Promise<void> => {
