@@ -42,12 +42,6 @@ Requirements:
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
 
-- Yarn (Build latest remote plugin)
-    https://classic.yarnpkg.com/
-
-- GitHub cli (Require integrate with GitHub)
-    https://github.com/cli/cli
-
 Optional:
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
@@ -58,8 +52,29 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
-- vim-bookmarks (Use FzfPreviewBookmarks)
+- Fugitive (Require git patch)
+    https://github.com/tpope/vim-fugitive
+
+- Gina (Require git patch)
+    https://github.com/lambdalisue/gina.vim
+
+- universal-ctags (Requre FzfPreviewCtags and FzfPreviewBufferTags)
+    https://github.com/universal-ctags/ctags
+
+- vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags)
+    https://github.com/liuchengxu/vista.vim
+
+- vim-bookmarks (Require FzfPreviewBookmarks)
     https://github.com/MattesGroeger/vim-bookmarks
+
+- yankround.vim (Require FzfPreviewYankround)
+    https://github.com/LeafCage/yankround.vim
+
+- GitHub cli (Require integrate with GitHub)
+    https://github.com/cli/cli
+
+- Yarn (Build latest remote plugin)
+    https://classic.yarnpkg.com/
 
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
@@ -138,12 +153,14 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewGitStatus
 :CocCommand fzf-preview.GitStatus
      Select files that have been changed with git.
-     Use git diff preview.
+     Preview is git diff.
+     Use git processes.
 
                                                 *:FzfPreviewBuffers*
 :FzfPreviewBuffers
 :CocCommand fzf-preview.Buffers
      Select and open file buffers.
+     Use open-buffer processes.
 
                                                 *:FzfPreviewAllBuffers*
 :FzfPreviewAllBuffers
@@ -264,6 +281,18 @@ COMMANDS                                        *fzf-preview-commands*
 
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
+
+                                                *:FzfPreviewVistaCtags*
+:FzfPreviewVistaCtags
+:CocCommand fzf-preview.VistaCtags
+     Select tags from vista.vim.
+     Required: vista.vim
+
+                                                *:FzfPreviewVistaBufferCtags*
+:FzfPreviewVistaBufferCtags
+:CocCommand fzf-preview.VistaBufferCtags
+     Select current buffer tags from vista.vim.
+     Required: vista.vim
 
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
@@ -569,7 +598,7 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
     Args is {process_name} and {plugin_type (optional)}.
-    processes_name is 'open-file', 'open-buffer', 'open-bufnr',
+    processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git',
     'register' and 'open-pr'.
     plugin_type is 'remote' or 'coc'. Default value is 'remote'.
 

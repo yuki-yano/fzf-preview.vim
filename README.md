@@ -66,11 +66,14 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 - **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
-- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
+- Fugitive (Require git patch) <https://github.com/tpope/vim-fugitive>
+- Gina (Require git patch) <https://github.com/lambdalisue/gina.vim>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
+- vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
 - GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
+- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 
 #### Appearance
 
@@ -142,7 +145,7 @@ and
 :FzfPreviewDirectoryFiles {path or none}      " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
 :CocCommand fzf-preview.DirectoryFiles
 
-:FzfPreviewGitStatus                          " Select git status listed file
+:FzfPreviewGitStatus                          " Select git status listed file. Used git processes.
 :CocCommand fzf-preview.GitStatus
 
 :FzfPreviewBuffers                            " Select file buffers. Used open-buffer processes.
@@ -204,6 +207,12 @@ and
 
 :FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
+
+:FzfPreviewVistaCtags                         " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:CocCommand fzf-preview.VistaCtags
+
+:FzfPreviewVistaBufferCtags                   " Select current buffer tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:CocCommand fzf-preview.VistaBufferCtags
 
 :FzfPreviewBookmarks                          " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
 :CocCommand fzf-preview.Bookmarks
@@ -291,6 +300,15 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
   Build QuickFix in open-file processes.
   Execute :bdelete! command from open-buffer and open-bufnr processes.
 
+<C-a>
+  Git add with git processes
+
+<C-r>
+  Git reset with git processes
+
+<C-c>
+  Git patch with git processes (Require Fugitive or Gina)
+
 <C-d>
   Preview page down
 
@@ -302,49 +320,6 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 ```
 
 ## Customization
-
-### Example of Fugitive integration
-
-Comment out line is settings for coc extensions.
-
-```vim
-nnoremap <silent> [fzf-p]gs :<C-u>FzfPreviewGitStatus --processes=fzf_preview_fugitive_processes<CR>
-" nnoremap <silent> [fzf-p]gs :<C-u>CocCommand fzf-preview.GitStatus --processes=fzf_preview_fugitive_processes<CR>
-
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-
-function! s:fugitive_add(paths) abort
-  for path in a:paths
-    execute 'silent G add ' . path
-  endfor
-  echomsg 'Git add ' . join(a:paths, ', ')
-endfunction
-
-function! s:fugitive_reset(paths) abort
-  for path in a:paths
-    execute 'silent G reset ' . path
-  endfor
-  echomsg 'Git reset ' . join(a:paths, ', ')
-endfunction
-
-function! s:fugitive_patch(paths) abort
-  for path in a:paths
-    execute 'silent tabedit ' . path . ' | silent Gdiff'
-  endfor
-  echomsg 'Git add --patch ' . join(a:paths, ', ')
-endfunction
-
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file')
-  " let g:fzf_preview_fugitive_processes = fzf_preview#remote#process#get_default_processes('open-file', 'coc')
-  let g:fzf_preview_fugitive_processes['ctrl-a'] = get(function('s:fugitive_add'), 'name')
-  let g:fzf_preview_fugitive_processes['ctrl-r'] = get(function('s:fugitive_reset'), 'name')
-  let g:fzf_preview_fugitive_processes['ctrl-c'] = get(function('s:fugitive_patch'), 'name')
-endfunction
-```
 
 ### Optional Configuration Tips
 
@@ -506,7 +481,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'register' and 'open-pr'.
+" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git', 'register' and 'open-pr'.
 " plugin_type is 'remote' or 'coc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```

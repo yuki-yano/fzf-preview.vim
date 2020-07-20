@@ -48,6 +48,8 @@ type RemoteFzfCommandName =
   | "FzfPreviewFromResources"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
+  | "FzfPreviewVistaCtags"
+  | "FzfPreviewVistaBufferCtags"
   | "FzfPreviewBlamePR"
 
 type CocFzfCommandName = "FzfPreviewCocReferences" | "FzfPreviewCocDiagnostics" | "FzfPreviewCocCurrentDiagnostics"
