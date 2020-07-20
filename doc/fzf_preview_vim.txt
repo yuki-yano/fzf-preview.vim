@@ -61,6 +61,9 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
+- vista.vim (Use FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags)
+    https://github.com/liuchengxu/vista.vim
+
 - vim-bookmarks (Use FzfPreviewBookmarks)
     https://github.com/MattesGroeger/vim-bookmarks
 
@@ -275,6 +278,18 @@ COMMANDS                                        *fzf-preview-commands*
 
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
+
+                                                *:FzfPreviewVistaCtags*
+:FzfPreviewVistaCtags
+:CocCommand fzf-preview.VistaCtags
+     Select tags from vista.vim.
+     Required: vista.vim
+
+                                                *:FzfPreviewVistaBufferCtags*
+:FzfPreviewVistaBufferCtags
+:CocCommand fzf-preview.VistaBufferCtags
+     Select current buffer tags from vista.vim.
+     Required: vista.vim
 
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarks
