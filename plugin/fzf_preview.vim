@@ -67,7 +67,7 @@ endif
 
 if !exists('g:fzf_preview_lines_command')
   if executable('bat')
-    let g:fzf_preview_lines_command = 'bat --color=always --plain --number --theme=ansi-dark'
+    let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
   else
     let g:fzf_preview_lines_command = 'cat'
   endif

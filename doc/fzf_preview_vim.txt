@@ -494,7 +494,7 @@ OPTIONS                                         *fzf-preview-options*
     Bat is recommended for coloring
 
     Installed bat:
-        Default value is 'bat --color=always --style=grid --theme=ansi-dark --plain'
+        Default value is 'bat --color=always --style=grid --plain'
 
     Not installed bat:
         Default value is 'cat'

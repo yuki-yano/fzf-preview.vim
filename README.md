@@ -390,7 +390,7 @@ let g:fzf_preview_use_look_ahead_mr_cache = 0
 
 " Commands used for current file lines
 let g:fzf_preview_lines_command = 'cat'
-" let g:fzf_preview_lines_command = 'bat --color=always --style=grid --theme=ansi-dark --plain'
+" let g:fzf_preview_lines_command = 'bat --color=always --style=grid --plain'
 
 " Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'

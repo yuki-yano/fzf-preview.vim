@@ -1,5 +1,5 @@
 import { cacheModule } from "@/module/cache"
-import { loadCache, saveStore } from "@/module/persist"
+import { saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
@@ -19,8 +19,6 @@ export const cacheMr = async (): Promise<void> => {
   if (globalVariableSelector("fzfPreviewUseLookAheadMrCache") === 0) {
     return
   }
-
-  await dispatch(loadCache())
 
   const mruFiles = readMruFile()
   dispatch(cacheModule.actions.setMruFiles({ mruFiles: await asyncFilter(mruFiles, (file) => existsFile(file)) }))
