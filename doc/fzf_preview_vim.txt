@@ -42,15 +42,6 @@ Requirements:
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
 
-- Fugitive (Require git patch)
-    https://github.com/tpope/vim-fugitive
-
-- Gina (Require git patch)
-    https://github.com/lambdalisue/gina.vim
-
-- GitHub cli (Require integrate with GitHub)
-    https://github.com/cli/cli
-
 Optional:
 - bat (Add color to the preview)
     https://github.com/sharkdp/bat
@@ -61,14 +52,26 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
-- vista.vim (Use FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags)
+- Fugitive (Require git patch)
+    https://github.com/tpope/vim-fugitive
+
+- Gina (Require git patch)
+    https://github.com/lambdalisue/gina.vim
+
+- universal-ctags (Requre FzfPreviewCtags and FzfPreviewBufferTags)
+    https://github.com/universal-ctags/ctags
+
+- vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags)
     https://github.com/liuchengxu/vista.vim
 
-- vim-bookmarks (Use FzfPreviewBookmarks)
+- vim-bookmarks (Require FzfPreviewBookmarks)
     https://github.com/MattesGroeger/vim-bookmarks
 
-- yankround.vim (Use FzfPreviewYankround)
+- yankround.vim (Require FzfPreviewYankround)
     https://github.com/LeafCage/yankround.vim
+
+- GitHub cli (Require integrate with GitHub)
+    https://github.com/cli/cli
 
 - Yarn (Build latest remote plugin)
     https://classic.yarnpkg.com/

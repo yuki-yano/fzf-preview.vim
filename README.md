@@ -68,12 +68,12 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - Fugitive (Require git patch) <https://github.com/tpope/vim-fugitive>
 - Gina (Require git patch) <https://github.com/lambdalisue/gina.vim>
-- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
 - GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
+- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 
 #### Appearance
 
