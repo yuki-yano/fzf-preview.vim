@@ -6,6 +6,7 @@ import { dispatch } from "@/store"
 import { existsFile } from "@/system/file"
 import { readMruFile, readMrwFile } from "@/system/mr"
 import { filterProjectEnabledFile, getProjectRoot } from "@/system/project"
+import { asyncFilter } from "@/util/array"
 
 export const cacheProjectRoot = async (): Promise<void> => {
   const projectRoot = await getProjectRoot()
@@ -22,12 +23,12 @@ export const cacheMr = async (): Promise<void> => {
   await dispatch(loadCache())
 
   const mruFiles = readMruFile()
-  dispatch(cacheModule.actions.setMruFiles({ mruFiles: mruFiles.filter((file) => existsFile(file)) }))
-  dispatch(cacheModule.actions.setProjectMruFiles({ projectMruFiles: filterProjectEnabledFile(mruFiles) }))
+  dispatch(cacheModule.actions.setMruFiles({ mruFiles: await asyncFilter(mruFiles, (file) => existsFile(file)) }))
+  dispatch(cacheModule.actions.setProjectMruFiles({ projectMruFiles: await filterProjectEnabledFile(mruFiles) }))
 
   const mrwFiles = readMrwFile()
-  dispatch(cacheModule.actions.setMrwFiles({ mrwFiles: mrwFiles.filter((file) => existsFile(file)) }))
-  dispatch(cacheModule.actions.setProjectMrwFiles({ projectMrwFiles: filterProjectEnabledFile(mrwFiles) }))
+  dispatch(cacheModule.actions.setMrwFiles({ mrwFiles: await asyncFilter(mrwFiles, (file) => existsFile(file)) }))
+  dispatch(cacheModule.actions.setProjectMrwFiles({ projectMrwFiles: await filterProjectEnabledFile(mrwFiles) }))
 
   await dispatch(saveStore({ modules: ["cache"] }))
 }

@@ -4,11 +4,11 @@ import { currentFilePath, existsFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!existsFile(await currentFilePath())) {
+  if (!(await existsFile(await currentFilePath()))) {
     return { lines: [] }
   }
 
-  return { lines: execLines(await currentFilePath()) }
+  return { lines: await execLines(await currentFilePath()) }
 }
 
 const previewCommand = async () => {

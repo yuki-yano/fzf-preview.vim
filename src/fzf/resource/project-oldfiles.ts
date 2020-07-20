@@ -9,7 +9,7 @@ export const projectOldFiles = async (_args: SourceFuncArgs): Promise<Resource> 
     throw new Error("The current directory is not a git project")
   }
 
-  return { lines: filterProjectEnabledFile(await getOldFiles()) }
+  return { lines: await filterProjectEnabledFile(await getOldFiles()) }
 }
 
 export const projectOldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

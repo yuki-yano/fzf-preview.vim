@@ -10,12 +10,12 @@ export const expandHome = (filePath: string): string => {
   return filePath
 }
 
-export const existsFile = (filePath: string): boolean => {
-  try {
-    const stats = fs.statSync(filePath)
-    return stats.isFile()
-  } catch (_error) {
+export const existsFile = async (filePath: string): Promise<boolean> => {
+  const result = (await pluginCall("filereadable", [filePath])) as number
+  if (result === 0) {
     return false
+  } else {
+    return true
   }
 }
 

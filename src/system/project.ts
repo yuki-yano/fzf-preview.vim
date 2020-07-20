@@ -2,6 +2,7 @@ import { getProjectRoot as execGetProjectRoot, isGitDirectory } from "@/connecto
 import { cacheSelector } from "@/module/selector/cache"
 import { existsFile } from "@/system/file"
 import type { ResourceLines } from "@/type"
+import { asyncFilter } from "@/util/array"
 
 export const getProjectRoot = async (): Promise<string> => {
   if (!(await isGitDirectory())) {
@@ -34,9 +35,9 @@ export const filePathToProjectFilePath = (filePath: string): string | null => {
   return execArray.groups.fileName
 }
 
-export const filterProjectEnabledFile = (filePaths: ResourceLines): Array<string> => {
-  return filePaths
-    .filter((file) => existsFile(file))
+export const filterProjectEnabledFile = async (filePaths: ResourceLines): Promise<Array<string>> => {
+  const existsFiles = await asyncFilter(filePaths, (file) => existsFile(file))
+  return existsFiles
     .map((filePath) => filePathToProjectFilePath(filePath))
     .filter((filePath): filePath is string => filePath != null)
 }

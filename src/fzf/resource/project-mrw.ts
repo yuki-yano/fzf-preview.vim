@@ -23,7 +23,7 @@ export const projectMrwFiles = async (_args: SourceFuncArgs): Promise<Resource> 
   }
 
   const mrwFiles = readMrwFile()
-  return { lines: filterProjectEnabledFile(mrwFiles).filter((file) => file !== currentFile) }
+  return { lines: (await filterProjectEnabledFile(mrwFiles)).filter((file) => file !== currentFile) }
 }
 
 export const projectMrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

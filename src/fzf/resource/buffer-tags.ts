@@ -7,7 +7,7 @@ import { alignLists } from "@/util/align"
 const SPACER = "  "
 
 export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!existsFile(await currentFilePath())) {
+  if (!(await existsFile(await currentFilePath()))) {
     return { lines: [] }
   }
 
