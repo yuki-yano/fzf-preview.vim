@@ -70,6 +70,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 - Gina (Require git patch) <https://github.com/lambdalisue/gina.vim>
 - Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
+- vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
 - GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
@@ -206,6 +207,12 @@ and
 
 :FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
+
+:FzfPreviewVistaCtags                         " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:CocCommand fzf-preview.VistaCtags
+
+:FzfPreviewVistaBufferCtags                   " Select current buffer tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:CocCommand fzf-preview.VistaBufferCtags
 
 :FzfPreviewBookmarks                          " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
 :CocCommand fzf-preview.Bookmarks
