@@ -19,6 +19,7 @@ export const existsFile = async (filePath: string): Promise<boolean> => {
   }
 }
 
+// TODO: Use Vim script
 export const existsDirectory = (dirPath: string): boolean => {
   try {
     const stats = fs.statSync(dirPath)
