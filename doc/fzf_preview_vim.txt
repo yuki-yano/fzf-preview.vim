@@ -42,6 +42,12 @@ Requirements:
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
 
+- Fugitive (Require git patch)
+    https://github.com/tpope/vim-fugitive
+
+- Gina (Require git patch)
+    https://github.com/lambdalisue/gina.vim
+
 - Yarn (Build latest remote plugin)
     https://classic.yarnpkg.com/
 
@@ -138,7 +144,8 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewGitStatus
 :CocCommand fzf-preview.GitStatus
      Select files that have been changed with git.
-     Use git diff preview.
+     Preview is git diff.
+     Use git processes.
 
                                                 *:FzfPreviewBuffers*
 :FzfPreviewBuffers
@@ -569,7 +576,7 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
     Args is {process_name} and {plugin_type (optional)}.
-    processes_name is 'open-file', 'open-buffer', 'open-bufnr',
+    processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git',
     'register' and 'open-pr'.
     plugin_type is 'remote' or 'coc'. Default value is 'remote'.
 
