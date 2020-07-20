@@ -48,9 +48,6 @@ Requirements:
 - Gina (Require git patch)
     https://github.com/lambdalisue/gina.vim
 
-- Yarn (Build latest remote plugin)
-    https://classic.yarnpkg.com/
-
 - GitHub cli (Require integrate with GitHub)
     https://github.com/cli/cli
 
@@ -66,6 +63,12 @@ Optional:
 
 - vim-bookmarks (Use FzfPreviewBookmarks)
     https://github.com/MattesGroeger/vim-bookmarks
+
+- yankround.vim (Use FzfPreviewYankround)
+    https://github.com/LeafCage/yankround.vim
+
+- Yarn (Build latest remote plugin)
+    https://classic.yarnpkg.com/
 
 Latest version:
 https://github.com/yuki-ycino/fzf-preview.vim
@@ -151,6 +154,7 @@ COMMANDS                                        *fzf-preview-commands*
 :FzfPreviewBuffers
 :CocCommand fzf-preview.Buffers
      Select and open file buffers.
+     Use open-buffer processes.
 
                                                 *:FzfPreviewAllBuffers*
 :FzfPreviewAllBuffers
