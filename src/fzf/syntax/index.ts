@@ -12,11 +12,12 @@ export const fileListFormatBaseSyntax: Array<string> = [
 
 export const grepFormatBaseSyntax: Array<string> = [
   String.raw`syntax match FzfPreviewGrepHeader /^\(>\|\s\)\(>\|\s\)\(\S\s\s\)\?\S\+\(\(:\d\+:\)\|\(\.\.\s\)\)/`,
-  String.raw`syntax match FzfPreviewGrepFilePathAndLnum /\(\S\s\s\)\?[^>]\+\(\(:\d\+:\)\|\(\.\.\s\)\)/ contained containedin=FzfPreviewGrepHeader`,
-  String.raw`syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
-  String.raw`syntax match FzfPreviewGrepFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewFileHeader`,
-  String.raw`syntax match ${DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
-  String.raw`syntax match FzfPreviewGrepLnum /:\d\+:/ contained containedin=FzfPreviewGrepFilePathAndLnum`,
+  String.raw`syntax match FzfPreviewGrepFileLine /\(\S\s\s\)\?[^>]\+\(\(:\d\+:\)\|\(\.\.\s\)\|\(\s\+\)\)/ contained containedin=FzfPreviewGrepHeader`,
+  String.raw`syntax match FzfPreviewFilePathAndLnum /[^>]\+\(:\d\+:\)/ contained containedin=FzfPreviewGrepFileLine`,
+  String.raw`syntax match FzfPreviewGrepDirectory /\([a-zA-Z0-9-_.]\+\/\)\+\(\.\.\s\)\?/ contained containedin=FzfPreviewFilePathAndLnum`,
+  String.raw`syntax match FzfPreviewGrepFzfHeader /\[.\+\]\s.\+/ contained containedin=FzfPreviewGrepHeader`,
+  String.raw`syntax match ${DEV_ICONS_HIGHLIGHT_GROUP_NAME} /[^a-zA-Z1-9]\s\s/ contained containedin=FzfPreviewGrepFileLine`,
+  String.raw`syntax match FzfPreviewGrepLnum /:\d\+:/ contained containedin=FzfPreviewFilePathAndLnum`,
   String.raw`syntax match FzfPreviewGrepLnumDelimiter /:/ contained containedin=FzfPreviewGrepLnum`,
   "highlight default link FzfPreviewGrepDirectory Directory",
   "highlight default link FzfPreviewGrepLnum String",
