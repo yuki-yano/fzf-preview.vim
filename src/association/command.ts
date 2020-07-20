@@ -129,7 +129,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
-    defaultProcessesName: "git",
+    defaultProcessesName: "git-status",
     enableConvertForFzf: false,
     enableDevIcons: false,
     enablePostProcessCommand: false,

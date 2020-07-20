@@ -145,7 +145,7 @@ and
 :FzfPreviewDirectoryFiles {path or none}      " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
 :CocCommand fzf-preview.DirectoryFiles
 
-:FzfPreviewGitStatus                          " Select git status listed file. Used git processes.
+:FzfPreviewGitStatus                          " Select git status listed file. Used git-status processes.
 :CocCommand fzf-preview.GitStatus
 
 :FzfPreviewBuffers                            " Select file buffers. Used open-buffer processes.
@@ -301,13 +301,13 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
   Execute :bdelete! command from open-buffer and open-bufnr processes.
 
 <C-a>
-  Git add with git processes
+  Git add with git-status processes
 
 <C-r>
-  Git reset with git processes
+  Git reset with git-status processes
 
 <C-c>
-  Git patch with git processes (Require Fugitive or Gina)
+  Git patch with git-status processes (Require Fugitive or Gina)
 
 <C-d>
   Preview page down
@@ -481,7 +481,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git', 'register' and 'open-pr'.
+" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git-status', 'register' and 'open-pr'.
 " plugin_type is 'remote' or 'coc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
