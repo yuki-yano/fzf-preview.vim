@@ -7,7 +7,7 @@ import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from
 // eslint-disable-next-line @typescript-eslint/require-await
 export const mruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-    return { lines: cacheSelector().mrwFiles }
+    return { lines: cacheSelector().mruFiles }
   }
 
   return { lines: readMruFile() }
