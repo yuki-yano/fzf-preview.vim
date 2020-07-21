@@ -1,5 +1,5 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath, existsFile } from "@/system/file"
+import { currentFilePath, existsFileAsync } from "@/system/file"
 import { getBufferTags } from "@/system/tags"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
@@ -7,7 +7,7 @@ import { alignLists } from "@/util/align"
 const SPACER = "  "
 
 export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!(await existsFile(await currentFilePath()))) {
+  if (!(await existsFileAsync(await currentFilePath()))) {
     return { lines: [] }
   }
 
