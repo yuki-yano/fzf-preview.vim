@@ -1,3 +1,4 @@
+import { execFzfCommand } from "@/connector/fzf"
 import { gitAdd, gitPatch, gitReset } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
@@ -9,6 +10,7 @@ export const gitAddConsumer = createBulkLineConsumer(async (convertedLines) => {
   }
 
   await vimEchoMessage(`git add ${convertedLines.join(" ")}`)
+  await execFzfCommand("FzfPreviewGitStatus")
 })
 
 export const gitResetConsumer = createBulkLineConsumer(async (convertedLines) => {
@@ -18,6 +20,7 @@ export const gitResetConsumer = createBulkLineConsumer(async (convertedLines) =>
   }
 
   await vimEchoMessage(`git reset ${convertedLines.join(" ")}`)
+  await execFzfCommand("FzfPreviewGitStatus")
 })
 
 export const gitPatchConsumer = createSingleLineConsumer(async (convertedLine) => {
