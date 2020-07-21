@@ -6,7 +6,7 @@ import { flatMap, mapValues } from "lodash"
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheProjectRoot } from "@/fzf/cache"
+import { cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
@@ -37,7 +37,6 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
 export const initializeExtension = async (workspace: Workspace): Promise<void> => {
   setCocClient(workspace.nvim)
   await cacheProjectRoot()
-  await cacheMr()
   await dispatch(saveStore({ modules: ["cache"] }))
 }
 
@@ -72,7 +71,6 @@ export const registerFunctions = (commandManager: CommandManager): Array<Disposa
     commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
-    commandManager.registerCommand("fzf-preview.CacheMr", cacheMr),
     commandManager.registerCommand("fzf-preview.DispatchResumeQuery", dispatchResumeQuery),
   ]
 }
@@ -84,7 +82,6 @@ export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
       request: true,
       callback: async () => {
         await cacheProjectRoot()
-        await cacheMr()
         await dispatch(saveStore({ modules: ["cache"] }))
       },
       pattern: "*",

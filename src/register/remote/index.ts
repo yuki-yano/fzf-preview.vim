@@ -1,7 +1,7 @@
 import { commandDefinition } from "@/association/command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheMr, cacheProjectRoot } from "@/fzf/cache"
+import { cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
@@ -13,7 +13,6 @@ import { ConvertedLines } from "@/type"
 
 const initializeRemotePlugin = async (): Promise<void> => {
   await cacheProjectRoot()
-  await cacheMr()
   await dispatch(saveStore({ modules: ["cache"] }))
 }
 
@@ -55,8 +54,6 @@ export const registerFunction = (): void => {
     { sync: true }
   )
 
-  pluginRegisterFunction("FzfPreviewCacheMr", cacheMr, { sync: false })
-
   pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
 }
 
@@ -65,7 +62,6 @@ export const registerAutocmd = (): void => {
     "DirChanged",
     async () => {
       await cacheProjectRoot()
-      await cacheMr()
       await dispatch(saveStore({ modules: ["cache"] }))
     },
     {

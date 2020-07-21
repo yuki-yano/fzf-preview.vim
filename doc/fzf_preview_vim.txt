@@ -482,13 +482,6 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0
 
 
-*g:fzf_preview_use_look_ahead_mr_cache*
-    Use look-ahead cache for MRU and MRW.
-    If you want to enable look-ahead caching with BufEnter and BufWinEnter, set the value to 1.
-
-    Default value is '0'
-
-
 *g:fzf_preview_lines_command*
     This command is used for get current file lines.
     Bat is recommended for coloring
