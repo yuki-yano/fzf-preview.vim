@@ -37821,9 +37821,9 @@ __exportStar(__webpack_require__(329), exports);
 __exportStar(__webpack_require__(331), exports);
 __exportStar(__webpack_require__(333), exports);
 __exportStar(__webpack_require__(334), exports);
-__exportStar(__webpack_require__(342), exports);
 __exportStar(__webpack_require__(343), exports);
-__exportStar(__webpack_require__(346), exports);
+__exportStar(__webpack_require__(344), exports);
+__exportStar(__webpack_require__(347), exports);
 __exportStar(__webpack_require__(348), exports);
 __exportStar(__webpack_require__(349), exports);
 __exportStar(__webpack_require__(351), exports);
@@ -38246,9 +38246,11 @@ const buffers_1 = __webpack_require__(335);
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
+const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
-const align_1 = __webpack_require__(338);
-const array_1 = __webpack_require__(341);
+const mr_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
+const array_1 = __webpack_require__(342);
 const bufferToArray = (buffer) => {
     return [
         `[${buffer.bufnr}] `,
@@ -38260,6 +38262,12 @@ const bufferToArray = (buffer) => {
 };
 const existsBuffer = async (buffer) => {
     return await file_1.existsFile(buffer.fileName);
+};
+const getMruFiles = () => {
+    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
+        return cache_1.cacheSelector().mruFiles;
+    }
+    return mr_1.readMruFile();
 };
 const getSimpleBuffers = async (options) => {
     const currentBuffer = await buffers_1.getCurrentBuffer();
@@ -38274,7 +38282,7 @@ const getGitProjectBuffers = async (options) => {
     const currentBuffer = await buffers_1.getCurrentBuffer();
     const alternateBuffer = await buffers_1.getAlternateBuffer();
     const otherBuffers = await buffers_1.getOtherBuffers();
-    const { mruFiles } = cache_1.cacheSelector();
+    const mruFiles = getMruFiles();
     const sortedBuffers = mruFiles
         .map((file) => otherBuffers.find((buffer) => buffer.fileName === file))
         .filter((buffer) => buffer != null);
@@ -38386,6 +38394,7 @@ exports.existsFile = async (filePath) => {
         return true;
     }
 };
+// TODO: Use Vim script
 exports.existsDirectory = (dirPath) => {
     try {
         const stats = fs_1.default.statSync(dirPath);
@@ -38414,9 +38423,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.readMrwFile = exports.readMruFile = void 0;
+const fs_1 = __importDefault(__webpack_require__(21));
+const vim_variable_1 = __webpack_require__(288);
+const file_1 = __webpack_require__(337);
+const cacheDirectory = () => {
+    const cacheDir = vim_variable_1.globalVariableSelector("fzfPreviewCacheDirectory");
+    if (typeof cacheDir !== "string" || cacheDir === "") {
+        throw new Error("g:fzf_preview_cache_directory must be string");
+    }
+    return cacheDir;
+};
+const readFileOrCreateDirectory = (cacheFile) => {
+    const cacheDirectoryPath = file_1.expandHome(cacheDirectory());
+    if (!file_1.existsDirectory(cacheDirectoryPath)) {
+        fs_1.default.mkdirSync(cacheDirectoryPath, { recursive: true });
+    }
+    try {
+        return fs_1.default.readFileSync(cacheFile).toString().split("\n");
+    }
+    catch (_error) {
+        return [];
+    }
+};
+const mruFilePath = () => `${cacheDirectory()}/mru`;
+const mrwFilePath = () => `${cacheDirectory()}/mrw`;
+const readFile = (filePath) => {
+    const files = readFileOrCreateDirectory(filePath);
+    return files;
+};
+exports.readMruFile = () => {
+    const files = readFile(mruFilePath());
+    return files;
+};
+exports.readMrwFile = () => {
+    const files = readFile(mrwFilePath());
+    return files;
+};
+
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.alignLists = void 0;
-const printf_1 = __importDefault(__webpack_require__(339));
-const array_1 = __webpack_require__(341);
+const printf_1 = __importDefault(__webpack_require__(340));
+const array_1 = __webpack_require__(342);
 exports.alignLists = (lists) => {
     if (lists.length === 0) {
         return lists;
@@ -38427,7 +38485,7 @@ exports.alignLists = (lists) => {
 
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -38890,7 +38948,7 @@ Formatter.prototype.spacePad = function(token, /*Int*/ length) {
 module.exports = function(){
   var args = Array.prototype.slice.call(arguments),
     stream, format;
-  if(args[0] instanceof __webpack_require__(340).Stream){
+  if(args[0] instanceof __webpack_require__(341).Stream){
     stream = args.shift();
   }
   format = args.shift();
@@ -38907,13 +38965,13 @@ module.exports.Formatter = Formatter;
 
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 341 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38928,7 +38986,7 @@ exports.asyncFilter = async (array, asyncCallback) => {
 
 
 /***/ }),
-/* 342 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38937,7 +38995,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.allBuffersDefaultOptions = exports.allBuffers = void 0;
 const buffers_1 = __webpack_require__(335);
 const util_1 = __webpack_require__(327);
-const align_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
 const SPACER = "  ";
 exports.allBuffers = async (_args) => {
     const buffers = await buffers_1.getAllBuffers();
@@ -38953,17 +39011,17 @@ exports.allBuffersDefaultOptions = () => ({
 
 
 /***/ }),
-/* 343 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectOldFilesDefaultOptions = exports.projectOldFiles = void 0;
-const old_files_1 = __webpack_require__(344);
+const old_files_1 = __webpack_require__(345);
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
-const project_1 = __webpack_require__(345);
+const project_1 = __webpack_require__(346);
 exports.projectOldFiles = async (_args) => {
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
@@ -38978,7 +39036,7 @@ exports.projectOldFilesDefaultOptions = () => ({
 
 
 /***/ }),
-/* 344 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38990,7 +39048,7 @@ exports.getOldFiles = async () => (await plugin_1.pluginGetVvar("oldfiles"));
 
 
 /***/ }),
-/* 345 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39000,7 +39058,7 @@ exports.filterProjectEnabledFile = exports.filePathToProjectFilePath = exports.d
 const util_1 = __webpack_require__(323);
 const cache_1 = __webpack_require__(336);
 const file_1 = __webpack_require__(337);
-const array_1 = __webpack_require__(341);
+const array_1 = __webpack_require__(342);
 exports.getProjectRoot = async () => {
     if (!(await util_1.isGitDirectory())) {
         return "";
@@ -39033,7 +39091,7 @@ exports.filterProjectEnabledFile = async (filePaths) => {
 
 
 /***/ }),
-/* 346 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39045,8 +39103,8 @@ const util_2 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(347);
-const project_1 = __webpack_require__(345);
+const mr_1 = __webpack_require__(338);
+const project_1 = __webpack_require__(346);
 exports.projectMruFiles = async (_args) => {
     const currentFile = await file_1.currentFilePath();
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
@@ -39069,55 +39127,6 @@ exports.projectMruFilesDefaultOptions = () => ({
 
 
 /***/ }),
-/* 347 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.readMrwFile = exports.readMruFile = void 0;
-const fs_1 = __importDefault(__webpack_require__(21));
-const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const cacheDirectory = () => {
-    const cacheDir = vim_variable_1.globalVariableSelector("fzfPreviewCacheDirectory");
-    if (typeof cacheDir !== "string" || cacheDir === "") {
-        throw new Error("g:fzf_preview_cache_directory must be string");
-    }
-    return cacheDir;
-};
-const readFileOrCreateDirectory = (cacheFile) => {
-    const cacheDirectoryPath = file_1.expandHome(cacheDirectory());
-    if (!file_1.existsDirectory(cacheDirectoryPath)) {
-        fs_1.default.mkdirSync(cacheDirectoryPath, { recursive: true });
-    }
-    try {
-        return fs_1.default.readFileSync(cacheFile).toString().split("\n");
-    }
-    catch (_error) {
-        return [];
-    }
-};
-const mruFilePath = () => `${cacheDirectory()}/mru`;
-const mrwFilePath = () => `${cacheDirectory()}/mrw`;
-const readFile = (filePath) => {
-    const files = readFileOrCreateDirectory(filePath);
-    return files;
-};
-exports.readMruFile = () => {
-    const files = readFile(mruFilePath());
-    return files;
-};
-exports.readMrwFile = () => {
-    const files = readFile(mrwFilePath());
-    return files;
-};
-
-
-/***/ }),
 /* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39130,8 +39139,8 @@ const util_2 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(347);
-const project_1 = __webpack_require__(345);
+const mr_1 = __webpack_require__(338);
+const project_1 = __webpack_require__(346);
 exports.projectMrwFiles = async (_args) => {
     const currentFile = await file_1.currentFilePath();
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
@@ -39284,7 +39293,7 @@ exports.bufferTagsDefaultOptions = exports.bufferTags = void 0;
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
 const tags_1 = __webpack_require__(355);
-const align_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
 const SPACER = "  ";
 exports.bufferTags = async (_args) => {
     if (!(await file_1.existsFile(await file_1.currentFilePath()))) {
@@ -39339,10 +39348,10 @@ exports.getBufferTags = (filePath) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.oldFilesDefaultOptions = exports.oldFiles = void 0;
-const old_files_1 = __webpack_require__(344);
+const old_files_1 = __webpack_require__(345);
 const util_1 = __webpack_require__(327);
 const file_1 = __webpack_require__(337);
-const array_1 = __webpack_require__(341);
+const array_1 = __webpack_require__(342);
 exports.oldFiles = async (_args) => {
     const files = await old_files_1.getOldFiles();
     return {
@@ -39367,11 +39376,11 @@ exports.mruFilesDefaultOptions = exports.mruFiles = void 0;
 const util_1 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
 const vim_variable_1 = __webpack_require__(288);
-const mr_1 = __webpack_require__(347);
+const mr_1 = __webpack_require__(338);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mruFiles = async (_args) => {
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return { lines: cache_1.cacheSelector().mrwFiles };
+        return { lines: cache_1.cacheSelector().mruFiles };
     }
     return { lines: mr_1.readMruFile() };
 };
@@ -39393,7 +39402,7 @@ exports.mrwFilesDefaultOptions = exports.mrwFiles = void 0;
 const util_1 = __webpack_require__(327);
 const cache_1 = __webpack_require__(336);
 const vim_variable_1 = __webpack_require__(288);
-const mr_1 = __webpack_require__(347);
+const mr_1 = __webpack_require__(338);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mrwFiles = async (_args) => {
     if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
@@ -39527,7 +39536,7 @@ exports.changesDefaultOptions = exports.changes = void 0;
 const changes_1 = __webpack_require__(365);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
-const align_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
 const SPACER = "  ";
 exports.changes = async (_args) => {
     const changeLists = (await changes_1.getChanges()).map((change) => {
@@ -39709,9 +39718,9 @@ const mru_1 = __webpack_require__(357);
 const mrw_1 = __webpack_require__(358);
 const oldfiles_1 = __webpack_require__(356);
 const project_files_1 = __webpack_require__(321);
-const project_mru_1 = __webpack_require__(346);
+const project_mru_1 = __webpack_require__(347);
 const project_mrw_1 = __webpack_require__(348);
-const project_oldfiles_1 = __webpack_require__(343);
+const project_oldfiles_1 = __webpack_require__(344);
 const util_1 = __webpack_require__(327);
 const resourceFunctions = {
     project: project_files_1.projectFiles,
@@ -39832,7 +39841,7 @@ exports.vistaCtagsDefaultOptions = exports.vistaCtags = void 0;
 const lodash_1 = __webpack_require__(287);
 const vista_1 = __webpack_require__(377);
 const vim_variable_1 = __webpack_require__(288);
-const align_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
 const SPACER = "  ";
 const vistaTagToArray = ({ lineNumber, kind, text }) => [lineNumber.toString(), `[${kind}]`, text];
 exports.vistaCtags = async (_args) => {
@@ -39887,7 +39896,7 @@ exports.vistaBufferCtagsDefaultOptions = exports.vistaBufferCtags = void 0;
 const vista_1 = __webpack_require__(377);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(337);
-const align_1 = __webpack_require__(338);
+const align_1 = __webpack_require__(339);
 const SPACER = "  ";
 const vistaBufferTagToArray = ({ lineNumber, kind, text, line }) => [
     lineNumber.toString(),
@@ -40049,9 +40058,9 @@ const vim_variable_1 = __webpack_require__(288);
 const sync_vim_variable_1 = __webpack_require__(385);
 const store_1 = __webpack_require__(289);
 const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(347);
-const project_1 = __webpack_require__(345);
-const array_1 = __webpack_require__(341);
+const mr_1 = __webpack_require__(338);
+const project_1 = __webpack_require__(346);
+const array_1 = __webpack_require__(342);
 exports.cacheProjectRoot = async () => {
     const projectRoot = await project_1.getProjectRoot();
     store_1.dispatch(cache_1.cacheModule.actions.setProjectRoot({ projectRoot }));
@@ -41351,7 +41360,7 @@ exports.cocReferencesDefaultOptions = exports.cocReferences = void 0;
 const coc_nvim_1 = __webpack_require__(419);
 const util_1 = __webpack_require__(323);
 const vim_variable_1 = __webpack_require__(288);
-const project_1 = __webpack_require__(345);
+const project_1 = __webpack_require__(346);
 exports.cocReferences = async (_args) => {
     const { document, position } = await coc_nvim_1.workspace.getCurrentState();
     const ranges = await coc_nvim_1.languages.getSelectionRanges(document, [position]);
@@ -52814,7 +52823,7 @@ const fs = __webpack_require__(495);
 const path = __webpack_require__(18);
 const newNow = __webpack_require__(534);
 const format = __webpack_require__(478);
-const { Writable } = __webpack_require__(340);
+const { Writable } = __webpack_require__(341);
 const fileNameFormatter = __webpack_require__(535);
 const fileNameParser = __webpack_require__(536);
 const moveAndMaybeCompressFile = __webpack_require__(537);
@@ -53979,7 +53988,7 @@ module.exports = require("constants");
 /* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stream = __webpack_require__(340).Stream
+var Stream = __webpack_require__(341).Stream
 
 module.exports = legacy
 
@@ -78729,7 +78738,7 @@ var url = __webpack_require__(625);
 var URL = url.URL;
 var http = __webpack_require__(628);
 var https = __webpack_require__(629);
-var Writable = __webpack_require__(340).Writable;
+var Writable = __webpack_require__(341).Writable;
 var assert = __webpack_require__(12);
 var debug = __webpack_require__(630);
 
@@ -90746,7 +90755,7 @@ Decoder.prototype.end = function(chunk) {
 exports.createEncodeStream = EncodeStream;
 
 var util = __webpack_require__(19);
-var Transform = __webpack_require__(340).Transform;
+var Transform = __webpack_require__(341).Transform;
 var EncodeBuffer = __webpack_require__(689).EncodeBuffer;
 
 util.inherits(EncodeStream, Transform);
@@ -90789,7 +90798,7 @@ EncodeStream.prototype._flush = function(callback) {
 exports.createDecodeStream = DecodeStream;
 
 var util = __webpack_require__(19);
-var Transform = __webpack_require__(340).Transform;
+var Transform = __webpack_require__(341).Transform;
 var DecodeBuffer = __webpack_require__(709).DecodeBuffer;
 
 util.inherits(DecodeStream, Transform);
@@ -90856,7 +90865,7 @@ exports.codec = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const stream_1 = __webpack_require__(340);
+const stream_1 = __webpack_require__(341);
 class Buffered extends stream_1.Transform {
     constructor() {
         super({
@@ -104209,7 +104218,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurrentDiagnostics = exports.getDiagnostics = void 0;
 const plugin_1 = __webpack_require__(1);
 const file_1 = __webpack_require__(337);
-const project_1 = __webpack_require__(345);
+const project_1 = __webpack_require__(346);
 const diagnosticItemToLine = async (item, option) => {
     if (!(await file_1.existsFile(item.file))) {
         return "";
