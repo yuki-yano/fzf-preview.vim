@@ -1,11 +1,11 @@
 import { DiagnosticItem } from "coc.nvim"
 
 import { pluginCall } from "@/plugin"
-import { currentFilePath, existsFile } from "@/system/file"
+import { currentFilePath, existsFileAsync } from "@/system/file"
 import { filePathToProjectFilePath } from "@/system/project"
 
 const diagnosticItemToLine = async (item: DiagnosticItem, option?: { currentFile: string }): Promise<string> => {
-  if (!(await existsFile(item.file))) {
+  if (!(await existsFileAsync(item.file))) {
     return ""
   }
 

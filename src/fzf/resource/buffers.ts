@@ -3,7 +3,7 @@ import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { existsFile } from "@/system/file"
+import { existsFileAsync } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
 import { alignLists } from "@/util/align"
@@ -20,7 +20,7 @@ const bufferToArray = (buffer: VimBuffer) => {
 }
 
 const existsBuffer = async (buffer: VimBuffer): Promise<boolean> => {
-  return await existsFile(buffer.fileName)
+  return await existsFileAsync(buffer.fileName)
 }
 
 const getMruFiles = () => {

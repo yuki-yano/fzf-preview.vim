@@ -10,7 +10,7 @@ export const expandHome = (filePath: string): string => {
   return filePath
 }
 
-export const existsFile = async (filePath: string): Promise<boolean> => {
+export const existsFileAsync = async (filePath: string): Promise<boolean> => {
   const result = (await pluginCall("filereadable", [filePath])) as number
   if (result === 0) {
     return false

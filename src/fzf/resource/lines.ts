@@ -1,10 +1,10 @@
 import { execLines } from "@/connector/lines"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath, existsFile } from "@/system/file"
+import { currentFilePath, existsFileAsync } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!(await existsFile(await currentFilePath()))) {
+  if (!(await existsFileAsync(await currentFilePath()))) {
     return { lines: [] }
   }
 
