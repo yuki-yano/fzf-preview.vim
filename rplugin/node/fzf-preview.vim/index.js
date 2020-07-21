@@ -185,16 +185,15 @@ const command_1 = __webpack_require__(3);
 const resume_1 = __webpack_require__(382);
 const fzf_handler_1 = __webpack_require__(383);
 const cache_1 = __webpack_require__(384);
-const command_2 = __webpack_require__(388);
+const command_2 = __webpack_require__(385);
 const function_1 = __webpack_require__(414);
 const handler_1 = __webpack_require__(415);
-const process_1 = __webpack_require__(392);
+const process_1 = __webpack_require__(389);
 const persist_1 = __webpack_require__(307);
 const plugin_1 = __webpack_require__(1);
 const store_1 = __webpack_require__(289);
 const initializeRemotePlugin = async () => {
     await cache_1.cacheProjectRoot();
-    await cache_1.cacheMr();
     await store_1.dispatch(persist_1.saveStore({ modules: ["cache"] }));
 };
 exports.registerRemoteCommands = () => {
@@ -218,13 +217,11 @@ exports.registerFunction = () => {
     plugin_1.pluginRegisterFunction(fzf_handler_1.HANDLER_NAME, handler_1.callProcess, { sync: true });
     plugin_1.pluginRegisterFunction("FzfPreviewInitializeRemotePlugin", initializeRemotePlugin, { sync: false });
     plugin_1.pluginRegisterFunction("FzfPreviewGetDefaultProcesses", ([processesName]) => function_1.getDefaultProcesses(processesName), { sync: true });
-    plugin_1.pluginRegisterFunction("FzfPreviewCacheMr", cache_1.cacheMr, { sync: false });
     plugin_1.pluginRegisterFunction("FzfPreviewDispatchResumeQuery", resume_1.dispatchResumeQuery, { sync: false });
 };
 exports.registerAutocmd = () => {
     plugin_1.pluginRegisterAutocmd("DirChanged", async () => {
         await cache_1.cacheProjectRoot();
-        await cache_1.cacheMr();
         await store_1.dispatch(persist_1.saveStore({ modules: ["cache"] }));
     }, {
         sync: false,
@@ -37293,10 +37290,6 @@ const toolkit_1 = __webpack_require__(290);
 const module_1 = __webpack_require__(299);
 const initialState = {
     projectRoot: "",
-    mruFiles: [],
-    projectMruFiles: [],
-    mrwFiles: [],
-    projectMrwFiles: [],
 };
 exports.cacheModule = toolkit_1.createSlice({
     name: module_1.CACHE,
@@ -37310,18 +37303,6 @@ exports.cacheModule = toolkit_1.createSlice({
         },
         setProjectRoot: (state, { payload }) => {
             state.projectRoot = payload.projectRoot;
-        },
-        setMruFiles: (state, { payload }) => {
-            state.mruFiles = payload.mruFiles;
-        },
-        setProjectMruFiles: (state, { payload }) => {
-            state.projectMruFiles = payload.projectMruFiles;
-        },
-        setMrwFiles: (state, { payload }) => {
-            state.mrwFiles = payload.mrwFiles;
-        },
-        setProjectMrwFiles: (state, { payload }) => {
-            state.projectMrwFiles = payload.projectMrwFiles;
         },
     },
 });
@@ -37447,7 +37428,6 @@ const initialState = {
         fzfPreviewGitStatusPreviewCommand: "",
         fzfPreviewGrepCmd: "",
         fzfPreviewCacheDirectory: "",
-        fzfPreviewUseLookAheadMrCache: 0,
         fzfPreviewLinesCommand: "",
         fzfPreviewGrepPreviewCmd: "",
         fzfPreviewCustomProcesses: {},
@@ -37820,8 +37800,8 @@ __exportStar(__webpack_require__(329), exports);
 __exportStar(__webpack_require__(331), exports);
 __exportStar(__webpack_require__(333), exports);
 __exportStar(__webpack_require__(334), exports);
+__exportStar(__webpack_require__(342), exports);
 __exportStar(__webpack_require__(343), exports);
-__exportStar(__webpack_require__(344), exports);
 __exportStar(__webpack_require__(347), exports);
 __exportStar(__webpack_require__(348), exports);
 __exportStar(__webpack_require__(349), exports);
@@ -38244,12 +38224,10 @@ exports.buffersDefaultOptions = exports.fileFormatBuffers = exports.buffers = vo
 const buffers_1 = __webpack_require__(335);
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
-const cache_1 = __webpack_require__(336);
-const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(338);
-const align_1 = __webpack_require__(339);
-const array_1 = __webpack_require__(342);
+const file_1 = __webpack_require__(336);
+const mr_1 = __webpack_require__(337);
+const align_1 = __webpack_require__(338);
+const array_1 = __webpack_require__(341);
 const bufferToArray = (buffer) => {
     return [
         `[${buffer.bufnr}] `,
@@ -38261,12 +38239,6 @@ const bufferToArray = (buffer) => {
 };
 const existsBuffer = async (buffer) => {
     return await file_1.existsFileAsync(buffer.fileName);
-};
-const getMruFiles = () => {
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return cache_1.cacheSelector().mruFiles;
-    }
-    return mr_1.readMruFile();
 };
 const getSimpleBuffers = async (options) => {
     const currentBuffer = await buffers_1.getCurrentBuffer();
@@ -38281,7 +38253,7 @@ const getGitProjectBuffers = async (options) => {
     const currentBuffer = await buffers_1.getCurrentBuffer();
     const alternateBuffer = await buffers_1.getAlternateBuffer();
     const otherBuffers = await buffers_1.getOtherBuffers();
-    const mruFiles = getMruFiles();
+    const mruFiles = mr_1.readMruFile();
     const sortedBuffers = mruFiles
         .map((file) => otherBuffers.find((buffer) => buffer.fileName === file))
         .filter((buffer) => buffer != null);
@@ -38358,18 +38330,6 @@ exports.deleteBuffer = async (bufnr) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.cacheSelector = void 0;
-const store_1 = __webpack_require__(289);
-exports.cacheSelector = () => store_1.store.getState().cache;
-
-
-/***/ }),
-/* 337 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -38413,7 +38373,7 @@ exports.currentFilePath = async () => {
 
 
 /***/ }),
-/* 338 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38425,7 +38385,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.readMrwFile = exports.readMruFile = void 0;
 const fs_1 = __importDefault(__webpack_require__(21));
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 const cacheDirectory = () => {
     const cacheDir = vim_variable_1.globalVariableSelector("fzfPreviewCacheDirectory");
     if (typeof cacheDir !== "string" || cacheDir === "") {
@@ -38462,7 +38422,7 @@ exports.readMrwFile = () => {
 
 
 /***/ }),
-/* 339 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38472,8 +38432,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.alignLists = void 0;
-const printf_1 = __importDefault(__webpack_require__(340));
-const array_1 = __webpack_require__(342);
+const printf_1 = __importDefault(__webpack_require__(339));
+const array_1 = __webpack_require__(341);
 exports.alignLists = (lists) => {
     if (lists.length === 0) {
         return lists;
@@ -38484,7 +38444,7 @@ exports.alignLists = (lists) => {
 
 
 /***/ }),
-/* 340 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -38947,7 +38907,7 @@ Formatter.prototype.spacePad = function(token, /*Int*/ length) {
 module.exports = function(){
   var args = Array.prototype.slice.call(arguments),
     stream, format;
-  if(args[0] instanceof __webpack_require__(341).Stream){
+  if(args[0] instanceof __webpack_require__(340).Stream){
     stream = args.shift();
   }
   format = args.shift();
@@ -38964,13 +38924,13 @@ module.exports.Formatter = Formatter;
 
 
 /***/ }),
-/* 341 */
+/* 340 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 342 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38985,7 +38945,7 @@ exports.asyncFilter = async (array, asyncCallback) => {
 
 
 /***/ }),
-/* 343 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38994,7 +38954,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.allBuffersDefaultOptions = exports.allBuffers = void 0;
 const buffers_1 = __webpack_require__(335);
 const util_1 = __webpack_require__(327);
-const align_1 = __webpack_require__(339);
+const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 exports.allBuffers = async (_args) => {
     const buffers = await buffers_1.getAllBuffers();
@@ -39010,17 +38970,17 @@ exports.allBuffersDefaultOptions = () => ({
 
 
 /***/ }),
-/* 344 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectOldFilesDefaultOptions = exports.projectOldFiles = void 0;
-const old_files_1 = __webpack_require__(345);
+const old_files_1 = __webpack_require__(344);
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
-const project_1 = __webpack_require__(346);
+const project_1 = __webpack_require__(345);
 exports.projectOldFiles = async (_args) => {
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
@@ -39035,7 +38995,7 @@ exports.projectOldFilesDefaultOptions = () => ({
 
 
 /***/ }),
-/* 345 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39047,24 +39007,16 @@ exports.getOldFiles = async () => (await plugin_1.pluginGetVvar("oldfiles"));
 
 
 /***/ }),
-/* 346 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterProjectEnabledFile = exports.filePathToProjectFilePath = exports.dropFileProtocol = exports.getProjectRoot = void 0;
-const util_1 = __webpack_require__(323);
-const cache_1 = __webpack_require__(336);
-const file_1 = __webpack_require__(337);
-const array_1 = __webpack_require__(342);
-exports.getProjectRoot = async () => {
-    if (!(await util_1.isGitDirectory())) {
-        return "";
-    }
-    const projectRoot = await util_1.getProjectRoot();
-    return projectRoot;
-};
+exports.filterProjectEnabledFile = exports.filePathToProjectFilePath = exports.dropFileProtocol = void 0;
+const cache_1 = __webpack_require__(346);
+const file_1 = __webpack_require__(336);
+const array_1 = __webpack_require__(341);
 exports.dropFileProtocol = (uri) => {
     const result = /file:\/\/(?<path>\S+)/.exec(uri);
     if (result && result.groups) {
@@ -39090,6 +39042,18 @@ exports.filterProjectEnabledFile = async (filePaths) => {
 
 
 /***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cacheSelector = void 0;
+const store_1 = __webpack_require__(289);
+exports.cacheSelector = () => store_1.store.getState().cache;
+
+
+/***/ }),
 /* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39099,19 +39063,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectMruFilesDefaultOptions = exports.projectMruFiles = void 0;
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
-const cache_1 = __webpack_require__(336);
-const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(338);
-const project_1 = __webpack_require__(346);
+const file_1 = __webpack_require__(336);
+const mr_1 = __webpack_require__(337);
+const project_1 = __webpack_require__(345);
 exports.projectMruFiles = async (_args) => {
     const currentFile = await file_1.currentFilePath();
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        if (cache_1.cacheSelector().projectRoot === "") {
-            throw new Error("The current directory is not a git project");
-        }
-        return { lines: cache_1.cacheSelector().projectMruFiles.filter((file) => file !== currentFile) };
-    }
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
     }
@@ -39135,19 +39091,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectMrwFilesDefaultOptions = exports.projectMrwFiles = void 0;
 const util_1 = __webpack_require__(323);
 const util_2 = __webpack_require__(327);
-const cache_1 = __webpack_require__(336);
-const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(338);
-const project_1 = __webpack_require__(346);
+const file_1 = __webpack_require__(336);
+const mr_1 = __webpack_require__(337);
+const project_1 = __webpack_require__(345);
 exports.projectMrwFiles = async (_args) => {
     const currentFile = await file_1.currentFilePath();
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        if (cache_1.cacheSelector().projectRoot === "") {
-            throw new Error("The current directory is not a git project");
-        }
-        return { lines: cache_1.cacheSelector().projectMrwFiles.filter((file) => file !== currentFile) };
-    }
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
     }
@@ -39171,7 +39119,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.linesDefaultOptions = exports.lines = void 0;
 const lines_1 = __webpack_require__(350);
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 exports.lines = async (_args) => {
     if (!(await file_1.existsFileAsync(await file_1.currentFilePath()))) {
         return { lines: [] };
@@ -39221,7 +39169,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bufferLinesDefaultOptions = exports.bufferLines = void 0;
 const buffers_1 = __webpack_require__(335);
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 exports.bufferLines = async (_args) => {
     const buffers = await buffers_1.getBuffers();
     const lines = buffers.reduce((acc, cur) => {
@@ -39290,9 +39238,9 @@ exports.getCtags = async () => (await plugin_1.pluginCall("fzf_preview#remote#re
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bufferTagsDefaultOptions = exports.bufferTags = void 0;
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 const tags_1 = __webpack_require__(355);
-const align_1 = __webpack_require__(339);
+const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 exports.bufferTags = async (_args) => {
     if (!(await file_1.existsFileAsync(await file_1.currentFilePath()))) {
@@ -39347,10 +39295,10 @@ exports.getBufferTags = (filePath) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.oldFilesDefaultOptions = exports.oldFiles = void 0;
-const old_files_1 = __webpack_require__(345);
+const old_files_1 = __webpack_require__(344);
 const util_1 = __webpack_require__(327);
-const file_1 = __webpack_require__(337);
-const array_1 = __webpack_require__(342);
+const file_1 = __webpack_require__(336);
+const array_1 = __webpack_require__(341);
 exports.oldFiles = async (_args) => {
     const files = await old_files_1.getOldFiles();
     return {
@@ -39373,14 +39321,9 @@ exports.oldFilesDefaultOptions = () => ({
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mruFilesDefaultOptions = exports.mruFiles = void 0;
 const util_1 = __webpack_require__(327);
-const cache_1 = __webpack_require__(336);
-const vim_variable_1 = __webpack_require__(288);
-const mr_1 = __webpack_require__(338);
+const mr_1 = __webpack_require__(337);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mruFiles = async (_args) => {
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return { lines: cache_1.cacheSelector().mruFiles };
-    }
     return { lines: mr_1.readMruFile() };
 };
 exports.mruFilesDefaultOptions = () => ({
@@ -39399,14 +39342,9 @@ exports.mruFilesDefaultOptions = () => ({
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mrwFilesDefaultOptions = exports.mrwFiles = void 0;
 const util_1 = __webpack_require__(327);
-const cache_1 = __webpack_require__(336);
-const vim_variable_1 = __webpack_require__(288);
-const mr_1 = __webpack_require__(338);
+const mr_1 = __webpack_require__(337);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.mrwFiles = async (_args) => {
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-        return { lines: cache_1.cacheSelector().mrwFiles };
-    }
     return { lines: mr_1.readMrwFile() };
 };
 exports.mrwFilesDefaultOptions = () => ({
@@ -39534,8 +39472,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changesDefaultOptions = exports.changes = void 0;
 const changes_1 = __webpack_require__(365);
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const align_1 = __webpack_require__(339);
+const file_1 = __webpack_require__(336);
+const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 exports.changes = async (_args) => {
     const changeLists = (await changes_1.getChanges()).map((change) => {
@@ -39719,7 +39657,7 @@ const oldfiles_1 = __webpack_require__(356);
 const project_files_1 = __webpack_require__(321);
 const project_mru_1 = __webpack_require__(347);
 const project_mrw_1 = __webpack_require__(348);
-const project_oldfiles_1 = __webpack_require__(344);
+const project_oldfiles_1 = __webpack_require__(343);
 const util_1 = __webpack_require__(327);
 const resourceFunctions = {
     project: project_files_1.projectFiles,
@@ -39840,7 +39778,7 @@ exports.vistaCtagsDefaultOptions = exports.vistaCtags = void 0;
 const lodash_1 = __webpack_require__(287);
 const vista_1 = __webpack_require__(377);
 const vim_variable_1 = __webpack_require__(288);
-const align_1 = __webpack_require__(339);
+const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 const vistaTagToArray = ({ lineNumber, kind, text }) => [lineNumber.toString(), `[${kind}]`, text];
 exports.vistaCtags = async (_args) => {
@@ -39894,8 +39832,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.vistaBufferCtagsDefaultOptions = exports.vistaBufferCtags = void 0;
 const vista_1 = __webpack_require__(377);
 const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(337);
-const align_1 = __webpack_require__(339);
+const file_1 = __webpack_require__(336);
+const align_1 = __webpack_require__(338);
 const SPACER = "  ";
 const vistaBufferTagToArray = ({ lineNumber, kind, text, line }) => [
     lineNumber.toString(),
@@ -39929,7 +39867,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blamePrDefaultOptions = exports.blamePr = void 0;
 const vim_variable_1 = __webpack_require__(288);
 const command_1 = __webpack_require__(324);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 exports.blamePr = async (_args) => {
     if (!(await file_1.existsFileAsync(await file_1.currentFilePath()))) {
         return { lines: [] };
@@ -40050,32 +39988,13 @@ exports.HANDLER_NAME = "FzfPreviewHandleResource";
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cacheMr = exports.cacheProjectRoot = void 0;
+exports.cacheProjectRoot = void 0;
+const util_1 = __webpack_require__(323);
 const cache_1 = __webpack_require__(298);
-const persist_1 = __webpack_require__(307);
-const vim_variable_1 = __webpack_require__(288);
-const sync_vim_variable_1 = __webpack_require__(385);
 const store_1 = __webpack_require__(289);
-const file_1 = __webpack_require__(337);
-const mr_1 = __webpack_require__(338);
-const project_1 = __webpack_require__(346);
-const array_1 = __webpack_require__(342);
 exports.cacheProjectRoot = async () => {
-    const projectRoot = await project_1.getProjectRoot();
+    const projectRoot = await util_1.getProjectRoot();
     store_1.dispatch(cache_1.cacheModule.actions.setProjectRoot({ projectRoot }));
-};
-exports.cacheMr = async () => {
-    await sync_vim_variable_1.syncVimVariable();
-    if (vim_variable_1.globalVariableSelector("fzfPreviewUseLookAheadMrCache") === 0) {
-        return;
-    }
-    const mruFiles = mr_1.readMruFile();
-    store_1.dispatch(cache_1.cacheModule.actions.setMruFiles({ mruFiles: await array_1.asyncFilter(mruFiles, (file) => file_1.existsFileAsync(file)) }));
-    store_1.dispatch(cache_1.cacheModule.actions.setProjectMruFiles({ projectMruFiles: await project_1.filterProjectEnabledFile(mruFiles) }));
-    const mrwFiles = mr_1.readMrwFile();
-    store_1.dispatch(cache_1.cacheModule.actions.setMrwFiles({ mrwFiles: await array_1.asyncFilter(mrwFiles, (file) => file_1.existsFileAsync(file)) }));
-    store_1.dispatch(cache_1.cacheModule.actions.setProjectMrwFiles({ projectMrwFiles: await project_1.filterProjectEnabledFile(mrwFiles) }));
-    await store_1.dispatch(persist_1.saveStore({ modules: ["cache"] }));
 };
 
 
@@ -40086,110 +40005,20 @@ exports.cacheMr = async () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncVimVariable = void 0;
-const vim_variable_1 = __webpack_require__(386);
-const vim_variable_2 = __webpack_require__(302);
-const plugin_1 = __webpack_require__(1);
-const store_1 = __webpack_require__(289);
-const object_1 = __webpack_require__(387);
-const getGlobalVariable = async (variableName) => {
-    try {
-        return await plugin_1.pluginGetVar(variableName);
-    }
-    catch (_error) {
-        return new Promise((resolve) => {
-            resolve(null);
-        });
-    }
-};
-exports.syncVimVariable = async () => {
-    const variableNames = object_1.objectKeys(vim_variable_1.vimVariableAssociation);
-    const vimVariableActions = vim_variable_2.vimVariableModule.actions;
-    await Promise.all(variableNames.map(async (variableName) => {
-        const value = await getGlobalVariable(vim_variable_1.vimVariableAssociation[variableName]);
-        if (value == null) {
-            return;
-        }
-        store_1.dispatch(vimVariableActions.setGlobalVariable({
-            name: variableName,
-            value,
-        }));
-    }));
-};
-
-
-/***/ }),
-/* 386 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.vimVariableAssociation = void 0;
-exports.vimVariableAssociation = {
-    fzfPreviewDefaultFzfOptions: "fzf_preview_default_fzf_options",
-    fzfPreviewUseDevIcons: "fzf_preview_use_dev_icons",
-    fzfPreviewDevIconPrefixStringLength: "fzf_preview_dev_icon_prefix_string_length",
-    fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
-    webDevIconsUnicodeDecorateFileNodesDefaultSymbol: "WebDevIconsUnicodeDecorateFileNodesDefaultSymbol",
-    webDevIconsUnicodeDecorateFileNodesExtensionSymbols: "WebDevIconsUnicodeDecorateFileNodesExtensionSymbols",
-    webDevIconsUnicodeDecorateFileNodesExactSymbols: "WebDevIconsUnicodeDecorateFileNodesExactSymbols",
-    webDevIconsUnicodeDecorateFileNodesPatternSymbols: "WebDevIconsUnicodeDecorateFileNodesPatternSymbols",
-    fzfPreviewFilelistPostProcessCommand: "fzf_preview_filelist_postprocess_command",
-    fzfPreviewCommand: "fzf_preview_command",
-    fzfBinaryPreviewCommand: "fzf_binary_preview_command",
-    fzfPreviewIfBinaryCommand: "fzf_preview_if_binary_command",
-    fzfPreviewFilelistCommand: "fzf_preview_filelist_command",
-    fzfPreviewGitFilesCommand: "fzf_preview_git_files_command",
-    fzfPreviewDirectoryFilesCommand: "fzf_preview_directory_files_command",
-    fzfPreviewGitStatusCommand: "fzf_preview_git_status_command",
-    fzfPreviewGitStatusPreviewCommand: "fzf_preview_git_status_preview_command",
-    fzfPreviewGrepCmd: "fzf_preview_grep_cmd",
-    fzfPreviewCacheDirectory: "fzf_preview_cache_directory",
-    fzfPreviewUseLookAheadMrCache: "fzf_preview_use_look_ahead_mr_cache",
-    fzfPreviewLinesCommand: "fzf_preview_lines_command",
-    fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
-    fzfPreviewCustomProcesses: "fzf_preview_custom_processes",
-    fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
-    fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
-    fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
-    fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",
-    fzfPreviewBlamePrCommand: "fzf_preview_blame_pr_command",
-};
-
-
-/***/ }),
-/* 387 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.objectKeys = void 0;
-exports.objectKeys = (obj) => Object.keys(obj);
-
-
-/***/ }),
-/* 388 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeCommand = void 0;
 const args_1 = __webpack_require__(4);
-const convert_for_fzf_1 = __webpack_require__(389);
+const convert_for_fzf_1 = __webpack_require__(386);
 const resume_1 = __webpack_require__(382);
 const fzf_handler_1 = __webpack_require__(383);
-const generator_1 = __webpack_require__(391);
-const process_1 = __webpack_require__(392);
+const generator_1 = __webpack_require__(388);
+const process_1 = __webpack_require__(389);
 const execute_command_1 = __webpack_require__(300);
 const persist_1 = __webpack_require__(307);
 const vim_variable_1 = __webpack_require__(288);
 const fzf_runner_1 = __webpack_require__(411);
-const sync_vim_variable_1 = __webpack_require__(385);
+const sync_vim_variable_1 = __webpack_require__(408);
 const store_1 = __webpack_require__(289);
-const file_1 = __webpack_require__(337);
+const file_1 = __webpack_require__(336);
 const getDefaultProcesses = (defaultProcessesName) => {
     const targetProcessesDefinition = process_1.processesDefinition.find((define) => define.name === defaultProcessesName);
     if (targetProcessesDefinition == null) {
@@ -40255,14 +40084,14 @@ exports.executeCommand = async (args, { commandName, sourceFunc, sourceFuncArgsP
 
 
 /***/ }),
-/* 389 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertForFzf = void 0;
-const fzf_resource_1 = __webpack_require__(390);
+const fzf_resource_1 = __webpack_require__(387);
 const vim_variable_1 = __webpack_require__(288);
 const command_1 = __webpack_require__(324);
 const postProcessFileName = (files) => {
@@ -40314,7 +40143,7 @@ exports.convertForFzf = (lines, options) => {
 
 
 /***/ }),
-/* 390 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40325,7 +40154,7 @@ exports.USE_DEV_ICONS_PATTERN_LIMIT = 3000;
 
 
 /***/ }),
-/* 391 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40425,21 +40254,21 @@ exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, def
 
 
 /***/ }),
-/* 392 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeProcess = exports.processesDefinition = void 0;
-const git_status_1 = __webpack_require__(393);
-const open_buffer_1 = __webpack_require__(400);
-const open_bufnr_1 = __webpack_require__(402);
-const open_file_1 = __webpack_require__(405);
-const open_pr_1 = __webpack_require__(406);
-const register_1 = __webpack_require__(408);
+const git_status_1 = __webpack_require__(390);
+const open_buffer_1 = __webpack_require__(397);
+const open_bufnr_1 = __webpack_require__(399);
+const open_file_1 = __webpack_require__(402);
+const open_pr_1 = __webpack_require__(403);
+const register_1 = __webpack_require__(405);
 const persist_1 = __webpack_require__(307);
-const sync_vim_variable_1 = __webpack_require__(385);
+const sync_vim_variable_1 = __webpack_require__(408);
 const store_1 = __webpack_require__(289);
 exports.processesDefinition = [
     {
@@ -40475,16 +40304,16 @@ exports.executeProcess = async (lines, process) => {
 
 
 /***/ }),
-/* 393 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStatusProcesses = void 0;
-const git_1 = __webpack_require__(394);
-const open_file_1 = __webpack_require__(397);
-const process_1 = __webpack_require__(399);
+const git_1 = __webpack_require__(391);
+const open_file_1 = __webpack_require__(394);
+const process_1 = __webpack_require__(396);
 const createGitStatusProcess = process_1.createProcess("git-status");
 exports.gitStatusProcesses = [
     createGitStatusProcess("enter", open_file_1.editConsumer),
@@ -40500,17 +40329,17 @@ exports.gitStatusProcesses = [
 
 
 /***/ }),
-/* 394 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitPatchConsumer = exports.gitResetConsumer = exports.gitAddConsumer = void 0;
-const fzf_1 = __webpack_require__(395);
+const fzf_1 = __webpack_require__(392);
 const git_1 = __webpack_require__(330);
 const util_1 = __webpack_require__(323);
-const consumer_1 = __webpack_require__(396);
+const consumer_1 = __webpack_require__(393);
 exports.gitAddConsumer = consumer_1.createBulkLineConsumer(async (convertedLines) => {
     for (const line of convertedLines) {
         // eslint-disable-next-line no-await-in-loop
@@ -40533,7 +40362,7 @@ exports.gitPatchConsumer = consumer_1.createSingleLineConsumer(async (convertedL
 
 
 /***/ }),
-/* 395 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40547,7 +40376,7 @@ exports.execFzfCommand = async (command) => {
 
 
 /***/ }),
-/* 396 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40565,15 +40394,15 @@ exports.createBulkLineConsumer = (consume) => ({
 
 
 /***/ }),
-/* 397 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportQuickfixConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = void 0;
-const open_file_1 = __webpack_require__(398);
-const consumer_1 = __webpack_require__(396);
+const open_file_1 = __webpack_require__(395);
+const consumer_1 = __webpack_require__(393);
 const execute_command_1 = __webpack_require__(316);
 const vim_variable_1 = __webpack_require__(288);
 const parseConvertedLine = (convertedLine) => {
@@ -40639,7 +40468,7 @@ exports.exportQuickfixConsumer = consumer_1.createBulkLineConsumer(async (lines)
 
 
 /***/ }),
-/* 398 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40660,7 +40489,7 @@ exports.exportQuickFix = async (quickFixList, option) => {
 
 
 /***/ }),
-/* 399 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40686,15 +40515,15 @@ exports.createProcess = (processesName) => (expectKey, lineConsumer) => ({
 
 
 /***/ }),
-/* 400 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBufferProcesses = void 0;
-const open_buffer_1 = __webpack_require__(401);
-const process_1 = __webpack_require__(399);
+const open_buffer_1 = __webpack_require__(398);
+const process_1 = __webpack_require__(396);
 const createOpenBufferProcess = process_1.createProcess("open-buffer");
 exports.openBufferProcesses = [
     createOpenBufferProcess("enter", open_buffer_1.editConsumer),
@@ -40707,7 +40536,7 @@ exports.openBufferProcesses = [
 
 
 /***/ }),
-/* 401 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40715,8 +40544,8 @@ exports.openBufferProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBufferConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = exports.createDeleteBufferConsumer = void 0;
 const buffers_1 = __webpack_require__(335);
-const open_file_1 = __webpack_require__(398);
-const consumer_1 = __webpack_require__(396);
+const open_file_1 = __webpack_require__(395);
+const consumer_1 = __webpack_require__(393);
 const vim_variable_1 = __webpack_require__(288);
 const convertOpenCommand = (openCommand) => {
     if (openCommand === "edit" && vim_variable_1.globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
@@ -40748,15 +40577,15 @@ exports.deleteBufferConsumer = exports.createDeleteBufferConsumer();
 
 
 /***/ }),
-/* 402 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBufnrProcesses = void 0;
-const open_bufnr_1 = __webpack_require__(403);
-const process_1 = __webpack_require__(399);
+const open_bufnr_1 = __webpack_require__(400);
+const process_1 = __webpack_require__(396);
 const createOpenBufnrProcess = process_1.createProcess("open-bufnr");
 exports.openBufnrProcesses = [
     createOpenBufnrProcess("enter", open_bufnr_1.editBufnrConsumer),
@@ -40768,16 +40597,16 @@ exports.openBufnrProcesses = [
 
 
 /***/ }),
-/* 403 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBufnrConsumer = exports.tabeditBufnrConsumer = exports.vsplitBufnrConsumer = exports.splitBufnrConsumer = exports.editBufnrConsumer = void 0;
-const open_bufnr_1 = __webpack_require__(404);
-const consumer_1 = __webpack_require__(396);
-const open_buffer_1 = __webpack_require__(401);
+const open_bufnr_1 = __webpack_require__(401);
+const consumer_1 = __webpack_require__(393);
+const open_buffer_1 = __webpack_require__(398);
 const createOpenBufnrConsumer = (openCommand) => consumer_1.createSingleLineConsumer(async (convertedLine) => {
     const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine);
     if (result != null && result.groups != null) {
@@ -40792,7 +40621,7 @@ exports.deleteBufnrConsumer = open_buffer_1.createDeleteBufferConsumer();
 
 
 /***/ }),
-/* 404 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40809,15 +40638,15 @@ exports.openBufnr = async (openCommand, bufnr) => {
 
 
 /***/ }),
-/* 405 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openFileProcesses = void 0;
-const open_file_1 = __webpack_require__(397);
-const process_1 = __webpack_require__(399);
+const open_file_1 = __webpack_require__(394);
+const process_1 = __webpack_require__(396);
 const createOpenFileProcess = process_1.createProcess("open-file");
 exports.openFileProcesses = [
     createOpenFileProcess("enter", open_file_1.editConsumer),
@@ -40830,28 +40659,28 @@ exports.openFileProcesses = [
 
 
 /***/ }),
-/* 406 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openPrProcesses = void 0;
-const open_pr_1 = __webpack_require__(407);
-const process_1 = __webpack_require__(399);
+const open_pr_1 = __webpack_require__(404);
+const process_1 = __webpack_require__(396);
 const createOpenPrProcess = process_1.createProcess("open-pr");
 exports.openPrProcesses = [createOpenPrProcess("enter", open_pr_1.openPr)];
 
 
 /***/ }),
-/* 407 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openPr = void 0;
-const consumer_1 = __webpack_require__(396);
+const consumer_1 = __webpack_require__(393);
 const command_1 = __webpack_require__(324);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.openPr = consumer_1.createSingleLineConsumer(async (convertedLine) => {
@@ -40860,29 +40689,29 @@ exports.openPr = consumer_1.createSingleLineConsumer(async (convertedLine) => {
 
 
 /***/ }),
-/* 408 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerProcesses = void 0;
-const register_1 = __webpack_require__(409);
-const process_1 = __webpack_require__(399);
+const register_1 = __webpack_require__(406);
+const process_1 = __webpack_require__(396);
 const createRegisterProcess = process_1.createProcess("register");
 exports.registerProcesses = [createRegisterProcess("enter", register_1.setRegister)];
 
 
 /***/ }),
-/* 409 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setRegister = void 0;
-const register_1 = __webpack_require__(410);
-const consumer_1 = __webpack_require__(396);
+const register_1 = __webpack_require__(407);
+const consumer_1 = __webpack_require__(393);
 exports.setRegister = consumer_1.createSingleLineConsumer(async (convertedLine) => {
     const [options, ...rest] = convertedLine.split(" ");
     const str = rest.join(" ");
@@ -40891,7 +40720,7 @@ exports.setRegister = consumer_1.createSingleLineConsumer(async (convertedLine) 
 
 
 /***/ }),
-/* 410 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40902,6 +40731,95 @@ const plugin_1 = __webpack_require__(1);
 exports.setRegister = async (str, options) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#register#set", [str, options]);
 };
+
+
+/***/ }),
+/* 408 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.syncVimVariable = void 0;
+const vim_variable_1 = __webpack_require__(409);
+const vim_variable_2 = __webpack_require__(302);
+const plugin_1 = __webpack_require__(1);
+const store_1 = __webpack_require__(289);
+const object_1 = __webpack_require__(410);
+const getGlobalVariable = async (variableName) => {
+    try {
+        return await plugin_1.pluginGetVar(variableName);
+    }
+    catch (_error) {
+        return new Promise((resolve) => {
+            resolve(null);
+        });
+    }
+};
+exports.syncVimVariable = async () => {
+    const variableNames = object_1.objectKeys(vim_variable_1.vimVariableAssociation);
+    const vimVariableActions = vim_variable_2.vimVariableModule.actions;
+    await Promise.all(variableNames.map(async (variableName) => {
+        const value = await getGlobalVariable(vim_variable_1.vimVariableAssociation[variableName]);
+        if (value == null) {
+            return;
+        }
+        store_1.dispatch(vimVariableActions.setGlobalVariable({
+            name: variableName,
+            value,
+        }));
+    }));
+};
+
+
+/***/ }),
+/* 409 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vimVariableAssociation = void 0;
+exports.vimVariableAssociation = {
+    fzfPreviewDefaultFzfOptions: "fzf_preview_default_fzf_options",
+    fzfPreviewUseDevIcons: "fzf_preview_use_dev_icons",
+    fzfPreviewDevIconPrefixStringLength: "fzf_preview_dev_icon_prefix_string_length",
+    fzfPreviewDevIconsLimit: "fzf_preview_dev_icons_limit",
+    webDevIconsUnicodeDecorateFileNodesDefaultSymbol: "WebDevIconsUnicodeDecorateFileNodesDefaultSymbol",
+    webDevIconsUnicodeDecorateFileNodesExtensionSymbols: "WebDevIconsUnicodeDecorateFileNodesExtensionSymbols",
+    webDevIconsUnicodeDecorateFileNodesExactSymbols: "WebDevIconsUnicodeDecorateFileNodesExactSymbols",
+    webDevIconsUnicodeDecorateFileNodesPatternSymbols: "WebDevIconsUnicodeDecorateFileNodesPatternSymbols",
+    fzfPreviewFilelistPostProcessCommand: "fzf_preview_filelist_postprocess_command",
+    fzfPreviewCommand: "fzf_preview_command",
+    fzfBinaryPreviewCommand: "fzf_binary_preview_command",
+    fzfPreviewIfBinaryCommand: "fzf_preview_if_binary_command",
+    fzfPreviewFilelistCommand: "fzf_preview_filelist_command",
+    fzfPreviewGitFilesCommand: "fzf_preview_git_files_command",
+    fzfPreviewDirectoryFilesCommand: "fzf_preview_directory_files_command",
+    fzfPreviewGitStatusCommand: "fzf_preview_git_status_command",
+    fzfPreviewGitStatusPreviewCommand: "fzf_preview_git_status_preview_command",
+    fzfPreviewGrepCmd: "fzf_preview_grep_cmd",
+    fzfPreviewCacheDirectory: "fzf_preview_cache_directory",
+    fzfPreviewLinesCommand: "fzf_preview_lines_command",
+    fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
+    fzfPreviewCustomProcesses: "fzf_preview_custom_processes",
+    fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
+    fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
+    fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
+    fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",
+    fzfPreviewBlamePrCommand: "fzf_preview_blame_pr_command",
+};
+
+
+/***/ }),
+/* 410 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.objectKeys = void 0;
+exports.objectKeys = (obj) => Object.keys(obj);
 
 
 /***/ }),
@@ -41193,7 +41111,7 @@ exports.devIconsHighlightCommands = () => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDefaultProcesses = void 0;
-const process_1 = __webpack_require__(392);
+const process_1 = __webpack_require__(389);
 const util_1 = __webpack_require__(327);
 exports.getDefaultProcesses = (processesName) => {
     const targetProcessesDefinition = process_1.processesDefinition.find((define) => define.name === processesName);
@@ -41217,7 +41135,7 @@ const persist_1 = __webpack_require__(307);
 const execute_command_1 = __webpack_require__(316);
 const vim_variable_1 = __webpack_require__(288);
 const process_runner_1 = __webpack_require__(416);
-const sync_vim_variable_1 = __webpack_require__(385);
+const sync_vim_variable_1 = __webpack_require__(408);
 const store_1 = __webpack_require__(289);
 /* eslint-disable */
 const commands = {"ENV":"remote"}.ENV === "remote"
@@ -41376,7 +41294,7 @@ exports.cocReferencesDefaultOptions = exports.cocReferences = void 0;
 const coc_nvim_1 = __webpack_require__(420);
 const util_1 = __webpack_require__(323);
 const vim_variable_1 = __webpack_require__(288);
-const project_1 = __webpack_require__(346);
+const project_1 = __webpack_require__(345);
 exports.cocReferences = async (_args) => {
     const { document, position } = await coc_nvim_1.workspace.getCurrentState();
     const ranges = await coc_nvim_1.languages.getSelectionRanges(document, [position]);
@@ -52839,7 +52757,7 @@ const fs = __webpack_require__(496);
 const path = __webpack_require__(18);
 const newNow = __webpack_require__(535);
 const format = __webpack_require__(479);
-const { Writable } = __webpack_require__(341);
+const { Writable } = __webpack_require__(340);
 const fileNameFormatter = __webpack_require__(536);
 const fileNameParser = __webpack_require__(537);
 const moveAndMaybeCompressFile = __webpack_require__(538);
@@ -54004,7 +53922,7 @@ module.exports = require("constants");
 /* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stream = __webpack_require__(341).Stream
+var Stream = __webpack_require__(340).Stream
 
 module.exports = legacy
 
@@ -78754,7 +78672,7 @@ var url = __webpack_require__(626);
 var URL = url.URL;
 var http = __webpack_require__(629);
 var https = __webpack_require__(630);
-var Writable = __webpack_require__(341).Writable;
+var Writable = __webpack_require__(340).Writable;
 var assert = __webpack_require__(12);
 var debug = __webpack_require__(631);
 
@@ -90771,7 +90689,7 @@ Decoder.prototype.end = function(chunk) {
 exports.createEncodeStream = EncodeStream;
 
 var util = __webpack_require__(19);
-var Transform = __webpack_require__(341).Transform;
+var Transform = __webpack_require__(340).Transform;
 var EncodeBuffer = __webpack_require__(690).EncodeBuffer;
 
 util.inherits(EncodeStream, Transform);
@@ -90814,7 +90732,7 @@ EncodeStream.prototype._flush = function(callback) {
 exports.createDecodeStream = DecodeStream;
 
 var util = __webpack_require__(19);
-var Transform = __webpack_require__(341).Transform;
+var Transform = __webpack_require__(340).Transform;
 var DecodeBuffer = __webpack_require__(710).DecodeBuffer;
 
 util.inherits(DecodeStream, Transform);
@@ -90881,7 +90799,7 @@ exports.codec = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const stream_1 = __webpack_require__(341);
+const stream_1 = __webpack_require__(340);
 class Buffered extends stream_1.Transform {
     constructor() {
         super({
@@ -104233,8 +104151,8 @@ exports.cocDiagnosticsDefaultOptions = () => ({
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurrentDiagnostics = exports.getDiagnostics = void 0;
 const plugin_1 = __webpack_require__(1);
-const file_1 = __webpack_require__(337);
-const project_1 = __webpack_require__(346);
+const file_1 = __webpack_require__(336);
+const project_1 = __webpack_require__(345);
 const diagnosticItemToLine = async (item, option) => {
     if (!(await file_1.existsFileAsync(item.file))) {
         return "";
