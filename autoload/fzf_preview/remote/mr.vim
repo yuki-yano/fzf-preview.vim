@@ -14,6 +14,10 @@ function! fzf_preview#remote#mr#mrw_file_path() abort
 endfunction
 
 function! fzf_preview#remote#mr#cache_mr() abort
+  if &filetype ==# 'fzf'
+    return
+  endif
+
   if exists(':FzfPreviewRemoteEnvironment')
     call FzfPreviewCacheMr()
   elseif exists(':CocCommand')
