@@ -13,18 +13,6 @@ function! fzf_preview#remote#mr#mrw_file_path() abort
   return g:fzf_preview_cache_directory . '/mrw'
 endfunction
 
-function! fzf_preview#remote#mr#cache_mr() abort
-  if &filetype ==# 'fzf'
-    return
-  endif
-
-  if exists(':FzfPreviewRemoteEnvironment')
-    call FzfPreviewCacheMr()
-  elseif exists(':CocCommand')
-    CocCommand fzf-preview.CacheMr
-  endif
-endfunction
-
 function! s:get_files_with_create_directory(cache_path) abort
   if !isdirectory(g:fzf_preview_cache_directory)
     call mkdir(g:fzf_preview_cache_directory, 'p')

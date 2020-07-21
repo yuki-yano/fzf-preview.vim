@@ -85,10 +85,6 @@ if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 endif
 
-if !exists('g:fzf_preview_use_look_ahead_mr_cache')
-  let g:fzf_preview_use_look_ahead_mr_cache = 0
-endif
-
 if !exists('g:fzf_preview_fzf_color_option')
   let g:fzf_preview_fzf_color_option = ''
 endif
@@ -149,10 +145,6 @@ augroup fzf_preview_mr
   if g:fzf_preview_disable_mru == 0
     autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call s:mru_append(expand('<amatch>'))
     autocmd BufWritePost * call s:mrw_append(expand('<amatch>'))
-  endif
-
-  if g:fzf_preview_use_look_ahead_mr_cache != 0
-    autocmd BufEnter,VimEnter,BufWinEnter,BufWritePost * call fzf_preview#remote#mr#cache_mr()
   endif
 augroup END
 

@@ -1,8 +1,6 @@
 import { getAlternateBuffer, getCurrentBuffer, getOtherBuffers } from "@/connector/buffers"
 import { isGitDirectory } from "@/connector/util"
 import { filePreviewCommand } from "@/fzf/util"
-import { cacheSelector } from "@/module/selector/cache"
-import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { existsFileAsync } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
@@ -23,13 +21,6 @@ const existsBuffer = async (buffer: VimBuffer): Promise<boolean> => {
   return await existsFileAsync(buffer.fileName)
 }
 
-const getMruFiles = () => {
-  if (globalVariableSelector("fzfPreviewUseLookAheadMrCache") !== 0) {
-    return cacheSelector().mruFiles
-  }
-  return readMruFile()
-}
-
 const getSimpleBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
   const currentBuffer = await getCurrentBuffer()
   const alternateBuffer = await getAlternateBuffer()
@@ -46,7 +37,7 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   const alternateBuffer = await getAlternateBuffer()
   const otherBuffers = await getOtherBuffers()
 
-  const mruFiles = getMruFiles()
+  const mruFiles = readMruFile()
 
   const sortedBuffers = mruFiles
     .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))

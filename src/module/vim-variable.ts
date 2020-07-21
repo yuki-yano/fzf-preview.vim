@@ -37,7 +37,6 @@ const initialState: State = {
     fzfPreviewGitStatusPreviewCommand: "",
     fzfPreviewGrepCmd: "",
     fzfPreviewCacheDirectory: "",
-    fzfPreviewUseLookAheadMrCache: 0,
     fzfPreviewLinesCommand: "",
     fzfPreviewGrepPreviewCmd: "",
     fzfPreviewCustomProcesses: {},

@@ -1,17 +1,7 @@
-import { getProjectRoot as execGetProjectRoot, isGitDirectory } from "@/connector/util"
 import { cacheSelector } from "@/module/selector/cache"
 import { existsFileAsync } from "@/system/file"
 import type { ResourceLines } from "@/type"
 import { asyncFilter } from "@/util/array"
-
-export const getProjectRoot = async (): Promise<string> => {
-  if (!(await isGitDirectory())) {
-    return ""
-  }
-
-  const projectRoot = await execGetProjectRoot()
-  return projectRoot
-}
 
 export const dropFileProtocol = (uri: string): string => {
   const result = /file:\/\/(?<path>\S+)/.exec(uri)
