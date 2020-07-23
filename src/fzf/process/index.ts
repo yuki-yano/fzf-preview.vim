@@ -1,3 +1,4 @@
+import { decodeLine } from "@/fzf/process/consumer/consumer"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
@@ -7,7 +8,7 @@ import { registerProcesses } from "@/fzf/process/register"
 import { loadExecuteCommandStore } from "@/module/persist"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
-import type { ConvertedLines, Process, ProcessesDefinition } from "@/type"
+import type { CallbackLines, Process, ProcessesDefinition } from "@/type"
 
 export const processesDefinition: ProcessesDefinition = [
   {
@@ -36,8 +37,8 @@ export const processesDefinition: ProcessesDefinition = [
   },
 ]
 
-export const executeProcess = async (lines: ConvertedLines, process: Process): Promise<void> => {
+export const executeProcess = async (lines: CallbackLines, process: Process): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadExecuteCommandStore())
-  await process.execute(lines)
+  await process.execute(lines.map((line) => decodeLine(line)))
 }

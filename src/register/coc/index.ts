@@ -14,7 +14,7 @@ import { executeProcess, processesDefinition } from "@/fzf/process"
 import { saveStore } from "@/module/persist"
 import { setCocClient } from "@/plugin"
 import { dispatch } from "@/store"
-import type { ConvertedLines } from "@/type"
+import type { CallbackLines } from "@/type"
 
 const removeFzfPreviewPrefix = (name: string) => {
   const result = /^FzfPreview(?<name>\S+)/.exec(name)
@@ -57,7 +57,7 @@ export const registerProcesses = (commandManager: CommandManager): Array<Disposa
     return processes.map((process) => {
       return commandManager.registerCommand(
         `fzf-preview.${removeFzfPreviewPrefix(process.name)}`,
-        async ([lines]: [ConvertedLines, ...Array<unknown>]) => {
+        async ([lines]: [CallbackLines, ...Array<unknown>]) => {
           await executeProcess(lines, process)
         }
       )

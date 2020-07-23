@@ -8,10 +8,22 @@ const SPACER = "  "
 export const allBuffers = async (_args: SourceFuncArgs): Promise<Resource> => {
   const buffers = await getAllBuffers()
 
-  const alignedBuffers = alignLists(buffers.map((buffer) => [`[${buffer.bufnr}]`, buffer.fileName]))
-  const lines = alignedBuffers.map((list) => list.join(SPACER).trim())
+  const displayLines = alignLists(buffers.map((buffer) => [`[${buffer.bufnr}]`, buffer.fileName])).map((list) =>
+    list.join(SPACER).trim()
+  )
 
-  return { lines }
+  return {
+    type: "json",
+    lines: buffers.map((buffer, i) => ({
+      data: {
+        command: "FzfPreviewAllBuffers",
+        type: "buffer",
+        file: buffer.fileName,
+        bufnr: buffer.bufnr,
+      },
+      displayText: displayLines[i],
+    })),
+  }
 }
 
 export const allBuffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

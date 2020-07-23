@@ -5,11 +5,19 @@ import type { FzfCommandDefinitionDefaultOption, FzfCommandDynamicOption, Resour
 // eslint-disable-next-line @typescript-eslint/require-await
 export const directoryFiles = async ({ args }: SourceFuncArgs): Promise<Resource> => {
   const arg = args[0] != null ? args[0] : ""
-  const lines = await execDirectoryFiles(arg)
+  const lines = (await execDirectoryFiles(arg)).filter((file) => file !== "" && !file.includes(" "))
   const options: FzfCommandDynamicOption | undefined = arg ? { "--header": `"[Directory] ${arg}"` } : undefined
 
   return {
-    lines: lines.filter((file) => file !== "" && !file.includes(" ")),
+    type: "json",
+    lines: lines.map((line) => ({
+      data: {
+        command: "FzfPreviewDirectoryFiles",
+        type: "file",
+        file: line,
+      },
+      displayText: line,
+    })),
     options,
   }
 }

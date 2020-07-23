@@ -8,8 +8,18 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<Resource> => 
     throw new Error("The current directory is not a git project")
   }
 
-  const lines = await execProjectFiles()
-  return { lines: lines.filter((file) => file !== "" && !file.includes(" ")) }
+  const lines = (await execProjectFiles()).filter((file) => file !== "" && !file.includes(" "))
+  return {
+    type: "json",
+    lines: lines.map((line) => ({
+      data: {
+        command: "FzfPreviewProjectFiles",
+        type: "file",
+        file: line,
+      },
+      displayText: line,
+    })),
+  }
 }
 
 export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

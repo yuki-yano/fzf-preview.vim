@@ -1,10 +1,10 @@
 import { pluginCall } from "@/plugin"
-import type { ConvertedLines, UserProcesses } from "@/type"
+import type { CallbackLines, UserProcesses } from "@/type"
 
 type Args = {
   processesFunctionName: string
   expectKey: string
-  lines: ConvertedLines
+  lines: CallbackLines
   userProcesses?: UserProcesses
 }
 

@@ -1,14 +1,25 @@
 import { getOldFiles } from "@/connector/old-files"
 import { filePreviewCommand } from "@/fzf/util"
 import { existsFileAsync } from "@/system/file"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { asyncFilter } from "@/util/array"
 
 export const oldFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   const files = await getOldFiles()
+  const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))
+
+  const resourceLines: ResourceLines = existsFiles.map((file) => ({
+    data: {
+      command: "FzfPreviewOldFiles",
+      type: "file",
+      file,
+    },
+    displayText: file,
+  }))
 
   return {
-    lines: await asyncFilter(files, (file) => existsFileAsync(file)),
+    type: "json",
+    lines: resourceLines,
   }
 }
 

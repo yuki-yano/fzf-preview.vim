@@ -1,11 +1,5 @@
 function! fzf_preview#remote#resource#tags#ctags() abort
-  let taginfos = s:read_tag_file()
-  let lines = []
-
-  for taginfo in taginfos
-    call add(lines, join([taginfo['line'], taginfo['name'], taginfo['type'], taginfo['file']], ' '))
-  endfor
-  return lines
+  return s:read_tag_file()
 endfunction
 
 function! s:read_tag_file() abort
