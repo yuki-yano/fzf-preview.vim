@@ -4,12 +4,11 @@ import { createDeleteBufferConsumer } from "@/fzf/process/consumer/open-buffer"
 import type { OpenCommand } from "@/type"
 
 const createOpenBufnrConsumer = (openCommand: OpenCommand) =>
-  createSingleLineConsumer(async (convertedLine) => {
-    const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine)
-
-    if (result != null && result.groups != null) {
-      await openBufnr(openCommand, result.groups.bufnr)
+  createSingleLineConsumer(async (data) => {
+    if (data.type !== "buffer") {
+      throw new Error(`Unexpected data type: ${data.type}`)
     }
+    await openBufnr(openCommand, data.bufnr.toString())
   })
 
 export const editBufnrConsumer = createOpenBufnrConsumer("edit")

@@ -2,7 +2,7 @@ import { generateOptions } from "@/fzf/option/generator"
 import { openFileProcesses as defaultProcesses } from "@/fzf/process/open-file"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
-import type { ConvertedLines, FzfOptions, Processes } from "@/type"
+import type { FzfOptions, Processes, ResourceData } from "@/type"
 
 jest.mock("@/plugin")
 jest.mock("@/module/selector/vim-variable")
@@ -33,6 +33,7 @@ describe("generateOptions", () => {
       ],
       "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"],
       "--reverse": true,
+      "--with-nth": '"2.."',
     }
   })
 
@@ -40,22 +41,22 @@ describe("generateOptions", () => {
     {
       name: "",
       key: "enter",
-      execute: (_: ConvertedLines) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-a",
-      execute: (_: ConvertedLines) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-b",
-      execute: (_: ConvertedLines) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-c",
-      execute: (_: ConvertedLines) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
   ]
 

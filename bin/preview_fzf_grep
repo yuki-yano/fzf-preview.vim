@@ -9,7 +9,7 @@ import os
 bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi-dark'))
 
 GREP_OUTPUT_REGEX = re.compile(
-    r'(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
+    r'^(\s\s\s.+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
 )
 CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 

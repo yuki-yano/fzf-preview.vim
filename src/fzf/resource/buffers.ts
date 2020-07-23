@@ -54,30 +54,50 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   )
 }
 
+const createBuffers = (bufferList: Array<VimBuffer>, displayLines: Array<string>): Resource => ({
+  type: "json",
+  lines: bufferList.map((buffer, i) => ({
+    data: {
+      command: "FzfPreviewBuffers",
+      type: "buffer",
+      file: buffer.fileName,
+      bufnr: buffer.bufnr,
+    },
+    displayText: displayLines[i],
+  })),
+})
+
 export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
   // TODO: sort with mru
   if (!(await isGitDirectory())) {
-    const alignedLists = alignLists((await getSimpleBuffers()).map((buffer) => bufferToArray(buffer)))
-    return { lines: alignedLists.map((list) => list.join("").trim()) }
+    const bufferList = await getSimpleBuffers()
+    const displayLines = alignLists(bufferList.map((buffer) => bufferToArray(buffer))).map((list) =>
+      list.join("").trim()
+    )
+
+    return createBuffers(bufferList, displayLines)
   }
 
-  const alignedLists = alignLists((await getGitProjectBuffers()).map((buffer) => bufferToArray(buffer)))
+  const bufferList = await getGitProjectBuffers()
+  const displayLines = alignLists(bufferList.map((buffer) => bufferToArray(buffer))).map((list) => list.join("").trim())
 
   return {
-    lines: alignedLists.map((list) => list.join("").trim()),
-    options: { "--header-lines": (await existsBuffer(await getCurrentBuffer())) ? "1" : "0" },
+    ...createBuffers(bufferList, displayLines),
+    ...{ options: { "--header-lines": (await existsBuffer(await getCurrentBuffer())) ? "1" : "0" } },
   }
 }
 
 export const fileFormatBuffers = async (_args: SourceFuncArgs): Promise<Resource> => {
   // TODO: sort with mru
   if (!(await isGitDirectory())) {
-    return { lines: (await getSimpleBuffers({ ignoreCurrentBuffer: true })).map((buffer) => buffer.fileName) }
+    const bufferList = await getSimpleBuffers({ ignoreCurrentBuffer: true })
+    const displayLines = bufferList.map((buffer) => buffer.fileName)
+    return createBuffers(bufferList, displayLines)
   }
 
-  return {
-    lines: (await getGitProjectBuffers({ ignoreCurrentBuffer: true })).map((buffer) => buffer.fileName),
-  }
+  const bufferList = await getGitProjectBuffers({ ignoreCurrentBuffer: true })
+  const displayLines = bufferList.map((buffer) => buffer.fileName)
+  return createBuffers(bufferList, displayLines)
 }
 
 export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

@@ -9,7 +9,7 @@ import { executeProcess, processesDefinition } from "@/fzf/process"
 import { saveStore } from "@/module/persist"
 import { pluginRegisterAutocmd, pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
 import { dispatch } from "@/store"
-import { ConvertedLines } from "@/type"
+import { CallbackLines } from "@/type"
 
 const initializeRemotePlugin = async (): Promise<void> => {
   await cacheProjectRoot()
@@ -34,7 +34,7 @@ export const registerProcesses = (): void => {
     processes.forEach((process) => {
       pluginRegisterFunction(
         process.name,
-        async ([lines]: [ConvertedLines, ...Array<unknown>]) => {
+        async ([lines]: [CallbackLines, ...Array<unknown>]) => {
           await executeProcess(lines, process)
         },
         { sync: false }

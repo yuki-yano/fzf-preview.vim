@@ -8,7 +8,10 @@ const SPACER = "  "
 
 export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!(await existsFileAsync(await currentFilePath()))) {
-    return { lines: [] }
+    return {
+      type: "json",
+      lines: [],
+    }
   }
 
   const file = await currentFilePath()
@@ -16,22 +19,38 @@ export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
     .map((line) => /^(?<tagName>[^\t]+)\t(?<tagFile>\S+)\t(?<lineNumber>\d+);"\t(?<tagField>.+)/.exec(line))
     .filter((match): match is RegExpExecArray => match != null && "groups" in match)
     .map((match) => {
-      const { tagName, lineNumber, tagField } = match.groups as {
+      return match.groups as {
         tagName: string
         tagFile: string
         lineNumber: string
         tagField: string
       }
-      return [lineNumber, tagName, tagField]
     })
-    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .sort((a, b) => Number(a.lineNumber) - Number(b.lineNumber))
 
-  return { lines: alignLists(parsedTags).map((tag) => tag.join(SPACER).trim()) }
+  const currentFile = await currentFilePath()
+  const textList = alignLists(
+    parsedTags.map(({ lineNumber, tagName, tagField }) => [lineNumber, tagName, tagField])
+  ).map((tagArray) => tagArray.join(SPACER).trim())
+
+  return {
+    type: "json",
+    lines: parsedTags.map((tag, i) => ({
+      data: {
+        command: "FzfPreviewBufferTags",
+        type: "line",
+        file: currentFile,
+        text: textList[i],
+        lineNumber: Number(tag.lineNumber),
+      },
+      displayText: textList[i],
+    })),
+  }
 }
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} ${await currentFilePath()}:{}"`
+  return `"${grepPreviewCommand} ${await currentFilePath()}:{2..}"`
 }
 
 export const bufferTagsDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({

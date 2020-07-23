@@ -166,9 +166,6 @@ and
 :FzfPreviewProjectGrep {word}                 " Grep project files from args word (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.ProjectGrep {word}
 
-:FzfPreviewProjectCommandGrep {word or none}  " Grep project files with advanced ripgrep integration (not fuzzy find) Ref: [Advanced ripgrep integration](https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration) (Required [Python3](https://www.python.org/))
-:CocCommand fzf-preview.ProjectCommandGrep {word or none}
-
 :FzfPreviewCtags                              " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :CocCommand fzf-preview.Ctags
 
@@ -482,6 +479,18 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 " plugin_type is 'remote' or 'coc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
+
+## Release note
+
+<details>
+<summary>Changes history</summary>
+
+- 2020/07/23 version 0.2.0
+  - Improving the internal data structure.
+  - Remove `FzfPreviewProjectCommandGrep` command. (Changes to the data structure have made implementation difficult)
+  - Some bug fixes.
+
+</details>
 
 ## Others
 

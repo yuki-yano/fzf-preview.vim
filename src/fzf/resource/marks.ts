@@ -1,15 +1,28 @@
 import { getMarks } from "@/connector/marks"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const marks = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const markList = await getMarks()
-  return { lines: markList }
+  const resourceLines: ResourceLines = (await getMarks()).map(({ file, line, text }) => ({
+    data: {
+      command: "FzfPreviewMarks",
+      type: "line",
+      file,
+      text,
+      lineNumber: Number(line),
+    },
+    displayText: `${file}:${line}:${text}`,
+  }))
+
+  return {
+    type: "json",
+    lines: resourceLines,
+  }
 }
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} {}"`
+  return `"${grepPreviewCommand} {2..}"`
 }
 
 export const marksDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

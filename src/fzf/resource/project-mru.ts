@@ -3,7 +3,7 @@ import { filePreviewCommand } from "@/fzf/util"
 import { currentFilePath } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import { filterProjectEnabledFile } from "@/system/project"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const projectMruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   const currentFile = await currentFilePath()
@@ -12,8 +12,20 @@ export const projectMruFiles = async (_args: SourceFuncArgs): Promise<Resource> 
     throw new Error("The current directory is not a git project")
   }
 
-  const mruFiles = readMruFile()
-  return { lines: (await filterProjectEnabledFile(mruFiles)).filter((file) => file !== currentFile) }
+  const files = await filterProjectEnabledFile(readMruFile().filter((file) => file !== currentFile))
+  const resourceLines: ResourceLines = files.map((file) => ({
+    data: {
+      command: "FzfPreviewProjectMruFiles",
+      type: "file",
+      file,
+    },
+    displayText: file,
+  }))
+
+  return {
+    type: "json",
+    lines: resourceLines,
+  }
 }
 
 export const projectMruFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

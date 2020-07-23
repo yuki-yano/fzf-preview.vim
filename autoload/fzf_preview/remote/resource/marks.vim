@@ -15,6 +15,6 @@ function! fzf_preview#remote#resource#marks#get() abort
   \ })
   call filter(bufnr_and_lnum_list, { _, bufnr_and_lnum -> bufnr_and_lnum['lnum'] != 0 })
 
-  let result = fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path)
+  let result = fzf_preview#remote#util#bufnr_and_lnum_to_resource(bufnr_and_lnum_list, splitted_project_path)
   return result
 endfunction

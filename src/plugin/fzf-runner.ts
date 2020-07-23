@@ -2,18 +2,22 @@ import { fzfOptionsToString } from "@/fzf/option/convert"
 import { devIconsHighlightCommands } from "@/fzf/syntax/dev-icons"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { pluginCall, pluginCommand } from "@/plugin"
-import type { FzfOptions, ResourceLines } from "@/type"
+import type { FzfOptions, ResourceLine, ResourceLines } from "@/type"
 
 type Parameter = {
-  source: ResourceLines
+  resourceLines: ResourceLines
   handler: string
   options: FzfOptions
   syntaxCommands?: Array<string>
 }
 
-export const fzfRunner = async ({ source, handler, options, syntaxCommands }: Parameter): Promise<void> => {
+const resourceLineToFzfLine = (resourceLine: ResourceLine): string => {
+  return `   ${encodeURIComponent(JSON.stringify(resourceLine.data))} ${resourceLine.displayText}`
+}
+
+export const fzfRunner = async ({ resourceLines, handler, options, syntaxCommands }: Parameter): Promise<void> => {
   await pluginCall("fzf_preview#remote#runner#fzf_run", {
-    source,
+    source: resourceLines.map((line) => resourceLineToFzfLine(line)),
     handler,
     options: fzfOptionsToString(options),
     environment: PLUGIN.ENV,

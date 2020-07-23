@@ -1,11 +1,14 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
 import { currentFilePath, existsFileAsync } from "@/system/file"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!(await existsFileAsync(await currentFilePath()))) {
-    return { lines: [] }
+    return {
+      type: "json",
+      lines: [],
+    }
   }
 
   const file = await currentFilePath()
@@ -16,11 +19,37 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
     throw new Error(`Failed open pr command: "${openPrCommand}"`)
   }
 
-  return { lines: stdout.split("\n").filter((line) => line !== "") }
+  const lines = stdout.split("\n").filter((line) => line !== "")
+  const resourceLines: ResourceLines = lines.map((line) => {
+    const result = /^PR\s#(?<prNumber>\d+)/.exec(line)
+    if (result != null && result.groups != null) {
+      return {
+        data: {
+          command: "FzfPreviewBlamePR",
+          type: "git-pr",
+          prNumber: Number(result.groups.prNumber),
+        },
+        displayText: line,
+      }
+    }
+
+    return {
+      data: {
+        command: "FzfPreviewBlamePR",
+        type: "git-pr",
+      },
+      displayText: line,
+    }
+  })
+
+  return {
+    type: "json",
+    lines: resourceLines,
+  }
 }
 
 export const blamePrDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Blame PR> "',
   "--multi": true,
-  "--preview": '"gh pr view {2}"',
+  "--preview": '"gh pr view {3}"',
 })

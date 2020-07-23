@@ -1,6 +1,5 @@
 import { cacheSelector } from "@/module/selector/cache"
 import { existsFileAsync } from "@/system/file"
-import type { ResourceLines } from "@/type"
 import { asyncFilter } from "@/util/array"
 
 export const dropFileProtocol = (uri: string): string => {
@@ -13,10 +12,10 @@ export const dropFileProtocol = (uri: string): string => {
   return uri
 }
 
-export const filePathToProjectFilePath = (filePath: string): string | null => {
+export const filePathToProjectFilePath = (file: string): string | null => {
   const { projectRoot } = cacheSelector()
   const regex = new RegExp(`^${projectRoot}/(?<fileName>.+)`)
-  const execArray = regex.exec(filePath)
+  const execArray = regex.exec(file)
 
   if (execArray == null || execArray.groups == null) {
     return null
@@ -25,9 +24,7 @@ export const filePathToProjectFilePath = (filePath: string): string | null => {
   return execArray.groups.fileName
 }
 
-export const filterProjectEnabledFile = async (filePaths: ResourceLines): Promise<Array<string>> => {
-  const existsFiles = await asyncFilter(filePaths, (file) => existsFileAsync(file))
-  return existsFiles
-    .map((filePath) => filePathToProjectFilePath(filePath))
-    .filter((filePath): filePath is string => filePath != null)
+export const filterProjectEnabledFile = async (files: Array<string>): Promise<Array<string>> => {
+  const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))
+  return existsFiles.map((file) => filePathToProjectFilePath(file)).filter((file): file is string => file != null)
 }
