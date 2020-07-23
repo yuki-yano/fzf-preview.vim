@@ -1,9 +1,10 @@
 import { setRegister as setVimRegister } from "@/connector/register"
 import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
 
-export const setRegister = createSingleLineConsumer(async (convertedLine) => {
-  const [options, ...rest] = convertedLine.split(" ")
-  const str = rest.join(" ")
+export const setRegister = createSingleLineConsumer(async (data) => {
+  if (data.type !== "register") {
+    throw new Error(`Unexpected data type: ${data.type}`)
+  }
 
-  await setVimRegister(str, options)
+  await setVimRegister(data.text, data.option)
 })

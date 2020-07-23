@@ -1,24 +1,23 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import type { ResourceLines } from "@/type"
 
-export const execGitFiles = async (): Promise<ResourceLines> => {
+export const execGitFiles = async (): Promise<Array<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
   if (typeof gitFilesCommand !== "string") {
     return []
   }
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#git_files#get", [gitFilesCommand])) as ResourceLines
+  const lines = (await pluginCall("fzf_preview#remote#resource#git_files#get", [gitFilesCommand])) as Array<string>
   return lines
 }
 
-export const execGitStatus = async (): Promise<ResourceLines> => {
+export const execGitStatus = async (): Promise<Array<string>> => {
   const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
   if (typeof gitStatusCommand !== "string") {
     return []
   }
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#git_status#get", [gitStatusCommand])) as ResourceLines
+  const lines = (await pluginCall("fzf_preview#remote#resource#git_status#get", [gitStatusCommand])) as Array<string>
   return lines
 }
 

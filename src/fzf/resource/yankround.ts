@@ -1,19 +1,29 @@
 import { getYankround } from "@/connector/yankround"
-import { createSplitConverter } from "@/fzf/converter"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { ConvertedLine, FzfCommandDefinitionDefaultOption, Resource, SelectedLine, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const yankround = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const lines = await getYankround()
-  return { lines }
-}
+  const yankHistories = await getYankround()
+  const resourceLines: ResourceLines = yankHistories.map(({ line, option, text }) => ({
+    data: {
+      command: "FzfPreviewYankround",
+      type: "register",
+      lineNumber: line,
+      option,
+      text,
+    },
+    displayText: `${line} ${option} ${text}`,
+  }))
 
-export const dropYankroundLineNumber = (line: SelectedLine): ConvertedLine =>
-  createSplitConverter(" ")(line).slice(1).join(" ")
+  return {
+    type: "json",
+    lines: resourceLines,
+  }
+}
 
 const previewCommand = () => {
   const yankroundPreviewCommand = globalVariableSelector("fzfPreviewYankroundPreviewCommand") as string
-  return `"${yankroundPreviewCommand} {1}"`
+  return `"${yankroundPreviewCommand} {2}"`
 }
 
 export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
@@ -21,5 +31,5 @@ export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => 
   "--multi": false,
   "--preview": previewCommand(),
   "--no-sort": true,
-  "--with-nth": "3..",
+  "--with-nth": "4..",
 })

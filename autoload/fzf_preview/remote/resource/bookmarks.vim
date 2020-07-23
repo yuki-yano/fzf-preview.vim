@@ -23,8 +23,8 @@ function! s:bookmarks_format_line(line) abort
   endif
 
   if text !=# 'Annotation'
-    return filename . ':' . line_number . ':' . text
+    return { 'file': filename, 'line': line_number, 'text': text, 'comment': '' }
   else
-    return filename . ':' . line_number . ':' . text . ':' . comment
+    return { 'file': filename, 'line': line_number, 'text': text, 'comment': comment }
   endif
 endfunction

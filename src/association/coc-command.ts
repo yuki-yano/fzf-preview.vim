@@ -1,6 +1,5 @@
 import { parseEmptySourceFuncArgs } from "@/args"
 import { commandDefinition, vimCommandOptions } from "@/association/command"
-import { convertGrepToFileAndText } from "@/fzf/converter"
 import {
   cocCurrentDiagnostics,
   cocCurrentDiagnosticsDefaultOptions,
@@ -17,7 +16,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
   {
     commandName: "FzfPreviewCocReferences",
     sourceFunc: cocReferences,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocReferencesDefaultOptions,
@@ -30,7 +28,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
   {
     commandName: "FzfPreviewCocDiagnostics",
     sourceFunc: cocDiagnostics,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocDiagnosticsDefaultOptions,
@@ -43,7 +40,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
   {
     commandName: "FzfPreviewCocCurrentDiagnostics",
     sourceFunc: cocCurrentDiagnostics,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocCurrentDiagnosticsDefaultOptions,

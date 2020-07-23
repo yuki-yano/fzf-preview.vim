@@ -24,6 +24,7 @@ export const defaultOptions: FzfOptions = {
   // alt-enter is workaround
   "--expect": ["alt-enter"],
   "--bind": defaultBind,
+  "--with-nth": '"2.."',
 } as const
 
 const getUserDefaultOptions = (): FzfOptions => {

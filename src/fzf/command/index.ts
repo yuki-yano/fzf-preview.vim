@@ -98,7 +98,7 @@ export const executeCommand = async (
   })
 
   await fzfRunner({
-    source: resourceForFzf,
+    resourceLines: resourceForFzf,
     handler: HANDLER_NAME,
     options: fzfOptions,
     syntaxCommands,

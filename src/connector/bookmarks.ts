@@ -1,5 +1,11 @@
 import { pluginCall } from "@/plugin"
-import type { ResourceLines } from "@/type"
 
-export const getBookmarks = async (): Promise<ResourceLines> =>
-  (await pluginCall("fzf_preview#remote#resource#bookmarks#get")) as ResourceLines
+type Bookmark = {
+  file: string
+  line: string
+  text: string
+  comment: string
+}
+
+export const getBookmarks = async (): Promise<Array<Bookmark>> =>
+  (await pluginCall("fzf_preview#remote#resource#bookmarks#get")) as Array<Bookmark>

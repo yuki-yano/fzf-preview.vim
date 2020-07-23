@@ -1,8 +1,6 @@
-import { zip } from "lodash"
-
 import { getVistaCtags, VistaTag } from "@/connector/vista"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
 const SPACER = "  "
@@ -11,21 +9,27 @@ const vistaTagToArray = ({ lineNumber, kind, text }: VistaTag) => [lineNumber.to
 
 export const vistaCtags = async (_args: SourceFuncArgs): Promise<Resource> => {
   const tags = await getVistaCtags()
-  const tagArray = tags.map((tag) => vistaTagToArray(tag))
-  const files = tags.map(({ tagFile }) => tagFile)
-
-  const alignedLines = alignLists(tagArray).map((tag) => tag.join(SPACER).trim())
+  const displayTextList = alignLists(tags.map((tag) => vistaTagToArray(tag))).map((tag) => tag.join(SPACER).trim())
+  const resourceLines: ResourceLines = tags.map((tag, i) => ({
+    data: {
+      command: "FzfPreviewVistaCtags",
+      type: "line",
+      file: tag.tagFile,
+      lineNumber: tag.lineNumber,
+      text: displayTextList[i],
+    },
+    displayText: `${displayTextList[i]}${SPACER}${tag.tagFile}`,
+  }))
 
   return {
-    lines: zip(alignedLines, files).map(([line, file]) => {
-      return `${line as string}${SPACER}${file as string}`
-    }),
+    type: "json",
+    lines: resourceLines,
   }
 }
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} '{-1}:{1}'"`
+  return `"${grepPreviewCommand} '{-1}:{2}'"`
 }
 
 export const vistaCtagsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

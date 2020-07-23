@@ -1,19 +1,12 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import { Merge } from "type-fest"
 
-import { ConvertedLine, ProcessesName } from "@/type/process"
-
-export type ResourceLine = string
-export type ResourceLines = Array<ResourceLine>
+import { CallbackLine, ProcessesName } from "@/type/process"
+import type { Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {
   "--header"?: string
   "--header-lines"?: string
-}
-
-export type Resource = {
-  lines: ResourceLines
-  options?: FzfCommandDynamicOption
 }
 
 export type SelectedLine = string
@@ -63,7 +56,6 @@ export type SourceFuncArgs = {
 
 type FzfCommandBase = {
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Resource>
-  convertLine: (line: SelectedLine) => ConvertedLine
   sourceFuncArgsParser: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
   defaultFzfOptionFunc: () =>

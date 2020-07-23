@@ -12,24 +12,26 @@ const convertOpenCommand = (openCommand: OpenCommand): OpenCommand => {
 }
 
 const createOpenBufferConsumer = (openCommand: OpenCommand) =>
-  createSingleLineConsumer(async (convertedLine) => {
-    const file = convertedLine.split(" ").pop() as string
+  createSingleLineConsumer(async (data) => {
+    if (data.type !== "buffer") {
+      throw new Error(`Unexpected data type: ${data.type}`)
+    }
+
     const openFileFormat: OpenFile = {
       openCommand: convertOpenCommand(openCommand),
-      file,
+      file: data.file,
     }
 
     await openFile(openFileFormat)
   })
 
 export const createDeleteBufferConsumer = (): SingleLineConsumer =>
-  createSingleLineConsumer(async (convertedLine) => {
-    const result = /^\[(?<bufnr>\d+)\]/.exec(convertedLine)
-
-    if (result != null && result.groups != null) {
-      const { bufnr } = result.groups
-      await deleteBuffer(bufnr)
+  createSingleLineConsumer(async (data) => {
+    if (data.type !== "buffer") {
+      throw new Error(`Unexpected data type: ${data.type}`)
     }
+
+    await deleteBuffer(data.bufnr.toString())
   })
 
 export const editConsumer = createOpenBufferConsumer("edit")

@@ -1,5 +1,11 @@
 import { pluginCall } from "@/plugin"
-import type { ResourceLines } from "@/type"
 
-export const getCtags = async (): Promise<ResourceLines> =>
-  (await pluginCall("fzf_preview#remote#resource#tags#ctags")) as ResourceLines
+type Tag = {
+  name: string
+  file: string
+  line: string
+  type: string
+}
+
+export const getCtags = async (): Promise<Array<Tag>> =>
+  (await pluginCall("fzf_preview#remote#resource#tags#ctags")) as Array<Tag>

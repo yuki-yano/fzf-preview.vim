@@ -1,5 +1,10 @@
 import { pluginCall } from "@/plugin"
-import type { ResourceLines } from "@/type"
 
-export const getJumps = async (): Promise<ResourceLines> =>
-  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as ResourceLines
+type Jump = {
+  file: string
+  line: string
+  text: string
+}
+
+export const getJumps = async (): Promise<Array<Jump>> =>
+  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as Array<Jump>

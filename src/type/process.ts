@@ -1,12 +1,13 @@
 import { PROCESSES_NAME } from "@/const/fzf-processes"
+import { ResourceData } from "@/type/resource"
 
-export type ConvertedLine = string
-export type ConvertedLines = Array<ConvertedLine>
+export type CallbackLine = string
+export type CallbackLines = Array<CallbackLine>
 
 export type Process = {
   name: string
   key: string
-  execute: (lines: ConvertedLines) => void | Promise<void>
+  execute: (lines: Array<ResourceData>) => void | Promise<void>
 }
 
 export type Processes = Array<Process>
@@ -36,11 +37,11 @@ export type CustomProcessesVimVariable = {
 
 export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 export type SingleLineConsumer = {
-  consume: (line: ConvertedLine) => Promise<void>
+  consume: (line: ResourceData) => Promise<void>
   kind: "single"
 }
 export type BulkLineConsumer = {
-  consume: (lines: ConvertedLines) => Promise<void>
+  consume: (lines: Array<ResourceData>) => Promise<void>
   kind: "bulk"
 }
 

@@ -1,13 +1,6 @@
 import { parseDictionaryFilesArgs, parseEmptySourceFuncArgs, parseGrepArgs } from "@/args"
 import { parseResources } from "@/args/files-from-resources-parser"
 import {
-  convertBlamePr,
-  convertGrepToFileAndText,
-  convertIdentity,
-  convertLineToFileAndText,
-  convertTags,
-} from "@/fzf/converter"
-import {
   allBuffers,
   allBuffersDefaultOptions,
   blamePr,
@@ -26,9 +19,6 @@ import {
   ctagsDefaultOptions,
   directoryFiles,
   directoryFilesDefaultOptions,
-  dispatchDefaultQueryForCommandGrep,
-  dropGitStatusPrefix,
-  dropYankroundLineNumber,
   filesFromResources,
   filesFromResourcesDefaultOptions,
   gitFiles,
@@ -49,8 +39,6 @@ import {
   mrwFilesDefaultOptions,
   oldFiles,
   oldFilesDefaultOptions,
-  projectCommandGrep,
-  projectCommandGrepDefaultOptions,
   projectFiles,
   projectFilesDefaultOptions,
   projectGrep,
@@ -87,7 +75,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewProjectFiles",
     sourceFunc: projectFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectFilesDefaultOptions,
@@ -100,7 +87,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewGitFiles",
     sourceFunc: gitFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: gitFilesDefaultOptions,
@@ -113,7 +99,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewDirectoryFiles",
     sourceFunc: directoryFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseDictionaryFilesArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: directoryFilesDefaultOptions,
@@ -126,7 +111,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewGitStatus",
     sourceFunc: gitStatus,
-    convertLine: dropGitStatusPrefix,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
@@ -139,7 +123,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewBuffers",
     sourceFunc: buffers,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
@@ -152,7 +135,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewAllBuffers",
     sourceFunc: allBuffers,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
@@ -164,7 +146,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewProjectOldFiles",
     sourceFunc: projectOldFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectOldFilesDefaultOptions,
@@ -177,7 +158,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewProjectMruFiles",
     sourceFunc: projectMruFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectMruFilesDefaultOptions,
@@ -190,7 +170,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewProjectMrwFiles",
     sourceFunc: projectMrwFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectMrwFilesDefaultOptions,
@@ -203,7 +182,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewLines",
     sourceFunc: lines,
-    convertLine: convertLineToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: linesDefaultOptions,
@@ -215,7 +193,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewBufferLines",
     sourceFunc: bufferLines,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: bufferLinesDefaultOptions,
@@ -228,7 +205,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewCtags",
     sourceFunc: ctags,
-    convertLine: convertTags,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: ctagsDefaultOptions,
@@ -240,7 +216,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewBufferTags",
     sourceFunc: bufferTags,
-    convertLine: convertLineToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: bufferTagsDefaultOptions,
@@ -252,7 +227,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewOldFiles",
     sourceFunc: oldFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: oldFilesDefaultOptions,
@@ -265,7 +239,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewMruFiles",
     sourceFunc: mruFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: mruFilesDefaultOptions,
@@ -278,7 +251,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewMrwFiles",
     sourceFunc: mrwFiles,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: mrwFilesDefaultOptions,
@@ -291,7 +263,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewQuickFix",
     sourceFunc: quickFix,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: quickFixDefaultOptions,
@@ -304,7 +275,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewLocationList",
     sourceFunc: locationList,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: locationListDefaultOptions,
@@ -317,7 +287,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewJumps",
     sourceFunc: jumps,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: jumpsDefaultOptions,
@@ -330,7 +299,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewChanges",
     sourceFunc: changes,
-    convertLine: convertLineToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: changesDefaultOptions,
@@ -342,7 +310,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewMarks",
     sourceFunc: marks,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: marksDefaultOptions,
@@ -355,7 +322,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewProjectGrep",
     sourceFunc: projectGrep,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseGrepArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: projectGrepDefaultOptions,
@@ -365,23 +331,22 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enablePostProcessCommand: false,
     syntaxCommands: grepFormatBaseSyntax,
   },
-  {
-    commandName: "FzfPreviewProjectCommandGrep",
-    sourceFunc: projectCommandGrep,
-    convertLine: convertGrepToFileAndText,
-    sourceFuncArgsParser: parseGrepArgs,
-    vimCommandOptions,
-    defaultFzfOptionFunc: projectCommandGrepDefaultOptions,
-    defaultProcessesName: "open-file",
-    enableConvertForFzf: false,
-    enableDevIcons: false,
-    enablePostProcessCommand: false,
-    beforeCommandHook: dispatchDefaultQueryForCommandGrep,
-  },
+  // {
+  //   commandName: "FzfPreviewProjectCommandGrep",
+  //   sourceFunc: projectCommandGrep,
+  //   convertLine: convertGrepToFileAndText,
+  //   sourceFuncArgsParser: parseGrepArgs,
+  //   vimCommandOptions,
+  //   defaultFzfOptionFunc: projectCommandGrepDefaultOptions,
+  //   defaultProcessesName: "open-file",
+  //   enableConvertForFzf: false,
+  //   enableDevIcons: false,
+  //   enablePostProcessCommand: false,
+  //   beforeCommandHook: dispatchDefaultQueryForCommandGrep,
+  // },
   {
     commandName: "FzfPreviewFromResources",
     sourceFunc: filesFromResources,
-    convertLine: convertIdentity,
     sourceFuncArgsParser: parseResources,
     vimCommandOptions,
     defaultFzfOptionFunc: filesFromResourcesDefaultOptions,
@@ -394,7 +359,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewBookmarks",
     sourceFunc: bookmarks,
-    convertLine: convertGrepToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: bookmarksDefaultOptions,
@@ -407,7 +371,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewYankround",
     sourceFunc: yankround,
-    convertLine: dropYankroundLineNumber,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: yankroundDefaultOptions,
@@ -419,7 +382,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewVistaCtags",
     sourceFunc: vistaCtags,
-    convertLine: convertTags,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: vistaCtagsDefaultOptions,
@@ -431,7 +393,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewVistaBufferCtags",
     sourceFunc: vistaBufferCtags,
-    convertLine: convertLineToFileAndText,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: vistaBufferCtagsDefaultOptions,
@@ -443,7 +404,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
   {
     commandName: "FzfPreviewBlamePR",
     sourceFunc: blamePr,
-    convertLine: convertBlamePr,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: blamePrDefaultOptions,

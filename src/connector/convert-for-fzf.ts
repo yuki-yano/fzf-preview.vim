@@ -9,22 +9,26 @@ type Options = {
   enablePostProcessCommand: boolean
 }
 
-const postProcessFileName = (files: Array<string>) => {
+const postProcessFileName = (lines: ResourceLines): ResourceLines => {
   const postProcessCommand = globalVariableSelector("fzfPreviewFilelistPostProcessCommand") as string
 
-  if (postProcessCommand === "" || files.length === 0) {
-    return files
+  if (postProcessCommand === "" || lines.length === 0) {
+    return lines
   }
 
-  const command = `echo "${files.join("\n")}" | ${postProcessCommand}`
+  const command = `echo "${lines.map((line) => line.displayText).join("\n")}" | ${postProcessCommand}`
 
   const { stdout, stderr, status } = execSyncCommand(command)
 
   if (stderr !== "" || status !== 0) {
     throw new Error(`Failed post process command: ${postProcessCommand}`)
   }
+  const files = stdout.split("\n").filter((line) => line !== "")
 
-  return stdout.split("\n").filter((line) => line !== "")
+  return lines.map((line, i) => ({
+    ...line,
+    text: files[i],
+  }))
 }
 
 const createDevIconsList = (files: Array<string>) => {
@@ -67,11 +71,16 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
   const postProcessedLines = enablePostProcessCommand ? postProcessFileName(lines) : lines
 
   if (enableDevIcons) {
-    // eslint-disable-next-line no-control-regex
-    const convertedFiles = postProcessedLines.map((line) => line.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0])
-    const icons = createDevIconsList(convertedFiles)
+    const convertedTexts = postProcessedLines.map(
+      // eslint-disable-next-line no-control-regex
+      (line) => line.displayText.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0]
+    )
+    const icons = createDevIconsList(convertedTexts)
 
-    return postProcessedLines.map((file, i) => `${icons[i]}  ${file}`)
+    return lines.map((line, i) => ({
+      data: line.data,
+      displayText: `${icons[i]}  ${postProcessedLines[i].displayText}`,
+    }))
   }
 
   return postProcessedLines

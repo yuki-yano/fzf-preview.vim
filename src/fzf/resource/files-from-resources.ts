@@ -1,3 +1,5 @@
+import { uniqWith } from "lodash"
+
 import { FILE_RESOURCES } from "@/const/fzf-option"
 import { fileFormatBuffers } from "@/fzf/resource/buffers"
 import { directoryFiles } from "@/fzf/resource/directory-files"
@@ -10,7 +12,7 @@ import { projectMruFiles } from "@/fzf/resource/project-mru"
 import { projectMrwFiles } from "@/fzf/resource/project-mrw"
 import { projectOldFiles } from "@/fzf/resource/project-oldfiles"
 import { filePreviewCommand } from "@/fzf/util"
-import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
+import type { FileData, FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 type ResourceFunctions = {
   [key in typeof FILE_RESOURCES[number]]: (args: SourceFuncArgs) => Promise<Resource>
@@ -31,17 +33,36 @@ const resourceFunctions: ResourceFunctions = {
 
 export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource> => {
   const emptySourceFuncArgs = { args: [], extraArgs: [] }
-  const files: ResourceLines = []
+  const lines: ResourceLines = []
 
   for (const resource of args.args) {
     // eslint-disable-next-line no-await-in-loop
     const filesFromResource = await resourceFunctions[resource as typeof FILE_RESOURCES[number]](emptySourceFuncArgs)
-    files.push(...filesFromResource.lines)
+    lines.push(...filesFromResource.lines)
   }
 
-  const lines = Array.from(new Set(files))
+  const uniqLines = uniqWith(lines, (line1, line2) => {
+    if (
+      (line1.data.type === "file" || line1.data.type === "buffer") &&
+      (line2.data.type === "file" || line2.data.type === "buffer")
+    ) {
+      return line1.data.file === line2.data.file
+    }
+    return true
+  })
 
-  return { lines, options: { "--header": `"[Resources] ${args.args.join(" ")}"` } }
+  return {
+    type: "json",
+    lines: uniqLines.map((line) => ({
+      data: {
+        command: "FzfPreviewFromResources",
+        type: "file",
+        file: (line.data as FileData).file,
+      },
+      displayText: (line.data as FileData).file,
+    })),
+    options: { "--header": `"[Resources] ${args.args.join(" ")}"` },
+  }
 }
 
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

@@ -1,17 +1,17 @@
 import { createProcessFunctionName } from "@/fzf/util"
-import type { CreateProcess } from "@/type"
+import type { CreateProcess, ResourceData } from "@/type"
 
 export const createProcess: CreateProcess = (processesName) => (expectKey, lineConsumer) => ({
   name: createProcessFunctionName(processesName, expectKey),
   key: expectKey,
-  execute: async (lines) => {
+  execute: async (dataList: Array<ResourceData>) => {
     if (lineConsumer.kind === "single") {
-      for (const line of lines) {
+      for (const data of dataList) {
         // eslint-disable-next-line no-await-in-loop
-        await lineConsumer.consume(line)
+        await lineConsumer.consume(data)
       }
     } else {
-      await lineConsumer.consume(lines)
+      await lineConsumer.consume(dataList)
     }
   },
 })

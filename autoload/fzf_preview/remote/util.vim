@@ -35,7 +35,7 @@ function! fzf_preview#remote#util#is_project_file(file, splitted_project_path) a
   return is_project_file
 endfunction
 
-function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, splitted_project_path) abort
+function! fzf_preview#remote#util#bufnr_and_lnum_to_resource(bufnr_and_lnum_list, splitted_project_path) abort
   let result = []
   for bufnr_and_lnum in a:bufnr_and_lnum_list
     let bufnr = bufnr_and_lnum['bufnr']
@@ -57,7 +57,7 @@ function! fzf_preview#remote#util#bufnr_and_lnum_to_lines(bufnr_and_lnum_list, s
           let text = ''
         endif
 
-        call add(result, file . ':' . line_number . ':' . text)
+        call add(result, { 'file': file, 'line': line_number, 'text': text })
       endif
     endif
   endfor
