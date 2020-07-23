@@ -1,7 +1,7 @@
 import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import { Merge } from "type-fest"
 
-import { CallbackLine, ProcessesName } from "@/type/process"
+import { ProcessesName } from "@/type/process"
 import type { Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {
@@ -37,7 +37,6 @@ type RemoteFzfCommandName =
   | "FzfPreviewChanges"
   | "FzfPreviewMarks"
   | "FzfPreviewProjectGrep"
-  | "FzfPreviewProjectCommandGrep"
   | "FzfPreviewFromResources"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"

@@ -194,13 +194,6 @@ COMMANDS                                        *fzf-preview-commands*
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
 
-                                                *:FzfPreviewProjectCommandGrep*
-:FzfPreviewProjectCommandGrep
-:CocCommand fzf-preview.ProjectCommandGrep
-     Search for projects with advanced integration with ripgrep.
-     Since the search is done using ripgrep, FZF's fuzzy fines do not work.
-     Ref: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
-
                                                 *:FzfPreviewCTags*
 :FzfPreviewCtags
 :CocCommand fzf-preview.Ctags
