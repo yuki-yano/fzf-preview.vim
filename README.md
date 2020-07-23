@@ -480,6 +480,18 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
 
+## Release note
+
+<details>
+<summary>Changes history</summary>
+
+- 2020/07/23 version 0.2.0
+  - Improving the internal data structure.
+  - Remove `FzfPreviewProjectCommandGrep` command. (Changes to the data structure have made implementation difficult)
+  - Some bug fixes.
+
+</details>
+
 ## Others
 
 - How to use fish user?
