@@ -58,8 +58,8 @@ export const gitAdd = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#add", [file])
 }
 
-export const gitReset = async (file: string): Promise<void> => {
-  await pluginCall("fzf_preview#remote#consumer#git#reset", [file])
+export const gitReset = async (file: string, option?: "--soft" | "--hard"): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#reset", [file, option == null ? "" : option])
 }
 
 export const gitPatch = async (file: string): Promise<void> => {
@@ -82,6 +82,6 @@ export const gitShow = async (nameOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#show", [nameOrHash])
 }
 
-export const gitBranchYank = async (branch: string): Promise<void> => {
-  await pluginCall("fzf_preview#remote#consumer#git#branch_yank", [branch])
+export const gitYank = async (branchOrHash: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }

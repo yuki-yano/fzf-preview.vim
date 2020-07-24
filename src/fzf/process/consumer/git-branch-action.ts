@@ -1,6 +1,5 @@
-import { execFzfCommand } from "@/connector/fzf"
-import { gitBranchYank, gitCheckout, gitDiff } from "@/connector/git"
-import { createSingleLineConsumer } from "@/fzf/process/consumer"
+import { gitCheckout, gitDiff, gitReset, gitYank } from "@/connector/git"
+import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
 /* eslint-disable complexity */
@@ -16,7 +15,34 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitCheckout(data.branches[0])
-      await execFzfCommand("FzfPreviewGitBranches", { clearSession: true })
+      await chainFzfCommand("FzfPreviewGitBranches")
+      break
+    }
+    case "reset": {
+      if (data.branches.length > 1) {
+        throw new Error("branches must be one")
+      }
+
+      await gitReset(data.branches[0])
+      await chainFzfCommand("FzfPreviewGitBranches")
+      break
+    }
+    case "reset-soft": {
+      if (data.branches.length > 1) {
+        throw new Error("branches must be one")
+      }
+
+      await gitReset(data.branches[0], "--soft")
+      await chainFzfCommand("FzfPreviewGitBranches")
+      break
+    }
+    case "reset-hard": {
+      if (data.branches.length > 1) {
+        throw new Error("branches must be one")
+      }
+
+      await gitReset(data.branches[0], "--hard")
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "diff": {
@@ -25,7 +51,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitDiff(data.branches[0], data.branches[1])
-      await execFzfCommand("FzfPreviewGitBranches", { clearSession: true })
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "yank": {
@@ -33,8 +59,8 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
         throw new Error("Branch must be one")
       }
 
-      await gitBranchYank(data.branches[0])
-      await execFzfCommand("FzfPreviewGitBranches", { clearSession: true })
+      await gitYank(data.branches[0])
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
 

@@ -5,10 +5,17 @@ function! fzf_preview#remote#consumer#git#add(file) abort
   endif
 endfunction
 
-function! fzf_preview#remote#consumer#git#reset(file) abort
-  call system('git reset ' . a:file)
+function! fzf_preview#remote#consumer#git#reset(file, option) abort
+  if a:option !=# ''
+    let command = 'git reset ' . a:option . ' ' . a:file
+  else
+    let command = 'git reset ' . a:file
+  endif
+
+  call system(command)
+
   if v:shell_error
-    echomsg 'Failed: git reset ' . a:file
+    echomsg 'Failed: ' . command
   endif
 endfunction
 
@@ -59,7 +66,7 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
-function! fzf_preview#remote#consumer#git#branch_yank(branch) abort
+function! fzf_preview#remote#consumer#git#yank(branch) abort
   let hash = system('git rev-parse ' . a:branch)
   call fzf_preview#remote#consumer#register#set(hash, 'v')
   echomsg 'yanked ' a:branch . ' branch hash: ' . hash

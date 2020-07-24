@@ -1,5 +1,5 @@
 export const GIT_ACTIONS = ["status", "branch", "log"] as const
-export const GIT_BRANCH_ACTIONS = ["checkout", "diff", "yank"] as const
+export const GIT_BRANCH_ACTIONS = ["checkout", "reset", "reset-hard", "reset-soft", "diff", "yank"] as const
 
 export const GIT_BRANCH_COMMAND =
   "git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%(color:reset)    %(color:reset)%(HEAD) %(color:magenta)%(refname:short)%(color:reset)    %(color:yellow)%(authordate:short)%(color:reset)    %(color:blue)[%(authorname)]%(color:reset)%09' 2> /dev/null"
