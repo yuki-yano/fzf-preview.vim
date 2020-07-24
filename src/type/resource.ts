@@ -1,4 +1,5 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
+import { GitAction, GitBranchAction } from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName
@@ -21,11 +22,32 @@ export type BufferData = {
   bufnr: number
 }
 
+export type GitActionData = {
+  command: FzfCommandName
+  type: "git-actions"
+  action: GitAction
+}
+
 export type GitStatusData = {
   command: FzfCommandName
   type: "git-status"
   file: string
   status: string
+}
+
+export type GitBranchData = {
+  command: FzfCommandName
+  type: "git-branch"
+  name: string
+  date: string
+  author: string
+}
+
+export type GitBranchActionData = {
+  command: FzfCommandName
+  type: "git-branch-actions"
+  action: GitBranchAction
+  branches: Array<string>
 }
 
 export type RegisterData = {
@@ -42,8 +64,17 @@ export type GitPrData = {
   prNumber?: number
 }
 
-export type HasFileData = FileData | LineData | BufferData | GitStatusData
-export type ResourceData = FileData | LineData | BufferData | GitStatusData | RegisterData | GitPrData
+export type ResourceData =
+  | FileData
+  | LineData
+  | BufferData
+  | GitActionData
+  | GitStatusData
+  | GitBranchData
+  | GitBranchActionData
+  | RegisterData
+  | GitPrData
+
 export type ResourceType = ResourceData["type"]
 
 export type ResourceLine = {

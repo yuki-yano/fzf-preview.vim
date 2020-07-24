@@ -2,7 +2,7 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import { Merge } from "type-fest"
 
 import { ProcessesName } from "@/type/process"
-import type { Resource } from "@/type/resource"
+import type { GitBranchData, Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {
   "--header"?: string
@@ -18,7 +18,6 @@ type RemoteFzfCommandName =
   | "FzfPreviewProjectFiles"
   | "FzfPreviewGitFiles"
   | "FzfPreviewDirectoryFiles"
-  | "FzfPreviewGitStatus"
   | "FzfPreviewBuffers"
   | "FzfPreviewAllBuffers"
   | "FzfPreviewProjectOldFiles"
@@ -38,6 +37,10 @@ type RemoteFzfCommandName =
   | "FzfPreviewMarks"
   | "FzfPreviewProjectGrep"
   | "FzfPreviewFromResources"
+  | "FzfPreviewGitActions"
+  | "FzfPreviewGitStatus"
+  | "FzfPreviewGitBranches"
+  | "FzfPreviewGitBranchActions"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
   | "FzfPreviewVistaCtags"
@@ -97,9 +100,11 @@ export type FzfOptions = {
 }
 
 export type FzfCommandDefinitionDefaultOption = {
+  "--header"?: string
   "--prompt": string
-  "--multi": boolean
-  "--preview": string
+  "--multi"?: boolean
+  "--preview"?: string
+  "--preview-window"?: string
   "--no-sort"?: boolean
   "--delimiter"?: string
   "--phony"?: boolean
@@ -114,3 +119,7 @@ export type AddFzfArg = {
 }
 
 export type ResumeQuery = string | null
+
+export type Session = {
+  gitBranches?: Array<GitBranchData>
+}
