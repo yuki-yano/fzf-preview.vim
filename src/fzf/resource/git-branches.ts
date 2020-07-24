@@ -12,9 +12,9 @@ export const gitBranches = async (_args: SourceFuncArgs): Promise<Resource> => {
   }
 
   const branches = await execGitBranch()
-  const displayLines = alignLists(
-    branches.map(({ prefix, name, date, author }) => [prefix, name, date, author])
-  ).map((list) => list.join(SPACER).trim())
+  const displayLines = alignLists(branches.map(({ name, date, author }) => [name, date, author])).map((list) =>
+    list.join(SPACER).trim()
+  )
 
   /* eslint-disable no-control-regex */
   return {
