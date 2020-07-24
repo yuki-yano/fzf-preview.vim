@@ -1,4 +1,4 @@
-import { gitAddConsumer, gitPatchConsumer, gitResetConsumer } from "@/fzf/process/consumer/git"
+import { gitAddConsumer, gitPatchConsumer, gitResetConsumer } from "@/fzf/process/consumer/git-status"
 import {
   dropConsumer,
   editConsumer,
