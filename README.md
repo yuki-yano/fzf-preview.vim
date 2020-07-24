@@ -336,7 +336,7 @@ set viminfo='1000
 let g:fzf_preview_floating_window_rate = 0.9
 
 " fzf command default options
-let g:fzf_preview_default_fzf_options = { '--reverse': v:true }
+let g:fzf_preview_default_fzf_options = { '--reverse': v:true, '--preview-window': 'wrap' }
 
 " Add fzf quit mapping
 let g:fzf_preview_quit_map = 1
@@ -408,7 +408,7 @@ let g:fzf_preview_custom_processes = {}
 " call remove(g:fzf_preview_custom_processes['open-file'], 'ctrl-x')
 
 " Use as fzf preview-window option
-let g:fzf_preview_fzf_preview_window_option = 'wrap'
+let g:fzf_preview_fzf_preview_window_option = ''
 " let g:fzf_preview_fzf_preview_window_option = 'up:30%'
 
 " Command to be executed after file list creation
