@@ -39659,7 +39659,7 @@ exports.projectGrep = async (args) => {
                 type: "line",
                 file: line.split(":")[0],
                 lineNumber: Number(line.split(":")[1]),
-                text: line.split(":")[2],
+                text: line.split(":").slice(2).join(":"),
             },
             displayText: line,
         })),
