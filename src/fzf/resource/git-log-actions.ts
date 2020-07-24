@@ -25,6 +25,7 @@ export const gitLogActions = async (_args: SourceFuncArgs): Promise<Resource> =>
         type: "git-log-actions",
         action,
         hashes: logs.map((log) => log.hash),
+        isCurrentFile: logs[0].isCurrentFile,
       },
       displayText: action,
     })),

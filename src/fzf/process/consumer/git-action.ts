@@ -20,6 +20,10 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
       await execFzfCommand("FzfPreviewGitLogs")
       break
     }
+    case "current-log": {
+      await execFzfCommand("FzfPreviewGitCurrentLogs")
+      break
+    }
 
     default: {
       unreachable(data.action)

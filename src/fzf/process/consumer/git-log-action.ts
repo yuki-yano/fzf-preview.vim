@@ -1,5 +1,6 @@
 import { gitCheckout, gitReset, gitShow, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
+import { FzfCommandName } from "@/type"
 import { unreachable } from "@/util/type"
 
 /* eslint-disable complexity */
@@ -8,6 +9,8 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
     throw new Error(`Unexpected data type: ${data.type}`)
   }
 
+  const nextCommand: FzfCommandName = data.isCurrentFile ? "FzfPreviewGitCurrentLogs" : "FzfPreviewGitLogs"
+
   switch (data.action) {
     case "show": {
       if (data.hashes.length > 1) {
@@ -15,7 +18,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitShow(data.hashes[0])
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
     case "reset": {
@@ -24,7 +27,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitReset(data.hashes[0])
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
     case "reset-soft": {
@@ -33,7 +36,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitReset(data.hashes[0], "--soft")
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
     case "reset-hard": {
@@ -42,7 +45,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitReset(data.hashes[0], "--hard")
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
     case "checkout": {
@@ -51,7 +54,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitCheckout(data.hashes[0])
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
     case "yank": {
@@ -60,7 +63,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitYank(data.hashes[0])
-      await chainFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand(nextCommand)
       break
     }
 

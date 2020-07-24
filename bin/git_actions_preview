@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
 if [[ $1 == 'status' ]]; then
-  git -c color.status=always status
+	git -c color.status=always status
 elif [[ $1 == 'branch' ]]; then
-  git for-each-ref --sort=-committerdate --count=10 --color=always --format="Date: %(color:red)%(authordate:iso)%(color:reset)  %(color:green)[%(authorname)]%(color:reset)  Ref: %(color:yellow)%(refname:short)%(color:reset)
+	git for-each-ref --sort=-committerdate --count=10 --color=always --format="Date: %(color:red)%(authordate:iso)%(color:reset)  %(color:green)[%(authorname)]%(color:reset)  Ref: %(color:yellow)%(refname:short)%(color:reset)
 Subject: %(subject)
 "
 elif [[ $1 == 'log' ]]; then
-  git log --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always
+	git log --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always
+elif [[ $1 =~ ^current-log ]]; then
+  file=$(echo "$1" | awk -F':' '{print $2}')
+	git log --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always -- "$file"
 fi

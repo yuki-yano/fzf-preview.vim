@@ -50,13 +50,6 @@ export type GitBranchActionData = {
   branches: Array<string>
 }
 
-export type GitLogActionData = {
-  command: FzfCommandName
-  type: "git-log-actions"
-  action: GitLogAction
-  hashes: Array<string>
-}
-
 export type GitLogData = {
   command: FzfCommandName
   type: "git-log"
@@ -64,6 +57,15 @@ export type GitLogData = {
   date: string
   author: string
   comment: string
+  isCurrentFile: boolean
+}
+
+export type GitLogActionData = {
+  command: FzfCommandName
+  type: "git-log-actions"
+  action: GitLogAction
+  hashes: Array<string>
+  isCurrentFile: boolean
 }
 
 export type RegisterData = {

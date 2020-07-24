@@ -1,4 +1,4 @@
-export const GIT_ACTIONS = ["status", "branch", "log"] as const
+export const GIT_ACTIONS = ["status", "branch", "log", "current-log"] as const
 export const GIT_BRANCH_ACTIONS = ["checkout", "reset", "reset-hard", "reset-soft", "diff", "yank"] as const
 export const GIT_LOG_ACTIONS = ["show", "reset", "reset-hard", "reset-soft", "checkout", "yank"] as const
 
@@ -7,8 +7,5 @@ export const GIT_BRANCH_COMMAND =
 
 export const GIT_BRANCH_PREVIEW_COMMAND =
   "[[ '{2}' != '*' ]] && git log {2} --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always || git log {3} --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always"
-
-export const GIT_LOG_COMMAND =
-  "git log --decorate --color=always --date=iso  --format='%C(green)[commit]%Creset    %C(magenta)%h%Creset    %C(yellow)%ad %x09%Creset    [%C(blue)%an%Creset]    %x09%C(auto)%s'"
 
 export const GIT_LOG_PREVIEW_COMMAND = "git show {2} --color=always"

@@ -42,6 +42,7 @@ type RemoteFzfCommandName =
   | "FzfPreviewGitBranches"
   | "FzfPreviewGitBranchActions"
   | "FzfPreviewGitLogs"
+  | "FzfPreviewGitCurrentLogs"
   | "FzfPreviewGitLogActions"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
