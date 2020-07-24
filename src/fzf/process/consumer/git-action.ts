@@ -1,5 +1,5 @@
 import { execFzfCommand } from "@/connector/fzf"
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
 export const execGitActionConsumer = createSingleLineConsumer(async (data) => {

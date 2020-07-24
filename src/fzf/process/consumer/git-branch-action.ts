@@ -1,6 +1,6 @@
 import { execFzfCommand } from "@/connector/fzf"
 import { gitBranchYank, gitCheckout, gitDiff } from "@/connector/git"
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
 /* eslint-disable complexity */

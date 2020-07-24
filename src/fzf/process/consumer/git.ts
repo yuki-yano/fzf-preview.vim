@@ -1,7 +1,7 @@
 import { execFzfCommand } from "@/connector/fzf"
 import { gitCheckout } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
-import { createBulkLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createBulkLineConsumer } from "@/fzf/process/consumer"
 
 export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
   if (dataList.length > 1) {

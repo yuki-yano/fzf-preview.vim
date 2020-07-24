@@ -1,4 +1,4 @@
-import { decodeLine } from "@/fzf/process/consumer/consumer"
+import { decodeLine } from "@/fzf/process/consumer"
 import { gitActionProcesses } from "@/fzf/process/git-action"
 import { gitBranchProcesses } from "@/fzf/process/git-branch"
 import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"

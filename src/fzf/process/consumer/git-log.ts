@@ -1,6 +1,6 @@
 import { gitShow } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 
 export const gitShowConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-log") {

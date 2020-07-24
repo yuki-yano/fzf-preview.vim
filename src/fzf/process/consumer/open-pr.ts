@@ -1,4 +1,4 @@
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { execSyncCommand } from "@/system/command"
 
 // eslint-disable-next-line @typescript-eslint/require-await

@@ -1,7 +1,7 @@
 import { execFzfCommand } from "@/connector/fzf"
 import { gitAdd, gitPatch, gitReset } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
-import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { GitStatusData } from "@/type"
 
 export const gitAddConsumer = createBulkLineConsumer(async (dataList) => {
