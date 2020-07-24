@@ -9,3 +9,11 @@ export type GitBranch = {
   date: string
   author: string
 }
+
+export type GitLog = {
+  prefix: string
+  hash: string
+  date: string
+  author: string
+  comment: string
+}

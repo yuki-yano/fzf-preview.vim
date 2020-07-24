@@ -2,6 +2,7 @@ import { decodeLine } from "@/fzf/process/consumer/consumer"
 import { gitActionProcesses } from "@/fzf/process/git-action"
 import { gitBranchProcesses } from "@/fzf/process/git-branch"
 import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"
+import { gitLogProcesses } from "@/fzf/process/git-log"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
@@ -41,6 +42,10 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "git-branch-actions",
     processes: gitBranchActionProcesses,
+  },
+  {
+    name: "git-log",
+    processes: gitLogProcesses,
   },
   {
     name: "register",

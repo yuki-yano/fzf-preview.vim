@@ -1,5 +1,6 @@
 import { execFzfCommand } from "@/connector/fzf"
 import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { unreachable } from "@/util/type"
 
 export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-actions") {
@@ -15,9 +16,13 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
       await execFzfCommand("FzfPreviewGitBranches")
       break
     }
+    case "log": {
+      await execFzfCommand("FzfPreviewGitLogs")
+      break
+    }
 
     default: {
-      throw new Error(`Unexpected data action: ${data.action}`)
+      unreachable(data.action)
     }
   }
 })

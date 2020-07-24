@@ -1,7 +1,7 @@
-import { GIT_BRANCH_COMMAND } from "@/const/git"
+import { GIT_BRANCH_COMMAND, GIT_LOG_COMMAND } from "@/const/git"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import type { GitBranch } from "@/type"
+import type { GitBranch, GitLog } from "@/type"
 
 export const execGitFiles = async (): Promise<Array<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
@@ -39,6 +39,21 @@ export const execGitBranch = async (): Promise<Array<GitBranch>> => {
   })
 }
 
+export const execGitLog = async (): Promise<Array<GitLog>> => {
+  const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [GIT_LOG_COMMAND])) as Array<string>
+
+  return lines.map((line) => {
+    const [prefix, hash, date, author, comment] = line.split("    ")
+    return {
+      prefix,
+      hash,
+      date,
+      author,
+      comment,
+    }
+  })
+}
+
 export const gitAdd = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#add", [file])
 }
@@ -61,6 +76,10 @@ export const gitDiff = async (branch: string, branch2?: string): Promise<void> =
   } else {
     await pluginCall("fzf_preview#remote#consumer#git#diff", [branch, branch2])
   }
+}
+
+export const gitShow = async (nameOrHash: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#show", [nameOrHash])
 }
 
 export const gitBranchYank = async (branch: string): Promise<void> => {
