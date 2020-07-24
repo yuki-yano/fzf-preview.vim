@@ -6,7 +6,7 @@ import { alignLists } from "@/util/align"
 
 const SPACER = "    "
 
-export const gitBranch = async (_args: SourceFuncArgs): Promise<Resource> => {
+export const gitBranches = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
@@ -36,7 +36,7 @@ export const gitBranch = async (_args: SourceFuncArgs): Promise<Resource> => {
   /* eslint-enable no-control-regex */
 }
 
-export const gitBranchDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
+export const gitBranchesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--header": '"Enter: checkout, C-c: Other action"',
   "--prompt": '"GitBranch> "',
   "--preview": `"${GIT_BRANCH_PREVIEW_COMMAND}"`,
