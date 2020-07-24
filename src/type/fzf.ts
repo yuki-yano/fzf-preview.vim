@@ -2,7 +2,7 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import { Merge } from "type-fest"
 
 import { ProcessesName } from "@/type/process"
-import type { GitBranchData, Resource } from "@/type/resource"
+import type { GitBranchData, GitLogData, Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {
   "--header"?: string
@@ -42,6 +42,7 @@ type RemoteFzfCommandName =
   | "FzfPreviewGitBranches"
   | "FzfPreviewGitBranchActions"
   | "FzfPreviewGitLogs"
+  | "FzfPreviewGitLogActions"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
   | "FzfPreviewVistaCtags"
@@ -123,4 +124,5 @@ export type ResumeQuery = string | null
 
 export type Session = {
   gitBranches?: Array<GitBranchData>
+  gitLogs?: Array<GitLogData>
 }

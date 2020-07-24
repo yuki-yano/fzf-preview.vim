@@ -36,7 +36,7 @@ export const gitLogs = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 export const gitLogsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--header": '"Enter: git show"',
-  "--prompt": '"GitBranch> "',
+  "--prompt": '"GitLog> "',
   "--preview": `"${GIT_LOG_PREVIEW_COMMAND}"`,
   "--preview-window": '"down:50%"',
 })
