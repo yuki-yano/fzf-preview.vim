@@ -485,6 +485,10 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/07/24 version 0.2.1
+  - Change g:fzf_preview_default_fzf_options and g:fzf_preview_fzf_preview_window_option default value.
+  - Fix export quickfix bug in grep.
+
 - 2020/07/23 version 0.2.0
   - Improving the internal data structure.
   - Remove `FzfPreviewProjectCommandGrep` command. (Changes to the data structure have made implementation difficult)
