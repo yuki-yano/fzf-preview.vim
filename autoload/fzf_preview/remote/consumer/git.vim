@@ -13,11 +13,11 @@ function! fzf_preview#remote#consumer#git#reset(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#patch(file) abort
-  if exists(':Gdiff') != 0
-    execute 'silent tabedit ' . a:file . ' | silent Gdiff'
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina patch ' . a:file
     return
-  elseif exists(':Gina') == 2
-    execute 'silent Gina patch ' . a:file
+  elseif exists(':Gdiff') != 0
+    execute 'tabedit ' . a:file . ' | Gdiff'
     return
   endif
 
