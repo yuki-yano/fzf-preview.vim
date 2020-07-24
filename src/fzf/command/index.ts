@@ -1,4 +1,5 @@
 import { parseAddFzfArg, parseProcesses, parseResume } from "@/args"
+import { parseSession } from "@/args/session-parser"
 import { convertForFzf } from "@/connector/convert-for-fzf"
 import { setResourceCommandName } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
@@ -7,6 +8,7 @@ import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
 import { loadCache, saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
@@ -63,6 +65,11 @@ export const executeCommand = async (
   const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc)
   const defaultProcesses = getDefaultProcesses(defaultProcessesName)
   const resumeQuery = await parseResume(commandName, args)
+  const currentSession = await parseSession(args)
+
+  if (currentSession != null) {
+    dispatch(sessionModule.actions.setCurrentSession({ session: currentSession }))
+  }
 
   const sourceFuncArgs = sourceFuncArgsParser(args)
   const resource = await sourceFunc(sourceFuncArgs)
