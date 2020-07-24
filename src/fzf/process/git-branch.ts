@@ -1,4 +1,5 @@
-import { chainGitBranchActionsConsumer, gitCheckoutConsumer } from "@/fzf/process/consumer/git-branch"
+import { gitCheckoutConsumer } from "@/fzf/process/consumer/git"
+import { chainGitBranchActionsConsumer } from "@/fzf/process/consumer/git-branch"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
