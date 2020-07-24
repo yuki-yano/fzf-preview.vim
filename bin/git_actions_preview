@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [[ $1 == 'status' ]]; then
+  git -c color.status=always status
+elif [[ $1 == 'branch' ]]; then
+  git for-each-ref --sort=-committerdate --count=10 --color=always --format="Date: %(color:red)%(authordate:iso)%(color:reset)  %(color:green)[%(authorname)]%(color:reset)  Ref: %(color:yellow)%(refname:short)%(color:reset)
+Subject: %(subject)
+"
+elif [[ $1 == 'log' ]]; then
+  git log --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always
+fi
