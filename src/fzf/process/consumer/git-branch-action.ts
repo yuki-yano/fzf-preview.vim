@@ -51,7 +51,6 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitDiff(data.branches[0], data.branches[1])
-      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "yank": {
