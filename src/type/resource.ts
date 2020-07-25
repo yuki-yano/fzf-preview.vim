@@ -1,5 +1,5 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
-import { GitAction, GitBranchAction, GitLogAction } from "@/type/git"
+import { GitAction, GitBranchAction, GitLogAction, GitStatusAction } from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName
@@ -33,6 +33,13 @@ export type GitStatusData = {
   type: "git-status"
   file: string
   status: string
+}
+
+export type GitStatusActionData = {
+  command: FzfCommandName
+  type: "git-status-actions"
+  action: GitStatusAction
+  files: Array<string>
 }
 
 export type GitBranchData = {
@@ -88,6 +95,7 @@ export type ResourceData =
   | BufferData
   | GitActionData
   | GitStatusData
+  | GitStatusActionData
   | GitBranchData
   | GitBranchActionData
   | GitLogData

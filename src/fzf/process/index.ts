@@ -5,6 +5,7 @@ import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"
 import { gitLogProcesses } from "@/fzf/process/git-log"
 import { gitLogActionProcesses } from "@/fzf/process/git-log-action"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
+import { gitStatusActionProcesses } from "@/fzf/process/git-status-action"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
 import { openFileProcesses } from "@/fzf/process/open-file"
@@ -35,6 +36,10 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "git-status",
     processes: gitStatusProcesses,
+  },
+  {
+    name: "git-status-actions",
+    processes: gitStatusActionProcesses,
   },
   {
     name: "git-branch",

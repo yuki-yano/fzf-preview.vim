@@ -73,8 +73,8 @@ export const gitPatch = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#patch", [file])
 }
 
-export const gitCheckout = async (branch: string): Promise<void> => {
-  await pluginCall("fzf_preview#remote#consumer#git#checkout", [branch])
+export const gitCheckout = async (branchOrFile: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#checkout", [branchOrFile])
 }
 
 export const gitDiff = async (branch: string, branch2?: string): Promise<void> => {

@@ -1,4 +1,5 @@
 export const GIT_ACTIONS = ["status", "branch", "log", "current-log"] as const
+export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"] as const
 export const GIT_BRANCH_ACTIONS = ["checkout", "reset", "reset-hard", "reset-soft", "diff", "yank"] as const
 export const GIT_LOG_ACTIONS = ["show", "reset", "reset-hard", "reset-soft", "checkout", "yank"] as const
 

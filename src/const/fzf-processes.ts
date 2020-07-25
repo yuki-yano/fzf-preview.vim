@@ -4,6 +4,7 @@ export const PROCESSES_NAME = [
   "open-bufnr",
   "git-action",
   "git-status",
+  "git-status-actions",
   "git-branch",
   "git-branch-actions",
   "git-log",

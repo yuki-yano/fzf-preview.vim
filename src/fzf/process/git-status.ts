@@ -1,5 +1,5 @@
 import { chainGitActionsConsumer } from "@/fzf/process/consumer/git"
-import { gitAddConsumer, gitPatchConsumer, gitResetConsumer } from "@/fzf/process/consumer/git-status"
+import { chainGitStatusActionsConsumer, gitAddConsumer, gitResetConsumer } from "@/fzf/process/consumer/git-status"
 import {
   dropConsumer,
   editConsumer,
@@ -21,5 +21,5 @@ export const gitStatusProcesses: Processes = [
   createGitStatusProcess("ctrl-q", chainGitActionsConsumer),
   createGitStatusProcess("ctrl-a", gitAddConsumer),
   createGitStatusProcess("ctrl-r", gitResetConsumer),
-  createGitStatusProcess("ctrl-c", gitPatchConsumer),
+  createGitStatusProcess("ctrl-c", chainGitStatusActionsConsumer),
 ]

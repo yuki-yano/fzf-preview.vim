@@ -1,6 +1,7 @@
-import { GIT_ACTIONS, GIT_BRANCH_ACTIONS, GIT_LOG_ACTIONS } from "@/const/git"
+import { GIT_ACTIONS, GIT_BRANCH_ACTIONS, GIT_LOG_ACTIONS, GIT_STATUS_ACTIONS } from "@/const/git"
 
 export type GitAction = typeof GIT_ACTIONS[number]
+export type GitStatusAction = typeof GIT_STATUS_ACTIONS[number]
 export type GitBranchAction = typeof GIT_BRANCH_ACTIONS[number]
 export type GitLogAction = typeof GIT_LOG_ACTIONS[number]
 
