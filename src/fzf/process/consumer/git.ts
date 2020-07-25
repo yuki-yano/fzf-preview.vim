@@ -3,6 +3,10 @@ import { gitCheckout } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
 
+export const chainGitActionsConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitActions")
+})
+
 export const chainGitStatusConsumer = createBulkLineConsumer(async (_) => {
   await chainFzfCommand("FzfPreviewGitStatus")
 })

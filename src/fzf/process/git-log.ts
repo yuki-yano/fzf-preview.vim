@@ -1,4 +1,4 @@
-import { chainGitStatusConsumer } from "@/fzf/process/consumer/git"
+import { chainGitActionsConsumer, chainGitStatusConsumer } from "@/fzf/process/consumer/git"
 import { chainGitLogActionsConsumer, gitShowConsumer } from "@/fzf/process/consumer/git-log"
 import { createProcess } from "@/fzf/process/process"
 import type { Processes } from "@/type"
@@ -9,4 +9,5 @@ export const gitLogProcesses: Processes = [
   createGitLogProcess("enter", gitShowConsumer),
   createGitLogProcess("ctrl-c", chainGitLogActionsConsumer),
   createGitLogProcess("ctrl-s", chainGitStatusConsumer),
+  createGitLogProcess("ctrl-q", chainGitActionsConsumer),
 ]

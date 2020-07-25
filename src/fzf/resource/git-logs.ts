@@ -49,7 +49,7 @@ export const gitCurrentLogs = async (_args: SourceFuncArgs): Promise<Resource> =
 }
 
 export const gitLogsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--header": '"Enter: git show , C-s: git status, C-c: Select action"',
+  "--header": '"Enter: git show, C-q: Back actions, C-s: git status, C-c: Select action"',
   "--prompt": '"GitLog> "',
   "--preview": `"${GIT_LOG_PREVIEW_COMMAND}"`,
   "--preview-window": '"down:50%"',
