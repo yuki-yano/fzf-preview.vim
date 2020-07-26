@@ -19,6 +19,7 @@ export const GIT_BRANCH_ACTIONS = [
   "merge",
   "merge --no-ff",
   "rebase",
+  "rebase --interactive",
   "yank",
 ] as const
 export const GIT_LOG_ACTIONS = [
@@ -29,6 +30,7 @@ export const GIT_LOG_ACTIONS = [
   "checkout",
   "commit --squash",
   "commit --fixup",
+  "rebase --interactive",
   "yank",
 ] as const
 

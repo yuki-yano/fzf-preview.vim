@@ -1,4 +1,4 @@
-import { gitCheckout, gitDiff, gitMerge, gitRebase, gitReset, gitYank } from "@/connector/git"
+import { gitCheckout, gitDiff, gitMerge, gitRebase, gitRebaseInteractive, gitReset, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -75,6 +75,14 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitRebase(data.branches[0])
+      break
+    }
+    case "rebase --interactive": {
+      if (data.branches.length > 1) {
+        throw new Error("Branch must be one")
+      }
+
+      await gitRebaseInteractive(data.branches[0])
       break
     }
     case "yank": {

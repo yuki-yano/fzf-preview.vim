@@ -117,6 +117,10 @@ export const gitRebase = async (branch: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#rebase", [branch])
 }
 
+export const gitRebaseInteractive = async (branchOrHash: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#rebase_interactive", [branchOrHash])
+}
+
 export const gitYank = async (branchOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }

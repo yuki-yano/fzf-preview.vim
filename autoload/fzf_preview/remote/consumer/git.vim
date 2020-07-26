@@ -102,6 +102,15 @@ function! fzf_preview#remote#consumer#git#rebase(branch) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
+function! fzf_preview#remote#consumer#git#rebase_interactive(branch_or_hash) abort
+  if exists(':Git') == 2
+    execute 'Git rebase --interactive ' . a:branch_or_hash
+    return
+  endif
+
+  echoerr 'Fugitive not installed'
+endfunction
+
 function! fzf_preview#remote#consumer#git#push(option) abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina push ' . a:option

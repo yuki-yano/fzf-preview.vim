@@ -1,4 +1,4 @@
-import { gitCheckout, gitCommit, gitReset, gitShow, gitYank } from "@/connector/git"
+import { gitCheckout, gitCommit, gitRebaseInteractive, gitReset, gitShow, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { FzfCommandName } from "@/type"
 import { unreachable } from "@/util/type"
@@ -72,6 +72,14 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
 
       await gitCommit({ name: "--fixup", hash: data.hashes[0] })
       await chainFzfCommand(nextCommand)
+      break
+    }
+    case "rebase --interactive": {
+      if (data.hashes.length > 1) {
+        throw new Error("Hashes must be one")
+      }
+
+      await gitRebaseInteractive(data.hashes[0])
       break
     }
     case "yank": {
