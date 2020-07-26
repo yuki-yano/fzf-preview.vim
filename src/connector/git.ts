@@ -79,17 +79,14 @@ type CommitOption =
   | { name: "--squash"; hash: string }
   | { name: "--fixup"; hash: string }
 
-const commitOptionToString = (option: CommitOption): string => {
-  if (option.name === "--amend" || option.name === "--amend --no-edit") {
-    return option.name
-  } else if (option.name === "--squash" || option.name === "--fixup") {
-    return `${option.name} ${option.hash}`
-  }
-  return ""
-}
-
 export const gitCommit = async (option?: CommitOption): Promise<void> => {
-  await pluginCall("fzf_preview#remote#consumer#git#commit", [option != null ? commitOptionToString(option) : ""])
+  if (option == null) {
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [""])
+  } else if (option.name === "--amend" || option.name === "--amend --no-edit") {
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [option.name])
+  } else if (option.name === "--squash" || option.name === "--fixup") {
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [`${option.name} ${option.hash}`])
+  }
 }
 
 export const gitCheckout = async (branchOrFile: string): Promise<void> => {
