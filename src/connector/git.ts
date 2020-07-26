@@ -50,7 +50,7 @@ export const execGitLog = async (options?: { currentFile: boolean }): Promise<Ar
   const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [command])) as Array<string>
 
   return lines.map((line) => {
-    const [prefix, hash, date, author, comment] = line.split("    ")
+    const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
     return {
       prefix,
       hash,
