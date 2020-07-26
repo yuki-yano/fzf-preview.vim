@@ -37,6 +37,7 @@ export const execGitStatusActionConsumer = createSingleLineConsumer(async (data)
         // eslint-disable-next-line
         await gitCheckout(file)
       }
+      await chainFzfCommand("FzfPreviewGitStatus")
       break
     }
 
