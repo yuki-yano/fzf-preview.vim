@@ -38,6 +38,6 @@ export const gitActions = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 export const gitActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitActions> "',
-  "--preview": `"${globalVariableSelector("fzfPreviewScriptDir") as string}/git_actions_preview {-1}"`,
+  "--preview": `"${globalVariableSelector("fzfPreviewScriptDir") as string}/git_actions_preview {2}"`,
   "--preview-window": '"down:50%"',
 })
