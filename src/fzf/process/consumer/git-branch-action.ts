@@ -27,7 +27,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
-    case "reset-soft": {
+    case "reset --soft": {
       if (data.branches.length > 1) {
         throw new Error("branches must be one")
       }
@@ -36,7 +36,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
-    case "reset-hard": {
+    case "reset --hard": {
       if (data.branches.length > 1) {
         throw new Error("branches must be one")
       }
