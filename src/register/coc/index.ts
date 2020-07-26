@@ -56,7 +56,7 @@ export const registerProcesses = (commandManager: CommandManager): Array<Disposa
   return flatMap(processesDefinition, ({ processes }) => {
     return processes.map((process) => {
       return commandManager.registerCommand(
-        `fzf-preview.${removeFzfPreviewPrefix(process.name)}`,
+        `fzf-preview-callback.${removeFzfPreviewPrefix(process.name)}`,
         async ([lines]: [CallbackLines, ...Array<unknown>]) => {
           await executeProcess(lines, process)
         }
@@ -71,7 +71,7 @@ export const registerFunctions = (commandManager: CommandManager): Array<Disposa
     commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
-    commandManager.registerCommand("fzf-preview.DispatchResumeQuery", dispatchResumeQuery),
+    commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
   ]
 }
 
