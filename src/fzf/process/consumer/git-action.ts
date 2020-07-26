@@ -1,5 +1,5 @@
 import { execFzfCommand } from "@/connector/fzf"
-import { gitCommit, gitPush } from "@/connector/git"
+import { gitCommit, gitFetch, gitPull, gitPush } from "@/connector/git"
 import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -44,6 +44,14 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
     case "push --force": {
       await gitPush("--force")
+      break
+    }
+    case "fetch": {
+      await gitFetch()
+      break
+    }
+    case "pull": {
+      await gitPull()
       break
     }
 
