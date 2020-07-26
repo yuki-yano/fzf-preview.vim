@@ -60,6 +60,8 @@ export type SourceFuncArgs = {
   extraArgs: Array<string>
 }
 
+export type ColorizeFunc = (displayText: string) => string
+
 type FzfCommandBase = {
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Resource>
   sourceFuncArgsParser: (args: string) => SourceFuncArgs
@@ -70,9 +72,8 @@ type FzfCommandBase = {
   defaultProcessesName: ProcessesName
   enableConvertForFzf: boolean
   enableDevIcons: boolean
-  enablePostProcessCommand: boolean
   beforeCommandHook?: (args: string) => void
-  syntaxCommands?: Array<string>
+  colorizeFunc?: ColorizeFunc
 }
 
 export type RemoteFzfCommand = Merge<

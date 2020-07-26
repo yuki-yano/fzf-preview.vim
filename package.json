@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "",
   "author": "yuki-yano",
   "license": "MIT",
@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "ansi-escape-sequences": "^5.1.2",
     "camelcase": "^6.0.0",
     "coc.nvim": "^0.0.77",
     "lodash": "^4.17.19",
@@ -53,6 +54,7 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@types/ansi-escape-sequences": "^4.0.0",
     "@types/jest": "^26.0.0",
     "@types/lodash": "^4.14.157",
     "@types/node": "^14.0.20",

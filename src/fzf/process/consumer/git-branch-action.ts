@@ -1,4 +1,13 @@
-import { gitCheckout, gitDiff, gitMerge, gitRebase, gitRebaseInteractive, gitReset, gitYank } from "@/connector/git"
+import {
+  gitCheckout,
+  gitDeleteBranch,
+  gitDiff,
+  gitMerge,
+  gitRebase,
+  gitRebaseInteractive,
+  gitReset,
+  gitYank,
+} from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -83,6 +92,20 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitRebaseInteractive(data.branches[0])
+      break
+    }
+    case "delete": {
+      for (const branch of data.branches) {
+        // eslint-disable-next-line no-await-in-loop
+        await gitDeleteBranch(branch)
+      }
+      break
+    }
+    case "delete --force": {
+      for (const branch of data.branches) {
+        // eslint-disable-next-line no-await-in-loop
+        await gitDeleteBranch(branch, { name: "--force" })
+      }
       break
     }
     case "yank": {

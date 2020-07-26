@@ -129,6 +129,10 @@ export const gitRebaseInteractive = async (branchOrHash: string): Promise<void> 
   await pluginCall("fzf_preview#remote#consumer#git#rebase_interactive", [branchOrHash])
 }
 
+export const gitDeleteBranch = async (branch: string, option?: { name: "--force" }): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#delete_branch", [branch, option != null ? option.name : ""])
+}
+
 export const gitYank = async (branchOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }

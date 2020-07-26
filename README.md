@@ -411,14 +411,6 @@ let g:fzf_preview_custom_processes = {}
 let g:fzf_preview_fzf_preview_window_option = ''
 " let g:fzf_preview_fzf_preview_window_option = 'up:30%'
 
-" Command to be executed after file list creation
-let g:fzf_preview_filelist_postprocess_command = ''
-" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" ls  -1 -U --color'     " Use dircolors
-" let g:fzf_preview_filelist_postprocess_command = 'xargs -d "\n" exa -1 --color=always' " Use exa
-" on Mac
-" let g:fzf_preview_filelist_postprocess_command = 'gxargs -d "\n" exa -1 --color=always' "use exa
-
-
 " Use vim-devicons
 let g:fzf_preview_use_dev_icons = 0
 
@@ -484,6 +476,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/07/24 version 0.3.2
+  - Remove g:fzf_preview_filelist_postprocess_command and to colorize the fzf window by default
 
 - 2020/07/24 version 0.2.1
   - Change g:fzf_preview_default_fzf_options and g:fzf_preview_fzf_preview_window_option default value.
