@@ -11,6 +11,18 @@ export const chainGitStatusConsumer = createBulkLineConsumer(async (_) => {
   await chainFzfCommand("FzfPreviewGitStatus")
 })
 
+export const chainGitBranchesConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitBranches")
+})
+
+export const chainGitLogsConsumer = createBulkLineConsumer(async (dataList) => {
+  if (dataList[0].type === "git-log-actions" && dataList[0].isCurrentFile === true) {
+    await chainFzfCommand("FzfPreviewGitCurrentLogs")
+  } else if (dataList[0].type === "git-log-actions" && dataList[0].isCurrentFile === false) {
+    await chainFzfCommand("FzfPreviewGitLogs")
+  }
+})
+
 export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
   if (dataList.length > 1) {
     throw new Error("The git checkout should not be multiple lines.")

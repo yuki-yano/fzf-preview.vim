@@ -1,7 +1,7 @@
 import { isGitDirectory } from "@/connector/util"
 import { GIT_STATUS_ACTIONS } from "@/const/git"
 import { currentSessionSelector } from "@/module/selector/session"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource> => {
   const currentSession = currentSessionSelector()
@@ -10,16 +10,35 @@ export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource>
   } else if (currentSession.gitStatusDataList == null) {
     throw new Error("Selected git status file is not exists in current session")
   }
-
-  const statusDataList = currentSession.gitStatusDataList
-
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
 
-  return {
-    type: "json",
-    lines: GIT_STATUS_ACTIONS.map((action) => ({
+  const statusDataList = currentSession.gitStatusDataList
+  const headers: ResourceLines = [
+    {
+      data: {
+        command: "FzfPreviewGitStatusActions",
+        type: "git-status-actions",
+        action: "header",
+        files: [],
+      },
+      displayText: "C-q: Back to git status",
+    },
+    {
+      data: {
+        command: "FzfPreviewGitStatusActions",
+        type: "git-status-actions",
+        action: "header",
+        files: [],
+      },
+      displayText: `Selected file: ${statusDataList.map((data) => data.file).join(" ")}`,
+    },
+  ]
+
+  const lines = [
+    ...headers,
+    ...GIT_STATUS_ACTIONS.map<ResourceLine>((action) => ({
       data: {
         command: "FzfPreviewGitStatusActions",
         type: "git-status-actions",
@@ -28,8 +47,13 @@ export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource>
       },
       displayText: action,
     })),
+  ]
+
+  return {
+    type: "json",
+    lines,
     options: {
-      "--header": `"Selected file: ${statusDataList.map((data) => data.file).join(" ")}"`,
+      "--header-lines": headers.length.toString(),
     },
   }
 }

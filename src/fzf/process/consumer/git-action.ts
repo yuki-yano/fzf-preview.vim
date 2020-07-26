@@ -25,6 +25,10 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
       break
     }
 
+    case "header": {
+      break
+    }
+
     default: {
       unreachable(data.action)
     }

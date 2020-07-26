@@ -63,6 +63,10 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       break
     }
 
+    case "header": {
+      break
+    }
+
     default: {
       unreachable(data.action)
     }

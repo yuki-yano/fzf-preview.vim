@@ -1,7 +1,7 @@
 import { isGitDirectory } from "@/connector/util"
 import { GIT_BRANCH_ACTIONS } from "@/const/git"
 import { currentSessionSelector } from "@/module/selector/session"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource> => {
   const currentSession = currentSessionSelector()
@@ -10,16 +10,35 @@ export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource>
   } else if (currentSession.gitBranches == null) {
     throw new Error("Branch is not exists in current session")
   }
-
-  const branches = currentSession.gitBranches
-
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
 
-  return {
-    type: "json",
-    lines: GIT_BRANCH_ACTIONS.map((action) => ({
+  const branches = currentSession.gitBranches
+  const headers: ResourceLines = [
+    {
+      data: {
+        command: "FzfPreviewGitBranchActions",
+        type: "git-branch-actions",
+        action: "header",
+        branches: [],
+      },
+      displayText: "C-q: Back to git branch",
+    },
+    {
+      data: {
+        command: "FzfPreviewGitBranchActions",
+        type: "git-branch-actions",
+        action: "header",
+        branches: [],
+      },
+      displayText: `Selected branch: ${branches.map((branch) => branch.name).join(" ")}`,
+    },
+  ]
+
+  const lines = [
+    ...headers,
+    ...GIT_BRANCH_ACTIONS.map<ResourceLine>((action) => ({
       data: {
         command: "FzfPreviewGitBranchActions",
         type: "git-branch-actions",
@@ -28,8 +47,13 @@ export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource>
       },
       displayText: action,
     })),
+  ]
+
+  return {
+    type: "json",
+    lines,
     options: {
-      "--header": `"Selected branch: ${branches.map((branch) => branch.name).join(" ")}"`,
+      "--header-lines": headers.length.toString(),
     },
   }
 }
