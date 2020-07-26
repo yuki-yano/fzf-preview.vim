@@ -8,6 +8,8 @@ export const GIT_ACTIONS = [
   "commit --amend --no-edit",
   "push",
   "push --force",
+  "fetch",
+  "pull",
 ] as const
 export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"] as const
 export const GIT_BRANCH_ACTIONS = [

@@ -134,6 +134,36 @@ function! fzf_preview#remote#consumer#git#push(option) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#fetch() abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina fetch'
+    return
+  elseif exists(':Git') == 2
+    execute 'Git fetch'
+    return
+  else
+    echomsg system('git fetch')
+    if v:shell_error
+      echomsg 'Failed: git fetch'
+    endif
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#pull() abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina pull'
+    return
+  elseif exists(':Git') == 2
+    execute 'Git pull'
+    return
+  else
+    echomsg system('git pull')
+    if v:shell_error
+      echomsg 'Failed: git pull'
+    endif
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#yank(branch) abort
   let hash = system('git rev-parse ' . a:branch)
   call fzf_preview#remote#consumer#register#set(hash, 'v')
