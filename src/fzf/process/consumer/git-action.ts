@@ -1,7 +1,9 @@
 import { execFzfCommand } from "@/connector/fzf"
+import { gitCommit } from "@/connector/git"
 import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
+/* eslint-disable complexity */
 export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -24,6 +26,18 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
       await execFzfCommand("FzfPreviewGitCurrentLogs")
       break
     }
+    case "commit": {
+      await gitCommit()
+      break
+    }
+    case "commit --amend": {
+      await gitCommit({ name: "--amend" })
+      break
+    }
+    case "commit --amend --no-edit": {
+      await gitCommit({ name: "--amend --no-edit" })
+      break
+    }
 
     case "header": {
       break
@@ -34,3 +48,4 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
   }
 })
+/* eslint-enable complexity */

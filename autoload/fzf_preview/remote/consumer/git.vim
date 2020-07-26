@@ -19,23 +19,35 @@ function! fzf_preview#remote#consumer#git#reset(file, option) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#patch(file) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina patch ' . a:file
+    return
+  elseif exists(':Git') != 0
+    execute 'tabedit ' . a:file . ' | Git diff'
+    return
+  endif
+
+  echoerr 'Fugitive and Gina not installed'
+endfunction
+
+function! fzf_preview#remote#consumer#git#commit(option) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina commit ' . a:option
+    return
+  elseif exists(':Git') == 2
+    execute 'Git commit ' . a:option
+    return
+  endif
+
+  echoerr 'Fugitive and Gina not installed'
+endfunction
+
 function! fzf_preview#remote#consumer#git#checkout(branch_or_file) abort
   call system('git checkout ' . a:branch_or_file)
   if v:shell_error
     echomsg 'Failed: git checkout ' . a:branch_or_file
   endif
-endfunction
-
-function! fzf_preview#remote#consumer#git#patch(file) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina patch ' . a:file
-    return
-  elseif exists(':Gdiff') != 0
-    execute 'tabedit ' . a:file . ' | Gdiff'
-    return
-  endif
-
-  echoerr 'Fugitive and Gina not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
@@ -45,7 +57,7 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
     execute 'silent Gina diff ' . a:branch . ' ' . branch2
     echomsg 'git diff ' . a:branch . ' ' . branch2
     return
-  elseif exists(':G') == 2
+  elseif exists(':Git') == 2
     execute 'silent G diff ' . a:branch . ' ' . branch2
     echomsg 'git diff ' . a:branch . ' ' . branch2
     return
@@ -58,8 +70,8 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina show ' . a:name_or_hash
     return
-  elseif exists(':G') == 2
-    execute 'G show ' . a:name_or_hash
+  elseif exists(':Git') == 2
+    execute 'Git show ' . a:name_or_hash
     return
   endif
 

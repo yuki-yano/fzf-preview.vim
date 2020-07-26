@@ -73,6 +73,25 @@ export const gitPatch = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#patch", [file])
 }
 
+type CommitOption =
+  | { name: "--amend" }
+  | { name: "--amend --no-edit" }
+  | { name: "--squash"; hash: string }
+  | { name: "--fixup"; hash: string }
+
+const commitOptionToString = (option: CommitOption): string => {
+  if (option.name === "--amend" || option.name === "--amend --no-edit") {
+    return option.name
+  } else if (option.name === "--squash" || option.name === "--fixup") {
+    return `${option.name} ${option.hash}`
+  }
+  return ""
+}
+
+export const gitCommit = async (option?: CommitOption): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#commit", [option != null ? commitOptionToString(option) : ""])
+}
+
 export const gitCheckout = async (branchOrFile: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#checkout", [branchOrFile])
 }
