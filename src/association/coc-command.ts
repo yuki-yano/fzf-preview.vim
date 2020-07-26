@@ -8,7 +8,7 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
-import { cocDiagnosticsSyntax, cocReferencesSyntax } from "@/fzf/syntax/coc"
+import { colorizeDiagnostic, colorizeGrep } from "@/fzf/syntax/colorize"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -23,7 +23,7 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: cocReferencesSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewCocDiagnostics",
@@ -35,7 +35,7 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: cocDiagnosticsSyntax,
+    colorizeFunc: colorizeDiagnostic,
   },
   {
     commandName: "FzfPreviewCocCurrentDiagnostics",
@@ -47,6 +47,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: cocDiagnosticsSyntax,
+    colorizeFunc: colorizeDiagnostic,
   },
 ]

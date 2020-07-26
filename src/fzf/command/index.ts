@@ -49,7 +49,7 @@ export const executeCommand = async (
     enableDevIcons: enableDevIconsCommandSetting,
     enablePostProcessCommand,
     beforeCommandHook,
-    syntaxCommands,
+    colorizeFunc,
   }: FzfCommand
 ): Promise<void> => {
   await dispatch(loadCache())
@@ -102,12 +102,12 @@ export const executeCommand = async (
     enableConvertForFzf,
     enableDevIcons,
     enablePostProcessCommand,
+    colorizeFunc,
   })
 
   await fzfRunner({
     resourceLines: resourceForFzf,
     handler: HANDLER_NAME,
     options: fzfOptions,
-    syntaxCommands,
   })
 }

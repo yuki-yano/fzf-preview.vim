@@ -72,12 +72,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import {
-  buffersFormatSyntax,
-  fileListFormatBaseSyntax,
-  gitStatusFormatSyntax,
-  grepFormatBaseSyntax,
-} from "@/fzf/syntax"
+import { colorizeBuffer, colorizeFile, colorizeGitStatus, colorizeGrep } from "@/fzf/syntax/colorize"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -96,7 +91,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewGitFiles",
@@ -108,7 +103,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewDirectoryFiles",
@@ -120,7 +115,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewBuffers",
@@ -129,10 +124,10 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: buffersDefaultOptions,
     defaultProcessesName: "open-buffer",
-    enableConvertForFzf: false,
+    enableConvertForFzf: true,
     enableDevIcons: false,
     enablePostProcessCommand: false,
-    syntaxCommands: buffersFormatSyntax,
+    colorizeFunc: colorizeBuffer,
   },
   {
     commandName: "FzfPreviewAllBuffers",
@@ -141,9 +136,10 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: allBuffersDefaultOptions,
     defaultProcessesName: "open-bufnr",
-    enableConvertForFzf: false,
+    enableConvertForFzf: true,
     enableDevIcons: false,
     enablePostProcessCommand: false,
+    colorizeFunc: colorizeBuffer,
   },
   {
     commandName: "FzfPreviewProjectOldFiles",
@@ -155,7 +151,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewProjectMruFiles",
@@ -167,7 +163,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewProjectMrwFiles",
@@ -179,7 +175,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewLines",
@@ -202,7 +198,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewCtags",
@@ -236,7 +232,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewMruFiles",
@@ -248,7 +244,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewMrwFiles",
@@ -260,7 +256,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewQuickFix",
@@ -272,7 +268,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewLocationList",
@@ -284,7 +280,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewJumps",
@@ -296,7 +292,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewChanges",
@@ -319,7 +315,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewProjectGrep",
@@ -331,7 +327,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewFromResources",
@@ -343,7 +339,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: true,
-    syntaxCommands: fileListFormatBaseSyntax,
+    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewGitActions",
@@ -363,10 +359,10 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: gitStatusDefaultOptions,
     defaultProcessesName: "git-status",
-    enableConvertForFzf: false,
+    enableConvertForFzf: true,
     enableDevIcons: false,
     enablePostProcessCommand: false,
-    syntaxCommands: gitStatusFormatSyntax,
+    colorizeFunc: colorizeGitStatus,
   },
   {
     commandName: "FzfPreviewGitStatusActions",
@@ -444,7 +440,7 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableConvertForFzf: true,
     enableDevIcons: true,
     enablePostProcessCommand: false,
-    syntaxCommands: grepFormatBaseSyntax,
+    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewYankround",

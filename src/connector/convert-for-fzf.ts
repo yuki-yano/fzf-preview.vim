@@ -1,12 +1,14 @@
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
+import { colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
-import type { ResourceLines } from "@/type"
+import type { ColorizeFunc, ResourceLine, ResourceLines } from "@/type"
 
 type Options = {
   enableConvertForFzf: boolean
   enableDevIcons: boolean
   enablePostProcessCommand: boolean
+  colorizeFunc?: (line: string) => string
 }
 
 const postProcessFileName = (lines: ResourceLines): ResourceLines => {
@@ -29,6 +31,13 @@ const postProcessFileName = (lines: ResourceLines): ResourceLines => {
     ...line,
     text: files[i],
   }))
+}
+
+const colorizeLine = ({ data, displayText }: ResourceLine, colorizeFunc: ColorizeFunc): ResourceLine => {
+  return {
+    data,
+    displayText: colorizeFunc(displayText),
+  }
 }
 
 const createDevIconsList = (files: Array<string>) => {
@@ -62,26 +71,28 @@ const createDevIconsList = (files: Array<string>) => {
 }
 
 export const convertForFzf = (lines: ResourceLines, options: Options): ResourceLines => {
-  const { enableConvertForFzf, enableDevIcons, enablePostProcessCommand } = options
+  const { enableConvertForFzf, enableDevIcons, enablePostProcessCommand, colorizeFunc } = options
 
   if (!enableConvertForFzf) {
     return lines
   }
 
   const postProcessedLines = enablePostProcessCommand ? postProcessFileName(lines) : lines
+  const colorizedLines =
+    colorizeFunc != null ? postProcessedLines.map((line) => colorizeLine(line, colorizeFunc)) : postProcessedLines
 
   if (enableDevIcons) {
-    const convertedTexts = postProcessedLines.map(
+    const convertedTexts = colorizedLines.map(
       // eslint-disable-next-line no-control-regex
       (line) => line.displayText.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0]
     )
-    const icons = createDevIconsList(convertedTexts)
+    const icons = createDevIconsList(convertedTexts).map((icon) => colorizeDevIcon(icon))
 
     return lines.map((line, i) => ({
       data: line.data,
-      displayText: `${icons[i]}  ${postProcessedLines[i].displayText}`,
+      displayText: `${icons[i]}  ${colorizedLines[i].displayText}`,
     }))
   }
 
-  return postProcessedLines
+  return colorizedLines
 }
