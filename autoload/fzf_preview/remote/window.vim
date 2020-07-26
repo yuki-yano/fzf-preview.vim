@@ -13,7 +13,7 @@ function! fzf_preview#remote#window#set_fzf_last_query(...) abort
       if exists(':FzfPreviewRemoteEnvironment')
         call FzfPreviewDispatchResumeQuery(s:resource_command_name, query)
       else
-        call CocAction('runCommand', 'fzf-preview.DispatchResumeQuery', [s:resource_command_name, query])
+        call CocAction('runCommand', 'fzf-preview-function.DispatchResumeQuery', [s:resource_command_name, query])
       endif
     endif
 
