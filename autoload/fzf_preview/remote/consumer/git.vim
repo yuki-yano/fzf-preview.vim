@@ -78,6 +78,30 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
+function! fzf_preview#remote#consumer#git#merge(branch, option) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina merge ' . a:option . ' ' . a:branch
+    return
+  elseif exists(':Git') == 2
+    execute 'Git merge ' . a:option . ' ' . a:branch
+    return
+  endif
+
+  echoerr 'Fugitive and Gina not installed'
+endfunction
+
+function! fzf_preview#remote#consumer#git#rebase(branch) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina rebase ' . a:branch
+    return
+  elseif exists(':Git') == 2
+    execute 'Git rebase ' . a:branch
+    return
+  endif
+
+  echoerr 'Fugitive and Gina not installed'
+endfunction
+
 function! fzf_preview#remote#consumer#git#push(option) abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina push ' . a:option

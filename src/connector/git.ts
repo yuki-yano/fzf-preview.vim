@@ -109,6 +109,14 @@ export const gitPush = async (option?: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#push", [option != null ? option : ""])
 }
 
+export const gitMerge = async (branch: string, option?: "--no-ff"): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#merge", [branch, option != null ? option : ""])
+}
+
+export const gitRebase = async (branch: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#rebase", [branch])
+}
+
 export const gitYank = async (branchOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }
