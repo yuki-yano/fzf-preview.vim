@@ -38079,7 +38079,7 @@ exports.gitFilesDefaultOptions = () => ({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitYank = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCheckout = exports.gitCommit = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
+exports.gitYank = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPull = exports.gitFetch = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCheckout = exports.gitCommit = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
 const git_1 = __webpack_require__(323);
 const util_1 = __webpack_require__(319);
 const vim_variable_1 = __webpack_require__(288);
@@ -38166,6 +38166,12 @@ exports.gitShow = async (nameOrHash) => {
 exports.gitPush = async (option) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#git#push", [option != null ? option : ""]);
 };
+exports.gitFetch = async () => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#fetch");
+};
+exports.gitPull = async () => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#pull");
+};
 exports.gitMerge = async (branch, option) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#git#merge", [branch, option != null ? option : ""]);
 };
@@ -38198,6 +38204,8 @@ exports.GIT_ACTIONS = [
     "commit --amend --no-edit",
     "push",
     "push --force",
+    "fetch",
+    "pull",
 ];
 exports.GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"];
 exports.GIT_BRANCH_ACTIONS = [
@@ -40011,7 +40019,7 @@ exports.gitActions = async (_args) => {
 };
 exports.gitActionsDefaultOptions = () => ({
     "--prompt": '"GitActions> "',
-    "--preview": `"${vim_variable_1.globalVariableSelector("fzfPreviewScriptDir")}/git_actions_preview {-1}"`,
+    "--preview": `"${vim_variable_1.globalVariableSelector("fzfPreviewScriptDir")}/git_actions_preview {2}"`,
     "--preview-window": '"down:50%"',
 });
 
@@ -41638,6 +41646,14 @@ exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data)
             await git_1.gitPush("--force");
             break;
         }
+        case "fetch": {
+            await git_1.gitFetch();
+            break;
+        }
+        case "pull": {
+            await git_1.gitPull();
+            break;
+        }
         case "header": {
             break;
         }
@@ -42311,6 +42327,7 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
                 // eslint-disable-next-line
                 await git_1.gitCheckout(file);
             }
+            await consumer_1.chainFzfCommand("FzfPreviewGitStatus");
             break;
         }
         case "header": {
