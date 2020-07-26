@@ -149,6 +149,21 @@ function! fzf_preview#remote#consumer#git#fetch() abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina branch --delete ' . a:option . ' ' . a:branch
+    return
+  elseif exists(':Git') == 2
+    execute 'Git branch --delete ' . a:option . ' ' . a:branch
+    return
+  else
+    echomsg system('git branch --delete ' . a:option . ' ' . a:branch)
+    if v:shell_error
+      echomsg 'Failed: git branch --delete ' . a:option . ' ' . a:branch
+    endif
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#pull() abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina pull'

@@ -22,6 +22,8 @@ export const GIT_BRANCH_ACTIONS = [
   "merge --no-ff",
   "rebase",
   "rebase --interactive",
+  "delete",
+  "delete --force",
   "yank",
 ] as const
 export const GIT_LOG_ACTIONS = [
