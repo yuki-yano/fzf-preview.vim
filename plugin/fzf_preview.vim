@@ -102,10 +102,6 @@ if !exists('g:fzf_preview_buffers_jump')
   let g:fzf_preview_buffers_jump = 0
 endif
 
-if !exists('g:fzf_preview_filelist_postprocess_command')
-  let g:fzf_preview_filelist_postprocess_command = ''
-endif
-
 if !exists('g:fzf_preview_use_dev_icons')
   let g:fzf_preview_use_dev_icons = 0
 endif

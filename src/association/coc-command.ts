@@ -22,7 +22,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    enablePostProcessCommand: false,
     colorizeFunc: colorizeGrep,
   },
   {
@@ -34,7 +33,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    enablePostProcessCommand: false,
     colorizeFunc: colorizeDiagnostic,
   },
   {
@@ -46,7 +44,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    enablePostProcessCommand: false,
     colorizeFunc: colorizeDiagnostic,
   },
 ]

@@ -1,36 +1,12 @@
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execSyncCommand } from "@/system/command"
 import type { ColorizeFunc, ResourceLine, ResourceLines } from "@/type"
 
 type Options = {
   enableConvertForFzf: boolean
   enableDevIcons: boolean
-  enablePostProcessCommand: boolean
   colorizeFunc?: (line: string) => string
-}
-
-const postProcessFileName = (lines: ResourceLines): ResourceLines => {
-  const postProcessCommand = globalVariableSelector("fzfPreviewFilelistPostProcessCommand") as string
-
-  if (postProcessCommand === "" || lines.length === 0) {
-    return lines
-  }
-
-  const command = `echo "${lines.map((line) => line.displayText).join("\n")}" | ${postProcessCommand}`
-
-  const { stdout, stderr, status } = execSyncCommand(command)
-
-  if (stderr !== "" || status !== 0) {
-    throw new Error(`Failed post process command: ${postProcessCommand}`)
-  }
-  const files = stdout.split("\n").filter((line) => line !== "")
-
-  return lines.map((line, i) => ({
-    ...line,
-    text: files[i],
-  }))
 }
 
 const colorizeLine = ({ data, displayText }: ResourceLine, colorizeFunc: ColorizeFunc): ResourceLine => {
@@ -71,15 +47,13 @@ const createDevIconsList = (files: Array<string>) => {
 }
 
 export const convertForFzf = (lines: ResourceLines, options: Options): ResourceLines => {
-  const { enableConvertForFzf, enableDevIcons, enablePostProcessCommand, colorizeFunc } = options
+  const { enableConvertForFzf, enableDevIcons, colorizeFunc } = options
 
   if (!enableConvertForFzf) {
     return lines
   }
 
-  const postProcessedLines = enablePostProcessCommand ? postProcessFileName(lines) : lines
-  const colorizedLines =
-    colorizeFunc != null ? postProcessedLines.map((line) => colorizeLine(line, colorizeFunc)) : postProcessedLines
+  const colorizedLines = colorizeFunc != null ? lines.map((line) => colorizeLine(line, colorizeFunc)) : lines
 
   if (enableDevIcons) {
     const convertedTexts = colorizedLines.map(

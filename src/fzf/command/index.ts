@@ -47,7 +47,6 @@ export const executeCommand = async (
     defaultProcessesName,
     enableConvertForFzf,
     enableDevIcons: enableDevIconsCommandSetting,
-    enablePostProcessCommand,
     beforeCommandHook,
     colorizeFunc,
   }: FzfCommand
@@ -101,7 +100,6 @@ export const executeCommand = async (
   const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,
     enableDevIcons,
-    enablePostProcessCommand,
     colorizeFunc,
   })
 

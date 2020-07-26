@@ -26,7 +26,6 @@ const initialState: State = {
     webDevIconsUnicodeDecorateFileNodesExtensionSymbols: {},
     webDevIconsUnicodeDecorateFileNodesExactSymbols: {},
     webDevIconsUnicodeDecorateFileNodesPatternSymbols: {},
-    fzfPreviewFilelistPostProcessCommand: "",
     fzfPreviewCommand: "",
     fzfBinaryPreviewCommand: "",
     fzfPreviewIfBinaryCommand: "",
