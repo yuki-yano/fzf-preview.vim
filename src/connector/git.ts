@@ -105,6 +105,10 @@ export const gitShow = async (nameOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#show", [nameOrHash])
 }
 
+export const gitPush = async (option?: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#push", [option != null ? option : ""])
+}
+
 export const gitYank = async (branchOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }

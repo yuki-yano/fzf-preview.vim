@@ -78,6 +78,21 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
+function! fzf_preview#remote#consumer#git#push(option) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina push ' . a:option
+    return
+  elseif exists(':Git') == 2
+    execute 'Git push ' . a:option
+    return
+  else
+    echomsg system('git push ' . a:option)
+    if v:shell_error
+      echomsg 'Failed: git push ' . a:option
+    endif
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#yank(branch) abort
   let hash = system('git rev-parse ' . a:branch)
   call fzf_preview#remote#consumer#register#set(hash, 'v')

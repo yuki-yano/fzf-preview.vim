@@ -1,5 +1,5 @@
 import { execFzfCommand } from "@/connector/fzf"
-import { gitCommit } from "@/connector/git"
+import { gitCommit, gitPush } from "@/connector/git"
 import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -36,6 +36,14 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
     case "commit --amend --no-edit": {
       await gitCommit({ name: "--amend --no-edit" })
+      break
+    }
+    case "push": {
+      await gitPush()
+      break
+    }
+    case "push --force": {
+      await gitPush("--force")
       break
     }
 
