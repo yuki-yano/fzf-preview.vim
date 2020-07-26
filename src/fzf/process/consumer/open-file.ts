@@ -1,5 +1,5 @@
 import { exportQuickFix, openFile } from "@/connector/open-file"
-import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { ExportQuickFix, OpenCommand } from "@/type"

@@ -14,6 +14,12 @@ export const filePreviewCommand = (): string => {
   return `'${ifBinaryCommand} && ${binaryPreviewCommand} || ${previewCommand}'`
 }
 
+export const createGitLogCommand = (file?: string): string => {
+  const targetFile = file != null ? `-- ${file}` : ""
+
+  return `git log --decorate --color=always --date=iso  --format='%C(green)[commit]%Creset    %C(magenta)%h%Creset    %C(yellow)%ad %x09%Creset    [%C(blue)%an%Creset]    %x09%C(auto)%s' ${targetFile}`
+}
+
 type ParsedQuickFix = {
   fileName: string
   lineNumber: number

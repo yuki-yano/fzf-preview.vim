@@ -35,6 +35,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
 }
 
 export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
+  "--header": '"Enter: Open, C-q: Back actions, C-a: git add, C-r: git reset, C-c: Select action"',
   "--prompt": '"GitStatus> "',
   "--multi": true,
   "--preview": `'${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}'`,
