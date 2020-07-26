@@ -44,9 +44,17 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#checkout(branch_or_file) abort
-  call system('git checkout ' . a:branch_or_file)
-  if v:shell_error
-    echomsg 'Failed: git checkout ' . a:branch_or_file
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina checkout ' . a:branch_or_file
+    return
+  elseif exists(':Git') == 2
+    execute 'Git checkout ' . a:branch_or_file
+    return
+  else
+    call system('git checkout ' . a:branch_or_file)
+    if v:shell_error
+      echomsg 'Failed: git checkout ' . a:branch_or_file
+    endif
   endif
 endfunction
 
