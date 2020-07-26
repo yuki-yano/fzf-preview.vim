@@ -126,6 +126,8 @@ if !exists('g:fzf_preview_blame_pr_command')
   let g:fzf_preview_blame_pr_command = expand('<sfile>:h:h') . '/bin/git_blame_pr'
 endif
 
+let g:fzf_preview_script_dir = expand('<sfile>:h:h') . '/bin'
+
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 

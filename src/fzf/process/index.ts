@@ -1,5 +1,11 @@
-import { decodeLine } from "@/fzf/process/consumer/consumer"
+import { decodeLine } from "@/fzf/process/consumer"
+import { gitActionProcesses } from "@/fzf/process/git-action"
+import { gitBranchProcesses } from "@/fzf/process/git-branch"
+import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"
+import { gitLogProcesses } from "@/fzf/process/git-log"
+import { gitLogActionProcesses } from "@/fzf/process/git-log-action"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
+import { gitStatusActionProcesses } from "@/fzf/process/git-status-action"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
 import { openFileProcesses } from "@/fzf/process/open-file"
@@ -16,16 +22,40 @@ export const processesDefinition: ProcessesDefinition = [
     processes: openFileProcesses,
   },
   {
-    name: "git-status",
-    processes: gitStatusProcesses,
-  },
-  {
     name: "open-buffer",
     processes: openBufferProcesses,
   },
   {
     name: "open-bufnr",
     processes: openBufnrProcesses,
+  },
+  {
+    name: "git-action",
+    processes: gitActionProcesses,
+  },
+  {
+    name: "git-status",
+    processes: gitStatusProcesses,
+  },
+  {
+    name: "git-status-actions",
+    processes: gitStatusActionProcesses,
+  },
+  {
+    name: "git-branch",
+    processes: gitBranchProcesses,
+  },
+  {
+    name: "git-branch-actions",
+    processes: gitBranchActionProcesses,
+  },
+  {
+    name: "git-log",
+    processes: gitLogProcesses,
+  },
+  {
+    name: "git-log-actions",
+    processes: gitLogActionProcesses,
   },
   {
     name: "register",

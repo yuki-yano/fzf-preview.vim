@@ -1,8 +1,8 @@
-import { gitAddConsumer, gitPatchConsumer, gitResetConsumer } from "@/fzf/process/consumer/git"
+import { chainGitActionsConsumer } from "@/fzf/process/consumer/git"
+import { chainGitStatusActionsConsumer, gitAddConsumer, gitResetConsumer } from "@/fzf/process/consumer/git-status"
 import {
   dropConsumer,
   editConsumer,
-  exportQuickfixConsumer,
   splitConsumer,
   tabeditConsumer,
   vsplitConsumer,
@@ -18,8 +18,8 @@ export const gitStatusProcesses: Processes = [
   createGitStatusProcess("ctrl-v", vsplitConsumer),
   createGitStatusProcess("ctrl-t", tabeditConsumer),
   createGitStatusProcess("ctrl-o", dropConsumer),
-  createGitStatusProcess("ctrl-q", exportQuickfixConsumer),
+  createGitStatusProcess("ctrl-q", chainGitActionsConsumer),
   createGitStatusProcess("ctrl-a", gitAddConsumer),
   createGitStatusProcess("ctrl-r", gitResetConsumer),
-  createGitStatusProcess("ctrl-c", gitPatchConsumer),
+  createGitStatusProcess("ctrl-c", chainGitStatusActionsConsumer),
 ]

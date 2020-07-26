@@ -1,6 +1,6 @@
 import { deleteBuffer } from "@/connector/buffers"
 import { openFile } from "@/connector/open-file"
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { OpenCommand, OpenFile, SingleLineConsumer } from "@/type"
 

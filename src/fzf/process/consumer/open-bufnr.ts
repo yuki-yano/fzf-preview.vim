@@ -1,5 +1,5 @@
 import { openBufnr } from "@/connector/open-bufnr"
-import { createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
+import { createSingleLineConsumer } from "@/fzf/process/consumer"
 import { createDeleteBufferConsumer } from "@/fzf/process/consumer/open-buffer"
 import type { OpenCommand } from "@/type"
 

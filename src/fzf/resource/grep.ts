@@ -7,16 +7,22 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
   const lines = await execGrep(grepArgs)
   return {
     type: "json",
-    lines: lines.map((line) => ({
-      data: {
-        command: "FzfPreviewProjectGrep",
-        type: "line",
-        file: line.split(":")[0],
-        lineNumber: Number(line.split(":")[1]),
-        text: line.split(":").slice(2).join(":"),
-      },
-      displayText: line,
-    })),
+    lines: lines.map((line) => {
+      const [file, lineNumber, ...rest] = line.split(":")
+
+      /* eslint-disable no-control-regex */
+      return {
+        data: {
+          command: "FzfPreviewProjectGrep",
+          type: "line",
+          file: file.replace(/\x1b\[[0-9;]*m/g, ""),
+          lineNumber: Number(lineNumber.replace(/\x1b\[[0-9;]*m/g, "")),
+          text: rest.join(":").replace(/\x1b\[[0-9;]*m/g, ""),
+        },
+        displayText: `${file}:${lineNumber}: ${rest.join(":")}`,
+      }
+      /* eslint-enable no-control-regex */
+    }),
     options: { "--header": `"[Grep from] ${grepArgs}"` },
   }
 }

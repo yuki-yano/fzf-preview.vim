@@ -1,33 +1,51 @@
 import { execFzfCommand } from "@/connector/fzf"
-import { gitAdd, gitPatch, gitReset } from "@/connector/git"
+import { gitCheckout } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
-import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer/consumer"
-import { GitStatusData } from "@/type"
+import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
 
-export const gitAddConsumer = createBulkLineConsumer(async (dataList) => {
-  const gitDataList = dataList.filter((data): data is GitStatusData => data.type === "git-status")
-
-  for (const data of gitDataList) {
-    // eslint-disable-next-line no-await-in-loop
-    await gitAdd(data.file)
-  }
-
-  await vimEchoMessage(`git add ${gitDataList.map((data) => data.file).join(" ")}`)
-  await execFzfCommand("FzfPreviewGitStatus")
+export const chainGitActionsConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitActions")
 })
 
-export const gitResetConsumer = createBulkLineConsumer(async (dataList) => {
-  const gitDataList = dataList.filter((data): data is GitStatusData => data.type === "git-status")
-
-  for (const data of gitDataList) {
-    // eslint-disable-next-line no-await-in-loop
-    await gitReset(data.file)
-  }
-
-  await vimEchoMessage(`git reset ${gitDataList.map((data) => data.file).join(" ")}`)
-  await execFzfCommand("FzfPreviewGitStatus")
+export const chainGitStatusConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitStatus")
 })
 
-export const gitPatchConsumer = createSingleLineConsumer(async (data) => {
-  await gitPatch((data as GitStatusData).file)
+export const chainGitBranchesConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitBranches")
+})
+
+export const chainGitLogsConsumer = createBulkLineConsumer(async (dataList) => {
+  if (dataList[0].type === "git-log-actions" && dataList[0].isCurrentFile === true) {
+    await chainFzfCommand("FzfPreviewGitCurrentLogs")
+  } else if (dataList[0].type === "git-log-actions" && dataList[0].isCurrentFile === false) {
+    await chainFzfCommand("FzfPreviewGitLogs")
+  }
+})
+
+export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
+  if (dataList.length > 1) {
+    throw new Error("The git checkout should not be multiple lines.")
+  }
+
+  const data = dataList[0]
+
+  switch (data.type) {
+    case "git-branch": {
+      await gitCheckout(data.name)
+      await vimEchoMessage(`git checkout ${data.name}`)
+      break
+    }
+    case "git-log": {
+      await gitCheckout(data.hash)
+      await vimEchoMessage(`git checkout ${data.hash}`)
+      break
+    }
+
+    default: {
+      throw new Error(`Unexpected data type: ${data.type}`)
+    }
+  }
+
+  await execFzfCommand("FzfPreviewGitBranches")
 })
