@@ -40706,10 +40706,10 @@ exports.colorizeGitStatus = (line) => {
 exports.colorizeDiagnostic = (line) => {
     const baseColorizedLine = exports.colorizeGrep(line);
     return baseColorizedLine
-        .replace(" Error ", colorize(" Error ", "red"))
-        .replace(" Warning ", colorize(" Warning ", "yellow"))
-        .replace(" Information ", colorize(" Information ", "blue"))
-        .replace(" Hint ", colorize(" Hint ", "cyan"));
+        .replace(":  Error ", `:${colorize("  Error ", "red")}`)
+        .replace(":  Warning ", `:${colorize("  Warning ", "yellow")}`)
+        .replace(":  Information ", `:${colorize("  Information ", "blue")}`)
+        .replace(":  Hint ", `:${colorize("  Hint ", "cyan")}`);
 };
 const extensions = {
     styl: { icon: "", color: "green" },
