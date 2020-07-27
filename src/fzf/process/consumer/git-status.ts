@@ -1,4 +1,4 @@
-import { gitAdd, gitPatch, gitReset, gitCommit } from "@/connector/git"
+import { gitAdd, gitCommit, gitPatch, gitReset } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { GitStatusData } from "@/type"

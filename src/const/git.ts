@@ -13,11 +13,11 @@ export const GIT_ACTIONS = [
 ] as const
 export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"] as const
 export const GIT_BRANCH_ACTIONS = [
+  "diff",
   "checkout",
   "reset",
   "reset --hard",
   "reset --soft",
-  "diff",
   "merge",
   "merge --no-ff",
   "rebase",
@@ -28,6 +28,7 @@ export const GIT_BRANCH_ACTIONS = [
 ] as const
 export const GIT_LOG_ACTIONS = [
   "show",
+  "diff",
   "reset",
   "reset-hard",
   "reset-soft",

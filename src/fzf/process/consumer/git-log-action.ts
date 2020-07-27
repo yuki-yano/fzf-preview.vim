@@ -1,4 +1,4 @@
-import { gitCheckout, gitCommit, gitRebaseInteractive, gitReset, gitShow, gitYank } from "@/connector/git"
+import { gitCheckout, gitCommit, gitDiff, gitRebaseInteractive, gitReset, gitShow, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { FzfCommandName } from "@/type"
 import { unreachable } from "@/util/type"
@@ -18,7 +18,14 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
       }
 
       await gitShow(data.hashes[0])
-      await chainFzfCommand(nextCommand)
+      break
+    }
+    case "diff": {
+      if (data.hashes.length > 2) {
+        throw new Error("Hashes must be one or two")
+      }
+
+      await gitDiff(data.hashes[0], data.hashes[1])
       break
     }
     case "reset": {
