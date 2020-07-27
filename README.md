@@ -24,7 +24,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 4. Fast file and buffer search by fuzzy matching
 5. Search all project files and history
 6. Search from file history files using oldfiles and mru
-7. Interactive git integration (with [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+7. Interactive git integration (with [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
 8. Jump lines from jumplist or changelist
 9. Interactive grep and preview from the current project
 10. Export the selected items to QuickFix.
@@ -35,7 +35,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/88540152-6e4fbc80-d04d-11ea-8d19-314ee5e4d294.gif "fzf-preview")
 
-### Interactive git integration (Integrate with [Gina](https://github.com/lambdalisue/gina.vim))
+### Interactive git integration (Integrate with [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
 
 ![fzf-preview](https://user-images.githubusercontent.com/5423775/88540232-86bfd700-d04d-11ea-8604-8ad8aed09cbb.gif "fzf-preview")
 
