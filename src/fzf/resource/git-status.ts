@@ -1,19 +1,41 @@
 import { execGitStatus } from "@/connector/git"
 import { isGitDirectory } from "@/connector/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
 
-  const lines = await execGitStatus()
+  const statuses = await execGitStatus()
+  const headers: ResourceLines = [
+    {
+      data: {
+        command: "FzfPreviewGitStatus",
+        type: "git-status",
+        action: "header",
+        file: "",
+        status: "",
+      },
+      displayText: "C-a: git add, C-r: git reset, C-m: git commit",
+    },
+    {
+      data: {
+        command: "FzfPreviewGitStatus",
+        type: "git-status",
+        action: "header",
+        file: "",
+        status: "",
+      },
+      displayText: "C-q: Back actions, C-c: Select action",
+    },
+  ]
 
   /* eslint-disable no-control-regex */
-  return {
-    type: "json",
-    lines: lines.map((line) => ({
+  const lines = [
+    ...headers,
+    ...statuses.map<ResourceLine>((line) => ({
       data: {
         command: "FzfPreviewGitStatus",
         type: "git-status",
@@ -30,12 +52,19 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
       },
       displayText: line.replace(/^\s/, "\xA0"),
     })),
-  }
+  ]
   /* eslint-enable no-control-regex */
+
+  return {
+    type: "json",
+    lines,
+    options: {
+      "--header-lines": headers.length.toString(),
+    },
+  }
 }
 
 export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--header": '"Enter: Open, C-q: Back actions, C-a: git add, C-r: git reset, C-c: Select action"',
   "--prompt": '"GitStatus> "',
   "--multi": true,
   "--preview": `'${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}'`,
