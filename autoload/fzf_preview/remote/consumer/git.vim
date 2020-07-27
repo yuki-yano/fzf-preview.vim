@@ -32,7 +32,9 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#commit(option) abort
-  if has('nvim') && exists(':Gina') == 2 && match(a:option, '--fixup\|--squash') == -1
+  if match(a:option, '--fixup') != -1
+    echomsg system('git commit ' . a:option)
+  elseif has('nvim') && exists(':Gina') == 2
     execute 'Gina commit ' . a:option
     return
   elseif exists(':Git') == 2
