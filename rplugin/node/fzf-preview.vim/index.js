@@ -40009,11 +40009,33 @@ exports.gitStatus = async (_args) => {
     if (!(await util_1.isGitDirectory())) {
         throw new Error("The current directory is not a git project");
     }
-    const lines = await git_1.execGitStatus();
+    const statuses = await git_1.execGitStatus();
+    const headers = [
+        {
+            data: {
+                command: "FzfPreviewGitStatus",
+                type: "git-status",
+                action: "header",
+                file: "",
+                status: "",
+            },
+            displayText: "C-a: git add, C-r: git reset, C-m: git commit",
+        },
+        {
+            data: {
+                command: "FzfPreviewGitStatus",
+                type: "git-status",
+                action: "header",
+                file: "",
+                status: "",
+            },
+            displayText: "C-q: Back actions, C-c: Select action",
+        },
+    ];
     /* eslint-disable no-control-regex */
-    return {
-        type: "json",
-        lines: lines.map((line) => ({
+    const lines = [
+        ...headers,
+        ...statuses.map((line) => ({
             data: {
                 command: "FzfPreviewGitStatus",
                 type: "git-status",
@@ -40030,11 +40052,17 @@ exports.gitStatus = async (_args) => {
             },
             displayText: line.replace(/^\s/, "\xA0"),
         })),
-    };
+    ];
     /* eslint-enable no-control-regex */
+    return {
+        type: "json",
+        lines,
+        options: {
+            "--header-lines": headers.length.toString(),
+        },
+    };
 };
 exports.gitStatusDefaultOptions = () => ({
-    "--header": '"Enter: Open, C-q: Back actions, C-a: git add, C-r: git reset, C-c: Select action"',
     "--prompt": '"GitStatus> "',
     "--multi": true,
     "--preview": `'${vim_variable_1.globalVariableSelector("fzfPreviewGitStatusPreviewCommand")}'`,
@@ -42523,6 +42551,7 @@ exports.gitStatusProcesses = [
     createGitStatusProcess("ctrl-q", git_1.chainGitActionsConsumer),
     createGitStatusProcess("ctrl-a", git_status_1.gitAddConsumer),
     createGitStatusProcess("ctrl-r", git_status_1.gitResetConsumer),
+    createGitStatusProcess("ctrl-m", git_status_1.gitCommitConsumer),
     createGitStatusProcess("ctrl-c", git_status_1.chainGitStatusActionsConsumer),
 ];
 
@@ -42534,7 +42563,7 @@ exports.gitStatusProcesses = [
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitPatchConsumer = exports.gitResetConsumer = exports.gitAddConsumer = exports.chainGitStatusActionsConsumer = void 0;
+exports.gitCommitConsumer = exports.gitPatchConsumer = exports.gitResetConsumer = exports.gitAddConsumer = exports.chainGitStatusActionsConsumer = void 0;
 const git_1 = __webpack_require__(322);
 const util_1 = __webpack_require__(315);
 const consumer_1 = __webpack_require__(390);
@@ -42562,6 +42591,9 @@ exports.gitResetConsumer = consumer_1.createBulkLineConsumer(async (dataList) =>
 });
 exports.gitPatchConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     await git_1.gitPatch(data.file);
+});
+exports.gitCommitConsumer = consumer_1.createBulkLineConsumer(async (_) => {
+    await git_1.gitCommit();
 });
 
 
