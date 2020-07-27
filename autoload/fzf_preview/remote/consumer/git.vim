@@ -32,11 +32,12 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#commit(option) abort
-  if has('nvim') && exists(':Gina') == 2 && match(a:option, '--fixup\|--squash') == -1
-    execute 'Gina commit ' . a:option
-    return
-  elseif exists(':Git') == 2
+  " NOTE: Fugitive can be integrated with commitia
+  if exists(':Git') == 2
     execute 'Git commit ' . a:option
+    return
+  elseif has('nvim') && exists(':Gina') == 2 && match(a:option, '--fixup\|--squash') == -1
+    execute 'Gina commit ' . a:option
     return
   endif
 
