@@ -35,9 +35,11 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
   if match(a:option, '--fixup') != -1
     echomsg system('git commit ' . a:option)
   elseif has('nvim') && exists(':Gina') == 2
+    Gina diff --cached --opener=vsplit
     execute 'Gina commit ' . a:option
     return
   elseif exists(':Git') == 2
+    Git diff --cached
     execute 'Git commit ' . a:option
     return
   endif
