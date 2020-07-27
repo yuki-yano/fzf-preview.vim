@@ -64,10 +64,10 @@ export const colorizeGitStatus = (line: string): string => {
 export const colorizeDiagnostic = (line: string): string => {
   const baseColorizedLine = colorizeGrep(line)
   return baseColorizedLine
-    .replace(" Error ", colorize(" Error ", "red"))
-    .replace(" Warning ", colorize(" Warning ", "yellow"))
-    .replace(" Information ", colorize(" Information ", "blue"))
-    .replace(" Hint ", colorize(" Hint ", "cyan"))
+    .replace(":  Error ", `:${colorize("  Error ", "red")}`)
+    .replace(":  Warning ", `:${colorize("  Warning ", "yellow")}`)
+    .replace(":  Information ", `:${colorize("  Information ", "blue")}`)
+    .replace(":  Hint ", `:${colorize("  Hint ", "cyan")}`)
 }
 
 type DevIcons = {

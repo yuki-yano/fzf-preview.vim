@@ -24,7 +24,7 @@ endfunction
 function! s:call_coc(default_process_function_name, expect_key, lines, process_name) abort
   if (a:process_name == v:null)
     let process_name = substitute(a:default_process_function_name, '^FzfPreview', '', '')
-    call CocAction('runCommand', 'fzf-preview.' . process_name, [a:lines])
+    call CocAction('runCommand', 'fzf-preview-callback.' . process_name, [a:lines])
   else
     let processes = eval('g:' . a:process_name)
     let Process = processes[a:expect_key]
@@ -33,7 +33,7 @@ function! s:call_coc(default_process_function_name, expect_key, lines, process_n
       if exists('*' . Process)
         call call(Process, [a:lines])
       else
-        call CocAction('runCommand', 'fzf-preview.' . Process, [a:lines])
+        call CocAction('runCommand', 'fzf-preview-callback.' . Process, [a:lines])
       endif
     elseif type(Process) == v:t_func
       call Process(a:lines)

@@ -63,7 +63,7 @@ if !exists('g:fzf_preview_git_status_preview_command')
 endif
 
 if !exists('g:fzf_preview_grep_cmd')
-  let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading --color=always'
+  let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading --color=never'
 endif
 
 if !exists('g:fzf_preview_lines_command')

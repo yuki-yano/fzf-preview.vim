@@ -457,7 +457,7 @@ OPTIONS                                         *fzf-preview-options*
     Interactively grep the specified directory.
 
     Installed ripgrep:
-        Default value is 'rg --line-number --no-heading'
+        Default value is 'rg --line-number --no-heading --color=never'
 
     Not installed ripgrep:
         :ProjectGrepPreview is disabled.
