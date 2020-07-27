@@ -40020,7 +40020,7 @@ exports.gitStatus = async (_args) => {
                 file: "",
                 status: "",
             },
-            displayText: "C-a: git add, C-r: git reset, C-m: git commit",
+            displayText: "C-a: git add, C-r: git reset, C-c: git commit",
         },
         {
             data: {
@@ -40030,7 +40030,7 @@ exports.gitStatus = async (_args) => {
                 file: "",
                 status: "",
             },
-            displayText: "C-q: Back actions, C-c: Select action",
+            displayText: "<: Back actions, >: Select action",
         },
     ];
     /* eslint-disable no-control-regex */
@@ -40101,7 +40101,7 @@ exports.gitStatusActions = async (_args) => {
                 action: "header",
                 files: [],
             },
-            displayText: "C-q: Back to git status",
+            displayText: "<: Back to git status",
         },
         {
             data: {
@@ -40191,7 +40191,7 @@ exports.gitBranches = async (_args) => {
 };
 exports.gitBranchesDefaultOptions = () => ({
     "--multi": true,
-    "--header": '"Enter: checkout, C-q: Back actions, C-s: git status, C-c: Select action"',
+    "--header": '"Enter: checkout, C-s: git status,<: Back actions,  >: Select action"',
     "--prompt": '"GitBranch> "',
     "--preview": `"${git_2.GIT_BRANCH_PREVIEW_COMMAND}"`,
     "--preview-window": '"down:50%"',
@@ -40229,7 +40229,7 @@ exports.gitBranchActions = async (_args) => {
                 action: "header",
                 branches: [],
             },
-            displayText: "C-q: Back to git branch",
+            displayText: "<: Back to git branch",
         },
         {
             data: {
@@ -40315,14 +40315,14 @@ exports.gitCurrentLogs = async (_args) => {
 };
 exports.gitLogsDefaultOptions = () => ({
     "--multi": true,
-    "--header": '"Enter: git show, C-q: Back actions, C-s: git status, C-c: Select action"',
+    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
     "--prompt": '"GitLog> "',
     "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
     "--preview-window": '"down:50%"',
 });
 exports.gitCurrentLogsDefaultOptions = () => ({
     "--multi": true,
-    "--header": '"Enter: git show, C-s: git status, C-c: Select action"',
+    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
     "--prompt": '"GitCurrentLog> "',
     "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
     "--preview-window": '"down:50%"',
@@ -40361,7 +40361,7 @@ exports.gitLogActions = async (_args) => {
                 hashes: [],
                 isCurrentFile: false,
             },
-            displayText: "C-q: Back to git log",
+            displayText: "<: Back to git log",
         },
         {
             data: {
@@ -40703,7 +40703,7 @@ exports.colorizeFile = (filePath) => {
     else {
         const file = splittedFilePath.slice(-1).toString();
         const directory = splittedFilePath.slice(0, -1).join("/");
-        return `${colorize(directory, "cyan")}/${file}`;
+        return `${colorize(`${directory}/`, "cyan")}${file}`;
     }
 };
 exports.colorizeGrep = (line) => {
@@ -42163,9 +42163,9 @@ const process_1 = __webpack_require__(406);
 const createGitBranchProcess = process_1.createProcess("git-branch");
 exports.gitBranchProcesses = [
     createGitBranchProcess("enter", git_1.gitCheckoutConsumer),
-    createGitBranchProcess("ctrl-c", git_branch_1.chainGitBranchActionsConsumer),
     createGitBranchProcess("ctrl-s", git_1.chainGitStatusConsumer),
-    createGitBranchProcess("ctrl-q", git_1.chainGitActionsConsumer),
+    createGitBranchProcess("<", git_1.chainGitActionsConsumer),
+    createGitBranchProcess(">", git_branch_1.chainGitBranchActionsConsumer),
 ];
 
 
@@ -42316,6 +42316,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
                 throw new Error("Branch must be one");
             }
             await git_1.gitMerge(data.branches[0]);
+            await consumer_1.chainFzfCommand("FzfPreviewGitBranches");
             break;
         }
         case "merge --no-ff": {
@@ -42323,6 +42324,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
                 throw new Error("Branch must be one");
             }
             await git_1.gitMerge(data.branches[0], "--no-ff");
+            await consumer_1.chainFzfCommand("FzfPreviewGitBranches");
             break;
         }
         case "rebase": {
@@ -42330,6 +42332,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
                 throw new Error("Branch must be one");
             }
             await git_1.gitRebase(data.branches[0]);
+            await consumer_1.chainFzfCommand("FzfPreviewGitBranches");
             break;
         }
         case "rebase --interactive": {
@@ -42344,6 +42347,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
                 // eslint-disable-next-line no-await-in-loop
                 await git_1.gitDeleteBranch(branch);
             }
+            await consumer_1.chainFzfCommand("FzfPreviewGitBranches");
             break;
         }
         case "delete --force": {
@@ -42351,6 +42355,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
                 // eslint-disable-next-line no-await-in-loop
                 await git_1.gitDeleteBranch(branch, { name: "--force" });
             }
+            await consumer_1.chainFzfCommand("FzfPreviewGitBranches");
             break;
         }
         case "yank": {
@@ -42386,9 +42391,9 @@ const process_1 = __webpack_require__(406);
 const createGitLogProcess = process_1.createProcess("git-log");
 exports.gitLogProcesses = [
     createGitLogProcess("enter", git_log_1.gitShowConsumer),
-    createGitLogProcess("ctrl-c", git_log_1.chainGitLogActionsConsumer),
     createGitLogProcess("ctrl-s", git_1.chainGitStatusConsumer),
-    createGitLogProcess("ctrl-q", git_1.chainGitActionsConsumer),
+    createGitLogProcess("<", git_1.chainGitActionsConsumer),
+    createGitLogProcess(">", git_log_1.chainGitLogActionsConsumer),
 ];
 
 
@@ -42558,11 +42563,11 @@ exports.gitStatusProcesses = [
     createGitStatusProcess("ctrl-v", open_file_1.vsplitConsumer),
     createGitStatusProcess("ctrl-t", open_file_1.tabeditConsumer),
     createGitStatusProcess("ctrl-o", open_file_1.dropConsumer),
-    createGitStatusProcess("ctrl-q", git_1.chainGitActionsConsumer),
     createGitStatusProcess("ctrl-a", git_status_1.gitAddConsumer),
     createGitStatusProcess("ctrl-r", git_status_1.gitResetConsumer),
-    createGitStatusProcess("ctrl-m", git_status_1.gitCommitConsumer),
-    createGitStatusProcess("ctrl-c", git_status_1.chainGitStatusActionsConsumer),
+    createGitStatusProcess("ctrl-c", git_status_1.gitCommitConsumer),
+    createGitStatusProcess("<", git_1.chainGitActionsConsumer),
+    createGitStatusProcess(">", git_status_1.chainGitStatusActionsConsumer),
 ];
 
 
