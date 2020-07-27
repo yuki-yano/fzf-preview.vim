@@ -23,7 +23,7 @@ export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource>
         action: "header",
         files: [],
       },
-      displayText: "C-q: Back to git status",
+      displayText: "<: Back to git status",
     },
     {
       data: {

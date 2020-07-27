@@ -24,7 +24,7 @@ export const gitLogActions = async (_args: SourceFuncArgs): Promise<Resource> =>
         hashes: [],
         isCurrentFile: false,
       },
-      displayText: "C-q: Back to git log",
+      displayText: "<: Back to git log",
     },
     {
       data: {

@@ -18,7 +18,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
         file: "",
         status: "",
       },
-      displayText: "C-a: git add, C-r: git reset, C-m: git commit",
+      displayText: "C-a: git add, C-r: git reset, C-c: git commit",
     },
     {
       data: {
@@ -28,7 +28,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
         file: "",
         status: "",
       },
-      displayText: "C-q: Back actions, C-c: Select action",
+      displayText: "<: Back actions, >: Select action",
     },
   ]
 

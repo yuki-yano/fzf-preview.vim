@@ -7,7 +7,7 @@ const createGitBranchProcess = createProcess("git-branch")
 
 export const gitBranchProcesses: Processes = [
   createGitBranchProcess("enter", gitCheckoutConsumer),
-  createGitBranchProcess("ctrl-c", chainGitBranchActionsConsumer),
   createGitBranchProcess("ctrl-s", chainGitStatusConsumer),
-  createGitBranchProcess("ctrl-q", chainGitActionsConsumer),
+  createGitBranchProcess("<", chainGitActionsConsumer),
+  createGitBranchProcess(">", chainGitBranchActionsConsumer),
 ]

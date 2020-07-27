@@ -23,9 +23,9 @@ export const gitStatusProcesses: Processes = [
   createGitStatusProcess("ctrl-v", vsplitConsumer),
   createGitStatusProcess("ctrl-t", tabeditConsumer),
   createGitStatusProcess("ctrl-o", dropConsumer),
-  createGitStatusProcess("ctrl-q", chainGitActionsConsumer),
   createGitStatusProcess("ctrl-a", gitAddConsumer),
   createGitStatusProcess("ctrl-r", gitResetConsumer),
-  createGitStatusProcess("ctrl-m", gitCommitConsumer),
-  createGitStatusProcess("ctrl-c", chainGitStatusActionsConsumer),
+  createGitStatusProcess("ctrl-c", gitCommitConsumer),
+  createGitStatusProcess("<", chainGitActionsConsumer),
+  createGitStatusProcess(">", chainGitStatusActionsConsumer),
 ]

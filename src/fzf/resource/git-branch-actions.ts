@@ -23,7 +23,7 @@ export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource>
         action: "header",
         branches: [],
       },
-      displayText: "C-q: Back to git branch",
+      displayText: "<: Back to git branch",
     },
     {
       data: {
