@@ -68,6 +68,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitMerge(data.branches[0])
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "merge --no-ff": {
@@ -76,6 +77,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitMerge(data.branches[0], "--no-ff")
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "rebase": {
@@ -84,6 +86,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
       }
 
       await gitRebase(data.branches[0])
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "rebase --interactive": {
@@ -99,6 +102,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
         // eslint-disable-next-line no-await-in-loop
         await gitDeleteBranch(branch)
       }
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "delete --force": {
@@ -106,6 +110,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
         // eslint-disable-next-line no-await-in-loop
         await gitDeleteBranch(branch, { name: "--force" })
       }
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "yank": {
