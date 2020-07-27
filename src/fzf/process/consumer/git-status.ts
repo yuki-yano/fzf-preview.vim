@@ -1,4 +1,4 @@
-import { gitAdd, gitPatch, gitReset } from "@/connector/git"
+import { gitAdd, gitPatch, gitReset, gitCommit } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { GitStatusData } from "@/type"
@@ -34,4 +34,8 @@ export const gitResetConsumer = createBulkLineConsumer(async (dataList) => {
 
 export const gitPatchConsumer = createSingleLineConsumer(async (data) => {
   await gitPatch((data as GitStatusData).file)
+})
+
+export const gitCommitConsumer = createBulkLineConsumer(async (_) => {
+  await gitCommit()
 })
