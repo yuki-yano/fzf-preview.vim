@@ -38177,11 +38177,11 @@ exports.GIT_ACTIONS = [
 ];
 exports.GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"];
 exports.GIT_BRANCH_ACTIONS = [
+    "diff",
     "checkout",
     "reset",
     "reset --hard",
     "reset --soft",
-    "diff",
     "merge",
     "merge --no-ff",
     "rebase",
@@ -38192,6 +38192,7 @@ exports.GIT_BRANCH_ACTIONS = [
 ];
 exports.GIT_LOG_ACTIONS = [
     "show",
+    "diff",
     "reset",
     "reset-hard",
     "reset-soft",
@@ -40189,6 +40190,7 @@ exports.gitBranches = async (_args) => {
     /* eslint-enable no-control-regex */
 };
 exports.gitBranchesDefaultOptions = () => ({
+    "--multi": true,
     "--header": '"Enter: checkout, C-q: Back actions, C-s: git status, C-c: Select action"',
     "--prompt": '"GitBranch> "',
     "--preview": `"${git_2.GIT_BRANCH_PREVIEW_COMMAND}"`,
@@ -40312,12 +40314,14 @@ exports.gitCurrentLogs = async (_args) => {
     return createResource(logs, true);
 };
 exports.gitLogsDefaultOptions = () => ({
+    "--multi": true,
     "--header": '"Enter: git show, C-q: Back actions, C-s: git status, C-c: Select action"',
     "--prompt": '"GitLog> "',
     "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
     "--preview-window": '"down:50%"',
 });
 exports.gitCurrentLogsDefaultOptions = () => ({
+    "--multi": true,
     "--header": '"Enter: git show, C-s: git status, C-c: Select action"',
     "--prompt": '"GitCurrentLog> "',
     "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
@@ -42453,7 +42457,13 @@ exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (da
                 throw new Error("Hashes must be one");
             }
             await git_1.gitShow(data.hashes[0]);
-            await consumer_1.chainFzfCommand(nextCommand);
+            break;
+        }
+        case "diff": {
+            if (data.hashes.length > 2) {
+                throw new Error("Hashes must be one or two");
+            }
+            await git_1.gitDiff(data.hashes[0], data.hashes[1]);
             break;
         }
         case "reset": {
