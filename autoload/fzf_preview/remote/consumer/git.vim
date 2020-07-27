@@ -32,12 +32,11 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#commit(option) abort
-  " NOTE: Fugitive can be integrated with commitia
-  if exists(':Git') == 2
-    execute 'Git commit ' . a:option
-    return
-  elseif has('nvim') && exists(':Gina') == 2 && match(a:option, '--fixup\|--squash') == -1
+  if has('nvim') && exists(':Gina') == 2 && match(a:option, '--fixup\|--squash') == -1
     execute 'Gina commit ' . a:option
+    return
+  elseif exists(':Git') == 2
+    execute 'Git commit ' . a:option
     return
   endif
 
@@ -63,13 +62,13 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
   " NOTE: Gina can not handle two branches
-  if exists(':Git') == 2
-    execute 'silent Git diff ' . a:branch . ' ' . branch2
-    echomsg 'git diff ' . a:branch . ' ' . branch2
+  if has('nvim') && exists(':Gina') == 2
+    execute 'silent Gina diff ' . a:branch . '..' . branch2
+    echomsg 'git diff ' . a:branch . '..' . branch2
     return
-  elseif has('nvim') && exists(':Gina') == 2
-    execute 'silent Gina diff ' . a:branch . ' ' . branch2
-    echomsg 'git diff ' . a:branch . ' ' . branch2
+  elseif exists(':Git') == 2
+    execute 'silent Git diff ' . a:branch . '..' . branch2
+    echomsg 'git diff ' . a:branch . '..' . branch2
     return
   endif
 
