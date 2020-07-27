@@ -52,10 +52,10 @@ Optional:
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
-- Fugitive (Require git patch)
+- Fugitive (Require git integration)
     https://github.com/tpope/vim-fugitive
 
-- Gina (Require git patch)
+- Gina (Require git integration)
     https://github.com/lambdalisue/gina.vim
 
 - universal-ctags (Requre FzfPreviewCtags and FzfPreviewBufferTags)
@@ -148,13 +148,6 @@ COMMANDS                                        *fzf-preview-commands*
 :CocCommand fzf-preview.DirectoryFiles {path or none}
      Select and open directory files from ripgrep with fzf interface.
      Default to current working directory.
-
-                                                *:FzfPreviewGitStatus*
-:FzfPreviewGitStatus
-:CocCommand fzf-preview.GitStatus
-     Select files that have been changed with git.
-     Preview is git diff.
-     Use git-status processes.
 
                                                 *:FzfPreviewBuffers*
 :FzfPreviewBuffers
@@ -274,6 +267,17 @@ COMMANDS                                        *fzf-preview-commands*
 
      Resources: [project, git, directory, buffer, project_old,
                  project_mru, project_mrw, old, mru, mrw]
+
+                                                *:FzfPreviewGitStatus*
+:FzfPreviewGitStatus
+:CocCommand fzf-preview.GitStatus
+     Git status integration.
+
+                                                *:FzfPreviewGitActions*
+:FzfPreviewGitActions
+:CocCommand fzf-preview.GitActions
+     Interactive git integration.
+     Select resource and action.
 
                                                 *:FzfPreviewVistaCtags*
 :FzfPreviewVistaCtags
@@ -575,8 +579,7 @@ FUNCTIONS                                       *fzf-preview-functions*
 *fzf_preview#remote#process#get_default_processes*
     Get the initial value of the processes.
     Args is {process_name} and {plugin_type (optional)}.
-    processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git-status',
-    'register' and 'open-pr'.
+    processes_name is 'open-file', 'open-buffer' and 'open-bufnr'.
     plugin_type is 'remote' or 'coc'. Default value is 'remote'.
 
     value from 'open-file' is
@@ -600,7 +603,7 @@ FUNCTIONS                                       *fzf-preview-functions*
       }
 
 ==============================================================================
-DEFAULT KEYMAP                                  *fzf-preview-keymap*
+BASE DEFAULT KEYMAP                             *fzf-preview-keymap*
 
 <C-g>, <Esc>
   - Cancel fzf

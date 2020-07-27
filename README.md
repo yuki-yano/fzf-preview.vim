@@ -8,7 +8,7 @@ Please refer to the following documentation for more information on the migratio
 
 # fzf-preview.vim
 
-fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview.
+fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
 Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
 
@@ -18,33 +18,34 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 ## Features
 
-1. provides an excellent UI with floating windows by default
-2. preview the selected item (with an arbitrary command)
-3. fast file and buffer search by fuzzy matching
-4. search all project files and history
-5. search from file history files using oldfiles and mru
-6. using diff preview to find a file from the state of git
-7. jump lines from jumplist or changelist
-8. interactive grep and preview from the current project
-9. Export the selected items to QuickFix.
+1. Provides an excellent UI with floating windows by default
+2. Supports devicons and output highlighting by default
+3. Preview the selected item (with an arbitrary command)
+4. Fast file and buffer search by fuzzy matching
+5. Search all project files and history
+6. Search from file history files using oldfiles and mru
+7. Interactive git integration (with [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+8. Jump lines from jumplist or changelist
+9. Interactive grep and preview from the current project
+10. Export the selected items to QuickFix.
 
 ## Demo
 
 ### Open file and :bdelete
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/87848670-5aa1a900-c91d-11ea-9a89-adbb0e30db39.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/88540152-6e4fbc80-d04d-11ea-8d19-314ee5e4d294.gif "fzf-preview")
 
-### Git Status with add, reset and patch (Integrate with [Fugitive](https://github.com/tpope/vim-fugitive))
+### Interactive git integration (Integrate with [Gina](https://github.com/lambdalisue/gina.vim))
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/87848834-a2750000-c91e-11ea-8452-803bfc0d43c1.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/88540232-86bfd700-d04d-11ea-8604-8ad8aed09cbb.gif "fzf-preview")
 
 ### Grep
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/87848887-2cbd6400-c91f-11ea-8ef0-b1d01106db83.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/88540281-9ccd9780-d04d-11ea-9672-b9af8a6d6307.gif "fzf-preview")
 
 ### Export quickfix and refactor (with [vim-qfreplace](https://github.com/thinca/vim-qfreplace))
 
-![fzf-preview](https://user-images.githubusercontent.com/5423775/87848923-92115500-c91f-11ea-8ee6-7188e1f8fdea.gif "fzf-preview")
+![fzf-preview](https://user-images.githubusercontent.com/5423775/88540327-af47d100-d04d-11ea-99b5-f453862ae892.gif "fzf-preview")
 
 ## Requirements
 
@@ -66,8 +67,8 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 - **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
-- Fugitive (Require git patch) <https://github.com/tpope/vim-fugitive>
-- Gina (Require git patch) <https://github.com/lambdalisue/gina.vim>
+- **Fugitive (Require git integration)**  (Recommended) <https://github.com/tpope/vim-fugitive>
+- Gina (Require git integration) <https://github.com/lambdalisue/gina.vim>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
@@ -145,9 +146,6 @@ and
 :FzfPreviewDirectoryFiles {path or none}      " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
 :CocCommand fzf-preview.DirectoryFiles
 
-:FzfPreviewGitStatus                          " Select git status listed file. Used git-status processes.
-:CocCommand fzf-preview.GitStatus
-
 :FzfPreviewBuffers                            " Select file buffers. Used open-buffer processes.
 :CocCommand fzf-preview.Buffers
 
@@ -205,6 +203,12 @@ and
 :FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
 
+:FzfPreviewGitActions                         " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+:CocCommand fzf-preview.GitActions
+
+:FzfPreviewGitStatus                          " Select git status listed file. (Required [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+:CocCommand fzf-preview.GitStatus
+
 :FzfPreviewVistaCtags                         " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
 :CocCommand fzf-preview.VistaCtags
 
@@ -237,6 +241,7 @@ xmap <Leader>f [fzf-p]
 
 nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResources project_mru git<CR>
 nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActions<CR>
 nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffers<CR>
 nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffers<CR>
 nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
@@ -259,6 +264,7 @@ xmap <Leader>f [fzf-p]
 
 nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
 nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
 nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
@@ -273,7 +279,7 @@ nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
 nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 ```
 
-### Fzf window Keymaps
+### Base Fzf window Keymaps
 
 ```text
 <C-g>, <Esc>
@@ -296,15 +302,6 @@ nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 <C-q>
   Build QuickFix in open-file processes.
   Execute :bdelete! command from open-buffer and open-bufnr processes.
-
-<C-a>
-  Git add with git-status processes
-
-<C-r>
-  Git reset with git-status processes
-
-<C-c>
-  Git patch with git-status processes (Require Fugitive or Gina)
 
 <C-d>
   Preview page down
@@ -467,7 +464,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 
 ```vim
 " Get the initial value of the open file processes
-" processes_name is 'open-file', 'open-buffer', 'open-bufnr', 'git-status', 'register' and 'open-pr'.
+" processes_name is 'open-file', 'open-buffer' and 'open-bufnr'.
 " plugin_type is 'remote' or 'coc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
@@ -476,6 +473,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/07/27 version 0.4.0
+  - Implement interactive git integration. (`:FzfPreviewGitActions` and `:CocCommand fzf-preview.GitActions`)
 
 - 2020/07/24 version 0.3.2
   - Remove g:fzf_preview_filelist_postprocess_command and to colorize the fzf window by default
