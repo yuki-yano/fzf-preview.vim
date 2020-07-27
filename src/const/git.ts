@@ -28,6 +28,7 @@ export const GIT_BRANCH_ACTIONS = [
 ] as const
 export const GIT_LOG_ACTIONS = [
   "show",
+  "diff",
   "reset",
   "reset-hard",
   "reset-soft",
