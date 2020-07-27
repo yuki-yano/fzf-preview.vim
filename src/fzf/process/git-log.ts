@@ -7,7 +7,7 @@ const createGitLogProcess = createProcess("git-log")
 
 export const gitLogProcesses: Processes = [
   createGitLogProcess("enter", gitShowConsumer),
-  createGitLogProcess("ctrl-c", chainGitLogActionsConsumer),
   createGitLogProcess("ctrl-s", chainGitStatusConsumer),
-  createGitLogProcess("ctrl-q", chainGitActionsConsumer),
+  createGitLogProcess("<", chainGitActionsConsumer),
+  createGitLogProcess(">", chainGitLogActionsConsumer),
 ]
