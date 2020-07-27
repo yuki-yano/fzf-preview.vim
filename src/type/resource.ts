@@ -48,6 +48,7 @@ export type GitBranchData = {
   name: string
   date: string
   author: string
+  isCreate: boolean
 }
 
 export type GitBranchActionData = {

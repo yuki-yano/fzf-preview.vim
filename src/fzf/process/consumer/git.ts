@@ -1,5 +1,5 @@
 import { execFzfCommand } from "@/connector/fzf"
-import { gitCheckout } from "@/connector/git"
+import { gitCheckout, gitCreateBranch } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
 
@@ -32,8 +32,12 @@ export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
 
   switch (data.type) {
     case "git-branch": {
-      await gitCheckout(data.name)
-      await vimEchoMessage(`git checkout ${data.name}`)
+      if (data.isCreate === false) {
+        await gitCheckout(data.name)
+        await vimEchoMessage(`git checkout ${data.name}`)
+      } else {
+        await gitCreateBranch()
+      }
       break
     }
     case "git-log": {

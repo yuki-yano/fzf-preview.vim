@@ -93,6 +93,10 @@ export const gitCheckout = async (branchOrFile: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#checkout", [branchOrFile])
 }
 
+export const gitCreateBranch = async (): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#create_branch")
+}
+
 export const gitDiff = async (branch: string, branch2?: string): Promise<void> => {
   if (branch2 == null) {
     await pluginCall("fzf_preview#remote#consumer#git#diff", [branch])

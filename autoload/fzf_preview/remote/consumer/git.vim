@@ -62,6 +62,13 @@ function! fzf_preview#remote#consumer#git#checkout(branch_or_file) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#create_branch() abort
+  let branch_name = input('Branch name: ')
+  if branch_name !=# ''
+    echomsg system('git checkout -b ' . branch_name)
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
