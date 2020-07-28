@@ -23,7 +23,8 @@ export const yankround = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const yankroundPreviewCommand = globalVariableSelector("fzfPreviewYankroundPreviewCommand") as string
-  return `"${yankroundPreviewCommand} {2}"`
+  const historyFile = `${globalVariableSelector("yankroundDir") as string}/history`
+  return `"${yankroundPreviewCommand} ${historyFile} {2}"`
 }
 
 export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

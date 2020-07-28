@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if which gsed > /dev/null && which gcut > /dev/null; then
-  gsed -n "$1,$1p" "$FZF_PREVIEW_YANKROUND_DIR" | gcut -f 2 | gsed -e "s/\x0/\n/g"
+  gsed -n "$2,$2p" "$1" | gcut -f 2 | gsed -e "s/\x0/\n/g"
 else
-  sed -n "$1,$1p" "$FZF_PREVIEW_YANKROUND_DIR" | cut -f 2 | sed -e "s/\x0/\n/g"
+  sed -n "$2,$2p" "$1" | cut -f 2 | sed -e "s/\x0/\n/g"
 fi

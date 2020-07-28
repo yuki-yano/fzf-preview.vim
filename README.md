@@ -474,6 +474,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/07/27 version 0.4.1
+  - Implement create git branch.
+
 - 2020/07/27 version 0.4.0
   - Implement interactive git integration. (`:FzfPreviewGitActions` and `:CocCommand fzf-preview.GitActions`)
 

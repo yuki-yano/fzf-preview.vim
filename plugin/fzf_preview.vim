@@ -169,7 +169,6 @@ endfunction
 
 augroup fzf_preview_initialized
   autocmd!
-  autocmd VimEnter * call s:fzf_preview_init()
   autocmd VimEnter * call s:doautocmd_from_remote_plugin()
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
@@ -181,12 +180,6 @@ function! s:doautocmd_from_remote_plugin() abort
 
   if exists(':FzfPreviewRemoteEnvironment')
     silent doautocmd User fzf_preview#initialized
-  endif
-endfunction
-
-function! s:fzf_preview_init() abort
-  if exists('g:yankround_dir')
-    let $FZF_PREVIEW_YANKROUND_DIR = fnamemodify(g:yankround_dir, ':p') . '/history'
   endif
 endfunction
 
