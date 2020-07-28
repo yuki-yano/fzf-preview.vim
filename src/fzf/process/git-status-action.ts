@@ -7,5 +7,5 @@ const createGitStatusActionProcess = createProcess("git-status-actions")
 
 export const gitStatusActionProcesses: Processes = [
   createGitStatusActionProcess("enter", execGitStatusActionConsumer),
-  createGitStatusActionProcess("ctrl-q", chainGitStatusConsumer),
+  createGitStatusActionProcess("<", chainGitStatusConsumer),
 ]
