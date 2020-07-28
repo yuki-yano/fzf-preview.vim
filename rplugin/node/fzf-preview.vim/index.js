@@ -39238,8 +39238,9 @@ exports.lines = async (_args) => {
     return {
         type: "json",
         lines: lineList.map((line) => {
+            const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(
             // eslint-disable-next-line no-control-regex
-            const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(line.replace(/\x1b\[[0-9;]*m/g, ""));
+            line.replace(/\x1b\[[0-9;]*m/g, "").replace(/\^\[\[[0-9;]*m/g, ""));
             if (result == null || result.groups == null) {
                 throw new Error(`Unexpected line format: ${line}`);
             }
