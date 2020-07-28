@@ -17,7 +17,19 @@ const colorCode: ColorCode = {
   white: ansi.style.white,
 }
 
-const colorize = (str: string, color: Color): string => `${colorCode[color]}${str}${colorCode.reset}`
+type Options = {
+  bold?: boolean
+}
+export const colorize = (str: string, color: Color, options?: Options): string => {
+  const line = `${colorCode[color]}${str}${colorCode.reset}`
+  if (options == null) {
+    return line
+  } else if (options.bold) {
+    return `${ansi.style.bold}${line}${ansi.style.reset}`
+  } else {
+    return line
+  }
+}
 
 export const colorizeFile = (filePath: string): string => {
   const splittedFilePath = filePath.split("/")

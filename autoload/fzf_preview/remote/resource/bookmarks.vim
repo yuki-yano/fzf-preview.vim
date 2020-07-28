@@ -2,7 +2,7 @@ function! fzf_preview#remote#resource#bookmarks#get() abort
   return filter(map(bm#location_list(), {
  \ _, b -> s:bookmarks_format_line(b)
  \ }), {
- \ _, b -> b !=# ''
+ \ _, b -> b.file !=# ''
  \ })
 endfunction
 
