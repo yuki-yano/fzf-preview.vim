@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { execGitLog } from "@/connector/git"
 import { isGitDirectory } from "@/connector/util"
 import { GIT_LOG_PREVIEW_COMMAND } from "@/const/git"
@@ -11,23 +13,21 @@ const createResource = (logs: Array<GitLog>, isCurrentFile: boolean): Resource =
     logs.map(({ hash, date, author, comment }) => [hash, date, author, comment])
   ).map((list) => list.join(SPACER).trim())
 
-  /* eslint-disable no-control-regex */
   return {
     type: "json",
     lines: logs.map(({ hash, date, author, comment }, i) => ({
       data: {
         command: "FzfPreviewGitLogs",
         type: "git-log",
-        hash: hash.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-        date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-        author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-        comment: comment.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+        hash: stripAnsi(hash).trim(),
+        date: stripAnsi(date).trim(),
+        author: stripAnsi(author).trim(),
+        comment: stripAnsi(comment).trim(),
         isCurrentFile,
       },
       displayText: displayLines[i],
     })),
   }
-  /* eslint-enable no-control-regex */
 }
 
 export const gitLogs = async (_args: SourceFuncArgs): Promise<Resource> => {

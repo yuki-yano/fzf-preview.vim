@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { execGitBranch } from "@/connector/git"
 import { isGitDirectory } from "@/connector/util"
 import { GIT_BRANCH_PREVIEW_COMMAND } from "@/const/git"
@@ -31,25 +33,20 @@ export const gitBranches = async (_args: SourceFuncArgs): Promise<Resource> => {
     },
   ]
 
-  /* eslint-disable no-control-regex */
   const lines = [
     ...branches.map<ResourceLine>(({ name, date, author }, i) => ({
       data: {
         command: "FzfPreviewGitBranches",
         type: "git-branch",
-        name: name
-          .replace(/\x1b\[[0-9;]*m/g, "")
-          .replace("* ", "")
-          .trim(),
-        date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-        author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+        name: stripAnsi(name).replace("* ", "").trim(),
+        date: stripAnsi(date).trim(),
+        author: stripAnsi(author).trim(),
         isCreate: false,
       },
       displayText: displayLines[i],
     })),
     ...extraActions,
   ]
-  /* eslint-enable no-control-regex */
 
   return {
     type: "json",
