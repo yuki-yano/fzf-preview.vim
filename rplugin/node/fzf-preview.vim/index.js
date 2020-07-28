@@ -241,7 +241,7 @@ exports.commandDefinition = exports.vimCommandOptions = void 0;
 const args_1 = __webpack_require__(4);
 const files_from_resources_parser_1 = __webpack_require__(310);
 const resource_1 = __webpack_require__(312);
-const colorize_1 = __webpack_require__(379);
+const colorize_1 = __webpack_require__(368);
 exports.vimCommandOptions = {
     nargs: "?",
     sync: true,
@@ -37729,14 +37729,14 @@ __exportStar(__webpack_require__(363), exports);
 __exportStar(__webpack_require__(364), exports);
 __exportStar(__webpack_require__(365), exports);
 __exportStar(__webpack_require__(367), exports);
-__exportStar(__webpack_require__(368), exports);
-__exportStar(__webpack_require__(369), exports);
 __exportStar(__webpack_require__(370), exports);
 __exportStar(__webpack_require__(371), exports);
+__exportStar(__webpack_require__(372), exports);
 __exportStar(__webpack_require__(373), exports);
 __exportStar(__webpack_require__(375), exports);
 __exportStar(__webpack_require__(377), exports);
-__exportStar(__webpack_require__(378), exports);
+__exportStar(__webpack_require__(379), exports);
+__exportStar(__webpack_require__(380), exports);
 
 
 /***/ }),
@@ -38044,7 +38044,7 @@ exports.gitFilesDefaultOptions = () => ({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitYank = exports.gitDeleteBranch = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPull = exports.gitFetch = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCheckout = exports.gitCommit = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
+exports.gitYank = exports.gitDeleteBranch = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPull = exports.gitFetch = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCreateBranch = exports.gitCheckout = exports.gitCommit = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
 const git_1 = __webpack_require__(323);
 const util_1 = __webpack_require__(319);
 const vim_variable_1 = __webpack_require__(288);
@@ -38116,6 +38116,9 @@ exports.gitCommit = async (option) => {
 };
 exports.gitCheckout = async (branchOrFile) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#git#checkout", [branchOrFile]);
+};
+exports.gitCreateBranch = async () => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#create_branch");
 };
 exports.gitDiff = async (branch, branch2) => {
     if (branch2 == null) {
@@ -38204,7 +38207,7 @@ exports.GIT_LOG_ACTIONS = [
 ];
 exports.GIT_BRANCH_COMMAND = "git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%(color:reset)    %(color:reset)%(HEAD) %(color:magenta)%(refname:short)%(color:reset)    %(color:yellow)%(authordate:short)%(color:reset)    %(color:blue)[%(authorname)]%(color:reset)%09' 2> /dev/null";
 const GIT_BRANCH_PREVIEW_COMMAND_OPTION = "--decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always";
-exports.GIT_BRANCH_PREVIEW_COMMAND = `[[ '{2}' != '*' ]] && git log {2} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION} || git log {3} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION}`;
+exports.GIT_BRANCH_PREVIEW_COMMAND = `[[ '{2}' != '*' ]] && git log {2} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION} 2> /dev/null || git log {3} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION} 2> /dev/null`;
 exports.GIT_LOG_PREVIEW_COMMAND = "git show {2} --color=always";
 
 
@@ -40162,6 +40165,7 @@ exports.gitBranchesDefaultOptions = exports.gitBranches = void 0;
 const git_1 = __webpack_require__(322);
 const util_1 = __webpack_require__(315);
 const git_2 = __webpack_require__(323);
+const colorize_1 = __webpack_require__(368);
 const align_1 = __webpack_require__(329);
 const SPACER = "    ";
 exports.gitBranches = async (_args) => {
@@ -40170,10 +40174,22 @@ exports.gitBranches = async (_args) => {
     }
     const branches = await git_1.execGitBranch();
     const displayLines = align_1.alignLists(branches.map(({ name, date, author }) => [name, date, author])).map((list) => list.join(SPACER).trim());
+    const extraActions = [
+        {
+            data: {
+                command: "FzfPreviewGitBranches",
+                type: "git-branch",
+                name: "Create branch",
+                date: "",
+                author: "",
+                isCreate: true,
+            },
+            displayText: colorize_1.colorize("\xA0\xA0Create branch", "green"),
+        },
+    ];
     /* eslint-disable no-control-regex */
-    return {
-        type: "json",
-        lines: branches.map(({ name, date, author }, i) => ({
+    const lines = [
+        ...branches.map(({ name, date, author }, i) => ({
             data: {
                 command: "FzfPreviewGitBranches",
                 type: "git-branch",
@@ -40183,11 +40199,17 @@ exports.gitBranches = async (_args) => {
                     .trim(),
                 date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
                 author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                isCreate: false,
             },
             displayText: displayLines[i],
         })),
-    };
+        ...extraActions,
+    ];
     /* eslint-enable no-control-regex */
+    return {
+        type: "json",
+        lines,
+    };
 };
 exports.gitBranchesDefaultOptions = () => ({
     "--multi": true,
@@ -40204,484 +40226,12 @@ exports.gitBranchesDefaultOptions = () => ({
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitBranchActionsDefaultOptions = exports.gitBranchActions = void 0;
-const util_1 = __webpack_require__(315);
-const git_1 = __webpack_require__(323);
-const session_1 = __webpack_require__(366);
-exports.gitBranchActions = async (_args) => {
-    const currentSession = session_1.currentSessionSelector();
-    if (currentSession == null) {
-        throw new Error("Not exists current session");
-    }
-    else if (currentSession.gitBranches == null) {
-        throw new Error("Branch is not exists in current session");
-    }
-    if (!(await util_1.isGitDirectory())) {
-        throw new Error("The current directory is not a git project");
-    }
-    const branches = currentSession.gitBranches;
-    const headers = [
-        {
-            data: {
-                command: "FzfPreviewGitBranchActions",
-                type: "git-branch-actions",
-                action: "header",
-                branches: [],
-            },
-            displayText: "<: Back to git branch",
-        },
-        {
-            data: {
-                command: "FzfPreviewGitBranchActions",
-                type: "git-branch-actions",
-                action: "header",
-                branches: [],
-            },
-            displayText: `Selected branch: ${branches.map((branch) => branch.name).join(" ")}`,
-        },
-    ];
-    const lines = [
-        ...headers,
-        ...git_1.GIT_BRANCH_ACTIONS.map((action) => ({
-            data: {
-                command: "FzfPreviewGitBranchActions",
-                type: "git-branch-actions",
-                action,
-                branches: branches.map((branch) => branch.name),
-            },
-            displayText: action,
-        })),
-    ];
-    return {
-        type: "json",
-        lines,
-        options: {
-            "--header-lines": headers.length.toString(),
-        },
-    };
-};
-exports.gitBranchActionsDefaultOptions = () => ({
-    "--prompt": '"GitBranchActions> "',
-});
-
-
-/***/ }),
-/* 369 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitCurrentLogsDefaultOptions = exports.gitLogsDefaultOptions = exports.gitCurrentLogs = exports.gitLogs = void 0;
-const git_1 = __webpack_require__(322);
-const util_1 = __webpack_require__(315);
-const git_2 = __webpack_require__(323);
-const align_1 = __webpack_require__(329);
-const SPACER = "    ";
-const createResource = (logs, isCurrentFile) => {
-    const displayLines = align_1.alignLists(logs.map(({ hash, date, author, comment }) => [hash, date, author, comment])).map((list) => list.join(SPACER).trim());
-    /* eslint-disable no-control-regex */
-    return {
-        type: "json",
-        lines: logs.map(({ hash, date, author, comment }, i) => ({
-            data: {
-                command: "FzfPreviewGitLogs",
-                type: "git-log",
-                hash: hash.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                comment: comment.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                isCurrentFile,
-            },
-            displayText: displayLines[i],
-        })),
-    };
-    /* eslint-enable no-control-regex */
-};
-exports.gitLogs = async (_args) => {
-    if (!(await util_1.isGitDirectory())) {
-        throw new Error("The current directory is not a git project");
-    }
-    const logs = await git_1.execGitLog();
-    return createResource(logs, false);
-};
-exports.gitCurrentLogs = async (_args) => {
-    if (!(await util_1.isGitDirectory())) {
-        throw new Error("The current directory is not a git project");
-    }
-    const logs = await git_1.execGitLog({ currentFile: true });
-    return createResource(logs, true);
-};
-exports.gitLogsDefaultOptions = () => ({
-    "--multi": true,
-    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
-    "--prompt": '"GitLog> "',
-    "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
-    "--preview-window": '"down:50%"',
-});
-exports.gitCurrentLogsDefaultOptions = () => ({
-    "--multi": true,
-    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
-    "--prompt": '"GitCurrentLog> "',
-    "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
-    "--preview-window": '"down:50%"',
-});
-
-
-/***/ }),
-/* 370 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.gitLogActionsDefaultOptions = exports.gitLogActions = void 0;
-const util_1 = __webpack_require__(315);
-const git_1 = __webpack_require__(323);
-const session_1 = __webpack_require__(366);
-exports.gitLogActions = async (_args) => {
-    const currentSession = session_1.currentSessionSelector();
-    if (currentSession == null) {
-        throw new Error("Not exists current session");
-    }
-    else if (currentSession.gitLogs == null) {
-        throw new Error("Logs is not exists in current session");
-    }
-    if (!(await util_1.isGitDirectory())) {
-        throw new Error("The current directory is not a git project");
-    }
-    const logs = currentSession.gitLogs;
-    const headers = [
-        {
-            data: {
-                command: "FzfPreviewGitLogActions",
-                type: "git-log-actions",
-                action: "header",
-                hashes: [],
-                isCurrentFile: false,
-            },
-            displayText: "<: Back to git log",
-        },
-        {
-            data: {
-                command: "FzfPreviewGitLogActions",
-                type: "git-log-actions",
-                action: "header",
-                hashes: [],
-                isCurrentFile: false,
-            },
-            displayText: `Selected log: ${logs.map((log) => log.hash).join(" ")}`,
-        },
-    ];
-    const lines = [
-        ...headers,
-        ...git_1.GIT_LOG_ACTIONS.map((action) => ({
-            data: {
-                command: "FzfPreviewGitLogActions",
-                type: "git-log-actions",
-                action,
-                hashes: logs.map((log) => log.hash),
-                isCurrentFile: logs[0].isCurrentFile,
-            },
-            displayText: action,
-        })),
-    ];
-    return {
-        type: "json",
-        lines,
-        options: {
-            "--header-lines": headers.length.toString(),
-        },
-    };
-};
-exports.gitLogActionsDefaultOptions = () => ({
-    "--prompt": '"GitLogActions> "',
-});
-
-
-/***/ }),
-/* 371 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookmarksDefaultOptions = exports.bookmarks = void 0;
-const bookmarks_1 = __webpack_require__(372);
-const vim_variable_1 = __webpack_require__(288);
-exports.bookmarks = async (_args) => {
-    const resourceLines = (await bookmarks_1.getBookmarks()).map(({ file, line, text, comment }) => {
-        return {
-            data: {
-                command: "FzfPreviewBookmarks",
-                type: "line",
-                file,
-                text,
-                lineNumber: Number(line),
-            },
-            displayText: `${file}:${line}:${text}:${comment}`,
-        };
-    });
-    return {
-        type: "json",
-        lines: resourceLines,
-    };
-};
-const previewCommand = () => {
-    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {}"`;
-};
-exports.bookmarksDefaultOptions = () => ({
-    "--prompt": '"Bookmarks> "',
-    "--multi": true,
-    "--preview": previewCommand(),
-});
-
-
-/***/ }),
-/* 372 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBookmarks = void 0;
-const plugin_1 = __webpack_require__(1);
-exports.getBookmarks = async () => (await plugin_1.pluginCall("fzf_preview#remote#resource#bookmarks#get"));
-
-
-/***/ }),
-/* 373 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.yankroundDefaultOptions = exports.yankround = void 0;
-const yankround_1 = __webpack_require__(374);
-const vim_variable_1 = __webpack_require__(288);
-exports.yankround = async (_args) => {
-    const yankHistories = await yankround_1.getYankround();
-    const resourceLines = yankHistories.map(({ line, option, text }) => ({
-        data: {
-            command: "FzfPreviewYankround",
-            type: "register",
-            lineNumber: line,
-            option,
-            text,
-        },
-        displayText: `${line} ${option} ${text}`,
-    }));
-    return {
-        type: "json",
-        lines: resourceLines,
-    };
-};
-const previewCommand = () => {
-    const yankroundPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewYankroundPreviewCommand");
-    return `"${yankroundPreviewCommand} {2}"`;
-};
-exports.yankroundDefaultOptions = () => ({
-    "--prompt": '"Yankround> "',
-    "--multi": false,
-    "--preview": previewCommand(),
-    "--no-sort": true,
-    "--with-nth": "4..",
-});
-
-
-/***/ }),
-/* 374 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getYankround = void 0;
-const plugin_1 = __webpack_require__(1);
-exports.getYankround = async () => (await plugin_1.pluginCall("fzf_preview#remote#resource#yankround#get"));
-
-
-/***/ }),
-/* 375 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.vistaCtagsDefaultOptions = exports.vistaCtags = void 0;
-const vista_1 = __webpack_require__(376);
-const vim_variable_1 = __webpack_require__(288);
-const align_1 = __webpack_require__(329);
-const SPACER = "  ";
-const vistaTagToArray = ({ lineNumber, kind, text }) => [lineNumber.toString(), `[${kind}]`, text];
-exports.vistaCtags = async (_args) => {
-    const tags = await vista_1.getVistaCtags();
-    const displayTextList = align_1.alignLists(tags.map((tag) => vistaTagToArray(tag))).map((tag) => tag.join(SPACER).trim());
-    const resourceLines = tags.map((tag, i) => ({
-        data: {
-            command: "FzfPreviewVistaCtags",
-            type: "line",
-            file: tag.tagFile,
-            lineNumber: tag.lineNumber,
-            text: displayTextList[i],
-        },
-        displayText: `${displayTextList[i]}${SPACER}${tag.tagFile}`,
-    }));
-    return {
-        type: "json",
-        lines: resourceLines,
-    };
-};
-const previewCommand = () => {
-    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} '{-1}:{2}'"`;
-};
-exports.vistaCtagsDefaultOptions = () => ({
-    "--prompt": '"VistaCtags> "',
-    "--multi": true,
-    "--preview": previewCommand(),
-});
-
-
-/***/ }),
-/* 376 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVistaBufferCtags = exports.getVistaCtags = void 0;
-const plugin_1 = __webpack_require__(1);
-exports.getVistaCtags = async () => {
-    const tags = (await plugin_1.pluginCall("fzf_preview#remote#resource#vista#ctags"));
-    return tags;
-};
-exports.getVistaBufferCtags = async () => {
-    const tags = (await plugin_1.pluginCall("fzf_preview#remote#resource#vista#buffer_ctags"));
-    return tags;
-};
-
-
-/***/ }),
-/* 377 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.vistaBufferCtagsDefaultOptions = exports.vistaBufferCtags = void 0;
-const vista_1 = __webpack_require__(376);
-const vim_variable_1 = __webpack_require__(288);
-const file_1 = __webpack_require__(324);
-const align_1 = __webpack_require__(329);
-const SPACER = "  ";
-const vistaBufferTagToArray = ({ lineNumber, kind, text, line }) => [
-    lineNumber.toString(),
-    `[${kind}]`,
-    text,
-    line,
-];
-exports.vistaBufferCtags = async (_args) => {
-    const tags = await vista_1.getVistaBufferCtags();
-    const displayTextList = align_1.alignLists(tags.sort((a, b) => a.lineNumber - b.lineNumber).map((tag) => vistaBufferTagToArray(tag))).map((tag) => tag.join(SPACER).trim());
-    const currentFile = await file_1.currentFilePath();
-    const resourceLines = tags.map((tag, i) => ({
-        data: {
-            command: "FzfPreviewVistaBufferCtags",
-            type: "line",
-            file: currentFile,
-            lineNumber: tag.lineNumber,
-            text: displayTextList[i],
-        },
-        displayText: `${displayTextList[i]}`,
-    }));
-    return {
-        type: "json",
-        lines: resourceLines,
-    };
-};
-const previewCommand = async () => {
-    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} '${await file_1.currentFilePath()}:{2}'"`;
-};
-exports.vistaBufferCtagsDefaultOptions = async () => ({
-    "--prompt": '"VistaBufferCtags> "',
-    "--multi": true,
-    "--preview": await previewCommand(),
-});
-
-
-/***/ }),
-/* 378 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.blamePrDefaultOptions = exports.blamePr = void 0;
-const vim_variable_1 = __webpack_require__(288);
-const command_1 = __webpack_require__(316);
-const file_1 = __webpack_require__(324);
-exports.blamePr = async (_args) => {
-    if (!(await file_1.existsFileAsync(await file_1.currentFilePath()))) {
-        return {
-            type: "json",
-            lines: [],
-        };
-    }
-    const file = await file_1.currentFilePath();
-    const openPrCommand = vim_variable_1.globalVariableSelector("fzfPreviewBlamePrCommand");
-    const { stdout, stderr, status } = command_1.execSyncCommand(`${openPrCommand} ${file}`);
-    if (stderr !== "" || status !== 0) {
-        throw new Error(`Failed open pr command: "${openPrCommand}"`);
-    }
-    const lines = stdout.split("\n").filter((line) => line !== "");
-    const resourceLines = lines.map((line) => {
-        const result = /^PR\s#(?<prNumber>\d+)/.exec(line);
-        if (result != null && result.groups != null) {
-            return {
-                data: {
-                    command: "FzfPreviewBlamePR",
-                    type: "git-pr",
-                    prNumber: Number(result.groups.prNumber),
-                },
-                displayText: line,
-            };
-        }
-        return {
-            data: {
-                command: "FzfPreviewBlamePR",
-                type: "git-pr",
-            },
-            displayText: line,
-        };
-    });
-    return {
-        type: "json",
-        lines: resourceLines,
-    };
-};
-exports.blamePrDefaultOptions = () => ({
-    "--prompt": '"Blame PR> "',
-    "--multi": true,
-    "--preview": '"gh pr view {3}"',
-});
-
-
-/***/ }),
-/* 379 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.colorizeDevIcon = exports.colorizeDiagnostic = exports.colorizeGitStatus = exports.colorizeBuffer = exports.colorizeGrep = exports.colorizeFile = void 0;
-const ansi_escape_sequences_1 = __importDefault(__webpack_require__(380));
+exports.colorizeDevIcon = exports.colorizeDiagnostic = exports.colorizeGitStatus = exports.colorizeBuffer = exports.colorizeGrep = exports.colorizeFile = exports.colorize = void 0;
+const ansi_escape_sequences_1 = __importDefault(__webpack_require__(369));
 const lodash_1 = __webpack_require__(287);
 const colorCode = {
     reset: ansi_escape_sequences_1.default.style.reset,
@@ -40694,7 +40244,18 @@ const colorCode = {
     cyan: ansi_escape_sequences_1.default.style.cyan,
     white: ansi_escape_sequences_1.default.style.white,
 };
-const colorize = (str, color) => `${colorCode[color]}${str}${colorCode.reset}`;
+exports.colorize = (str, color, options) => {
+    const line = `${colorCode[color]}${str}${colorCode.reset}`;
+    if (options == null) {
+        return line;
+    }
+    else if (options.bold) {
+        return `${ansi_escape_sequences_1.default.style.bold}${line}${ansi_escape_sequences_1.default.style.reset}`;
+    }
+    else {
+        return line;
+    }
+};
 exports.colorizeFile = (filePath) => {
     const splittedFilePath = filePath.split("/");
     if (splittedFilePath.length === 1) {
@@ -40703,13 +40264,13 @@ exports.colorizeFile = (filePath) => {
     else {
         const file = splittedFilePath.slice(-1).toString();
         const directory = splittedFilePath.slice(0, -1).join("/");
-        return `${colorize(`${directory}/`, "cyan")}${file}`;
+        return `${exports.colorize(`${directory}/`, "cyan")}${file}`;
     }
 };
 exports.colorizeGrep = (line) => {
     const [filePath, lineNumber, ...texts] = line.split(":");
     const colorizedFilePath = exports.colorizeFile(filePath);
-    return `${colorizedFilePath}:${colorize(lineNumber, "green")}:${texts.join(":")}`;
+    return `${colorizedFilePath}:${exports.colorize(lineNumber, "green")}:${texts.join(":")}`;
 };
 exports.colorizeBuffer = (line) => {
     if (line.includes("%")) {
@@ -40718,10 +40279,10 @@ exports.colorizeBuffer = (line) => {
     const items = line.split(" ");
     const colorizedItems = items.map((item) => {
         if (/\[\d+\]/.exec(item) != null) {
-            return colorize(item, "blue");
+            return exports.colorize(item, "blue");
         }
         else if (/\[\+\]/.exec(item) != null) {
-            return colorize(item, "red");
+            return exports.colorize(item, "red");
         }
         else if (/[a-zA-Z0-9-_.@]+/.exec(item) != null) {
             return exports.colorizeFile(item);
@@ -40738,10 +40299,10 @@ exports.colorizeGitStatus = (line) => {
 exports.colorizeDiagnostic = (line) => {
     const baseColorizedLine = exports.colorizeGrep(line);
     return baseColorizedLine
-        .replace(":  Error ", `:${colorize("  Error ", "red")}`)
-        .replace(":  Warning ", `:${colorize("  Warning ", "yellow")}`)
-        .replace(":  Information ", `:${colorize("  Information ", "blue")}`)
-        .replace(":  Hint ", `:${colorize("  Hint ", "cyan")}`);
+        .replace(":  Error ", `:${exports.colorize("  Error ", "red")}`)
+        .replace(":  Warning ", `:${exports.colorize("  Warning ", "yellow")}`)
+        .replace(":  Information ", `:${exports.colorize("  Information ", "blue")}`)
+        .replace(":  Hint ", `:${exports.colorize("  Hint ", "cyan")}`);
 };
 const extensions = {
     styl: { icon: "", color: "green" },
@@ -40851,7 +40412,7 @@ exports.colorizeDevIcon = (icon) => {
 
 
 /***/ }),
-/* 380 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
@@ -41186,6 +40747,478 @@ exports.colorizeDevIcon = (icon) => {
 
 
 /***/ }),
+/* 370 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.gitBranchActionsDefaultOptions = exports.gitBranchActions = void 0;
+const util_1 = __webpack_require__(315);
+const git_1 = __webpack_require__(323);
+const session_1 = __webpack_require__(366);
+exports.gitBranchActions = async (_args) => {
+    const currentSession = session_1.currentSessionSelector();
+    if (currentSession == null) {
+        throw new Error("Not exists current session");
+    }
+    else if (currentSession.gitBranches == null) {
+        throw new Error("Branch is not exists in current session");
+    }
+    if (!(await util_1.isGitDirectory())) {
+        throw new Error("The current directory is not a git project");
+    }
+    const branches = currentSession.gitBranches;
+    const headers = [
+        {
+            data: {
+                command: "FzfPreviewGitBranchActions",
+                type: "git-branch-actions",
+                action: "header",
+                branches: [],
+            },
+            displayText: "<: Back to git branch",
+        },
+        {
+            data: {
+                command: "FzfPreviewGitBranchActions",
+                type: "git-branch-actions",
+                action: "header",
+                branches: [],
+            },
+            displayText: `Selected branch: ${branches.map((branch) => branch.name).join(" ")}`,
+        },
+    ];
+    const lines = [
+        ...headers,
+        ...git_1.GIT_BRANCH_ACTIONS.map((action) => ({
+            data: {
+                command: "FzfPreviewGitBranchActions",
+                type: "git-branch-actions",
+                action,
+                branches: branches.map((branch) => branch.name),
+            },
+            displayText: action,
+        })),
+    ];
+    return {
+        type: "json",
+        lines,
+        options: {
+            "--header-lines": headers.length.toString(),
+        },
+    };
+};
+exports.gitBranchActionsDefaultOptions = () => ({
+    "--prompt": '"GitBranchActions> "',
+});
+
+
+/***/ }),
+/* 371 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.gitCurrentLogsDefaultOptions = exports.gitLogsDefaultOptions = exports.gitCurrentLogs = exports.gitLogs = void 0;
+const git_1 = __webpack_require__(322);
+const util_1 = __webpack_require__(315);
+const git_2 = __webpack_require__(323);
+const align_1 = __webpack_require__(329);
+const SPACER = "    ";
+const createResource = (logs, isCurrentFile) => {
+    const displayLines = align_1.alignLists(logs.map(({ hash, date, author, comment }) => [hash, date, author, comment])).map((list) => list.join(SPACER).trim());
+    /* eslint-disable no-control-regex */
+    return {
+        type: "json",
+        lines: logs.map(({ hash, date, author, comment }, i) => ({
+            data: {
+                command: "FzfPreviewGitLogs",
+                type: "git-log",
+                hash: hash.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                comment: comment.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                isCurrentFile,
+            },
+            displayText: displayLines[i],
+        })),
+    };
+    /* eslint-enable no-control-regex */
+};
+exports.gitLogs = async (_args) => {
+    if (!(await util_1.isGitDirectory())) {
+        throw new Error("The current directory is not a git project");
+    }
+    const logs = await git_1.execGitLog();
+    return createResource(logs, false);
+};
+exports.gitCurrentLogs = async (_args) => {
+    if (!(await util_1.isGitDirectory())) {
+        throw new Error("The current directory is not a git project");
+    }
+    const logs = await git_1.execGitLog({ currentFile: true });
+    return createResource(logs, true);
+};
+exports.gitLogsDefaultOptions = () => ({
+    "--multi": true,
+    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
+    "--prompt": '"GitLog> "',
+    "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
+    "--preview-window": '"down:50%"',
+});
+exports.gitCurrentLogsDefaultOptions = () => ({
+    "--multi": true,
+    "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
+    "--prompt": '"GitCurrentLog> "',
+    "--preview": `"${git_2.GIT_LOG_PREVIEW_COMMAND}"`,
+    "--preview-window": '"down:50%"',
+});
+
+
+/***/ }),
+/* 372 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.gitLogActionsDefaultOptions = exports.gitLogActions = void 0;
+const util_1 = __webpack_require__(315);
+const git_1 = __webpack_require__(323);
+const session_1 = __webpack_require__(366);
+exports.gitLogActions = async (_args) => {
+    const currentSession = session_1.currentSessionSelector();
+    if (currentSession == null) {
+        throw new Error("Not exists current session");
+    }
+    else if (currentSession.gitLogs == null) {
+        throw new Error("Logs is not exists in current session");
+    }
+    if (!(await util_1.isGitDirectory())) {
+        throw new Error("The current directory is not a git project");
+    }
+    const logs = currentSession.gitLogs;
+    const headers = [
+        {
+            data: {
+                command: "FzfPreviewGitLogActions",
+                type: "git-log-actions",
+                action: "header",
+                hashes: [],
+                isCurrentFile: false,
+            },
+            displayText: "<: Back to git log",
+        },
+        {
+            data: {
+                command: "FzfPreviewGitLogActions",
+                type: "git-log-actions",
+                action: "header",
+                hashes: [],
+                isCurrentFile: false,
+            },
+            displayText: `Selected log: ${logs.map((log) => log.hash).join(" ")}`,
+        },
+    ];
+    const lines = [
+        ...headers,
+        ...git_1.GIT_LOG_ACTIONS.map((action) => ({
+            data: {
+                command: "FzfPreviewGitLogActions",
+                type: "git-log-actions",
+                action,
+                hashes: logs.map((log) => log.hash),
+                isCurrentFile: logs[0].isCurrentFile,
+            },
+            displayText: action,
+        })),
+    ];
+    return {
+        type: "json",
+        lines,
+        options: {
+            "--header-lines": headers.length.toString(),
+        },
+    };
+};
+exports.gitLogActionsDefaultOptions = () => ({
+    "--prompt": '"GitLogActions> "',
+});
+
+
+/***/ }),
+/* 373 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bookmarksDefaultOptions = exports.bookmarks = void 0;
+const bookmarks_1 = __webpack_require__(374);
+const vim_variable_1 = __webpack_require__(288);
+exports.bookmarks = async (_args) => {
+    const resourceLines = (await bookmarks_1.getBookmarks()).map(({ file, line, text, comment }) => {
+        return {
+            data: {
+                command: "FzfPreviewBookmarks",
+                type: "line",
+                file,
+                text,
+                lineNumber: Number(line),
+            },
+            displayText: `${file}:${line}:${text}:${comment}`,
+        };
+    });
+    return {
+        type: "json",
+        lines: resourceLines,
+    };
+};
+const previewCommand = () => {
+    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
+    return `"${grepPreviewCommand} {}"`;
+};
+exports.bookmarksDefaultOptions = () => ({
+    "--prompt": '"Bookmarks> "',
+    "--multi": true,
+    "--preview": previewCommand(),
+});
+
+
+/***/ }),
+/* 374 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBookmarks = void 0;
+const plugin_1 = __webpack_require__(1);
+exports.getBookmarks = async () => (await plugin_1.pluginCall("fzf_preview#remote#resource#bookmarks#get"));
+
+
+/***/ }),
+/* 375 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.yankroundDefaultOptions = exports.yankround = void 0;
+const yankround_1 = __webpack_require__(376);
+const vim_variable_1 = __webpack_require__(288);
+exports.yankround = async (_args) => {
+    const yankHistories = await yankround_1.getYankround();
+    const resourceLines = yankHistories.map(({ line, option, text }) => ({
+        data: {
+            command: "FzfPreviewYankround",
+            type: "register",
+            lineNumber: line,
+            option,
+            text,
+        },
+        displayText: `${line} ${option} ${text}`,
+    }));
+    return {
+        type: "json",
+        lines: resourceLines,
+    };
+};
+const previewCommand = () => {
+    const yankroundPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewYankroundPreviewCommand");
+    return `"${yankroundPreviewCommand} {2}"`;
+};
+exports.yankroundDefaultOptions = () => ({
+    "--prompt": '"Yankround> "',
+    "--multi": false,
+    "--preview": previewCommand(),
+    "--no-sort": true,
+    "--with-nth": "4..",
+});
+
+
+/***/ }),
+/* 376 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getYankround = void 0;
+const plugin_1 = __webpack_require__(1);
+exports.getYankround = async () => (await plugin_1.pluginCall("fzf_preview#remote#resource#yankround#get"));
+
+
+/***/ }),
+/* 377 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vistaCtagsDefaultOptions = exports.vistaCtags = void 0;
+const vista_1 = __webpack_require__(378);
+const vim_variable_1 = __webpack_require__(288);
+const align_1 = __webpack_require__(329);
+const SPACER = "  ";
+const vistaTagToArray = ({ lineNumber, kind, text }) => [lineNumber.toString(), `[${kind}]`, text];
+exports.vistaCtags = async (_args) => {
+    const tags = await vista_1.getVistaCtags();
+    const displayTextList = align_1.alignLists(tags.map((tag) => vistaTagToArray(tag))).map((tag) => tag.join(SPACER).trim());
+    const resourceLines = tags.map((tag, i) => ({
+        data: {
+            command: "FzfPreviewVistaCtags",
+            type: "line",
+            file: tag.tagFile,
+            lineNumber: tag.lineNumber,
+            text: displayTextList[i],
+        },
+        displayText: `${displayTextList[i]}${SPACER}${tag.tagFile}`,
+    }));
+    return {
+        type: "json",
+        lines: resourceLines,
+    };
+};
+const previewCommand = () => {
+    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
+    return `"${grepPreviewCommand} '{-1}:{2}'"`;
+};
+exports.vistaCtagsDefaultOptions = () => ({
+    "--prompt": '"VistaCtags> "',
+    "--multi": true,
+    "--preview": previewCommand(),
+});
+
+
+/***/ }),
+/* 378 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getVistaBufferCtags = exports.getVistaCtags = void 0;
+const plugin_1 = __webpack_require__(1);
+exports.getVistaCtags = async () => {
+    const tags = (await plugin_1.pluginCall("fzf_preview#remote#resource#vista#ctags"));
+    return tags;
+};
+exports.getVistaBufferCtags = async () => {
+    const tags = (await plugin_1.pluginCall("fzf_preview#remote#resource#vista#buffer_ctags"));
+    return tags;
+};
+
+
+/***/ }),
+/* 379 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vistaBufferCtagsDefaultOptions = exports.vistaBufferCtags = void 0;
+const vista_1 = __webpack_require__(378);
+const vim_variable_1 = __webpack_require__(288);
+const file_1 = __webpack_require__(324);
+const align_1 = __webpack_require__(329);
+const SPACER = "  ";
+const vistaBufferTagToArray = ({ lineNumber, kind, text, line }) => [
+    lineNumber.toString(),
+    `[${kind}]`,
+    text,
+    line,
+];
+exports.vistaBufferCtags = async (_args) => {
+    const tags = await vista_1.getVistaBufferCtags();
+    const displayTextList = align_1.alignLists(tags.sort((a, b) => a.lineNumber - b.lineNumber).map((tag) => vistaBufferTagToArray(tag))).map((tag) => tag.join(SPACER).trim());
+    const currentFile = await file_1.currentFilePath();
+    const resourceLines = tags.map((tag, i) => ({
+        data: {
+            command: "FzfPreviewVistaBufferCtags",
+            type: "line",
+            file: currentFile,
+            lineNumber: tag.lineNumber,
+            text: displayTextList[i],
+        },
+        displayText: `${displayTextList[i]}`,
+    }));
+    return {
+        type: "json",
+        lines: resourceLines,
+    };
+};
+const previewCommand = async () => {
+    const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
+    return `"${grepPreviewCommand} '${await file_1.currentFilePath()}:{2}'"`;
+};
+exports.vistaBufferCtagsDefaultOptions = async () => ({
+    "--prompt": '"VistaBufferCtags> "',
+    "--multi": true,
+    "--preview": await previewCommand(),
+});
+
+
+/***/ }),
+/* 380 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.blamePrDefaultOptions = exports.blamePr = void 0;
+const vim_variable_1 = __webpack_require__(288);
+const command_1 = __webpack_require__(316);
+const file_1 = __webpack_require__(324);
+exports.blamePr = async (_args) => {
+    if (!(await file_1.existsFileAsync(await file_1.currentFilePath()))) {
+        return {
+            type: "json",
+            lines: [],
+        };
+    }
+    const file = await file_1.currentFilePath();
+    const openPrCommand = vim_variable_1.globalVariableSelector("fzfPreviewBlamePrCommand");
+    const { stdout, stderr, status } = command_1.execSyncCommand(`${openPrCommand} ${file}`);
+    if (stderr !== "" || status !== 0) {
+        throw new Error(`Failed open pr command: "${openPrCommand}"`);
+    }
+    const lines = stdout.split("\n").filter((line) => line !== "");
+    const resourceLines = lines.map((line) => {
+        const result = /^PR\s#(?<prNumber>\d+)/.exec(line);
+        if (result != null && result.groups != null) {
+            return {
+                data: {
+                    command: "FzfPreviewBlamePR",
+                    type: "git-pr",
+                    prNumber: Number(result.groups.prNumber),
+                },
+                displayText: line,
+            };
+        }
+        return {
+            data: {
+                command: "FzfPreviewBlamePR",
+                type: "git-pr",
+            },
+            displayText: line,
+        };
+    });
+    return {
+        type: "json",
+        lines: resourceLines,
+    };
+};
+exports.blamePrDefaultOptions = () => ({
+    "--prompt": '"Blame PR> "',
+    "--multi": true,
+    "--preview": '"gh pr view {3}"',
+});
+
+
+/***/ }),
 /* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41366,7 +41399,7 @@ exports.parseSession = async (args) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertForFzf = void 0;
 const fzf_resource_1 = __webpack_require__(387);
-const colorize_1 = __webpack_require__(379);
+const colorize_1 = __webpack_require__(368);
 const vim_variable_1 = __webpack_require__(288);
 const colorizeLine = ({ data, displayText }, colorizeFunc) => {
     return {
@@ -42205,8 +42238,13 @@ exports.gitCheckoutConsumer = consumer_1.createBulkLineConsumer(async (dataList)
     const data = dataList[0];
     switch (data.type) {
         case "git-branch": {
-            await git_1.gitCheckout(data.name);
-            await util_1.vimEchoMessage(`git checkout ${data.name}`);
+            if (data.isCreate === false) {
+                await git_1.gitCheckout(data.name);
+                await util_1.vimEchoMessage(`git checkout ${data.name}`);
+            }
+            else {
+                await git_1.gitCreateBranch();
+            }
             break;
         }
         case "git-log": {
@@ -43316,7 +43354,7 @@ exports.cocCommandDefinition = void 0;
 const args_1 = __webpack_require__(4);
 const command_1 = __webpack_require__(3);
 const coc_1 = __webpack_require__(443);
-const colorize_1 = __webpack_require__(379);
+const colorize_1 = __webpack_require__(368);
 exports.cocCommandDefinition = [
     ...command_1.commandDefinition,
     {
