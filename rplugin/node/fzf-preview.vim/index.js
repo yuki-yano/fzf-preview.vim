@@ -37472,6 +37472,7 @@ const initialState = {
         fzfPreviewFzfPreviewWindowOption: "",
         fzfPreviewFzfColorOption: "",
         fzfPreviewBuffersJump: 0,
+        yankroundDir: "",
         fzfPreviewYankroundPreviewCommand: "",
         fzfPreviewBlamePrCommand: "",
     },
@@ -41028,7 +41029,8 @@ exports.yankround = async (_args) => {
 };
 const previewCommand = () => {
     const yankroundPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewYankroundPreviewCommand");
-    return `"${yankroundPreviewCommand} {2}"`;
+    const historyFile = `${vim_variable_1.globalVariableSelector("yankroundDir")}/history`;
+    return `"${yankroundPreviewCommand} ${historyFile} {2}"`;
 };
 exports.yankroundDefaultOptions = () => ({
     "--prompt": '"Yankround> "',
@@ -43154,6 +43156,7 @@ exports.vimVariableAssociation = {
     fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
     fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
     fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
+    yankroundDir: "yankround_dir",
     fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",
     fzfPreviewBlamePrCommand: "fzf_preview_blame_pr_command",
 };
