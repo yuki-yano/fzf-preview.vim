@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { execGitStatus } from "@/connector/git"
 import { isGitDirectory } from "@/connector/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
@@ -32,28 +34,18 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
     },
   ]
 
-  /* eslint-disable no-control-regex */
   const lines = [
     ...headers,
     ...statuses.map<ResourceLine>((line) => ({
       data: {
         command: "FzfPreviewGitStatus",
         type: "git-status",
-        file: line
-          .replace(/\x1b\[[0-9;]*m/g, "")
-          .split("")
-          .slice(3)
-          .join(""),
-        status: line
-          .replace(/\x1b\[[0-9;]*m/g, "")
-          .split("")
-          .slice(0, 2)
-          .join(""),
+        file: stripAnsi(line).split("").slice(3).join(""),
+        status: stripAnsi(line).split("").slice(0, 2).join(""),
       },
       displayText: line.replace(/^\s/, "\xA0"),
     })),
   ]
-  /* eslint-enable no-control-regex */
 
   return {
     type: "json",

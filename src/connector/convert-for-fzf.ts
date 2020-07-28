@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
@@ -56,10 +58,7 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
   const colorizedLines = colorizeFunc != null ? lines.map((line) => colorizeLine(line, colorizeFunc)) : lines
 
   if (enableDevIcons) {
-    const convertedTexts = colorizedLines.map(
-      // eslint-disable-next-line no-control-regex
-      (line) => line.displayText.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0]
-    )
+    const convertedTexts = colorizedLines.map((line) => stripAnsi(line.displayText).split(":")[0])
     const icons = createDevIconsList(convertedTexts).map((icon) => colorizeDevIcon(icon))
 
     return lines.map((line, i) => ({

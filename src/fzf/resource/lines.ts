@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { execLines } from "@/connector/lines"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { currentFilePath, existsFileAsync } from "@/system/file"
@@ -16,10 +18,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
   return {
     type: "json",
     lines: lineList.map((line) => {
-      const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(
-        // eslint-disable-next-line no-control-regex
-        line.replace(/\x1b\[[0-9;]*m/g, "").replace(/\^\[\[[0-9;]*m/g, "")
-      )
+      const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(stripAnsi(line))
       if (result == null || result.groups == null) {
         throw new Error(`Unexpected line format: ${line}`)
       }
