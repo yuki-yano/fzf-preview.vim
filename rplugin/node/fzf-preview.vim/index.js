@@ -39221,8 +39221,12 @@ exports.projectMrwFilesDefaultOptions = () => ({
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.linesDefaultOptions = exports.lines = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const lines_1 = __webpack_require__(342);
 const vim_variable_1 = __webpack_require__(288);
 const file_1 = __webpack_require__(324);
@@ -39238,9 +39242,7 @@ exports.lines = async (_args) => {
     return {
         type: "json",
         lines: lineList.map((line) => {
-            const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(
-            // eslint-disable-next-line no-control-regex
-            line.replace(/\x1b\[[0-9;]*m/g, "").replace(/\^\[\[[0-9;]*m/g, ""));
+            const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(strip_ansi_1.default(line));
             if (result == null || result.groups == null) {
                 throw new Error(`Unexpected line format: ${line}`);
             }
@@ -39832,8 +39834,12 @@ exports.getMarks = async () => (await plugin_1.pluginCall("fzf_preview#remote#re
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.projectGrepDefaultOptions = exports.projectGrep = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const grep_1 = __webpack_require__(361);
 const vim_variable_1 = __webpack_require__(288);
 exports.projectGrep = async (args) => {
@@ -39843,18 +39849,16 @@ exports.projectGrep = async (args) => {
         type: "json",
         lines: lines.map((line) => {
             const [file, lineNumber, ...rest] = line.split(":");
-            /* eslint-disable no-control-regex */
             return {
                 data: {
                     command: "FzfPreviewProjectGrep",
                     type: "line",
-                    file: file.replace(/\x1b\[[0-9;]*m/g, ""),
-                    lineNumber: Number(lineNumber.replace(/\x1b\[[0-9;]*m/g, "")),
-                    text: rest.join(":").replace(/\x1b\[[0-9;]*m/g, ""),
+                    file: strip_ansi_1.default(file),
+                    lineNumber: Number(strip_ansi_1.default(lineNumber)),
+                    text: strip_ansi_1.default(rest.join(":")),
                 },
                 displayText: `${file}:${lineNumber}: ${rest.join(":")}`,
             };
-            /* eslint-enable no-control-regex */
         }),
         options: { "--header": `"[Grep from] ${grepArgs}"` },
     };
@@ -40006,8 +40010,12 @@ exports.gitActionsDefaultOptions = () => ({
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStatusDefaultOptions = exports.gitStatus = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const git_1 = __webpack_require__(322);
 const util_1 = __webpack_require__(315);
 const vim_variable_1 = __webpack_require__(288);
@@ -40038,28 +40046,18 @@ exports.gitStatus = async (_args) => {
             displayText: "<: Back actions, >: Select action",
         },
     ];
-    /* eslint-disable no-control-regex */
     const lines = [
         ...headers,
         ...statuses.map((line) => ({
             data: {
                 command: "FzfPreviewGitStatus",
                 type: "git-status",
-                file: line
-                    .replace(/\x1b\[[0-9;]*m/g, "")
-                    .split("")
-                    .slice(3)
-                    .join(""),
-                status: line
-                    .replace(/\x1b\[[0-9;]*m/g, "")
-                    .split("")
-                    .slice(0, 2)
-                    .join(""),
+                file: strip_ansi_1.default(line).split("").slice(3).join(""),
+                status: strip_ansi_1.default(line).split("").slice(0, 2).join(""),
             },
             displayText: line.replace(/^\s/, "\xA0"),
         })),
     ];
-    /* eslint-enable no-control-regex */
     return {
         type: "json",
         lines,
@@ -40162,8 +40160,12 @@ exports.currentSessionSelector = () => store_1.store.getState().session.currentS
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitBranchesDefaultOptions = exports.gitBranches = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const git_1 = __webpack_require__(322);
 const util_1 = __webpack_require__(315);
 const git_2 = __webpack_require__(323);
@@ -40189,25 +40191,20 @@ exports.gitBranches = async (_args) => {
             displayText: colorize_1.colorize("\xA0\xA0Create branch", "green"),
         },
     ];
-    /* eslint-disable no-control-regex */
     const lines = [
         ...branches.map(({ name, date, author }, i) => ({
             data: {
                 command: "FzfPreviewGitBranches",
                 type: "git-branch",
-                name: name
-                    .replace(/\x1b\[[0-9;]*m/g, "")
-                    .replace("* ", "")
-                    .trim(),
-                date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                name: strip_ansi_1.default(name).replace("* ", "").trim(),
+                date: strip_ansi_1.default(date).trim(),
+                author: strip_ansi_1.default(author).trim(),
                 isCreate: false,
             },
             displayText: displayLines[i],
         })),
         ...extraActions,
     ];
-    /* eslint-enable no-control-regex */
     return {
         type: "json",
         lines,
@@ -40822,8 +40819,12 @@ exports.gitBranchActionsDefaultOptions = () => ({
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitCurrentLogsDefaultOptions = exports.gitLogsDefaultOptions = exports.gitCurrentLogs = exports.gitLogs = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const git_1 = __webpack_require__(322);
 const util_1 = __webpack_require__(315);
 const git_2 = __webpack_require__(323);
@@ -40831,23 +40832,21 @@ const align_1 = __webpack_require__(329);
 const SPACER = "    ";
 const createResource = (logs, isCurrentFile) => {
     const displayLines = align_1.alignLists(logs.map(({ hash, date, author, comment }) => [hash, date, author, comment])).map((list) => list.join(SPACER).trim());
-    /* eslint-disable no-control-regex */
     return {
         type: "json",
         lines: logs.map(({ hash, date, author, comment }, i) => ({
             data: {
                 command: "FzfPreviewGitLogs",
                 type: "git-log",
-                hash: hash.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                date: date.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                author: author.replace(/\x1b\[[0-9;]*m/g, "").trim(),
-                comment: comment.replace(/\x1b\[[0-9;]*m/g, "").trim(),
+                hash: strip_ansi_1.default(hash).trim(),
+                date: strip_ansi_1.default(date).trim(),
+                author: strip_ansi_1.default(author).trim(),
+                comment: strip_ansi_1.default(comment).trim(),
                 isCurrentFile,
             },
             displayText: displayLines[i],
         })),
     };
-    /* eslint-enable no-control-regex */
 };
 exports.gitLogs = async (_args) => {
     if (!(await util_1.isGitDirectory())) {
@@ -41399,8 +41398,12 @@ exports.parseSession = async (args) => {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertForFzf = void 0;
+const strip_ansi_1 = __importDefault(__webpack_require__(250));
 const fzf_resource_1 = __webpack_require__(387);
 const colorize_1 = __webpack_require__(368);
 const vim_variable_1 = __webpack_require__(288);
@@ -41437,9 +41440,7 @@ exports.convertForFzf = (lines, options) => {
     }
     const colorizedLines = colorizeFunc != null ? lines.map((line) => colorizeLine(line, colorizeFunc)) : lines;
     if (enableDevIcons) {
-        const convertedTexts = colorizedLines.map(
-        // eslint-disable-next-line no-control-regex
-        (line) => line.displayText.replace(/\x1b\[[0-9;]*m/g, "").split(":")[0]);
+        const convertedTexts = colorizedLines.map((line) => strip_ansi_1.default(line.displayText).split(":")[0]);
         const icons = createDevIconsList(convertedTexts).map((icon) => colorize_1.colorizeDevIcon(icon));
         return lines.map((line, i) => ({
             data: line.data,
