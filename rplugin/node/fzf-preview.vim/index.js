@@ -42293,7 +42293,7 @@ const process_1 = __webpack_require__(406);
 const createGitBranchActionProcess = process_1.createProcess("git-branch-actions");
 exports.gitBranchActionProcesses = [
     createGitBranchActionProcess("enter", git_branch_action_1.execGitBranchActionConsumer),
-    createGitBranchActionProcess("ctrl-q", git_1.chainGitBranchesConsumer),
+    createGitBranchActionProcess("<", git_1.chainGitBranchesConsumer),
 ];
 
 
@@ -42477,7 +42477,7 @@ const process_1 = __webpack_require__(406);
 const createGitLogActionProcess = process_1.createProcess("git-log-actions");
 exports.gitLogActionProcesses = [
     createGitLogActionProcess("enter", git_log_action_1.execGitLogActionConsumer),
-    createGitLogActionProcess("ctrl-q", git_1.chainGitLogsConsumer),
+    createGitLogActionProcess("<", git_1.chainGitLogsConsumer),
 ];
 
 
@@ -42796,7 +42796,7 @@ const process_1 = __webpack_require__(406);
 const createGitStatusActionProcess = process_1.createProcess("git-status-actions");
 exports.gitStatusActionProcesses = [
     createGitStatusActionProcess("enter", git_status_action_1.execGitStatusActionConsumer),
-    createGitStatusActionProcess("ctrl-q", git_1.chainGitStatusConsumer),
+    createGitStatusActionProcess("<", git_1.chainGitStatusConsumer),
 ];
 
 
