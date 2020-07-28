@@ -43,7 +43,7 @@ Requirements:
     https://github.com/BurntSushi/ripgrep
 
 Optional:
-- bat (Add color to the preview)
+- bat (Add color to the preview and require FzfPreviewLines)
     https://github.com/sharkdp/bat
 
 - exa (Use color to the file list)
@@ -396,10 +396,10 @@ OPTIONS                                         *fzf-preview-options*
     the preview is syntax highlighted.
 
     Not installed bat:
-        Default value is 'head -100 {-1}'
+        Default value is 'cat'
 
     Installed bat:
-        Default value is 'bat --color=always --style=grid {-1}'
+        Default value is 'bat --color=always --plain {-1}'
 
 
 *g:fzf_preview_if_binary_command*
@@ -481,13 +481,9 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_lines_command*
     This command is used for get current file lines.
-    Bat is recommended for coloring
+    Bat is required.
 
-    Installed bat:
-        Default value is 'bat --color=always --style=grid --plain'
-
-    Not installed bat:
-        Default value is 'cat'
+    Default value is 'bat --color=always --plain --number {-1}'
 
 
 *g:fzf_preview_grep_preview_cmd*

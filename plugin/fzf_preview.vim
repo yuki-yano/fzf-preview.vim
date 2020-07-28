@@ -22,7 +22,7 @@ endif
 
 if !exists('g:fzf_preview_command')
   if executable('bat')
-    let g:fzf_preview_command = 'bat --color=always --style=grid {-1}'
+    let g:fzf_preview_command = 'bat --color=always --plain {-1}'
   else
     let g:fzf_preview_command = 'head -100 {-1}'
   endif
@@ -67,11 +67,7 @@ if !exists('g:fzf_preview_grep_cmd')
 endif
 
 if !exists('g:fzf_preview_lines_command')
-  if executable('bat')
-    let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
-  else
-    let g:fzf_preview_lines_command = 'cat'
-  endif
+  let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
 endif
 
 if !exists('g:fzf_preview_grep_preview_cmd')
