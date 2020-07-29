@@ -1,4 +1,3 @@
-import { execFzfCommand } from "@/connector/fzf"
 import { gitCheckout, gitCreateBranch } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
@@ -13,6 +12,10 @@ export const chainGitStatusConsumer = createBulkLineConsumer(async (_) => {
 
 export const chainGitBranchesConsumer = createBulkLineConsumer(async (_) => {
   await chainFzfCommand("FzfPreviewGitBranches")
+})
+
+export const chainGitStashesConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitStashes")
 })
 
 export const chainGitLogsConsumer = createBulkLineConsumer(async (dataList) => {
@@ -51,5 +54,5 @@ export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
     }
   }
 
-  await execFzfCommand("FzfPreviewGitBranches")
+  await chainFzfCommand("FzfPreviewGitBranches")
 })

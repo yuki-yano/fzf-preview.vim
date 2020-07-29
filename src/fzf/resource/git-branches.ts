@@ -24,7 +24,7 @@ export const gitBranches = async (_args: SourceFuncArgs): Promise<Resource> => {
       data: {
         command: "FzfPreviewGitBranches",
         type: "git-branch",
-        name: "Create branch",
+        name: "",
         date: "",
         author: "",
         isCreate: true,

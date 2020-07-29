@@ -14,10 +14,17 @@ export const filePreviewCommand = (): string => {
   return `'${ifBinaryCommand} && ${binaryPreviewCommand} || ${previewCommand}'`
 }
 
+const createGitLogAndStashOption = (prefix: string) => {
+  return `--decorate --color=always --date=iso  --format='%C(green)[${prefix}]%Creset    %C(magenta)%h%Creset    %C(yellow)%ad %x09%Creset    [%C(blue)%an%Creset]    %x09%C(auto)%s'`
+}
+
+export const gitStashDecorateCommand = `git stash list ${createGitLogAndStashOption("stash")}`
+export const gitStashNameCommand = `git stash list --decorate --color=always --format='%C(cyan)%gd%Creset'`
+
 export const createGitLogCommand = (file?: string): string => {
   const targetFile = file != null ? `-- ${file}` : ""
 
-  return `git log --decorate --color=always --date=iso  --format='%C(green)[commit]%Creset    %C(magenta)%h%Creset    %C(yellow)%ad %x09%Creset    [%C(blue)%an%Creset]    %x09%C(auto)%s' ${targetFile}`
+  return `git log ${createGitLogAndStashOption("commit")} ${targetFile}`
 }
 
 type ParsedQuickFix = {

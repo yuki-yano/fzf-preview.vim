@@ -80,9 +80,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 When bat is installed you can highlight the preview and see it. Otherwise, head will be used
 
-- **bat (Add color to the preview)** (Recommended) <https://github.com/sharkdp/bat>
-- exa (Use color to the file list) <https://github.com/ogham/exa>
-  - exa on mac `brew install findutils`
+- **bat (Add color to the preview and required FzfPreviewLines)** (Recommended) <https://github.com/sharkdp/bat>
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 ## Installation
@@ -185,7 +183,7 @@ and
 :FzfPreviewLocationList                       " Select line from LocationList (Required [Python3](https://www.python.org/))
 :CocCommand fzf-preview.LocationList
 
-:FzfPreviewLines                              " Select line from current buffer (Required [Python3](https://www.python.org/))
+:FzfPreviewLines                              " Select line from current buffer (Required [bat](https://github.com/sharkdp/bat))
 :CocCommand fzf-preview.Lines
 
 :FzfPreviewBufferLines                        " Select line from loaded buffer (Required [Python3](https://www.python.org/))
@@ -343,8 +341,8 @@ let g:fzf_preview_buffers_jump = 0
 
 " Commands used for fzf preview.
 " The file name selected by fzf becomes {}
-let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed bat
-" let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
+let g:fzf_preview_command = 'cat'                               " Not installed bat
+" let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
 
 " g:fzf_binary_preview_command is executed if this command succeeds, and g:fzf_preview_command is executed if it fails
 let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
@@ -380,8 +378,7 @@ let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 let g:fzf_preview_disable_mru = 0
 
 " Commands used for current file lines
-let g:fzf_preview_lines_command = 'cat'
-" let g:fzf_preview_lines_command = 'bat --color=always --style=grid --plain'
+let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
 
 " Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
@@ -474,6 +471,10 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/07/30 version 0.4.6
+  - Implement git stash integration.
+  - Implement rename git branch.
+
 - 2020/07/27 version 0.4.1
   - Implement create git branch.
 
@@ -502,6 +503,21 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 ```vim
 set shell=/bin/zsh
 let $SHELL = "/bin/zsh"
+```
+
+- Use true color preview in Neovim
+  - Set the preview command to `COLORTERM=truecolor`
+
+```vim
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
+  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
+endfunction
 ```
 
 ## Inspired by

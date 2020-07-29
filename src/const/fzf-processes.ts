@@ -9,6 +9,8 @@ export const PROCESSES_NAME = [
   "git-branch-actions",
   "git-log",
   "git-log-actions",
+  "git-stash",
+  "git-stash-actions",
   "register",
   "open-pr",
 ] as const

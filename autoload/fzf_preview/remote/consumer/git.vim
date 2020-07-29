@@ -176,6 +176,60 @@ function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#rename_branch(src) abort
+  let dest = input('Branch name: ')
+  if dest !=# ''
+    let command = 'git branch -m ' . a:src . ' ' . dest
+    echo system(command)
+
+    if v:shell_error
+      echomsg 'Failed: ' . command
+    endif
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#stash_apply(stash) abort
+  let command = 'git stash apply ' . a:stash
+  echo system(command)
+
+  if v:shell_error
+    echomsg 'Failed: ' . command
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#stash_pop(stash) abort
+  let command = 'git stash pop ' . a:stash
+  echo system(command)
+
+  if v:shell_error
+    echomsg 'Failed: ' . command
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#stash_drop(stash) abort
+  let command = 'git stash drop ' . a:stash
+  echo system(command)
+
+  if v:shell_error
+    echomsg 'Failed: ' . command
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#stash_create() abort
+  let message = input('Message: ')
+  if  message !=# ''
+    let command = 'git stash save "' . message . '"'
+  else
+    let command = 'git stash save'
+  endif
+
+  echo system(command)
+
+  if v:shell_error
+    echomsg 'Failed: ' . command
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#pull() abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina pull'

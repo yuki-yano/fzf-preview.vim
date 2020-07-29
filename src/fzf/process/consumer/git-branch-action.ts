@@ -5,6 +5,7 @@ import {
   gitMerge,
   gitRebase,
   gitRebaseInteractive,
+  gitRenameBranch,
   gitReset,
   gitYank,
 } from "@/connector/git"
@@ -110,6 +111,15 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
         // eslint-disable-next-line no-await-in-loop
         await gitDeleteBranch(branch, { name: "--force" })
       }
+      await chainFzfCommand("FzfPreviewGitBranches")
+      break
+    }
+    case "rename": {
+      if (data.branches.length > 1) {
+        throw new Error("Branch must be one")
+      }
+
+      await gitRenameBranch(data.branches[0])
       await chainFzfCommand("FzfPreviewGitBranches")
       break
     }

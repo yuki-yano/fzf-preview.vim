@@ -1,6 +1,5 @@
-import { execFzfCommand } from "@/connector/fzf"
 import { gitCommit, gitFetch, gitPull, gitPush } from "@/connector/git"
-import { createSingleLineConsumer } from "@/fzf/process/consumer"
+import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
 /* eslint-disable complexity */
@@ -11,19 +10,23 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
 
   switch (data.action) {
     case "status": {
-      await execFzfCommand("FzfPreviewGitStatus")
+      await chainFzfCommand("FzfPreviewGitStatus")
       break
     }
     case "branch": {
-      await execFzfCommand("FzfPreviewGitBranches")
+      await chainFzfCommand("FzfPreviewGitBranches")
       break
     }
     case "log": {
-      await execFzfCommand("FzfPreviewGitLogs")
+      await chainFzfCommand("FzfPreviewGitLogs")
       break
     }
     case "current-log": {
-      await execFzfCommand("FzfPreviewGitCurrentLogs")
+      await chainFzfCommand("FzfPreviewGitCurrentLogs")
+      break
+    }
+    case "stash": {
+      await chainFzfCommand("FzfPreviewGitStashes")
       break
     }
     case "commit": {
