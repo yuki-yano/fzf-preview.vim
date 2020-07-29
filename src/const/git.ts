@@ -24,6 +24,7 @@ export const GIT_BRANCH_ACTIONS = [
   "rebase --interactive",
   "delete",
   "delete --force",
+  "rename",
   "yank",
 ] as const
 export const GIT_LOG_ACTIONS = [

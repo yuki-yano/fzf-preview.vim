@@ -176,6 +176,18 @@ function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#rename_branch(src) abort
+  let dest = input('Branch name: ')
+  if dest !=# ''
+    let command = 'git branch -m ' . a:src . ' ' . dest
+    echo system(command)
+
+    if v:shell_error
+      echomsg 'Failed: ' . command
+    endif
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#pull() abort
   if has('nvim') && exists(':Gina') == 2
     execute 'Gina pull'

@@ -137,6 +137,10 @@ export const gitDeleteBranch = async (branch: string, option?: { name: "--force"
   await pluginCall("fzf_preview#remote#consumer#git#delete_branch", [branch, option != null ? option.name : ""])
 }
 
+export const gitRenameBranch = async (branch: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#rename_branch", [branch])
+}
+
 export const gitYank = async (branchOrHash: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#yank", [branchOrHash])
 }
