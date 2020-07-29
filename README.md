@@ -81,8 +81,6 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 When bat is installed you can highlight the preview and see it. Otherwise, head will be used
 
 - **bat (Add color to the preview and required FzfPreviewLines)** (Recommended) <https://github.com/sharkdp/bat>
-- exa (Use color to the file list) <https://github.com/ogham/exa>
-  - exa on mac `brew install findutils`
 - vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
 
 ## Installation

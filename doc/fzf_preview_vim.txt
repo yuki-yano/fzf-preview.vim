@@ -46,9 +46,6 @@ Optional:
 - bat (Add color to the preview and require FzfPreviewLines)
     https://github.com/sharkdp/bat
 
-- exa (Use color to the file list)
-    https://github.com/ogham/exa
-
 - vim-devicons (Use devicons)
     https://github.com/ryanoasis/vim-devicons
 
