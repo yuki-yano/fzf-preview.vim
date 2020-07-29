@@ -501,6 +501,21 @@ set shell=/bin/zsh
 let $SHELL = "/bin/zsh"
 ```
 
+- Use true color preview in Neovim
+  - Set the preview command to `COLORTERM=truecolor`
+
+```vim
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
+  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
+endfunction
+```
+
 ## Inspired by
 
 - [antoinemadec/coc-fzf](https://github.com/antoinemadec/coc-fzf)
