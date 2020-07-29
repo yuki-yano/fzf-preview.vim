@@ -1,9 +1,9 @@
 import { GIT_BRANCH_COMMAND } from "@/const/git"
-import { createGitLogCommand } from "@/fzf/util"
+import { createGitLogCommand, gitStashDecorateCommand, gitStashNameCommand } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 import { currentFilePath } from "@/system/file"
-import type { GitBranch, GitLog } from "@/type"
+import type { GitBranch, GitLog, GitStash } from "@/type"
 
 export const execGitFiles = async (): Promise<Array<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
@@ -53,6 +53,28 @@ export const execGitLog = async (options?: { currentFile: boolean }): Promise<Ar
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
     return {
       prefix,
+      hash,
+      date,
+      author,
+      comment,
+    }
+  })
+}
+
+export const execGitStash = async (): Promise<Array<GitStash>> => {
+  const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
+    gitStashDecorateCommand,
+  ])) as Array<string>
+  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [gitStashNameCommand])) as Array<
+    string
+  >
+
+  return lines1.map((line, i) => {
+    const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
+    const name = lines2[i]
+    return {
+      prefix,
+      name,
       hash,
       date,
       author,
@@ -139,6 +161,22 @@ export const gitDeleteBranch = async (branch: string, option?: { name: "--force"
 
 export const gitRenameBranch = async (branch: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#rename_branch", [branch])
+}
+
+export const gitStashApply = async (name: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#stash_apply", [name])
+}
+
+export const gitStashPop = async (name: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#stash_pop", [name])
+}
+
+export const gitStashDrop = async (name: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#stash_drop", [name])
+}
+
+export const gitStashCreate = async (): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#stash_create")
 }
 
 export const gitYank = async (branchOrHash: string): Promise<void> => {

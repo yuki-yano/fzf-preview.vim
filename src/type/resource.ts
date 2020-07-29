@@ -1,5 +1,5 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
-import { GitAction, GitBranchAction, GitLogAction, GitStatusAction } from "@/type/git"
+import { GitAction, GitBranchAction, GitLogAction, GitStashAction, GitStatusAction } from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName
@@ -76,6 +76,25 @@ export type GitLogActionData = {
   isCurrentFile: boolean
 }
 
+export type GitStashData = {
+  command: FzfCommandName
+  type: "git-stash"
+  name: string
+  hash: string
+  date: string
+  author: string
+  comment: string
+  isCreate: boolean
+}
+
+export type GitStashActionData = {
+  command: FzfCommandName
+  type: "git-stash-actions"
+  action: GitStashAction
+  names: Array<string>
+  hashes: Array<string>
+}
+
 export type RegisterData = {
   command: FzfCommandName
   type: "register"
@@ -101,6 +120,8 @@ export type ResourceData =
   | GitBranchActionData
   | GitLogData
   | GitLogActionData
+  | GitStashData
+  | GitStashActionData
   | RegisterData
   | GitPrData
 

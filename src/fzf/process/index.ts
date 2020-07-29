@@ -4,6 +4,8 @@ import { gitBranchProcesses } from "@/fzf/process/git-branch"
 import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"
 import { gitLogProcesses } from "@/fzf/process/git-log"
 import { gitLogActionProcesses } from "@/fzf/process/git-log-action"
+import { gitStashProcesses } from "@/fzf/process/git-stash"
+import { gitStashActionProcesses } from "@/fzf/process/git-stash-action"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
 import { gitStatusActionProcesses } from "@/fzf/process/git-status-action"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
@@ -56,6 +58,14 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "git-log-actions",
     processes: gitLogActionProcesses,
+  },
+  {
+    name: "git-stash",
+    processes: gitStashProcesses,
+  },
+  {
+    name: "git-stash-actions",
+    processes: gitStashActionProcesses,
   },
   {
     name: "register",
