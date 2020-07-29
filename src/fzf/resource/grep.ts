@@ -23,7 +23,7 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
         displayText: `${file}:${lineNumber}: ${rest.join(":")}`,
       }
     }),
-    options: { "--header": `"[Grep from] ${grepArgs}"` },
+    options: { "--header": `'[Grep from] ${grepArgs}'` },
   }
 }
 
