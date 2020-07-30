@@ -4,6 +4,8 @@ import { gitBranchProcesses } from "@/fzf/process/git-branch"
 import { gitBranchActionProcesses } from "@/fzf/process/git-branch-action"
 import { gitLogProcesses } from "@/fzf/process/git-log"
 import { gitLogActionProcesses } from "@/fzf/process/git-log-action"
+import { gitReflogProcesses } from "@/fzf/process/git-reflog"
+import { gitReflogActionProcesses } from "@/fzf/process/git-reflog-action"
 import { gitStashProcesses } from "@/fzf/process/git-stash"
 import { gitStashActionProcesses } from "@/fzf/process/git-stash-action"
 import { gitStatusProcesses } from "@/fzf/process/git-status"
@@ -66,6 +68,14 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "git-stash-actions",
     processes: gitStashActionProcesses,
+  },
+  {
+    name: "git-reflog",
+    processes: gitReflogProcesses,
+  },
+  {
+    name: "git-reflog-actions",
+    processes: gitReflogActionProcesses,
   },
   {
     name: "register",

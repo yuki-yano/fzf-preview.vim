@@ -18,6 +18,10 @@ export const chainGitStashesConsumer = createBulkLineConsumer(async (_) => {
   await chainFzfCommand("FzfPreviewGitStashes")
 })
 
+export const chainGitReflogsConsumer = createBulkLineConsumer(async (_) => {
+  await chainFzfCommand("FzfPreviewGitReflogs")
+})
+
 export const chainGitLogsConsumer = createBulkLineConsumer(async (dataList) => {
   if (dataList[0].type === "git-log-actions" && dataList[0].isCurrentFile === true) {
     await chainFzfCommand("FzfPreviewGitCurrentLogs")
