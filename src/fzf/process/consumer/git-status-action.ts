@@ -7,6 +7,9 @@ export const execGitStatusActionConsumer = createSingleLineConsumer(async (data)
   if (data.type !== "git-status-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
   }
+  if (data.files.length === 0) {
+    throw new Error("Files must be more then one")
+  }
 
   switch (data.action) {
     case "add": {
