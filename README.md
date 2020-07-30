@@ -471,6 +471,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/07/30 version 0.4.7
+  - Implement git reflog integration.
+
 - 2020/07/30 version 0.4.6
   - Implement git stash integration.
   - Implement rename git branch.
