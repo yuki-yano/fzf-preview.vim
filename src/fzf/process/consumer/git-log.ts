@@ -4,7 +4,7 @@ import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } fro
 import { GitLogData } from "@/type"
 
 export const gitShowConsumer = createSingleLineConsumer(async (data) => {
-  if (data.type !== "git-log") {
+  if (data.type !== "git-log" && data.type !== "git-reflog") {
     throw new Error(`Unexpected data type: ${data.type}`)
   }
 

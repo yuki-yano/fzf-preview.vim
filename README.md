@@ -471,6 +471,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/07/30 version 0.4.7
+  - Implement git reflog integration.
+
 - 2020/07/30 version 0.4.6
   - Implement git stash integration.
   - Implement rename git branch.
@@ -518,6 +521,13 @@ function! s:fzf_preview_settings() abort
   let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
   let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
 endfunction
+```
+
+- `FzfPreviewVistaBufferCtags` does not work
+  - Vista must be initialized. Run the Vista command once or write the following settings.
+
+```vim
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 ```
 
 ## Inspired by

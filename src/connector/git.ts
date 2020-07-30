@@ -1,9 +1,15 @@
 import { GIT_BRANCH_COMMAND } from "@/const/git"
-import { createGitLogCommand, gitStashDecorateCommand, gitStashNameCommand } from "@/fzf/util"
+import {
+  createGitLogCommand,
+  gitReflogDecorateCommand,
+  gitReflogNameCommand,
+  gitStashDecorateCommand,
+  gitStashNameCommand,
+} from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 import { currentFilePath } from "@/system/file"
-import type { GitBranch, GitLog, GitStash } from "@/type"
+import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
 
 export const execGitFiles = async (): Promise<Array<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
@@ -53,6 +59,28 @@ export const execGitLog = async (options?: { currentFile: boolean }): Promise<Ar
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
     return {
       prefix,
+      hash,
+      date,
+      author,
+      comment,
+    }
+  })
+}
+
+export const execGitReflog = async (): Promise<Array<GitReflog>> => {
+  const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
+    gitReflogDecorateCommand,
+  ])) as Array<string>
+  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [gitReflogNameCommand])) as Array<
+    string
+  >
+
+  return lines1.map((line, i) => {
+    const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
+    const name = lines2[i]
+    return {
+      prefix,
+      name,
       hash,
       date,
       author,

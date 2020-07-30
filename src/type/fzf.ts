@@ -2,7 +2,7 @@ import { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import { Merge } from "type-fest"
 
 import { ProcessesName } from "@/type/process"
-import type { GitBranchData, GitLogData, GitStashData, GitStatusData, Resource } from "@/type/resource"
+import type { GitBranchData, GitLogData, GitReflogData, GitStashData, GitStatusData, Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {
   "--header"?: string
@@ -47,6 +47,8 @@ type RemoteFzfCommandName =
   | "FzfPreviewGitLogActions"
   | "FzfPreviewGitStashes"
   | "FzfPreviewGitStashActions"
+  | "FzfPreviewGitReflogs"
+  | "FzfPreviewGitReflogActions"
   | "FzfPreviewBookmarks"
   | "FzfPreviewYankround"
   | "FzfPreviewVistaCtags"
@@ -132,4 +134,5 @@ export type Session = {
   gitBranches?: Array<GitBranchData>
   gitLogs?: Array<GitLogData>
   gitStashes?: Array<GitStashData>
+  gitReflogs?: Array<GitReflogData>
 }

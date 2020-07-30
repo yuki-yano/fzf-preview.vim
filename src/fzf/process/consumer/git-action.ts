@@ -29,6 +29,10 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
       await chainFzfCommand("FzfPreviewGitStashes")
       break
     }
+    case "reflog": {
+      await chainFzfCommand("FzfPreviewGitReflogs")
+      break
+    }
     case "commit": {
       await gitCommit()
       break

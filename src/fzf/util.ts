@@ -21,6 +21,9 @@ const createGitLogAndStashOption = (prefix: string) => {
 export const gitStashDecorateCommand = `git stash list ${createGitLogAndStashOption("stash")}`
 export const gitStashNameCommand = `git stash list --decorate --color=always --format='%C(cyan)%gd%Creset'`
 
+export const gitReflogDecorateCommand = `git reflog ${createGitLogAndStashOption("reflog")}`
+export const gitReflogNameCommand = `git reflog --decorate --color=always --format='%C(cyan)%gd%Creset'`
+
 export const createGitLogCommand = (file?: string): string => {
   const targetFile = file != null ? `-- ${file}` : ""
 

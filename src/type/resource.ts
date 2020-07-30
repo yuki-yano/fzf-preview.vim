@@ -1,5 +1,5 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
-import { GitAction, GitBranchAction, GitLogAction, GitStashAction, GitStatusAction } from "@/type/git"
+import { GitAction, GitBranchAction, GitLogAction, GitReflogAction, GitStashAction, GitStatusAction } from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName
@@ -95,6 +95,24 @@ export type GitStashActionData = {
   hashes: Array<string>
 }
 
+export type GitReflogData = {
+  command: FzfCommandName
+  type: "git-reflog"
+  name: string
+  hash: string
+  date: string
+  author: string
+  comment: string
+}
+
+export type GitReflogActionData = {
+  command: FzfCommandName
+  type: "git-reflog-actions"
+  action: GitReflogAction
+  names: Array<string>
+  hashes: Array<string>
+}
+
 export type RegisterData = {
   command: FzfCommandName
   type: "register"
@@ -122,6 +140,8 @@ export type ResourceData =
   | GitLogActionData
   | GitStashData
   | GitStashActionData
+  | GitReflogData
+  | GitReflogActionData
   | RegisterData
   | GitPrData
 
