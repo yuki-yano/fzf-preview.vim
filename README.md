@@ -520,6 +520,13 @@ function! s:fzf_preview_settings() abort
 endfunction
 ```
 
+- `FzfPreviewVistaBufferCtags` does not work
+  - Vista must be initialized. Run the Vista command once or write the following settings.
+
+```vim
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+```
+
 ## Inspired by
 
 - [antoinemadec/coc-fzf](https://github.com/antoinemadec/coc-fzf)
