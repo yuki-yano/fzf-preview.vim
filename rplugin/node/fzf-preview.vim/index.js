@@ -42713,6 +42713,10 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
     if (data.type !== "git-branch-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
     }
+    const branches = data.branches.filter((branch) => branch !== "");
+    if (branches.length === 0) {
+        throw new Error("Branches must be more then one");
+    }
     switch (data.action) {
         case "checkout": {
             if (data.branches.length > 1) {
@@ -42904,6 +42908,9 @@ const type_1 = __webpack_require__(409);
 exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-log-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
+    }
+    if (data.hashes.length === 0) {
+        throw new Error("Hashes must be more then one");
     }
     const nextCommand = data.isCurrentFile ? "FzfPreviewGitCurrentLogs" : "FzfPreviewGitLogs";
     switch (data.action) {
@@ -43221,7 +43228,8 @@ exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (
     if (data.type !== "git-stash-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
     }
-    if (data.hashes.length === 0) {
+    const stashes = data.names.filter((stash) => stash !== "");
+    if (stashes.length === 0) {
         throw new Error("Stashes must be more then one");
     }
     switch (data.action) {
@@ -43511,6 +43519,9 @@ const type_1 = __webpack_require__(409);
 exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-status-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
+    }
+    if (data.files.length === 0) {
+        throw new Error("Files must be more then one");
     }
     switch (data.action) {
         case "add": {
