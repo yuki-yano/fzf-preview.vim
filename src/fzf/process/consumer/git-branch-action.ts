@@ -18,6 +18,11 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
     throw new Error(`Unexpected data type: ${data.type}`)
   }
 
+  const branches = data.branches.filter((branch) => branch !== "")
+  if (branches.length === 0) {
+    throw new Error("Branches must be more then one")
+  }
+
   switch (data.action) {
     case "checkout": {
       if (data.branches.length > 1) {

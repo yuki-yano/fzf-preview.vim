@@ -8,9 +8,14 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
     throw new Error(`Unexpected data type: ${data.type}`)
   }
 
+  const stashes = data.names.filter((stash) => stash !== "")
+  if (stashes.length === 0) {
+    throw new Error("Stashes must be more then one")
+  }
+
   switch (data.action) {
     case "show": {
-      if (data.hashes.length !== 1) {
+      if (data.hashes.length > 1) {
         throw new Error("Stashes must be one")
       }
 
@@ -18,7 +23,7 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
       break
     }
     case "diff": {
-      if (data.hashes.length !== 1 && data.hashes.length !== 2) {
+      if (data.hashes.length > 2) {
         throw new Error("Stashes must be one or two")
       }
 
@@ -26,7 +31,7 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
       break
     }
     case "apply": {
-      if (data.hashes.length !== 1) {
+      if (data.hashes.length > 1) {
         throw new Error("Stashes must be one")
       }
 
@@ -35,7 +40,7 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
       break
     }
     case "pop": {
-      if (data.hashes.length !== 1) {
+      if (data.hashes.length > 1) {
         throw new Error("Stashes must be one")
       }
 
@@ -52,7 +57,7 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
       break
     }
     case "yank": {
-      if (data.hashes.length !== 1) {
+      if (data.hashes.length > 1) {
         throw new Error("Stashes must be one")
       }
 

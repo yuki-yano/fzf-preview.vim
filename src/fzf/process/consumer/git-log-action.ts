@@ -8,6 +8,9 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
   if (data.type !== "git-log-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
   }
+  if (data.hashes.length === 0) {
+    throw new Error("Hashes must be more then one")
+  }
 
   const nextCommand: FzfCommandName = data.isCurrentFile ? "FzfPreviewGitCurrentLogs" : "FzfPreviewGitLogs"
 
