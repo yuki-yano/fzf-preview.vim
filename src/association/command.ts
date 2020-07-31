@@ -80,7 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { colorizeFile, colorizeGitStatus, colorizeGrep } from "@/fzf/syntax/colorize"
+import { colorizeFile, colorizeGrep } from "@/fzf/syntax/colorize"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -344,7 +344,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "git-status",
     enableConvertForFzf: true,
     enableDevIcons: false,
-    colorizeFunc: colorizeGitStatus,
   },
   {
     commandName: "FzfPreviewGitStatusActions",

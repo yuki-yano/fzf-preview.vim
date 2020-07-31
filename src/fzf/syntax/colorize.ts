@@ -49,12 +49,6 @@ export const colorizeGrep = (line: string): string => {
   return `${colorizedFilePath}:${colorize(lineNumber, "green")}:${texts.join(":")}`
 }
 
-export const colorizeGitStatus = (line: string): string => {
-  const splittedLine = line.split(" ")
-  const colorizedFilePath = colorizeFile(splittedLine.slice(-1)[0])
-  return `${splittedLine.slice(0, -1).join(" ")} ${colorizedFilePath}`
-}
-
 export const colorizeDiagnostic = (line: string): string => {
   const baseColorizedLine = colorizeGrep(line)
   return baseColorizedLine
