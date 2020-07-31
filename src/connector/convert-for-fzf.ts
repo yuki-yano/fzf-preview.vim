@@ -3,19 +3,11 @@ import stripAnsi from "strip-ansi"
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { ColorizeFunc, ResourceLine, ResourceLines } from "@/type"
+import type { ResourceLines } from "@/type"
 
 type Options = {
   enableConvertForFzf: boolean
   enableDevIcons: boolean
-  colorizeFunc?: (line: string) => string
-}
-
-const colorizeLine = ({ data, displayText }: ResourceLine, colorizeFunc: ColorizeFunc): ResourceLine => {
-  return {
-    data,
-    displayText: colorizeFunc(displayText),
-  }
 }
 
 const createDevIconsList = (files: Array<string>) => {
@@ -49,23 +41,21 @@ const createDevIconsList = (files: Array<string>) => {
 }
 
 export const convertForFzf = (lines: ResourceLines, options: Options): ResourceLines => {
-  const { enableConvertForFzf, enableDevIcons, colorizeFunc } = options
+  const { enableConvertForFzf, enableDevIcons } = options
 
   if (!enableConvertForFzf) {
     return lines
   }
 
-  const colorizedLines = colorizeFunc != null ? lines.map((line) => colorizeLine(line, colorizeFunc)) : lines
-
   if (enableDevIcons) {
-    const convertedTexts = colorizedLines.map((line) => stripAnsi(line.displayText).split(":")[0])
+    const convertedTexts = lines.map((line) => stripAnsi(line.displayText).split(":")[0])
     const icons = createDevIconsList(convertedTexts).map((icon) => colorizeDevIcon(icon))
 
     return lines.map((line, i) => ({
       data: line.data,
-      displayText: `${icons[i]}  ${colorizedLines[i].displayText}`,
+      displayText: `${icons[i]}  ${lines[i].displayText}`,
     }))
   }
 
-  return colorizedLines
+  return lines
 }
