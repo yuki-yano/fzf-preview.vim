@@ -1,5 +1,6 @@
 import { getAlternateBuffer, getCurrentBuffer, getOtherBuffers } from "@/connector/buffers"
 import { isGitDirectory } from "@/connector/util"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import { existsFileAsync } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
@@ -7,13 +8,26 @@ import { alignLists } from "@/util/align"
 import { asyncFilter } from "@/util/array"
 
 const bufferToArray = (buffer: VimBuffer) => {
+  if (buffer.isCurrent === true) {
+    return [`[${buffer.bufnr}] `, "%", `${buffer.isModified ? " [+] " : ""}`, ` ${buffer.fileName}`]
+  }
   return [
     `[${buffer.bufnr}] `,
     `${buffer.isAlternate ? "#" : ""}`,
-    `${buffer.isCurrent ? "%" : ""}`,
     `${buffer.isModified ? " [+] " : ""}`,
     ` ${buffer.fileName}`,
   ]
+}
+
+// Colorize after align
+// If it contains ansi escape, it will not align well
+const colorizeArrayedBuffer = (list: Array<string>): string => {
+  const [bufnr, symbol, modified, fileName] = list
+  if (symbol.includes("%")) {
+    return list.join("").trim()
+  } else {
+    return [colorize(bufnr, "blue"), symbol, colorize(modified, "red"), colorizeFile(fileName)].join("").trim()
+  }
 }
 
 const existsBuffer = async (buffer: VimBuffer): Promise<boolean> => {
@@ -58,18 +72,10 @@ const createBuffers = (bufferList: Array<VimBuffer>, displayLines: Array<string>
 })
 
 export const buffers = async (_args: SourceFuncArgs): Promise<Resource> => {
-  // TODO: sort with mru
-  if (!(await isGitDirectory())) {
-    const bufferList = await getSimpleBuffers()
-    const displayLines = alignLists(bufferList.map((buffer) => bufferToArray(buffer))).map((list) =>
-      list.join("").trim()
-    )
-
-    return createBuffers(bufferList, displayLines)
-  }
-
   const bufferList = await getGitProjectBuffers()
-  const displayLines = alignLists(bufferList.map((buffer) => bufferToArray(buffer))).map((list) => list.join("").trim())
+  const displayLines = alignLists(bufferList.map((buffer) => bufferToArray(buffer))).map((list) =>
+    colorizeArrayedBuffer(list)
+  )
 
   return {
     ...createBuffers(bufferList, displayLines),

@@ -80,7 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { colorizeBuffer, colorizeFile, colorizeGitStatus, colorizeGrep } from "@/fzf/syntax/colorize"
+import { colorizeFile, colorizeGitStatus, colorizeGrep } from "@/fzf/syntax/colorize"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -131,7 +131,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-buffer",
     enableConvertForFzf: true,
     enableDevIcons: false,
-    colorizeFunc: colorizeBuffer,
   },
   {
     commandName: "FzfPreviewAllBuffers",
@@ -142,7 +141,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-bufnr",
     enableConvertForFzf: true,
     enableDevIcons: false,
-    colorizeFunc: colorizeBuffer,
   },
   {
     commandName: "FzfPreviewProjectOldFiles",
