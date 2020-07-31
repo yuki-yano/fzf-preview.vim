@@ -11,6 +11,7 @@ import { projectFiles } from "@/fzf/resource/project-files"
 import { projectMruFiles } from "@/fzf/resource/project-mru"
 import { projectMrwFiles } from "@/fzf/resource/project-mrw"
 import { projectOldFiles } from "@/fzf/resource/project-oldfiles"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FileData, FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -59,7 +60,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
         type: "file",
         file: (line.data as FileData).file,
       },
-      displayText: (line.data as FileData).file,
+      displayText: colorizeFile((line.data as FileData).file),
     })),
     options: { "--header": `"[Resources] ${args.args.join(" ")}"` },
   }

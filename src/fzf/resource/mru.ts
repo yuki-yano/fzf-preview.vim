@@ -1,3 +1,4 @@
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import { existsFileAsync } from "@/system/file"
 import { readMruFile } from "@/system/mr"
@@ -15,7 +16,7 @@ export const mruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
       type: "file",
       file,
     },
-    displayText: file,
+    displayText: colorizeFile(file),
   }))
 
   return {

@@ -80,7 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { colorizeFile, colorizeGrep } from "@/fzf/syntax/colorize"
+import { colorizeGrep } from "@/fzf/syntax/colorize"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -98,7 +98,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewGitFiles",
@@ -109,7 +108,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewDirectoryFiles",
@@ -120,7 +118,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewBuffers",
@@ -151,7 +148,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewProjectMruFiles",
@@ -162,7 +158,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewProjectMrwFiles",
@@ -173,7 +168,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewLines",
@@ -225,7 +219,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewMruFiles",
@@ -236,7 +229,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewMrwFiles",
@@ -247,7 +239,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewQuickFix",
@@ -323,7 +314,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeFile,
   },
   {
     commandName: "FzfPreviewGitActions",

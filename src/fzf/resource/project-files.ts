@@ -1,5 +1,6 @@
 import { execProjectFiles } from "@/connector/project-files"
 import { isGitDirectory } from "@/connector/util"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
@@ -17,7 +18,7 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<Resource> => 
         type: "file",
         file: line,
       },
-      displayText: line,
+      displayText: colorizeFile(line),
     })),
   }
 }

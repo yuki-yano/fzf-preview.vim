@@ -1,4 +1,5 @@
 import { execDirectoryFiles } from "@/connector/directory-files"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FzfCommandDefinitionDefaultOption, FzfCommandDynamicOption, Resource, SourceFuncArgs } from "@/type"
 
@@ -16,7 +17,7 @@ export const directoryFiles = async ({ args }: SourceFuncArgs): Promise<Resource
         type: "file",
         file: line,
       },
-      displayText: line,
+      displayText: colorizeFile(line),
     })),
     options,
   }
