@@ -43,12 +43,6 @@ export const colorizeFile = (filePath: string): string => {
   }
 }
 
-export const colorizeGrep = (line: string): string => {
-  const [filePath, lineNumber, ...texts] = line.split(":")
-  const colorizedFilePath = colorizeFile(filePath)
-  return `${colorizedFilePath}:${colorize(lineNumber, "green")}:${texts.join(":")}`
-}
-
 export const diagnosticToDisplayText = ({ file, lineNumber, severity, message }: Diagnostic): string => {
   const severityColor = {
     Error: "red",

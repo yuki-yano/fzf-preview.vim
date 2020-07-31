@@ -8,7 +8,6 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
-import { colorizeGrep } from "@/fzf/syntax/colorize"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -22,7 +21,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewCocDiagnostics",

@@ -1,4 +1,5 @@
 import { getBookmarks } from "@/connector/bookmarks"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -12,7 +13,7 @@ export const bookmarks = async (_args: SourceFuncArgs): Promise<Resource> => {
         text,
         lineNumber: Number(line),
       },
-      displayText: `${file}:${line}:${text}:${comment}`,
+      displayText: `${colorizeFile(file)}:${colorize(line, "green")}:${text}:${comment}`,
     }
   })
 

@@ -1,6 +1,7 @@
 import { languages, workspace } from "coc.nvim"
 
 import { getLineFromFile } from "@/connector/util"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { dropFileProtocol, filePathToProjectFilePath } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
@@ -41,7 +42,7 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
       text,
       lineNumber,
     },
-    displayText: `${file}:${lineNumber}:  ${text}`,
+    displayText: `${colorizeFile(file)}:${colorize(lineNumber.toString(), "green")}:  ${text}`,
   }))
 
   return {

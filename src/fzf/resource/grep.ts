@@ -1,6 +1,7 @@
 import stripAnsi from "strip-ansi"
 
 import { execGrep } from "@/connector/grep"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
@@ -20,7 +21,7 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
           lineNumber: Number(stripAnsi(lineNumber)),
           text: stripAnsi(rest.join(":")),
         },
-        displayText: `${file}:${lineNumber}: ${rest.join(":")}`,
+        displayText: `${colorizeFile(file)}:${colorize(lineNumber, "green")}: ${rest.join(":")}`,
       }
     }),
     options: { "--header": `'[Grep from] ${grepArgs}'` },

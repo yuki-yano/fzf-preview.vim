@@ -80,7 +80,6 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { colorizeGrep } from "@/fzf/syntax/colorize"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -188,7 +187,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewCtags",
@@ -249,7 +247,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewLocationList",
@@ -260,7 +257,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewJumps",
@@ -271,7 +267,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewChanges",
@@ -292,7 +287,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewProjectGrep",
@@ -303,7 +297,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewFromResources",
@@ -444,7 +437,6 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeGrep,
   },
   {
     commandName: "FzfPreviewYankround",

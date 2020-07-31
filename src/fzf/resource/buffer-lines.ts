@@ -1,4 +1,5 @@
 import { getBuffers } from "@/connector/buffers"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { readFile } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
@@ -23,7 +24,7 @@ export const bufferLines = async (_args: SourceFuncArgs): Promise<Resource> => {
         text: line.text,
         lineNumber: line.lineNumber,
       },
-      displayText: `${cur.fileName}:${line.lineNumber}:${line.text}`,
+      displayText: `${colorizeFile(cur.fileName)}:${colorize(line.lineNumber.toString(), "green")}:${line.text}`,
     }))
 
     return [...acc, ...resourceLines]
