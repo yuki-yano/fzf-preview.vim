@@ -1,19 +1,11 @@
 import { getCurrentDiagnostics } from "@/connector/coc"
+import { diagnosticToResourceLine } from "@/fzf/resource/coc/coc-diagnostics"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const cocCurrentDiagnostics = async (_args: SourceFuncArgs): Promise<Resource> => {
   const diagnostics = await getCurrentDiagnostics()
-  const resourceLines: ResourceLines = diagnostics.map(({ file, lineNumber, text }) => ({
-    data: {
-      command: "FzfPreviewCocCurrentDiagnostics",
-      type: "line",
-      file,
-      lineNumber,
-      text,
-    },
-    displayText: text,
-  }))
+  const resourceLines: ResourceLines = diagnostics.map((diagnostic) => diagnosticToResourceLine(diagnostic))
 
   return {
     type: "json",

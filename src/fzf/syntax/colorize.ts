@@ -49,13 +49,18 @@ export const colorizeGrep = (line: string): string => {
   return `${colorizedFilePath}:${colorize(lineNumber, "green")}:${texts.join(":")}`
 }
 
-export const colorizeDiagnostic = (line: string): string => {
-  const baseColorizedLine = colorizeGrep(line)
-  return baseColorizedLine
-    .replace(":  Error ", `:${colorize("  Error ", "red")}`)
-    .replace(":  Warning ", `:${colorize("  Warning ", "yellow")}`)
-    .replace(":  Information ", `:${colorize("  Information ", "blue")}`)
-    .replace(":  Hint ", `:${colorize("  Hint ", "cyan")}`)
+export const diagnosticToDisplayText = ({ file, lineNumber, severity, message }: Diagnostic): string => {
+  const severityColor = {
+    Error: "red",
+    Warning: "yellow",
+    Information: "blue",
+    Hint: "cyan",
+  } as const
+
+  return `${colorizeFile(file)}:${colorize(lineNumber.toString(), "green")}:  ${colorize(
+    severity,
+    severityColor[severity] as Color
+  )} ${message}`
 }
 
 type DevIcons = {

@@ -3,12 +3,7 @@ import { DiagnosticItem } from "coc.nvim"
 import { pluginCall } from "@/plugin"
 import { currentFilePath, existsFileAsync } from "@/system/file"
 import { filePathToProjectFilePath } from "@/system/project"
-
-type Diagnostic = {
-  file: string
-  lineNumber: number
-  text: string
-}
+import type { Diagnostic, DiagnosticLevel } from "@/type"
 
 const diagnosticItemToData = async (
   item: DiagnosticItem,
@@ -26,7 +21,8 @@ const diagnosticItemToData = async (
   return {
     file,
     lineNumber: item.lnum,
-    text: `${file}:${item.lnum}:  ${item.severity} ${item.message}`,
+    severity: item.severity as DiagnosticLevel,
+    message: item.message,
   }
 }
 

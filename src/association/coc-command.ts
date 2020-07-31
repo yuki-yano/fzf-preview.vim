@@ -8,7 +8,7 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
-import { colorizeDiagnostic, colorizeGrep } from "@/fzf/syntax/colorize"
+import { colorizeGrep } from "@/fzf/syntax/colorize"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -33,7 +33,6 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeDiagnostic,
   },
   {
     commandName: "FzfPreviewCocCurrentDiagnostics",
@@ -44,6 +43,5 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
-    colorizeFunc: colorizeDiagnostic,
   },
 ]
