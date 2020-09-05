@@ -1,6 +1,6 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
-import { getCurrentFilePath, existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {

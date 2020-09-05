@@ -2,7 +2,7 @@ import stripAnsi from "strip-ansi"
 
 import { execLines } from "@/connector/lines"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getCurrentFilePath, existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
