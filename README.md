@@ -387,7 +387,8 @@ let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_g
 let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 
 " Keyboard shortcuts while fzf preview is active
-let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+let g:fzf_preview_preview_key_bindings = ''
+" let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
 
 " Specify the color of fzf
 let g:fzf_preview_fzf_color_option = ''

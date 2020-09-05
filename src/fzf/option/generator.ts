@@ -63,6 +63,13 @@ const getPreviewWindowOption = (): FzfOptions => {
     : { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
 }
 
+const getPreviewKeyBindings = (): FzfOptions => {
+  const previewKeyBindings = globalVariableSelector("fzfPreviewPreviewKeyBindings")
+  return previewKeyBindings == null || previewKeyBindings === ""
+    ? {}
+    : { "--bind": `"${previewKeyBindings as string}"` }
+}
+
 const getColorOption = (): FzfOptions => {
   const colorOptionVimValue = globalVariableSelector("fzfPreviewFzfColorOption")
   return colorOptionVimValue == null || colorOptionVimValue === ""
@@ -128,6 +135,7 @@ export const generateOptions = async ({
     ...dynamicOptions,
     ...getExpectFromDefaultProcesses(defaultProcesses),
     ...getPreviewWindowOption(),
+    ...getPreviewKeyBindings(),
     ...getColorOption(),
     ...(await getExpectFromUserProcesses(userProcesses)),
     ...resumeQueryOption,
