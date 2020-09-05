@@ -1,8 +1,8 @@
 import { DiagnosticItem } from "coc.nvim"
 
 import { pluginCall } from "@/plugin"
-import { currentFilePath, existsFileAsync } from "@/system/file"
-import { filePathToProjectFilePath } from "@/system/project"
+import { existsFileAsync, getCurrentFilePath, getCurrentPath } from "@/system/file"
+import { filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, DiagnosticLevel } from "@/type"
 
 const diagnosticItemToData = async (
@@ -13,7 +13,8 @@ const diagnosticItemToData = async (
     return null
   }
 
-  const file = filePathToProjectFilePath(item.file)
+  const currentPath = await getCurrentPath()
+  const file = filePathToRelativeFilePath(item.file, currentPath)
   if (file == null || (option && option.currentFile !== file)) {
     return null
   }
@@ -34,7 +35,7 @@ export const getDiagnostics = async (): Promise<Array<Diagnostic>> => {
 }
 
 export const getCurrentDiagnostics = async (): Promise<Array<Diagnostic>> => {
-  const currentFile = await currentFilePath()
+  const currentFile = await getCurrentFilePath()
   const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
   const diagnostics = await Promise.all(
     diagnosticItems.map(async (item) => await diagnosticItemToData(item, { currentFile }))

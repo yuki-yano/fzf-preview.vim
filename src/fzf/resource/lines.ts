@@ -2,11 +2,11 @@ import stripAnsi from "strip-ansi"
 
 import { execLines } from "@/connector/lines"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath, existsFileAsync } from "@/system/file"
+import { getCurrentFilePath, existsFileAsync } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const currentFile = await currentFilePath()
+  const currentFile = await getCurrentFilePath()
   if (!(await existsFileAsync(currentFile))) {
     return {
       type: "json",
@@ -39,7 +39,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} ${await currentFilePath()}:{2}"`
+  return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2}"`
 }
 
 export const linesDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({

@@ -1,13 +1,13 @@
 import { isGitDirectory } from "@/connector/util"
 import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import { filterProjectEnabledFile } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const projectMruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const currentFile = await currentFilePath()
+  const currentFile = await getCurrentFilePath()
 
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")

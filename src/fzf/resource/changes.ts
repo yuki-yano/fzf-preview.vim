@@ -1,6 +1,6 @@
 import { getChanges } from "@/connector/changes"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
@@ -17,7 +17,7 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
     return { lineNumber: Number(lineNumber), text }
   })
 
-  const currentFile = await currentFilePath()
+  const currentFile = await getCurrentFilePath()
   const displayTextList = alignLists(
     changeList.map(({ lineNumber, text }) => [lineNumber.toString(), text])
   ).map((change) => change.join(SPACER).trim())
@@ -43,7 +43,7 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} ${await currentFilePath()}:{2..}"`
+  return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2..}"`
 }
 
 export const changesDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({

@@ -3,7 +3,8 @@ import { languages, workspace } from "coc.nvim"
 import { getLineFromFile } from "@/connector/util"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { dropFileProtocol, filePathToProjectFilePath } from "@/system/project"
+import { getCurrentPath } from "@/system/file"
+import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 type Reference = {
@@ -13,6 +14,7 @@ type Reference = {
 }
 
 export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> => {
+  const currentPath = await getCurrentPath()
   const { document, position } = await workspace.getCurrentState()
 
   const ranges = await languages.getSelectionRanges(document, [position])
@@ -24,12 +26,13 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
     await Promise.all(
       locs.map(async (loc) => {
         const lineNumber = loc.range.start.line + 1
-        const file = filePathToProjectFilePath(dropFileProtocol(loc.uri))
-        if (file == null) {
+        const absoluteFilePath = dropFileProtocol(loc.uri)
+        const relativeFilePath = filePathToRelativeFilePath(absoluteFilePath, currentPath)
+        if (relativeFilePath == null) {
           return ""
         }
-        const text = await getLineFromFile(file, lineNumber)
-        return { file, lineNumber, text }
+        const text = await getLineFromFile(absoluteFilePath, lineNumber)
+        return { file: relativeFilePath, lineNumber, text }
       })
     )
   ).filter((reference): reference is Reference => reference !== "")
@@ -54,7 +57,7 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} {}"`
+  return `"${grepPreviewCommand} {2..}"`
 }
 
 export const cocReferencesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

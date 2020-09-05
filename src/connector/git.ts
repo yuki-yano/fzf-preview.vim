@@ -8,7 +8,7 @@ import {
 } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
 
 export const execGitFiles = async (): Promise<Array<string>> => {
@@ -50,7 +50,7 @@ export const execGitBranch = async (): Promise<Array<GitBranch>> => {
 export const execGitLog = async (options?: { currentFile: boolean }): Promise<Array<GitLog>> => {
   const command =
     options != null && options.currentFile === true
-      ? createGitLogCommand(await currentFilePath())
+      ? createGitLogCommand(await getCurrentFilePath())
       : createGitLogCommand()
 
   const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [command])) as Array<string>
