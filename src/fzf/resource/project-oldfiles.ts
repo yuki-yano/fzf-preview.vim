@@ -1,5 +1,6 @@
 import { getOldFiles } from "@/connector/old-files"
 import { isGitDirectory } from "@/connector/util"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import { filterProjectEnabledFile } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
@@ -16,7 +17,7 @@ export const projectOldFiles = async (_args: SourceFuncArgs): Promise<Resource> 
       type: "file",
       file,
     },
-    displayText: file,
+    displayText: colorizeFile(file),
   }))
 
   return {

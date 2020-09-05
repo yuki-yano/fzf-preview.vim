@@ -1,12 +1,12 @@
 import { isGitDirectory } from "@/connector/util"
 import { GIT_ACTIONS } from "@/const/git"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 const createDisplayText = async (action: typeof GIT_ACTIONS[number]) => {
   if (action === "current-log") {
-    return `${action}:${await currentFilePath()}`
+    return `${action}:${await getCurrentFilePath()}`
   } else {
     return action
   }

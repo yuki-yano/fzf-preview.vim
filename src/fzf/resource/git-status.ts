@@ -2,6 +2,7 @@ import stripAnsi from "strip-ansi"
 
 import { execGitStatus } from "@/connector/git"
 import { isGitDirectory } from "@/connector/util"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLine, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -36,15 +37,24 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
 
   const lines = [
     ...headers,
-    ...statuses.map<ResourceLine>((line) => ({
-      data: {
-        command: "FzfPreviewGitStatus",
-        type: "git-status",
-        file: stripAnsi(line).split("").slice(3).join(""),
-        status: stripAnsi(line).split("").slice(0, 2).join(""),
-      },
-      displayText: line.replace(/^\s/, "\xA0"),
-    })),
+    ...statuses.map<ResourceLine>((line) => {
+      const result = /(?<status>.+)\s(?<file>.+)/.exec(line)
+      if (result == null || result.groups == null) {
+        throw new Error(`Unexpected line: ${line}`)
+      }
+
+      const file = stripAnsi(result.groups.file)
+      const { status } = result.groups
+      return {
+        data: {
+          command: "FzfPreviewGitStatus",
+          type: "git-status",
+          file,
+          status: stripAnsi(status),
+        },
+        displayText: `${status.replace(/^\s/, "\xA0")} ${colorizeFile(file)}`,
+      }
+    }),
   ]
 
   return {

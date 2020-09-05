@@ -1,4 +1,5 @@
 import { getLocationList } from "@/connector/quickfix-and-locationlist"
+import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { parseQuickFixAndLocationListLine } from "@/fzf/util"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
@@ -14,7 +15,7 @@ export const locationList = async (_args: SourceFuncArgs): Promise<Resource> => 
         text,
         lineNumber,
       },
-      displayText: `${fileName}:${lineNumber}:${text}`,
+      displayText: `${colorizeFile(fileName)}:${colorize(lineNumber.toString(), "green")}:${text}`,
     }
   })
 

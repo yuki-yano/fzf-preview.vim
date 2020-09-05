@@ -64,8 +64,6 @@ export type SourceFuncArgs = {
   extraArgs: Array<string>
 }
 
-export type ColorizeFunc = (displayText: string) => string
-
 type FzfCommandBase = {
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Resource>
   sourceFuncArgsParser: (args: string) => SourceFuncArgs
@@ -77,7 +75,6 @@ type FzfCommandBase = {
   enableConvertForFzf: boolean
   enableDevIcons: boolean
   beforeCommandHook?: (args: string) => void
-  colorizeFunc?: ColorizeFunc
 }
 
 export type RemoteFzfCommand = Merge<

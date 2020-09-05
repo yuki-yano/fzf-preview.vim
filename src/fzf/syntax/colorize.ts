@@ -1,7 +1,8 @@
 import ansi from "ansi-escape-sequences"
 import { find } from "lodash"
 
-type Color = "reset" | "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white"
+import type { Color, Diagnostic } from "@/type"
+
 type ColorCode = {
   [key in Color]: string
 }
@@ -42,44 +43,18 @@ export const colorizeFile = (filePath: string): string => {
   }
 }
 
-export const colorizeGrep = (line: string): string => {
-  const [filePath, lineNumber, ...texts] = line.split(":")
-  const colorizedFilePath = colorizeFile(filePath)
-  return `${colorizedFilePath}:${colorize(lineNumber, "green")}:${texts.join(":")}`
-}
+export const diagnosticToDisplayText = ({ file, lineNumber, severity, message }: Diagnostic): string => {
+  const severityColor = {
+    Error: "red",
+    Warning: "yellow",
+    Information: "blue",
+    Hint: "cyan",
+  } as const
 
-export const colorizeBuffer = (line: string): string => {
-  if (line.includes("%")) {
-    return line
-  }
-
-  const items = line.split(" ")
-  const colorizedItems = items.map((item) => {
-    if (/\[\d+\]/.exec(item) != null) {
-      return colorize(item, "blue")
-    } else if (/\[\+\]/.exec(item) != null) {
-      return colorize(item, "red")
-    } else if (/[a-zA-Z0-9-_.@]+/.exec(item) != null) {
-      return colorizeFile(item)
-    }
-    return item
-  })
-  return colorizedItems.join(" ")
-}
-
-export const colorizeGitStatus = (line: string): string => {
-  const splittedLine = line.split(" ")
-  const colorizedFilePath = colorizeFile(splittedLine.slice(-1)[0])
-  return `${splittedLine.slice(0, -1).join(" ")} ${colorizedFilePath}`
-}
-
-export const colorizeDiagnostic = (line: string): string => {
-  const baseColorizedLine = colorizeGrep(line)
-  return baseColorizedLine
-    .replace(":  Error ", `:${colorize("  Error ", "red")}`)
-    .replace(":  Warning ", `:${colorize("  Warning ", "yellow")}`)
-    .replace(":  Information ", `:${colorize("  Information ", "blue")}`)
-    .replace(":  Hint ", `:${colorize("  Hint ", "cyan")}`)
+  return `${colorizeFile(file)}:${colorize(lineNumber.toString(), "green")}:  ${colorize(
+    severity,
+    severityColor[severity] as Color
+  )} ${message}`
 }
 
 type DevIcons = {

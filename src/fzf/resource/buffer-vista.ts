@@ -1,6 +1,6 @@
 import { getVistaBufferCtags, VistaBufferTag } from "@/connector/vista"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
 
@@ -19,7 +19,7 @@ export const vistaBufferCtags = async (_args: SourceFuncArgs): Promise<Resource>
     tags.sort((a, b) => a.lineNumber - b.lineNumber).map((tag) => vistaBufferTagToArray(tag))
   ).map((tag) => tag.join(SPACER).trim())
 
-  const currentFile = await currentFilePath()
+  const currentFile = await getCurrentFilePath()
   const resourceLines: ResourceLines = tags.map((tag, i) => ({
     data: {
       command: "FzfPreviewVistaBufferCtags",
@@ -39,7 +39,7 @@ export const vistaBufferCtags = async (_args: SourceFuncArgs): Promise<Resource>
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
-  return `"${grepPreviewCommand} '${await currentFilePath()}:{2}'"`
+  return `"${grepPreviewCommand} '${await getCurrentFilePath()}:{2}'"`
 }
 
 export const vistaBufferCtagsDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({

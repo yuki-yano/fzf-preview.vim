@@ -12,7 +12,7 @@ import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
-import { currentFilePath } from "@/system/file"
+import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommand, ResourceLines } from "@/type"
 
 const getDefaultProcesses = (defaultProcessesName: string) => {
@@ -48,7 +48,6 @@ export const executeCommand = async (
     enableConvertForFzf,
     enableDevIcons: enableDevIconsCommandSetting,
     beforeCommandHook,
-    colorizeFunc,
   }: FzfCommand
 ): Promise<void> => {
   await dispatch(loadCache())
@@ -90,7 +89,7 @@ export const executeCommand = async (
       options: {
         userProcesses,
         enableDevIcons,
-        currentFilePath: await currentFilePath(),
+        currentFilePath: await getCurrentFilePath(),
       },
     })
   )
@@ -100,7 +99,6 @@ export const executeCommand = async (
   const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,
     enableDevIcons,
-    colorizeFunc,
   })
 
   await fzfRunner({

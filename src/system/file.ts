@@ -33,7 +33,12 @@ export const readFile = (filePath: string): string => {
   return fs.readFileSync(filePath, { encoding: "utf-8" })
 }
 
-export const currentFilePath = async (): Promise<string> => {
+export const getCurrentFilePath = async (): Promise<string> => {
   const file = (await pluginCall("expand", "%")) as string
   return file
+}
+
+export const getCurrentPath = async (): Promise<string> => {
+  const pwd = (await pluginCall("getcwd")) as string
+  return pwd
 }

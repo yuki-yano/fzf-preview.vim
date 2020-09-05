@@ -1,17 +1,17 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
-import { currentFilePath, existsFileAsync } from "@/system/file"
+import { getCurrentFilePath, existsFileAsync } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
-  if (!(await existsFileAsync(await currentFilePath()))) {
+  if (!(await existsFileAsync(await getCurrentFilePath()))) {
     return {
       type: "json",
       lines: [],
     }
   }
 
-  const file = await currentFilePath()
+  const file = await getCurrentFilePath()
   const openPrCommand = globalVariableSelector("fzfPreviewBlamePrCommand") as string
   const { stdout, stderr, status } = execSyncCommand(`${openPrCommand} ${file}`)
 

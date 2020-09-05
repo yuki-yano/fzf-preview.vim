@@ -1,4 +1,5 @@
 import { getOldFiles } from "@/connector/old-files"
+import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import { existsFileAsync } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
@@ -14,7 +15,7 @@ export const oldFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
       type: "file",
       file,
     },
-    displayText: file,
+    displayText: colorizeFile(file),
   }))
 
   return {
