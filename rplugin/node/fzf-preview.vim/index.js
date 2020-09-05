@@ -28359,6 +28359,7 @@ const initialState = {
         fzfPreviewGrepPreviewCmd: "",
         fzfPreviewCustomProcesses: {},
         fzfPreviewFzfPreviewWindowOption: "",
+        fzfPreviewPreviewKeyBindings: "",
         fzfPreviewFzfColorOption: "",
         fzfPreviewBuffersJump: 0,
         yankroundDir: "",
@@ -32736,6 +32737,12 @@ const getPreviewWindowOption = () => {
         ? {}
         : { "--preview-window": `"${previewWindowOptionVimValue}"` };
 };
+const getPreviewKeyBindings = () => {
+    const previewKeyBindings = vim_variable_1.globalVariableSelector("fzfPreviewPreviewKeyBindings");
+    return previewKeyBindings == null || previewKeyBindings === ""
+        ? {}
+        : { "--bind": `"${previewKeyBindings}"` };
+};
 const getColorOption = () => {
     const colorOptionVimValue = vim_variable_1.globalVariableSelector("fzfPreviewFzfColorOption");
     return colorOptionVimValue == null || colorOptionVimValue === ""
@@ -32770,7 +32777,7 @@ const getExpectFromUserProcesses = async (userProcesses) => {
 };
 exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, defaultProcesses, userProcesses, userOptions, resumeQuery, }) => {
     const resumeQueryOption = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` };
-    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), getUserDefaultOptions()), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
+    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), getUserDefaultOptions()), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getPreviewKeyBindings()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
     userOptions.forEach((userOption) => {
         fzfCommandOptions[userOption.optionName] = userOption.value;
     });
@@ -34829,6 +34836,7 @@ exports.vimVariableAssociation = {
     fzfPreviewGrepPreviewCmd: "fzf_preview_grep_preview_cmd",
     fzfPreviewCustomProcesses: "fzf_preview_custom_processes",
     fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
+    fzfPreviewPreviewKeyBindings: "fzf_preview_preview_key_bindings",
     fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
     fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
     yankroundDir: "yankround_dir",
