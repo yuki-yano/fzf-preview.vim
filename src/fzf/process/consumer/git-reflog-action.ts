@@ -79,7 +79,7 @@ export const execGitReflogActionConsumer = createSingleLineConsumer(async (data)
     }
 
     default: {
-      unreachable(data.action)
+      unreachable(data)
     }
   }
 })

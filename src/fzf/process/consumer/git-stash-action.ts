@@ -71,7 +71,7 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
     }
 
     default: {
-      unreachable(data.action)
+      unreachable(data)
     }
   }
 })
