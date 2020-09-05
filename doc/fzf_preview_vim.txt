@@ -493,7 +493,7 @@ OPTIONS                                         *fzf-preview-options*
     This command determines keyboard shortcuts during an interactive FZF
     session. Options are a string passed directly to fzf's "--bind" option.
 
-    Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+    Default value is ''
 
 
 *g:fzf_preview_fzf_color_option*

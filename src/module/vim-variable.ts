@@ -41,6 +41,7 @@ const initialState: State = {
     fzfPreviewGrepPreviewCmd: "",
     fzfPreviewCustomProcesses: {},
     fzfPreviewFzfPreviewWindowOption: "",
+    fzfPreviewPreviewKeyBindings: "",
     fzfPreviewFzfColorOption: "",
     fzfPreviewBuffersJump: 0,
     yankroundDir: "",
