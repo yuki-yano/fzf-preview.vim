@@ -1,7 +1,8 @@
-const webpack = require("webpack")
-const path = require("path")
-const { merge } = require("webpack-merge")
-const common = require("./webpack.common.js")
+import path from "path"
+import webpack from "webpack"
+import { merge } from "webpack-merge"
+
+import common from "./webpack.common"
 
 module.exports = merge(common, {
   entry: "./src/remote.ts",
