@@ -20,6 +20,7 @@ export const cacheModule = createSlice({
       }
       return state
     },
+    // TODO: unnecessary project root cache
     setProjectRoot: (state, { payload }: PayloadAction<{ projectRoot: string }>) => {
       state.projectRoot = payload.projectRoot
     },
