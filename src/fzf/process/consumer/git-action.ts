@@ -67,7 +67,7 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
 
     default: {
-      unreachable(data.action)
+      unreachable(data)
     }
   }
 })

@@ -13,11 +13,7 @@ module.exports = {
     "prettier/@typescript-eslint",
   ],
   plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
-  env: {
-    jest: true,
-  },
   parserOptions: {
-    warnOnUnsupportedTypeScriptVersion: false,
     sourceType: "module",
     project: "./tsconfig.json",
   },
@@ -73,6 +69,17 @@ module.exports = {
       },
       rules: {
         "@typescript-eslint/no-empty-function": "off",
+      },
+    },
+    {
+      parserOptions: {
+        sourceType: "module",
+        project: "./tsconfig-for-webpack-config.json",
+      },
+      files: ["./webpack.*.ts"],
+      rules: {
+        "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+        "no-restricted-imports": "off",
       },
     },
   ],

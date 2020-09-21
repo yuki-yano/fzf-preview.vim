@@ -1,8 +1,8 @@
-const path = require("path")
+import path from "path"
 
-module.exports = {
-  target: "node",
-  mode: "none",
+export default {
+  target: "node" as const,
+  mode: "none" as const,
   resolve: {
     mainFields: ["module", "main"],
     extensions: [".js", ".ts"],

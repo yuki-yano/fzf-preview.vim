@@ -27,8 +27,7 @@ export const sessionModule = createSlice({
       return state
     },
     setSession: (state, { payload }: PayloadAction<{ sessionToken: string; session: Session }>) => {
-      const sessions = { ...state.sessions, [payload.sessionToken]: payload.session }
-      state.sessions = sessions
+      state.sessions[payload.sessionToken] = payload.session
       state.currentSession = undefined
     },
     setCurrentSession: (state, { payload }: PayloadAction<{ session: Session }>) => {

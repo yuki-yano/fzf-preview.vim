@@ -143,7 +143,7 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
     }
 
     default: {
-      unreachable(data.action)
+      unreachable(data)
     }
   }
 })

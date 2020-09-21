@@ -2,7 +2,7 @@ import stripAnsi from "strip-ansi"
 
 import { execLines } from "@/connector/lines"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getCurrentFilePath, existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
 export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
@@ -19,7 +19,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
     type: "json",
     lines: lineList.map((line) => {
       const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(stripAnsi(line))
-      if (result == null || result.groups == null) {
+      if (result?.groups == null) {
         throw new Error(`Unexpected line format: ${line}`)
       }
 

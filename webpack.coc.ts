@@ -1,9 +1,10 @@
-const webpack = require("webpack")
-const path = require("path")
-const { merge } = require("webpack-merge")
-const common = require("./webpack.common.js")
+import path from "path"
+import webpack from "webpack"
+import { merge } from "webpack-merge"
 
-module.exports = merge(common, {
+import common from "./webpack.common"
+
+export default merge(common, {
   entry: "./src/coc.ts",
   externals: {
     "coc.nvim": "commonjs coc.nvim",

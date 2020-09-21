@@ -15,7 +15,7 @@ export const filePathToRelativeFilePath = (file: string, currentPath: string): s
   const regex = new RegExp(`^${currentPath}/(?<fileName>.+)`)
   const execArray = regex.exec(file)
 
-  if (execArray == null || execArray.groups == null) {
+  if (execArray?.groups == null) {
     return null
   }
 

@@ -1,5 +1,5 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { getCurrentFilePath, existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentFilePath } from "@/system/file"
 import { getBufferTags } from "@/system/tags"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"

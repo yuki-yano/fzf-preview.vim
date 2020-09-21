@@ -9,12 +9,10 @@ type Args = {
 }
 
 const getProcessesName = (userProcesses?: UserProcesses) => {
-  if (userProcesses != null) {
-    if (userProcesses.type === "global_variable") {
-      return userProcesses.value
-    } else if (userProcesses.type === "custom_processes_variable") {
-      return `fzf_preview_custom_processes["${userProcesses.value}"]`
-    }
+  if (userProcesses?.type === "global_variable") {
+    return userProcesses.value
+  } else if (userProcesses?.type === "custom_processes_variable") {
+    return `fzf_preview_custom_processes["${userProcesses.value}"]`
   }
 
   return undefined

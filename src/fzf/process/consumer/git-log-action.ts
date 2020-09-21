@@ -107,7 +107,7 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
     }
 
     default: {
-      unreachable(data.action)
+      unreachable(data)
     }
   }
 })

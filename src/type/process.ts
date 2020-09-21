@@ -35,7 +35,6 @@ export type CustomProcessesVimVariable = {
   }
 }
 
-export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 export type SingleLineConsumer = {
   consume: (line: ResourceData) => Promise<void>
   kind: "single"
@@ -44,6 +43,7 @@ export type BulkLineConsumer = {
   consume: (lines: Array<ResourceData>) => Promise<void>
   kind: "bulk"
 }
+export type LineConsumer = SingleLineConsumer | BulkLineConsumer
 
 export type CreateProcess = (processesName: ProcessesName) => (expectKey: string, lineConsumer: LineConsumer) => Process
 

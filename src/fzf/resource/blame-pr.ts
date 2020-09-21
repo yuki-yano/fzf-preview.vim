@@ -1,6 +1,6 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { execSyncCommand } from "@/system/command"
-import { getCurrentFilePath, existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
@@ -22,7 +22,7 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
   const lines = stdout.split("\n").filter((line) => line !== "")
   const resourceLines: ResourceLines = lines.map((line) => {
     const result = /^PR\s#(?<prNumber>\d+)/.exec(line)
-    if (result != null && result.groups != null) {
+    if (result?.groups != null) {
       return {
         data: {
           command: "FzfPreviewBlamePR",

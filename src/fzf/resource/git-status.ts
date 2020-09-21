@@ -39,7 +39,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
     ...headers,
     ...statuses.map<ResourceLine>((line) => {
       const result = /(?<status>.+)\s(?<file>.+)/.exec(line)
-      if (result == null || result.groups == null) {
+      if (result?.groups == null) {
         throw new Error(`Unexpected line: ${line}`)
       }
 

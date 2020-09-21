@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { PERSIST_LOAD_CACHE, PERSIST_LOAD_RESUME, PERSIST_LOAD_STORE, PERSIST_SAVE_STORE } from "@/const/module"
+import {
+  PERSIST_LOAD_CACHE,
+  PERSIST_LOAD_RESUME,
+  PERSIST_LOAD_SESSION,
+  PERSIST_LOAD_STORE,
+  PERSIST_SAVE_STORE,
+} from "@/const/module"
 import { cacheModule } from "@/module/cache"
 import { executeCommandModule } from "@/module/execute-command"
 import { resumeModule } from "@/module/resume"
@@ -41,7 +47,7 @@ export const loadResume = createAsyncThunk<void, undefined, { dispatch: AppDispa
 )
 
 export const loadSession = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
-  PERSIST_LOAD_RESUME,
+  PERSIST_LOAD_SESSION,
   async (_: undefined, { dispatch }) => {
     const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
       RootState
