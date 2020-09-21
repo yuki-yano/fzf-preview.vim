@@ -653,7 +653,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(5), exports);
@@ -8302,7 +8302,7 @@ exports.parseProcesses = (defaultProcessesName, args) => {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.19';
+  var VERSION = '4.17.20';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -23878,7 +23878,7 @@ exports.parseProcesses = (defaultProcessesName, args) => {
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
      *
      * // Checking for several possible values
-     * _.filter(users, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
      * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
@@ -23915,7 +23915,7 @@ exports.parseProcesses = (defaultProcessesName, args) => {
      * // => { 'a': 4, 'b': 5, 'c': 6 }
      *
      * // Checking for several possible values
-     * _.filter(users, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
      * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
@@ -28194,6 +28194,7 @@ exports.cacheModule = toolkit_1.createSlice({
             }
             return state;
         },
+        // TODO: unnecessary project root cache
         setProjectRoot: (state, { payload }) => {
             state.projectRoot = payload.projectRoot;
         },
@@ -28208,10 +28209,11 @@ exports.cacheModule = toolkit_1.createSlice({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SESSION = exports.RESUME = exports.CACHE = exports.EXECUTE_COMMAND = exports.VIM_VARIABLE = exports.PERSIST_SAVE_STORE = exports.PERSIST_LOAD_RESUME = exports.PERSIST_LOAD_CACHE = exports.PERSIST_LOAD_STORE = void 0;
+exports.SESSION = exports.RESUME = exports.CACHE = exports.EXECUTE_COMMAND = exports.VIM_VARIABLE = exports.PERSIST_SAVE_STORE = exports.PERSIST_LOAD_SESSION = exports.PERSIST_LOAD_RESUME = exports.PERSIST_LOAD_CACHE = exports.PERSIST_LOAD_STORE = void 0;
 exports.PERSIST_LOAD_STORE = "persist/loadStore";
 exports.PERSIST_LOAD_CACHE = "persist/loadCache";
 exports.PERSIST_LOAD_RESUME = "persist/loadResume";
+exports.PERSIST_LOAD_SESSION = "persist/loadSession";
 exports.PERSIST_SAVE_STORE = "persist/saveStore";
 exports.VIM_VARIABLE = "vim_variable";
 exports.EXECUTE_COMMAND = "execute_command";
@@ -28309,8 +28311,7 @@ exports.sessionModule = toolkit_1.createSlice({
             return state;
         },
         setSession: (state, { payload }) => {
-            const sessions = Object.assign(Object.assign({}, state.sessions), { [payload.sessionToken]: payload.session });
-            state.sessions = sessions;
+            state.sessions[payload.sessionToken] = payload.session;
             state.currentSession = undefined;
         },
         setCurrentSession: (state, { payload }) => {
@@ -28504,7 +28505,7 @@ exports.loadResume = toolkit_1.createAsyncThunk(module_1.PERSIST_LOAD_RESUME, as
     const restoredStore = (await plugin_1.pluginCall("fzf_preview#remote#store#restore_store"));
     dispatch(resume_1.resumeModule.actions.restore(restoredStore.resume));
 });
-exports.loadSession = toolkit_1.createAsyncThunk(module_1.PERSIST_LOAD_RESUME, async (_, { dispatch }) => {
+exports.loadSession = toolkit_1.createAsyncThunk(module_1.PERSIST_LOAD_SESSION, async (_, { dispatch }) => {
     const restoredStore = (await plugin_1.pluginCall("fzf_preview#remote#store#restore_store"));
     dispatch(session_1.sessionModule.actions.restore(restoredStore.session));
 });
@@ -28591,7 +28592,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(95), exports);
@@ -29311,7 +29312,7 @@ exports.createGitLogCommand = (file) => {
 };
 exports.parseQuickFixAndLocationListLine = (line) => {
     const result = /^(?<fileName>[^|]*)\|((?<lineNumber>\d+)( col (\d+))?[^|]*)?\|(?<text>.*)/.exec(line);
-    if (result == null || result.groups == null) {
+    if ((result === null || result === void 0 ? void 0 : result.groups) == null) {
         throw new Error(`line is not quickfix format: "${line}"`);
     }
     const { fileName, lineNumber, text } = result.groups;
@@ -29481,9 +29482,7 @@ exports.execGitBranch = async () => {
     });
 };
 exports.execGitLog = async (options) => {
-    const command = options != null && options.currentFile === true
-        ? util_1.createGitLogCommand(await file_1.getCurrentFilePath())
-        : util_1.createGitLogCommand();
+    const command = (options === null || options === void 0 ? void 0 : options.currentFile) === true ? util_1.createGitLogCommand(await file_1.getCurrentFilePath()) : util_1.createGitLogCommand();
     const lines = (await plugin_1.pluginCall("fzf_preview#remote#resource#util#exec_command", [command]));
     return lines.map((line) => {
         const [prefix, hash, date, author, comment] = line.split(/\s{4,}/);
@@ -30543,7 +30542,7 @@ exports.dropFileProtocol = (uri) => {
 exports.filePathToRelativeFilePath = (file, currentPath) => {
     const regex = new RegExp(`^${currentPath}/(?<fileName>.+)`);
     const execArray = regex.exec(file);
-    if (execArray == null || execArray.groups == null) {
+    if ((execArray === null || execArray === void 0 ? void 0 : execArray.groups) == null) {
         return null;
     }
     return execArray.groups.fileName;
@@ -30714,7 +30713,7 @@ exports.lines = async (_args) => {
         type: "json",
         lines: lineList.map((line) => {
             const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(strip_ansi_1.default(line));
-            if (result == null || result.groups == null) {
+            if ((result === null || result === void 0 ? void 0 : result.groups) == null) {
                 throw new Error(`Unexpected line format: ${line}`);
             }
             return {
@@ -31209,7 +31208,7 @@ const SPACER = "  ";
 exports.changes = async (_args) => {
     const changeList = (await changes_1.getChanges()).map((change) => {
         const result = /^(?<lineNumber>\d+)\s(?<text>.*)/.exec(change);
-        if (result == null || result.groups == null) {
+        if ((result === null || result === void 0 ? void 0 : result.groups) == null) {
             throw new Error(`Changes line is invalid: "${change}"`);
         }
         const { lineNumber, text } = result.groups;
@@ -31532,7 +31531,7 @@ exports.gitStatus = async (_args) => {
         ...headers,
         ...statuses.map((line) => {
             const result = /(?<status>.+)\s(?<file>.+)/.exec(line);
-            if (result == null || result.groups == null) {
+            if ((result === null || result === void 0 ? void 0 : result.groups) == null) {
                 throw new Error(`Unexpected line: ${line}`);
             }
             const file = strip_ansi_1.default(result.groups.file);
@@ -32414,7 +32413,7 @@ exports.blamePr = async (_args) => {
     const lines = stdout.split("\n").filter((line) => line !== "");
     const resourceLines = lines.map((line) => {
         const result = /^PR\s#(?<prNumber>\d+)/.exec(line);
-        if (result != null && result.groups != null) {
+        if ((result === null || result === void 0 ? void 0 : result.groups) != null) {
             return {
                 data: {
                     command: "FzfPreviewBlamePR",
@@ -33510,7 +33509,7 @@ exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data)
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -33797,7 +33796,7 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -33967,7 +33966,7 @@ exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (da
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -34106,7 +34105,7 @@ exports.execGitReflogActionConsumer = consumer_1.createSingleLineConsumer(async 
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -34256,7 +34255,7 @@ exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -34532,7 +34531,7 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
             break;
         }
         default: {
-            type_1.unreachable(data.action);
+            type_1.unreachable(data);
         }
     }
 });
@@ -35008,13 +35007,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processesRunner = void 0;
 const plugin_1 = __webpack_require__(1);
 const getProcessesName = (userProcesses) => {
-    if (userProcesses != null) {
-        if (userProcesses.type === "global_variable") {
-            return userProcesses.value;
-        }
-        else if (userProcesses.type === "custom_processes_variable") {
-            return `fzf_preview_custom_processes["${userProcesses.value}"]`;
-        }
+    if ((userProcesses === null || userProcesses === void 0 ? void 0 : userProcesses.type) === "global_variable") {
+        return userProcesses.value;
+    }
+    else if ((userProcesses === null || userProcesses === void 0 ? void 0 : userProcesses.type) === "custom_processes_variable") {
+        return `fzf_preview_custom_processes["${userProcesses.value}"]`;
     }
     return undefined;
 };
@@ -35089,7 +35086,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(242), exports);
@@ -98000,7 +97997,7 @@ const diagnosticItemToData = async (item, option) => {
     }
     const currentPath = await file_1.getCurrentPath();
     const file = project_1.filePathToRelativeFilePath(item.file, currentPath);
-    if (file == null || (option && option.currentFile !== file)) {
+    if (file !== null && file !== void 0 ? file : (option === null || option === void 0 ? void 0 : option.currentFile) !== file) {
         return null;
     }
     return {
