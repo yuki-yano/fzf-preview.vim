@@ -39,7 +39,7 @@ type ParsedQuickFix = {
 export const parseQuickFixAndLocationListLine = (line: string): ParsedQuickFix => {
   const result = /^(?<fileName>[^|]*)\|((?<lineNumber>\d+)( col (\d+))?[^|]*)?\|(?<text>.*)/.exec(line)
 
-  if (result == null || result.groups == null) {
+  if (result?.groups == null) {
     throw new Error(`line is not quickfix format: "${line}"`)
   }
 

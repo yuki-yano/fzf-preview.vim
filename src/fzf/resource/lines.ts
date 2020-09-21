@@ -19,7 +19,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
     type: "json",
     lines: lineList.map((line) => {
       const result = /^\s*(?<lineNumber>\d+)\s(?<text>.*)/.exec(stripAnsi(line))
-      if (result == null || result.groups == null) {
+      if (result?.groups == null) {
         throw new Error(`Unexpected line format: ${line}`)
       }
 

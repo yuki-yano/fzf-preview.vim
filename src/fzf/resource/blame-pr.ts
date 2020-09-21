@@ -22,7 +22,7 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
   const lines = stdout.split("\n").filter((line) => line !== "")
   const resourceLines: ResourceLines = lines.map((line) => {
     const result = /^PR\s#(?<prNumber>\d+)/.exec(line)
-    if (result != null && result.groups != null) {
+    if (result?.groups != null) {
       return {
         data: {
           command: "FzfPreviewBlamePR",

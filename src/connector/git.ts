@@ -49,9 +49,7 @@ export const execGitBranch = async (): Promise<Array<GitBranch>> => {
 
 export const execGitLog = async (options?: { currentFile: boolean }): Promise<Array<GitLog>> => {
   const command =
-    options != null && options.currentFile === true
-      ? createGitLogCommand(await getCurrentFilePath())
-      : createGitLogCommand()
+    options?.currentFile === true ? createGitLogCommand(await getCurrentFilePath()) : createGitLogCommand()
 
   const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [command])) as Array<string>
 

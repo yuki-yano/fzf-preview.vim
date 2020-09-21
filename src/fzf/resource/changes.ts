@@ -10,7 +10,7 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
   const changeList = (await getChanges()).map((change) => {
     const result = /^(?<lineNumber>\d+)\s(?<text>.*)/.exec(change)
 
-    if (result == null || result.groups == null) {
+    if (result?.groups == null) {
       throw new Error(`Changes line is invalid: "${change}"`)
     }
     const { lineNumber, text } = result.groups
