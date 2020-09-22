@@ -22,9 +22,10 @@ export const sessionModule = createSlice({
   reducers: {
     restore: (state, { payload }: PayloadAction<State | undefined>) => {
       if (payload) {
-        return { ...state, ...payload }
+        state = payload
+      } else {
+        state
       }
-      return state
     },
     setSession: (state, { payload }: PayloadAction<{ sessionToken: string; session: Session }>) => {
       state.sessions[payload.sessionToken] = payload.session
