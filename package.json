@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "description": "Dark powered fzf plugin",
   "author": "yuki-yano",
   "license": "MIT",
@@ -46,6 +46,7 @@
     "ansi-escape-sequences": "^5.1.2",
     "camelcase": "^6.0.0",
     "coc.nvim": "^0.0.79",
+    "immer": "^7.0.9",
     "lodash": "^4.17.20",
     "neovim": "^4.9.0",
     "printf": "^0.6.0",
