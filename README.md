@@ -1,11 +1,3 @@
-# **Important:** Migrated to remote plugin and coc extensions (v2) written in Node
-
-Settings are incompatible.
-
-Please refer to the following documentation for more information on the migration
-
-[Migrate v2 guide](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/doc/migrate-v2.md)
-
 # fzf-preview.vim
 
 fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
