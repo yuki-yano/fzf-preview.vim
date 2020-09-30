@@ -70,4 +70,5 @@ export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultO
   "--prompt": '"ResourceFrom> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

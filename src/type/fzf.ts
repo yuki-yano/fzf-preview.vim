@@ -117,6 +117,7 @@ export type FzfCommandDefinitionDefaultOption = {
   "--bind"?: string
   "--query"?: string
   "--with-nth"?: string
+  "--keep-right"?: boolean
 }
 
 export type AddFzfArg = {

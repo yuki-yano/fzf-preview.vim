@@ -100,4 +100,5 @@ export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Buffers> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

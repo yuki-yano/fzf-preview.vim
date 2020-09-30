@@ -70,4 +70,5 @@ export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => 
   "--prompt": '"GitStatus> "',
   "--multi": true,
   "--preview": `'${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}'`,
+  "--keep-right": true,
 })

@@ -29,4 +29,5 @@ export const mruFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => (
   "--prompt": '"MruFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

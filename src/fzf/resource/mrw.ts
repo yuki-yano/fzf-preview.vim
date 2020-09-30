@@ -29,4 +29,5 @@ export const mrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => (
   "--prompt": '"MrwFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

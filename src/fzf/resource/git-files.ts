@@ -27,4 +27,5 @@ export const gitFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => (
   "--prompt": '"GitFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

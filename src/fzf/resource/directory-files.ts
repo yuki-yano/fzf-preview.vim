@@ -27,4 +27,5 @@ export const directoryFilesDefaultOptions = (): FzfCommandDefinitionDefaultOptio
   "--prompt": '"DirectoryFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })
