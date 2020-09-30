@@ -1,6 +1,6 @@
 import { generateOptions } from "@/fzf/option/generator"
 import { openFileProcesses as defaultProcesses } from "@/fzf/process/open-file"
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { globalVariableSelector, vimOptionsSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
 import type { FzfOptions, Processes, ResourceData } from "@/type"
 
@@ -245,6 +245,24 @@ describe("generateOptions", () => {
         userOptions: [],
       })
     ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": '"foo"' })
+  })
+
+  it("--preview-window options when columns less than layout change size", async () => {
+    ;(vimOptionsSelector as jest.Mock).mockImplementation((optionName) => {
+      if (optionName === "columns") {
+        return 1
+      } else {
+        return undefined
+      }
+    })
+
+    expect(
+      await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcesses,
+        userOptions: [],
+      })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": '"down:50%"' })
   })
 
   it("set --color options", async () => {
