@@ -11,3 +11,5 @@ export const FILE_RESOURCES = [
   "mru",
   "mrw",
 ] as const
+
+export const PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE = 150

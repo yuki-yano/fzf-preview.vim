@@ -1,6 +1,7 @@
 import { isObject, mapValues } from "lodash"
 
-import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE } from "@/const/fzf-option"
+import { globalVariableSelector, vimOptionsSelector } from "@/module/selector/vim-variable"
 import { pluginGetVar } from "@/plugin"
 import type { AddFzfArg, CustomProcessesVimVariable, FzfOptions, Processes, ResumeQuery, UserProcesses } from "@/type"
 
@@ -58,9 +59,16 @@ const getExpectFromDefaultProcesses = (defaultProcesses: Processes): FzfOptions 
 
 const getPreviewWindowOption = (): FzfOptions => {
   const previewWindowOptionVimValue = globalVariableSelector("fzfPreviewFzfPreviewWindowOption")
-  return previewWindowOptionVimValue == null || previewWindowOptionVimValue === ""
-    ? {}
-    : { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
+  if (previewWindowOptionVimValue != null && previewWindowOptionVimValue !== "") {
+    return { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
+  }
+
+  const columns = vimOptionsSelector("columns")
+  if (columns < PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
+    return { "--preview-window": '"down:50%"' }
+  } else {
+    return {}
+  }
 }
 
 const getPreviewKeyBindings = (): FzfOptions => {

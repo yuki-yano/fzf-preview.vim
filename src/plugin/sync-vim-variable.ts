@@ -2,7 +2,7 @@ import { VimValue } from "neovim/lib/types/VimValue"
 
 import { vimVariableAssociation } from "@/association/vim-variable"
 import { vimVariableModule } from "@/module/vim-variable"
-import { pluginGetVar } from "@/plugin"
+import { pluginCall, pluginGetVar } from "@/plugin"
 import { dispatch } from "@/store"
 import type { VimVariableName } from "@/type"
 import { objectKeys } from "@/util/object"
@@ -36,4 +36,9 @@ export const syncVimVariable = async (): Promise<void> => {
       )
     })
   )
+}
+
+export const syncVimOptions = async (): Promise<void> => {
+  const columns = (await pluginCall("fzf_preview#remote#util#get_columns")) as number
+  dispatch(vimVariableModule.actions.setOption({ name: "columns", value: columns }))
 }
