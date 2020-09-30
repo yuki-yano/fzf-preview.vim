@@ -38,4 +38,5 @@ export const allBuffersDefaultOptions = (): FzfCommandDefinitionDefaultOption =>
   "--prompt": '"AllBuffers> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

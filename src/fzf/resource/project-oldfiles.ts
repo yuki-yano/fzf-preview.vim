@@ -30,4 +30,5 @@ export const projectOldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOpti
   "--prompt": '"ProjectOldFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

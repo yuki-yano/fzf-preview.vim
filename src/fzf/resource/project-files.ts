@@ -27,4 +27,5 @@ export const projectFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption 
   "--prompt": '"ProjectFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

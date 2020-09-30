@@ -28,4 +28,5 @@ export const oldFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => (
   "--prompt": '"OldFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

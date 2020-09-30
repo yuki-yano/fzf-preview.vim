@@ -33,4 +33,5 @@ export const projectMrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOpti
   "--prompt": '"ProjectMrwFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

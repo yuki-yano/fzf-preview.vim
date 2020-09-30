@@ -10,7 +10,7 @@ import { loadCache, saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
-import { syncVimVariable } from "@/plugin/sync-vim-variable"
+import { syncVimOptions, syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
 import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommand, ResourceLines } from "@/type"
@@ -53,6 +53,7 @@ export const executeCommand = async (
   await dispatch(loadCache())
 
   await syncVimVariable()
+  await syncVimOptions()
 
   if (beforeCommandHook != null) {
     beforeCommandHook(args)

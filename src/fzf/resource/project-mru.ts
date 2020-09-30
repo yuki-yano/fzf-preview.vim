@@ -33,4 +33,5 @@ export const projectMruFilesDefaultOptions = (): FzfCommandDefinitionDefaultOpti
   "--prompt": '"ProjectMruFiles> "',
   "--multi": true,
   "--preview": filePreviewCommand(),
+  "--keep-right": true,
 })

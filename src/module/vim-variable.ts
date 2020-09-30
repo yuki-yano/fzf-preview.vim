@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { mapKeys, mapValues } from "lodash"
 import { VimValue } from "neovim/lib/types/VimValue"
 
+import { vimOptions } from "@/association/vim-variable"
 import { VIM_VARIABLE } from "@/const/module"
 import type { GlobalVariableName } from "@/type"
 
@@ -9,10 +10,18 @@ type State = {
   global: {
     [key in GlobalVariableName]: VimValue
   }
+  options: {
+    [key in typeof vimOptions[number]]: VimValue
+  }
 }
 
 type GlobalVariable = {
   name: keyof State["global"]
+  value: VimValue
+}
+
+type VimOption = {
+  name: keyof State["options"]
   value: VimValue
 }
 
@@ -47,6 +56,9 @@ const initialState: State = {
     yankroundDir: "",
     fzfPreviewYankroundPreviewCommand: "",
     fzfPreviewBlamePrCommand: "",
+  },
+  options: {
+    columns: 0,
   },
 }
 
@@ -87,6 +99,10 @@ export const vimVariableModule = createSlice({
           state.global[name] = value
         }
       }
+    },
+    setOption: (state, { payload }: PayloadAction<VimOption>) => {
+      const { name, value } = payload
+      state.options[name] = value
     },
   },
 })

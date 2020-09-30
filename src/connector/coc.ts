@@ -15,7 +15,7 @@ const diagnosticItemToData = async (
 
   const currentPath = await getCurrentPath()
   const file = filePathToRelativeFilePath(item.file, currentPath)
-  if (file ?? option?.currentFile !== file) {
+  if (file == null || option?.currentFile !== file) {
     return null
   }
 

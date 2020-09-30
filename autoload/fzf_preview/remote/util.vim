@@ -65,6 +65,10 @@ function! fzf_preview#remote#util#bufnr_and_lnum_to_resource(bufnr_and_lnum_list
   return result
 endfunction
 
+function! fzf_preview#remote#util#get_columns() abort
+  return &columns
+endfunction
+
 function! fzf_preview#remote#util#uniq(list) abort
   let result = []
   for item in a:list
