@@ -21491,9 +21491,10 @@ module.exports = function(module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globalVariableSelector = void 0;
+exports.vimOptionsSelector = exports.globalVariableSelector = void 0;
 const store_1 = __webpack_require__(32);
 exports.globalVariableSelector = (name) => store_1.store.getState().vimVariable.global[name];
+exports.vimOptionsSelector = (name) => store_1.store.getState().vimVariable.options[name];
 
 
 /***/ }),
@@ -24441,6 +24442,9 @@ const initialState = {
         fzfPreviewYankroundPreviewCommand: "",
         fzfPreviewBlamePrCommand: "",
     },
+    options: {
+        columns: 0,
+    },
 };
 exports.vimVariableModule = toolkit_1.createSlice({
     name: module_1.VIM_VARIABLE,
@@ -24469,6 +24473,10 @@ exports.vimVariableModule = toolkit_1.createSlice({
                     state.global[name] = value;
                 }
             }
+        },
+        setOption: (state, { payload }) => {
+            const { name, value } = payload;
+            state.options[name] = value;
         },
     },
 });
@@ -24636,7 +24644,7 @@ exports.parseResources = (args) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FILE_RESOURCES = exports.DEFINED_FZF_OPTION_TYPES_IN_PLUGIN = void 0;
+exports.PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE = exports.FILE_RESOURCES = exports.DEFINED_FZF_OPTION_TYPES_IN_PLUGIN = void 0;
 exports.DEFINED_FZF_OPTION_TYPES_IN_PLUGIN = ["--ansi", "--bind", "--expect"];
 exports.FILE_RESOURCES = [
     "project",
@@ -24650,6 +24658,7 @@ exports.FILE_RESOURCES = [
     "mru",
     "mrw",
 ];
+exports.PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE = 150;
 
 
 /***/ }),
@@ -24742,6 +24751,7 @@ exports.projectFilesDefaultOptions = () => ({
     "--prompt": '"ProjectFiles> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -25511,6 +25521,7 @@ exports.gitFilesDefaultOptions = () => ({
     "--prompt": '"GitFiles> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -25829,6 +25840,7 @@ exports.directoryFilesDefaultOptions = () => ({
     "--prompt": '"DirectoryFiles> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -25944,6 +25956,7 @@ exports.buffersDefaultOptions = () => ({
     "--prompt": '"Buffers> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -26543,6 +26556,7 @@ exports.allBuffersDefaultOptions = () => ({
     "--prompt": '"AllBuffers> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -26581,6 +26595,7 @@ exports.projectOldFilesDefaultOptions = () => ({
     "--prompt": '"ProjectOldFiles> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -26667,6 +26682,7 @@ exports.projectMruFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMruFiles> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -26756,6 +26772,7 @@ exports.projectMrwFilesDefaultOptions = () => ({
     "--prompt": '"ProjectMrwFiles> "',
     "--multi": true,
     "--preview": util_2.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -27040,6 +27057,7 @@ exports.oldFilesDefaultOptions = () => ({
     "--prompt": '"OldFiles> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -27077,6 +27095,7 @@ exports.mruFilesDefaultOptions = () => ({
     "--prompt": '"MruFiles> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -27114,6 +27133,7 @@ exports.mrwFilesDefaultOptions = () => ({
     "--prompt": '"MrwFiles> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -27509,6 +27529,7 @@ exports.filesFromResourcesDefaultOptions = () => ({
     "--prompt": '"ResourceFrom> "',
     "--multi": true,
     "--preview": util_1.filePreviewCommand(),
+    "--keep-right": true,
 });
 
 
@@ -27633,6 +27654,7 @@ exports.gitStatusDefaultOptions = () => ({
     "--prompt": '"GitStatus> "',
     "--multi": true,
     "--preview": `'${vim_variable_1.globalVariableSelector("fzfPreviewGitStatusPreviewCommand")}'`,
+    "--keep-right": true,
 });
 
 
@@ -28614,6 +28636,7 @@ const getEnableDevIcons = (resourceLines, enableDevIconsCommandSetting) => {
 exports.executeCommand = async (args, { commandName, sourceFunc, sourceFuncArgsParser, defaultFzfOptionFunc, defaultProcessesName, enableConvertForFzf, enableDevIcons: enableDevIconsCommandSetting, beforeCommandHook, }) => {
     await store_1.dispatch(persist_1.loadCache());
     await sync_vim_variable_1.syncVimVariable();
+    await sync_vim_variable_1.syncVimOptions();
     if (beforeCommandHook != null) {
         beforeCommandHook(args);
     }
@@ -28760,6 +28783,7 @@ exports.USE_DEV_ICONS_PATTERN_LIMIT = 3000;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateOptions = exports.defaultOptions = void 0;
 const lodash_1 = __webpack_require__(29);
+const fzf_option_1 = __webpack_require__(55);
 const vim_variable_1 = __webpack_require__(31);
 const plugin_1 = __webpack_require__(1);
 const defaultBind = [
@@ -28806,9 +28830,16 @@ const getExpectFromDefaultProcesses = (defaultProcesses) => {
 };
 const getPreviewWindowOption = () => {
     const previewWindowOptionVimValue = vim_variable_1.globalVariableSelector("fzfPreviewFzfPreviewWindowOption");
-    return previewWindowOptionVimValue == null || previewWindowOptionVimValue === ""
-        ? {}
-        : { "--preview-window": `"${previewWindowOptionVimValue}"` };
+    if (previewWindowOptionVimValue != null && previewWindowOptionVimValue !== "") {
+        return { "--preview-window": `"${previewWindowOptionVimValue}"` };
+    }
+    const columns = vim_variable_1.vimOptionsSelector("columns");
+    if (columns < fzf_option_1.PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
+        return { "--preview-window": '"down:50%"' };
+    }
+    else {
+        return {};
+    }
 };
 const getPreviewKeyBindings = () => {
     const previewKeyBindings = vim_variable_1.globalVariableSelector("fzfPreviewPreviewKeyBindings");
@@ -30845,7 +30876,7 @@ exports.setRegister = async (str, options) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncVimVariable = void 0;
+exports.syncVimOptions = exports.syncVimVariable = void 0;
 const vim_variable_1 = __webpack_require__(195);
 const vim_variable_2 = __webpack_require__(47);
 const plugin_1 = __webpack_require__(1);
@@ -30875,6 +30906,10 @@ exports.syncVimVariable = async () => {
         }));
     }));
 };
+exports.syncVimOptions = async () => {
+    const columns = (await plugin_1.pluginCall("fzf_preview#remote#util#get_columns"));
+    store_1.dispatch(vim_variable_2.vimVariableModule.actions.setOption({ name: "columns", value: columns }));
+};
 
 
 /***/ }),
@@ -30884,7 +30919,7 @@ exports.syncVimVariable = async () => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vimVariableAssociation = void 0;
+exports.vimOptions = exports.vimVariableAssociation = void 0;
 exports.vimVariableAssociation = {
     fzfPreviewDefaultFzfOptions: "fzf_preview_default_fzf_options",
     fzfPreviewUseDevIcons: "fzf_preview_use_dev_icons",
@@ -30916,6 +30951,7 @@ exports.vimVariableAssociation = {
     fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",
     fzfPreviewBlamePrCommand: "fzf_preview_blame_pr_command",
 };
+exports.vimOptions = ["columns"];
 
 
 /***/ }),
@@ -119456,7 +119492,7 @@ const diagnosticItemToData = async (item, option) => {
     }
     const currentPath = await file_1.getCurrentPath();
     const file = project_1.filePathToRelativeFilePath(item.file, currentPath);
-    if (file !== null && file !== void 0 ? file : (option === null || option === void 0 ? void 0 : option.currentFile) !== file) {
+    if (file == null || (option === null || option === void 0 ? void 0 : option.currentFile) !== file) {
         return null;
     }
     return {
