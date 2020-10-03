@@ -1,7 +1,7 @@
 import { createProcessFunctionName } from "@/fzf/util"
-import type { CreateProcess, ResourceData } from "@/type"
+import type { CreateProcessCreator, ResourceData } from "@/type"
 
-export const createProcess: CreateProcess = (processesName) => (expectKey, lineConsumer) => ({
+export const createProcessCreator: CreateProcessCreator = (processesName) => (expectKey, lineConsumer) => ({
   name: createProcessFunctionName(processesName, expectKey),
   key: expectKey,
   execute: async (dataList: Array<ResourceData>) => {

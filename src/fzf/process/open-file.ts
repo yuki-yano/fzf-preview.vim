@@ -6,10 +6,10 @@ import {
   tabeditConsumer,
   vsplitConsumer,
 } from "@/fzf/process/consumer/open-file"
-import { createProcess } from "@/fzf/process/process"
+import { createProcessCreator } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
-const createOpenFileProcess = createProcess("open-file")
+const createOpenFileProcess = createProcessCreator("open-file")
 
 export const openFileProcesses: Processes = [
   createOpenFileProcess("enter", editConsumer),
