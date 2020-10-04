@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "Dark powered fzf plugin",
   "author": "yuki-yano",
   "license": "MIT",
