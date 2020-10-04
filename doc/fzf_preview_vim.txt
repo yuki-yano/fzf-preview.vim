@@ -321,6 +321,11 @@ COMMANDS                                        *fzf-preview-commands*
      Select and open the current file diagnostics from coc.nvim.
      Only coc extensions.
 
+                                                *:FzfPreviewCocTypeDefinitions*
+:CocCommand fzf-preview.CocTypeDefinitions
+     Select and open the type definitions from coc.nvim.
+     Only coc extensions.
+
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
 

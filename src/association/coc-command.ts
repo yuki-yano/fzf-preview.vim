@@ -8,6 +8,7 @@ import {
   cocReferences,
   cocReferencesDefaultOptions,
 } from "@/fzf/resource/coc"
+import { cocTypeDefinitions, cocTypeDefinitionsDefaultOptions } from "@/fzf/resource/coc/coc-type-definitions"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -38,6 +39,16 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocCurrentDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewCocTypeDefinitions",
+    sourceFunc: cocTypeDefinitions,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocTypeDefinitionsDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,

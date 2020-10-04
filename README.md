@@ -219,6 +219,8 @@ and
 :CocCommand fzf-preview.CocDiagnostics        " Select diagnostics from coc.nvim (only coc extensions)
 
 :CocCommand fzf-preview.CocCurrentDiagnostics " Select current file diagnostics from coc.nvim (only coc extensions)
+
+:CocCommand fzf-preview.CocTypeDefinitions    " Select type definitions from coc.nvim (only coc extensions)
 ```
 
 ### Recommended mappings
@@ -463,6 +465,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/10/4 version 0.4.17
+  - Implement CocTypeDefinitions resource.
 
 - 2020/07/30 version 0.4.7
   - Implement git reflog integration.

@@ -55,7 +55,11 @@ type RemoteFzfCommandName =
   | "FzfPreviewVistaBufferCtags"
   | "FzfPreviewBlamePR"
 
-type CocFzfCommandName = "FzfPreviewCocReferences" | "FzfPreviewCocDiagnostics" | "FzfPreviewCocCurrentDiagnostics"
+type CocFzfCommandName =
+  | "FzfPreviewCocReferences"
+  | "FzfPreviewCocDiagnostics"
+  | "FzfPreviewCocCurrentDiagnostics"
+  | "FzfPreviewCocTypeDefinitions"
 
 export type FzfCommandName = RemoteFzfCommandName | CocFzfCommandName
 
