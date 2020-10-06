@@ -71,13 +71,13 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
         const absoluteFilePath = dropFileProtocol(location.uri)
         const relativeFilePath = filePathToRelativeFilePath(absoluteFilePath, currentPath)
         if (relativeFilePath == null) {
-          return ""
+          return null
         }
         const text = await getLineFromFile(absoluteFilePath, lineNumber)
         return { file: relativeFilePath, lineNumber, text }
       })
     )
-  ).filter((location): location is Location => location !== "")
+  ).filter((location): location is Location => location != null)
 }
 
 export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
