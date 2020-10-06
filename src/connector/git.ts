@@ -6,8 +6,11 @@ import {
   gitStashDecorateCommand,
   gitStashNameCommand,
 } from "@/fzf/util"
+import { loadGitConfig } from "@/module/persist"
+import { gitConfigSelector } from "@/module/selector/git-config"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
+import { dispatch } from "@/store"
 import { getCurrentFilePath } from "@/system/file"
 import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
 
@@ -128,12 +131,17 @@ type CommitOption =
   | { name: "--fixup"; hash: string }
 
 export const gitCommit = async (option?: CommitOption): Promise<void> => {
+  await dispatch(loadGitConfig())
+  const noVerify = gitConfigSelector("noVerify")
+
+  const addNoVerifyOption = (optionString: string) => (noVerify ? `${optionString} --no-verify` : optionString)
+
   if (option == null) {
-    await pluginCall("fzf_preview#remote#consumer#git#commit", [""])
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption("")])
   } else if (option.name === "--amend" || option.name === "--amend --no-edit") {
-    await pluginCall("fzf_preview#remote#consumer#git#commit", [option.name])
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(option.name)])
   } else if (option.name === "--squash" || option.name === "--fixup") {
-    await pluginCall("fzf_preview#remote#consumer#git#commit", [`${option.name} ${option.hash}`])
+    await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(`${option.name} ${option.hash}`)])
   }
 }
 
