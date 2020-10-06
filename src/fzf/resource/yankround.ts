@@ -29,7 +29,6 @@ const previewCommand = () => {
 
 export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Yankround> "',
-  "--multi": false,
   "--preview": previewCommand(),
   "--no-sort": true,
   "--with-nth": "4..",

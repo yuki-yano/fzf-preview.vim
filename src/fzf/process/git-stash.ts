@@ -1,9 +1,9 @@
 import { chainGitActionsConsumer, chainGitStatusConsumer } from "@/fzf/process/consumer/git"
 import { chainGitStashActionsConsumer, gitStashDefaultConsumer } from "@/fzf/process/consumer/git-stash"
-import { createProcess } from "@/fzf/process/process"
+import { createProcessCreator } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
-const createGitStashProcess = createProcess("git-stash")
+const createGitStashProcess = createProcessCreator("git-stash")
 
 export const gitStashProcesses: Processes = [
   createGitStashProcess("enter", gitStashDefaultConsumer),

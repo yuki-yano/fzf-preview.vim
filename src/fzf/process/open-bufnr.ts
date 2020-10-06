@@ -5,10 +5,10 @@ import {
   tabeditBufnrConsumer,
   vsplitBufnrConsumer,
 } from "@/fzf/process/consumer/open-bufnr"
-import { createProcess } from "@/fzf/process/process"
+import { createProcessCreator } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
-const createOpenBufnrProcess = createProcess("open-bufnr")
+const createOpenBufnrProcess = createProcessCreator("open-bufnr")
 
 export const openBufnrProcesses: Processes = [
   createOpenBufnrProcess("enter", editBufnrConsumer),

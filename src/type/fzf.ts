@@ -55,7 +55,11 @@ type RemoteFzfCommandName =
   | "FzfPreviewVistaBufferCtags"
   | "FzfPreviewBlamePR"
 
-type CocFzfCommandName = "FzfPreviewCocReferences" | "FzfPreviewCocDiagnostics" | "FzfPreviewCocCurrentDiagnostics"
+type CocFzfCommandName =
+  | "FzfPreviewCocReferences"
+  | "FzfPreviewCocDiagnostics"
+  | "FzfPreviewCocCurrentDiagnostics"
+  | "FzfPreviewCocTypeDefinitions"
 
 export type FzfCommandName = RemoteFzfCommandName | CocFzfCommandName
 
@@ -108,16 +112,16 @@ export type FzfOptions = {
 export type FzfCommandDefinitionDefaultOption = {
   "--header"?: string
   "--prompt": string
-  "--multi"?: boolean
+  "--multi"?: true
   "--preview"?: string
   "--preview-window"?: string
-  "--no-sort"?: boolean
+  "--no-sort"?: true
   "--delimiter"?: string
-  "--phony"?: boolean
+  "--phony"?: true
   "--bind"?: string
   "--query"?: string
   "--with-nth"?: string
-  "--keep-right"?: boolean
+  "--keep-right"?: true
 }
 
 export type AddFzfArg = {

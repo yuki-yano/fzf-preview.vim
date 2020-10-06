@@ -12,10 +12,10 @@ import {
   tabeditConsumer,
   vsplitConsumer,
 } from "@/fzf/process/consumer/open-file"
-import { createProcess } from "@/fzf/process/process"
+import { createProcessCreator } from "@/fzf/process/process"
 import type { Processes } from "@/type"
 
-const createGitStatusProcess = createProcess("git-status")
+const createGitStatusProcess = createProcessCreator("git-status")
 
 export const gitStatusProcesses: Processes = [
   createGitStatusProcess("enter", editConsumer),

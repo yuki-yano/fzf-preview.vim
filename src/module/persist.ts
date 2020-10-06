@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 import {
   PERSIST_LOAD_CACHE,
+  PERSIST_LOAD_GIT_CONFIG,
   PERSIST_LOAD_RESUME,
   PERSIST_LOAD_SESSION,
   PERSIST_LOAD_STORE,
@@ -9,12 +10,13 @@ import {
 } from "@/const/module"
 import { cacheModule } from "@/module/cache"
 import { executeCommandModule } from "@/module/execute-command"
+import { gitConfigModule } from "@/module/git-config"
 import { resumeModule } from "@/module/resume"
 import { sessionModule } from "@/module/session"
 import { pluginCall } from "@/plugin"
-import type { AppDispatch, RootState } from "@/store"
+import type { AppDispatch, RootState, store } from "@/store"
 
-type Modules = ["vimVariable", "executeCommand", "cache", "resume", "session"]
+type Module = keyof ReturnType<typeof store.getState>
 
 export const loadExecuteCommandStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,
@@ -56,9 +58,19 @@ export const loadSession = createAsyncThunk<void, undefined, { dispatch: AppDisp
   }
 )
 
+export const loadGitConfig = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
+  PERSIST_LOAD_GIT_CONFIG,
+  async (_: undefined, { dispatch }) => {
+    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
+      RootState
+    >
+    dispatch(gitConfigModule.actions.restore(restoredStore.gitConfig))
+  }
+)
+
 export const saveStore = createAsyncThunk<
   void,
-  { modules: Array<Modules[number]> },
+  { modules: Array<Module> },
   { dispatch: AppDispatch; state: RootState }
 >(PERSIST_SAVE_STORE, async ({ modules }, { getState }) => {
   await Promise.all(
