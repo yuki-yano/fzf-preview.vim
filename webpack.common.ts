@@ -31,12 +31,6 @@ export default {
   stats: {
     warningsFilter: [/yargs/],
   },
-  // TODO: yargs v16 bug workaround
-  // https://github.com/yargs/yargs/issues/1754
-  externals: {
-    y18n: "commonjs2 y18n",
-    "yargs-parser": "commonjs2 yargs-parser",
-  },
   node: {
     __dirname: false,
     __filename: false,
