@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.4.18",
+  "version": "0.4.19",
   "description": "Dark powered fzf plugin",
   "author": "yuki-yano",
   "license": "MIT",
@@ -55,7 +55,7 @@
     "type-fest": "^0.17.0",
     "uuid": "^8.3.0",
     "vscode-languageserver-types": "^3.15.1",
-    "yargs": "^16.0.3"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
     "@types/ansi-escape-sequences": "^4.0.0",
