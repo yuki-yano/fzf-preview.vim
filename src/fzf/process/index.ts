@@ -1,3 +1,4 @@
+import { commandPaletteProcesses } from "@/fzf/process/command-palette"
 import { decodeLine } from "@/fzf/process/consumer"
 import { gitActionProcesses } from "@/fzf/process/git-action"
 import { gitBranchProcesses } from "@/fzf/process/git-branch"
@@ -15,7 +16,6 @@ import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
 import { openFileProcesses } from "@/fzf/process/open-file"
 import { openPrProcesses } from "@/fzf/process/open-pr"
 import { registerProcesses } from "@/fzf/process/register"
-import { vimCommandProcesses } from "@/fzf/process/vim-command"
 import { loadExecuteCommandStore } from "@/module/persist"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
@@ -35,8 +35,8 @@ export const processesDefinition: ProcessesDefinition = [
     processes: openBufnrProcesses,
   },
   {
-    name: "vim-command",
-    processes: vimCommandProcesses,
+    name: "command-palette",
+    processes: commandPaletteProcesses,
   },
   {
     name: "git-action",

@@ -2,7 +2,7 @@ export const PROCESSES_NAME = [
   "open-file",
   "open-buffer",
   "open-bufnr",
-  "vim-command",
+  "command-palette",
   "git-action",
   "git-status",
   "git-status-actions",

@@ -193,8 +193,8 @@ and
 :FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
 :CocCommand fzf-preview.FromResources
 
-:FzfPreviewVimCommand                         " Execute and edit command history
-:CocCommand fzf-preview.VimCommand
+:FzfPreviewCommandPalette                         " Execute and edit command history
+:CocCommand fzf-preview.CommandPalette
 
 :FzfPreviewGitActions                         " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
 :CocCommand fzf-preview.GitActions
@@ -470,7 +470,7 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <summary>Changes history</summary>
 
 - 2020/10/4 version 0.4.20
-  - Implement VimCommand resource.
+  - Implement CommandPalette resource.
 
 - 2020/10/4 version 0.4.17
   - Implement CocTypeDefinitions resource.
