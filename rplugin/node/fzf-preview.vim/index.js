@@ -241,7 +241,7 @@ exports.commandDefinition = exports.vimCommandOptions = void 0;
 const args_1 = __webpack_require__(4);
 const files_from_resources_parser_1 = __webpack_require__(94);
 const resource_1 = __webpack_require__(96);
-const vim_command_1 = __webpack_require__(169);
+const command_pallete_1 = __webpack_require__(169);
 exports.vimCommandOptions = {
     nargs: "?",
     sync: true,
@@ -468,12 +468,12 @@ exports.commandDefinition = [
         enableDevIcons: true,
     },
     {
-        commandName: "FzfPreviewVimCommand",
-        sourceFunc: vim_command_1.vimCommands,
+        commandName: "FzfPreviewCommandPalette",
+        sourceFunc: command_pallete_1.commandPalette,
         sourceFuncArgsParser: args_1.parseEmptySourceFuncArgs,
         vimCommandOptions: exports.vimCommandOptions,
-        defaultFzfOptionFunc: vim_command_1.vimCommandsDefaultOptions,
-        defaultProcessesName: "vim-command",
+        defaultFzfOptionFunc: command_pallete_1.commandPaletteDefaultOptions,
+        defaultProcessesName: "command-palette",
         enableConvertForFzf: false,
         enableDevIcons: false,
     },
@@ -32581,19 +32581,19 @@ exports.blamePrDefaultOptions = () => ({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vimCommandsDefaultOptions = exports.vimCommands = void 0;
+exports.commandPaletteDefaultOptions = exports.commandPalette = void 0;
 const lodash_1 = __webpack_require__(69);
 const vim_command_1 = __webpack_require__(170);
 const colorize_1 = __webpack_require__(103);
-exports.vimCommands = async (_args) => {
+exports.commandPalette = async (_args) => {
     const commands = await vim_command_1.getVimCommands();
     const history = await vim_command_1.getVimCommandHistory();
     return {
         type: "json",
         lines: lodash_1.uniqWith(history.concat(commands), (a, b) => a.name === b.name).map((command) => ({
             data: {
-                command: "FzfPreviewVimCommand",
-                type: "vim-command",
+                command: "FzfPreviewCommandPalette",
+                type: "command-palette",
                 name: command.name,
             },
             displayText: command.number == null
@@ -32602,8 +32602,8 @@ exports.vimCommands = async (_args) => {
         })),
     };
 };
-exports.vimCommandsDefaultOptions = () => ({
-    "--prompt": '"VimCommand> "',
+exports.commandPaletteDefaultOptions = () => ({
+    "--prompt": '"CommandPalette> "',
     "--header": '"C-e: Edit"',
 });
 
@@ -32991,24 +32991,24 @@ exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, def
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeProcess = exports.processesDefinition = void 0;
-const consumer_1 = __webpack_require__(180);
-const git_action_1 = __webpack_require__(198);
-const git_branch_1 = __webpack_require__(202);
-const git_branch_action_1 = __webpack_require__(205);
-const git_log_1 = __webpack_require__(207);
-const git_log_action_1 = __webpack_require__(209);
-const git_reflog_1 = __webpack_require__(211);
-const git_reflog_action_1 = __webpack_require__(213);
-const git_stash_1 = __webpack_require__(215);
-const git_stash_action_1 = __webpack_require__(217);
-const git_status_1 = __webpack_require__(219);
-const git_status_action_1 = __webpack_require__(224);
-const open_buffer_1 = __webpack_require__(226);
-const open_bufnr_1 = __webpack_require__(228);
-const open_file_1 = __webpack_require__(231);
-const open_pr_1 = __webpack_require__(232);
-const register_1 = __webpack_require__(234);
-const vim_command_1 = __webpack_require__(237);
+const command_palette_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
+const git_action_1 = __webpack_require__(202);
+const git_branch_1 = __webpack_require__(204);
+const git_branch_action_1 = __webpack_require__(207);
+const git_log_1 = __webpack_require__(209);
+const git_log_action_1 = __webpack_require__(211);
+const git_reflog_1 = __webpack_require__(213);
+const git_reflog_action_1 = __webpack_require__(215);
+const git_stash_1 = __webpack_require__(217);
+const git_stash_action_1 = __webpack_require__(219);
+const git_status_1 = __webpack_require__(221);
+const git_status_action_1 = __webpack_require__(226);
+const open_buffer_1 = __webpack_require__(228);
+const open_bufnr_1 = __webpack_require__(230);
+const open_file_1 = __webpack_require__(233);
+const open_pr_1 = __webpack_require__(234);
+const register_1 = __webpack_require__(236);
 const persist_1 = __webpack_require__(92);
 const sync_vim_variable_1 = __webpack_require__(239);
 const store_1 = __webpack_require__(71);
@@ -33026,8 +33026,8 @@ exports.processesDefinition = [
         processes: open_bufnr_1.openBufnrProcesses,
     },
     {
-        name: "vim-command",
-        processes: vim_command_1.vimCommandProcesses,
+        name: "command-palette",
+        processes: command_palette_1.commandPaletteProcesses,
     },
     {
         name: "git-action",
@@ -33096,9 +33096,50 @@ exports.executeProcess = async (lines, process) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.commandPaletteProcesses = void 0;
+const command_palette_1 = __webpack_require__(181);
+const process_1 = __webpack_require__(200);
+const createCommandPaletteProcess = process_1.createProcessCreator("command-palette");
+exports.commandPaletteProcesses = [
+    createCommandPaletteProcess("enter", command_palette_1.execCommandPaletteConsumer),
+    createCommandPaletteProcess("ctrl-e", command_palette_1.editCommandPaletteConsumer),
+];
+
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.editCommandPaletteConsumer = exports.execCommandPaletteConsumer = void 0;
+const vim_command_1 = __webpack_require__(170);
+const consumer_1 = __webpack_require__(182);
+exports.execCommandPaletteConsumer = consumer_1.createSingleLineConsumer(async (data) => {
+    if (data.type !== "command-palette") {
+        throw new Error(`Unexpected data type: ${data.type}`);
+    }
+    await vim_command_1.execVimCommand(data.name);
+});
+exports.editCommandPaletteConsumer = consumer_1.createSingleLineConsumer(async (data) => {
+    if (data.type !== "command-palette") {
+        throw new Error(`Unexpected data type: ${data.type}`);
+    }
+    await vim_command_1.editVimCommand(data.name);
+});
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.chainFzfCommand = exports.createBulkLineConsumer = exports.createSingleLineConsumer = exports.decodeLine = void 0;
-const uuid_1 = __webpack_require__(181);
-const fzf_1 = __webpack_require__(197);
+const uuid_1 = __webpack_require__(183);
+const fzf_1 = __webpack_require__(199);
 const persist_1 = __webpack_require__(92);
 const session_1 = __webpack_require__(85);
 const store_1 = __webpack_require__(71);
@@ -33127,36 +33168,36 @@ exports.chainFzfCommand = async (fzfCommandName, session) => {
 
 
 /***/ }),
-/* 181 */
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(182);
+/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v1", function() { return _v1_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(188);
+/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(190);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v3", function() { return _v3_js__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(192);
+/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(194);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v4", function() { return _v4_js__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
-/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(193);
+/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(195);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v5", function() { return _v5_js__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _nil_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(195);
+/* harmony import */ var _nil_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(197);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NIL", function() { return _nil_js__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(196);
+/* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(198);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "version", function() { return _version_js__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(186);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(188);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "validate", function() { return _validate_js__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(185);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(187);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stringify", function() { return _stringify_js__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(190);
+/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(192);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _parse_js__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
 
@@ -33170,13 +33211,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 182 */
+/* 184 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(183);
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(185);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(185);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(187);
 
  // **`v1()` - Generate time-based UUID**
 //
@@ -33274,13 +33315,13 @@ function v1(options, buf, offset) {
 /* harmony default export */ __webpack_exports__["default"] = (v1);
 
 /***/ }),
-/* 183 */
+/* 185 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rng; });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 const rnds8 = new Uint8Array(16);
@@ -33289,18 +33330,18 @@ function rng() {
 }
 
 /***/ }),
-/* 184 */
+/* 186 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 185 */
+/* 187 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(188);
 
 /**
  * Convert array of 16 byte values to UUID string format of the form:
@@ -33332,12 +33373,12 @@ function stringify(arr, offset = 0) {
 /* harmony default export */ __webpack_exports__["default"] = (stringify);
 
 /***/ }),
-/* 186 */
+/* 188 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(187);
+/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(189);
 
 
 function validate(uuid) {
@@ -33347,7 +33388,7 @@ function validate(uuid) {
 /* harmony default export */ __webpack_exports__["default"] = (validate);
 
 /***/ }),
-/* 187 */
+/* 189 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33355,28 +33396,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
 
 /***/ }),
-/* 188 */
+/* 190 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(189);
-/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(191);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(191);
+/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(193);
 
 
 const v3 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v3', 0x30, _md5_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (v3);
 
 /***/ }),
-/* 189 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DNS", function() { return DNS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(185);
-/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(190);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(187);
+/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(192);
 
 
 
@@ -33443,12 +33484,12 @@ const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 });
 
 /***/ }),
-/* 190 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(188);
 
 
 function parse(uuid) {
@@ -33486,12 +33527,12 @@ function parse(uuid) {
 /* harmony default export */ __webpack_exports__["default"] = (parse);
 
 /***/ }),
-/* 191 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -33508,13 +33549,13 @@ function md5(bytes) {
 /* harmony default export */ __webpack_exports__["default"] = (md5);
 
 /***/ }),
-/* 192 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(183);
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(185);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(185);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(187);
 
 
 
@@ -33541,25 +33582,25 @@ function v4(options, buf, offset) {
 /* harmony default export */ __webpack_exports__["default"] = (v4);
 
 /***/ }),
-/* 193 */
+/* 195 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(189);
-/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(194);
+/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(191);
+/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(196);
 
 
 const v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sha1_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (v5);
 
 /***/ }),
-/* 194 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -33576,7 +33617,7 @@ function sha1(bytes) {
 /* harmony default export */ __webpack_exports__["default"] = (sha1);
 
 /***/ }),
-/* 195 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33584,12 +33625,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ('00000000-0000-0000-0000-000000000000');
 
 /***/ }),
-/* 196 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(188);
 
 
 function version(uuid) {
@@ -33603,7 +33644,7 @@ function version(uuid) {
 /* harmony default export */ __webpack_exports__["default"] = (version);
 
 /***/ }),
-/* 197 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33627,21 +33668,62 @@ exports.execFzfCommand = async (command, options) => {
 
 
 /***/ }),
-/* 198 */
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createProcessCreator = void 0;
+const util_1 = __webpack_require__(105);
+const type_1 = __webpack_require__(201);
+exports.createProcessCreator = (processesName) => (expectKey, lineConsumer) => ({
+    name: util_1.createProcessFunctionName(processesName, expectKey),
+    key: expectKey,
+    execute: async (dataList) => {
+        if (lineConsumer.kind === "single") {
+            for (const data of dataList) {
+                // eslint-disable-next-line no-await-in-loop
+                await lineConsumer.consume(data);
+            }
+        }
+        else if (lineConsumer.kind === "bulk") {
+            await lineConsumer.consume(dataList);
+        }
+        else {
+            type_1.unreachable(lineConsumer);
+        }
+    },
+});
+
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.unreachable = void 0;
+exports.unreachable = (_) => _;
+
+
+/***/ }),
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitActionProcesses = void 0;
-const git_action_1 = __webpack_require__(199);
-const process_1 = __webpack_require__(201);
+const git_action_1 = __webpack_require__(203);
+const process_1 = __webpack_require__(200);
 const createGitActionProcess = process_1.createProcessCreator("git-action");
 exports.gitActionProcesses = [createGitActionProcess("enter", git_action_1.execGitActionConsumer)];
 
 
 /***/ }),
-/* 199 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33649,11 +33731,11 @@ exports.gitActionProcesses = [createGitActionProcess("enter", git_action_1.execG
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 const git_config_1 = __webpack_require__(83);
 const persist_1 = __webpack_require__(92);
 const store_1 = __webpack_require__(71);
-const type_1 = __webpack_require__(200);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-actions") {
@@ -33730,57 +33812,16 @@ exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data)
 
 
 /***/ }),
-/* 200 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.unreachable = void 0;
-exports.unreachable = (_) => _;
-
-
-/***/ }),
-/* 201 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProcessCreator = void 0;
-const util_1 = __webpack_require__(105);
-const type_1 = __webpack_require__(200);
-exports.createProcessCreator = (processesName) => (expectKey, lineConsumer) => ({
-    name: util_1.createProcessFunctionName(processesName, expectKey),
-    key: expectKey,
-    execute: async (dataList) => {
-        if (lineConsumer.kind === "single") {
-            for (const data of dataList) {
-                // eslint-disable-next-line no-await-in-loop
-                await lineConsumer.consume(data);
-            }
-        }
-        else if (lineConsumer.kind === "bulk") {
-            await lineConsumer.consume(dataList);
-        }
-        else {
-            type_1.unreachable(lineConsumer);
-        }
-    },
-});
-
-
-/***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitBranchProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_branch_1 = __webpack_require__(204);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_branch_1 = __webpack_require__(206);
+const process_1 = __webpack_require__(200);
 const createGitBranchProcess = process_1.createProcessCreator("git-branch");
 exports.gitBranchProcesses = [
     createGitBranchProcess("enter", git_1.gitCheckoutConsumer),
@@ -33791,7 +33832,7 @@ exports.gitBranchProcesses = [
 
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33800,7 +33841,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitCheckoutConsumer = exports.chainGitLogsConsumer = exports.chainGitReflogsConsumer = exports.chainGitStashesConsumer = exports.chainGitBranchesConsumer = exports.chainGitStatusConsumer = exports.chainGitActionsConsumer = void 0;
 const git_1 = __webpack_require__(108);
 const util_1 = __webpack_require__(99);
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.chainGitActionsConsumer = consumer_1.createBulkLineConsumer(async (_) => {
     await consumer_1.chainFzfCommand("FzfPreviewGitActions");
 });
@@ -33854,14 +33895,14 @@ exports.gitCheckoutConsumer = consumer_1.createBulkLineConsumer(async (dataList)
 
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chainGitBranchActionsConsumer = void 0;
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.chainGitBranchActionsConsumer = consumer_1.createBulkLineConsumer(async (dataList) => {
     const gitBranchData = dataList.filter((data) => data.type === "git-branch");
     await consumer_1.chainFzfCommand("FzfPreviewGitBranchActions", { gitBranches: gitBranchData });
@@ -33869,16 +33910,16 @@ exports.chainGitBranchActionsConsumer = consumer_1.createBulkLineConsumer(async 
 
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitBranchActionProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_branch_action_1 = __webpack_require__(206);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_branch_action_1 = __webpack_require__(208);
+const process_1 = __webpack_require__(200);
 const createGitBranchActionProcess = process_1.createProcessCreator("git-branch-actions");
 exports.gitBranchActionProcesses = [
     createGitBranchActionProcess("enter", git_branch_action_1.execGitBranchActionConsumer),
@@ -33887,7 +33928,7 @@ exports.gitBranchActionProcesses = [
 
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33895,8 +33936,8 @@ exports.gitBranchActionProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitBranchActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
-const type_1 = __webpack_require__(200);
+const consumer_1 = __webpack_require__(182);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-branch-actions") {
@@ -34021,16 +34062,16 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
 
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitLogProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_log_1 = __webpack_require__(208);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_log_1 = __webpack_require__(210);
+const process_1 = __webpack_require__(200);
 const createGitLogProcess = process_1.createProcessCreator("git-log");
 exports.gitLogProcesses = [
     createGitLogProcess("enter", git_log_1.gitShowConsumer),
@@ -34041,7 +34082,7 @@ exports.gitLogProcesses = [
 
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34050,7 +34091,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.chainGitLogActionsConsumer = exports.gitShowConsumer = void 0;
 const git_1 = __webpack_require__(108);
 const util_1 = __webpack_require__(99);
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.gitShowConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-log" && data.type !== "git-reflog") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -34065,16 +34106,16 @@ exports.chainGitLogActionsConsumer = consumer_1.createBulkLineConsumer(async (da
 
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitLogActionProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_log_action_1 = __webpack_require__(210);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_log_action_1 = __webpack_require__(212);
+const process_1 = __webpack_require__(200);
 const createGitLogActionProcess = process_1.createProcessCreator("git-log-actions");
 exports.gitLogActionProcesses = [
     createGitLogActionProcess("enter", git_log_action_1.execGitLogActionConsumer),
@@ -34083,7 +34124,7 @@ exports.gitLogActionProcesses = [
 
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34091,8 +34132,8 @@ exports.gitLogActionProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitLogActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
-const type_1 = __webpack_require__(200);
+const consumer_1 = __webpack_require__(182);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-log-actions") {
@@ -34191,17 +34232,17 @@ exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (da
 
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitReflogProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_log_1 = __webpack_require__(208);
-const git_reflog_1 = __webpack_require__(212);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_log_1 = __webpack_require__(210);
+const git_reflog_1 = __webpack_require__(214);
+const process_1 = __webpack_require__(200);
 const createGitReflogProcess = process_1.createProcessCreator("git-reflog");
 exports.gitReflogProcesses = [
     createGitReflogProcess("enter", git_log_1.gitShowConsumer),
@@ -34212,14 +34253,14 @@ exports.gitReflogProcesses = [
 
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chainGitReflogActionsConsumer = void 0;
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.chainGitReflogActionsConsumer = consumer_1.createBulkLineConsumer(async (dataList) => {
     const gitReflogData = dataList.filter((data) => data.type === "git-reflog");
     await consumer_1.chainFzfCommand("FzfPreviewGitReflogActions", { gitReflogs: gitReflogData });
@@ -34227,16 +34268,16 @@ exports.chainGitReflogActionsConsumer = consumer_1.createBulkLineConsumer(async 
 
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitReflogActionProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_reflog_action_1 = __webpack_require__(214);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_reflog_action_1 = __webpack_require__(216);
+const process_1 = __webpack_require__(200);
 const createGitReflogActionProcess = process_1.createProcessCreator("git-reflog-actions");
 exports.gitReflogActionProcesses = [
     createGitReflogActionProcess("enter", git_reflog_action_1.execGitReflogActionConsumer),
@@ -34245,7 +34286,7 @@ exports.gitReflogActionProcesses = [
 
 
 /***/ }),
-/* 214 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34253,8 +34294,8 @@ exports.gitReflogActionProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitReflogActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
-const type_1 = __webpack_require__(200);
+const consumer_1 = __webpack_require__(182);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitReflogActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-reflog-actions") {
@@ -34330,16 +34371,16 @@ exports.execGitReflogActionConsumer = consumer_1.createSingleLineConsumer(async 
 
 
 /***/ }),
-/* 215 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStashProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_stash_1 = __webpack_require__(216);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_stash_1 = __webpack_require__(218);
+const process_1 = __webpack_require__(200);
 const createGitStashProcess = process_1.createProcessCreator("git-stash");
 exports.gitStashProcesses = [
     createGitStashProcess("enter", git_stash_1.gitStashDefaultConsumer),
@@ -34350,7 +34391,7 @@ exports.gitStashProcesses = [
 
 
 /***/ }),
-/* 216 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34359,7 +34400,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStashDefaultConsumer = exports.chainGitStashActionsConsumer = void 0;
 const git_1 = __webpack_require__(108);
 const util_1 = __webpack_require__(99);
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.chainGitStashActionsConsumer = consumer_1.createBulkLineConsumer(async (dataList) => {
     const gitStashData = dataList.filter((data) => data.type === "git-stash");
     await consumer_1.chainFzfCommand("FzfPreviewGitStashActions", { gitStashes: gitStashData });
@@ -34384,16 +34425,16 @@ exports.gitStashDefaultConsumer = consumer_1.createBulkLineConsumer(async (dataL
 
 
 /***/ }),
-/* 217 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStashActionProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_stash_action_1 = __webpack_require__(218);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_stash_action_1 = __webpack_require__(220);
+const process_1 = __webpack_require__(200);
 const createGitStashActionProcess = process_1.createProcessCreator("git-stash-actions");
 exports.gitStashActionProcesses = [
     createGitStashActionProcess("enter", git_stash_action_1.execGitStashActionConsumer),
@@ -34402,7 +34443,7 @@ exports.gitStashActionProcesses = [
 
 
 /***/ }),
-/* 218 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34410,8 +34451,8 @@ exports.gitStashActionProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitStashActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
-const type_1 = __webpack_require__(200);
+const consumer_1 = __webpack_require__(182);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-stash-actions") {
@@ -34480,17 +34521,17 @@ exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (
 
 
 /***/ }),
-/* 219 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStatusProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_status_1 = __webpack_require__(220);
-const open_file_1 = __webpack_require__(221);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_status_1 = __webpack_require__(222);
+const open_file_1 = __webpack_require__(223);
+const process_1 = __webpack_require__(200);
 const createGitStatusProcess = process_1.createProcessCreator("git-status");
 exports.gitStatusProcesses = [
     createGitStatusProcess("enter", open_file_1.editConsumer),
@@ -34507,7 +34548,7 @@ exports.gitStatusProcesses = [
 
 
 /***/ }),
-/* 220 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34516,7 +34557,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitCommitConsumer = exports.gitPatchConsumer = exports.gitResetConsumer = exports.gitAddConsumer = exports.chainGitStatusActionsConsumer = void 0;
 const git_1 = __webpack_require__(108);
 const util_1 = __webpack_require__(99);
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 exports.chainGitStatusActionsConsumer = consumer_1.createBulkLineConsumer(async (dataList) => {
     const gitStatusDataList = dataList.filter((data) => data.type === "git-status");
     await consumer_1.chainFzfCommand("FzfPreviewGitStatusActions", { gitStatusDataList });
@@ -34548,16 +34589,16 @@ exports.gitCommitConsumer = consumer_1.createBulkLineConsumer(async (_) => {
 
 
 /***/ }),
-/* 221 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.exportQuickfixConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = void 0;
-const open_file_1 = __webpack_require__(222);
-const consumer_1 = __webpack_require__(180);
-const execute_command_1 = __webpack_require__(223);
+const open_file_1 = __webpack_require__(224);
+const consumer_1 = __webpack_require__(182);
+const execute_command_1 = __webpack_require__(225);
 const vim_variable_1 = __webpack_require__(70);
 const convertOpenCommand = (openCommand) => {
     if (openCommand === "edit" && vim_variable_1.globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
@@ -34643,7 +34684,7 @@ exports.exportQuickfixConsumer = consumer_1.createBulkLineConsumer(async (dataLi
 
 
 /***/ }),
-/* 222 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34664,7 +34705,7 @@ exports.exportQuickFix = async (quickFixList, option) => {
 
 
 /***/ }),
-/* 223 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34676,16 +34717,16 @@ exports.executeCommandSelector = () => store_1.store.getState().executeCommand;
 
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.gitStatusActionProcesses = void 0;
-const git_1 = __webpack_require__(203);
-const git_status_action_1 = __webpack_require__(225);
-const process_1 = __webpack_require__(201);
+const git_1 = __webpack_require__(205);
+const git_status_action_1 = __webpack_require__(227);
+const process_1 = __webpack_require__(200);
 const createGitStatusActionProcess = process_1.createProcessCreator("git-status-actions");
 exports.gitStatusActionProcesses = [
     createGitStatusActionProcess("enter", git_status_action_1.execGitStatusActionConsumer),
@@ -34694,7 +34735,7 @@ exports.gitStatusActionProcesses = [
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34702,8 +34743,8 @@ exports.gitStatusActionProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.execGitStatusActionConsumer = void 0;
 const git_1 = __webpack_require__(108);
-const consumer_1 = __webpack_require__(180);
-const type_1 = __webpack_require__(200);
+const consumer_1 = __webpack_require__(182);
+const type_1 = __webpack_require__(201);
 /* eslint-disable complexity */
 exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-status-actions") {
@@ -34756,15 +34797,15 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBufferProcesses = void 0;
-const open_buffer_1 = __webpack_require__(227);
-const process_1 = __webpack_require__(201);
+const open_buffer_1 = __webpack_require__(229);
+const process_1 = __webpack_require__(200);
 const createOpenBufferProcess = process_1.createProcessCreator("open-buffer");
 exports.openBufferProcesses = [
     createOpenBufferProcess("enter", open_buffer_1.editConsumer),
@@ -34777,7 +34818,7 @@ exports.openBufferProcesses = [
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34785,8 +34826,8 @@ exports.openBufferProcesses = [
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBufferConsumer = exports.dropConsumer = exports.tabeditConsumer = exports.vsplitConsumer = exports.splitConsumer = exports.editConsumer = exports.createDeleteBufferConsumer = void 0;
 const buffers_1 = __webpack_require__(115);
-const open_file_1 = __webpack_require__(222);
-const consumer_1 = __webpack_require__(180);
+const open_file_1 = __webpack_require__(224);
+const consumer_1 = __webpack_require__(182);
 const vim_variable_1 = __webpack_require__(70);
 const convertOpenCommand = (openCommand) => {
     if (openCommand === "edit" && vim_variable_1.globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
@@ -34819,15 +34860,15 @@ exports.deleteBufferConsumer = exports.createDeleteBufferConsumer();
 
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openBufnrProcesses = void 0;
-const open_bufnr_1 = __webpack_require__(229);
-const process_1 = __webpack_require__(201);
+const open_bufnr_1 = __webpack_require__(231);
+const process_1 = __webpack_require__(200);
 const createOpenBufnrProcess = process_1.createProcessCreator("open-bufnr");
 exports.openBufnrProcesses = [
     createOpenBufnrProcess("enter", open_bufnr_1.editBufnrConsumer),
@@ -34839,16 +34880,16 @@ exports.openBufnrProcesses = [
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBufnrConsumer = exports.tabeditBufnrConsumer = exports.vsplitBufnrConsumer = exports.splitBufnrConsumer = exports.editBufnrConsumer = void 0;
-const open_bufnr_1 = __webpack_require__(230);
-const consumer_1 = __webpack_require__(180);
-const open_buffer_1 = __webpack_require__(227);
+const open_bufnr_1 = __webpack_require__(232);
+const consumer_1 = __webpack_require__(182);
+const open_buffer_1 = __webpack_require__(229);
 const createOpenBufnrConsumer = (openCommand) => consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "buffer") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -34863,7 +34904,7 @@ exports.deleteBufnrConsumer = open_buffer_1.createDeleteBufferConsumer();
 
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34880,15 +34921,15 @@ exports.openBufnr = async (openCommand, bufnr) => {
 
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openFileProcesses = void 0;
-const open_file_1 = __webpack_require__(221);
-const process_1 = __webpack_require__(201);
+const open_file_1 = __webpack_require__(223);
+const process_1 = __webpack_require__(200);
 const createOpenFileProcess = process_1.createProcessCreator("open-file");
 exports.openFileProcesses = [
     createOpenFileProcess("enter", open_file_1.editConsumer),
@@ -34901,28 +34942,28 @@ exports.openFileProcesses = [
 
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openPrProcesses = void 0;
-const open_pr_1 = __webpack_require__(233);
-const process_1 = __webpack_require__(201);
+const open_pr_1 = __webpack_require__(235);
+const process_1 = __webpack_require__(200);
 const createOpenPrProcess = process_1.createProcessCreator("open-pr");
 exports.openPrProcesses = [createOpenPrProcess("enter", open_pr_1.openPr)];
 
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.openPr = void 0;
-const consumer_1 = __webpack_require__(180);
+const consumer_1 = __webpack_require__(182);
 const command_1 = __webpack_require__(100);
 // eslint-disable-next-line @typescript-eslint/require-await
 exports.openPr = consumer_1.createSingleLineConsumer(async (data) => {
@@ -34936,29 +34977,29 @@ exports.openPr = consumer_1.createSingleLineConsumer(async (data) => {
 
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerProcesses = void 0;
-const register_1 = __webpack_require__(235);
-const process_1 = __webpack_require__(201);
+const register_1 = __webpack_require__(237);
+const process_1 = __webpack_require__(200);
 const createRegisterProcess = process_1.createProcessCreator("register");
 exports.registerProcesses = [createRegisterProcess("enter", register_1.setRegister)];
 
 
 /***/ }),
-/* 235 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setRegister = void 0;
-const register_1 = __webpack_require__(236);
-const consumer_1 = __webpack_require__(180);
+const register_1 = __webpack_require__(238);
+const consumer_1 = __webpack_require__(182);
 exports.setRegister = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "register") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -34968,7 +35009,7 @@ exports.setRegister = consumer_1.createSingleLineConsumer(async (data) => {
 
 
 /***/ }),
-/* 236 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34979,47 +35020,6 @@ const plugin_1 = __webpack_require__(1);
 exports.setRegister = async (str, options) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#register#set", [str, options]);
 };
-
-
-/***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.vimCommandProcesses = void 0;
-const vim_command_1 = __webpack_require__(238);
-const process_1 = __webpack_require__(201);
-const createVimCommandProcess = process_1.createProcessCreator("vim-command");
-exports.vimCommandProcesses = [
-    createVimCommandProcess("enter", vim_command_1.execVimCommandConsumer),
-    createVimCommandProcess("ctrl-e", vim_command_1.editVimCommandConsumer),
-];
-
-
-/***/ }),
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.editVimCommandConsumer = exports.execVimCommandConsumer = void 0;
-const vim_command_1 = __webpack_require__(170);
-const consumer_1 = __webpack_require__(180);
-exports.execVimCommandConsumer = consumer_1.createSingleLineConsumer(async (data) => {
-    if (data.type !== "vim-command") {
-        throw new Error(`Unexpected data type: ${data.type}`);
-    }
-    await vim_command_1.execVimCommand(data.name);
-});
-exports.editVimCommandConsumer = consumer_1.createSingleLineConsumer(async (data) => {
-    if (data.type !== "vim-command") {
-        throw new Error(`Unexpected data type: ${data.type}`);
-    }
-    await vim_command_1.editVimCommand(data.name);
-});
 
 
 /***/ }),
@@ -35227,7 +35227,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.callProcess = void 0;
 const util_1 = __webpack_require__(105);
 const persist_1 = __webpack_require__(92);
-const execute_command_1 = __webpack_require__(223);
+const execute_command_1 = __webpack_require__(225);
 const process_runner_1 = __webpack_require__(246);
 const sync_vim_variable_1 = __webpack_require__(239);
 const store_1 = __webpack_require__(71);
@@ -38503,7 +38503,7 @@ exports.LinkedMap = LinkedMap;
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __webpack_require__(18);
 const os_1 = __webpack_require__(264);
-const crypto_1 = __webpack_require__(184);
+const crypto_1 = __webpack_require__(186);
 const net_1 = __webpack_require__(265);
 const messageReader_1 = __webpack_require__(258);
 const messageWriter_1 = __webpack_require__(260);
@@ -61468,7 +61468,7 @@ function v1(options, buf, offset) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rng; });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 function rng() {
@@ -61585,7 +61585,7 @@ const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -61656,7 +61656,7 @@ const v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(186);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 
@@ -80602,7 +80602,7 @@ const SKIP = Symbol('skip')
 const DOCHOWN = Symbol('doChown')
 const UID = Symbol('uid')
 const GID = Symbol('gid')
-const crypto = __webpack_require__(184)
+const crypto = __webpack_require__(186)
 const getFlag = __webpack_require__(561)
 
 /* istanbul ignore next */
@@ -103071,7 +103071,7 @@ exports.getHiglights = exports.diagnosticFiletypes = void 0;
 const tslib_1 = __webpack_require__(252);
 const neovim_1 = __webpack_require__(696);
 const cp = tslib_1.__importStar(__webpack_require__(101));
-const crypto_1 = __webpack_require__(184);
+const crypto_1 = __webpack_require__(186);
 const fs_1 = tslib_1.__importDefault(__webpack_require__(21));
 const os_1 = tslib_1.__importDefault(__webpack_require__(264));
 const path_1 = tslib_1.__importDefault(__webpack_require__(18));
