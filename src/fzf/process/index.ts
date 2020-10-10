@@ -15,6 +15,7 @@ import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
 import { openFileProcesses } from "@/fzf/process/open-file"
 import { openPrProcesses } from "@/fzf/process/open-pr"
 import { registerProcesses } from "@/fzf/process/register"
+import { vimCommandProcesses } from "@/fzf/process/vim-command"
 import { loadExecuteCommandStore } from "@/module/persist"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
@@ -32,6 +33,10 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "open-bufnr",
     processes: openBufnrProcesses,
+  },
+  {
+    name: "vim-command",
+    processes: vimCommandProcesses,
   },
   {
     name: "git-action",

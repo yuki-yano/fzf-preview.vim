@@ -22,6 +22,12 @@ export type BufferData = {
   bufnr: number
 }
 
+export type VimCommandData = {
+  command: FzfCommandName
+  type: "vim-command"
+  name: string
+}
+
 export type GitActionData = {
   command: FzfCommandName
   type: "git-actions"
@@ -131,6 +137,7 @@ export type ResourceData =
   | FileData
   | LineData
   | BufferData
+  | VimCommandData
   | GitActionData
   | GitStatusData
   | GitStatusActionData
