@@ -80,7 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { vimCommands, vimCommandsDefaultOptions } from "@/fzf/resource/vim-command"
+import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-pallete"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -310,12 +310,12 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     enableDevIcons: true,
   },
   {
-    commandName: "FzfPreviewVimCommand",
-    sourceFunc: vimCommands,
+    commandName: "FzfPreviewCommandPalette",
+    sourceFunc: commandPalette,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
-    defaultFzfOptionFunc: vimCommandsDefaultOptions,
-    defaultProcessesName: "vim-command",
+    defaultFzfOptionFunc: commandPaletteDefaultOptions,
+    defaultProcessesName: "command-palette",
     enableConvertForFzf: false,
     enableDevIcons: false,
   },

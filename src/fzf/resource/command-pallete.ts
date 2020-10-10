@@ -4,7 +4,7 @@ import { getVimCommandHistory, getVimCommands } from "@/connector/vim-command"
 import { colorize } from "@/fzf/syntax/colorize"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
-export const vimCommands = async (_args: SourceFuncArgs): Promise<Resource> => {
+export const commandPalette = async (_args: SourceFuncArgs): Promise<Resource> => {
   const commands = await getVimCommands()
   const history = await getVimCommandHistory()
 
@@ -12,8 +12,8 @@ export const vimCommands = async (_args: SourceFuncArgs): Promise<Resource> => {
     type: "json",
     lines: uniqWith(history.concat(commands), (a, b) => a.name === b.name).map((command) => ({
       data: {
-        command: "FzfPreviewVimCommand",
-        type: "vim-command",
+        command: "FzfPreviewCommandPalette",
+        type: "command-palette",
         name: command.name,
       },
       displayText:
@@ -24,7 +24,7 @@ export const vimCommands = async (_args: SourceFuncArgs): Promise<Resource> => {
   }
 }
 
-export const vimCommandsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"VimCommand> "',
+export const commandPaletteDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
+  "--prompt": '"CommandPalette> "',
   "--header": '"C-e: Edit"',
 })
