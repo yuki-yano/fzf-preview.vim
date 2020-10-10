@@ -80,7 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-pallete"
+import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-palette"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
