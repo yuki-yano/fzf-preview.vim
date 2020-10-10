@@ -37,6 +37,7 @@ type RemoteFzfCommandName =
   | "FzfPreviewMarks"
   | "FzfPreviewProjectGrep"
   | "FzfPreviewFromResources"
+  | "FzfPreviewVimCommand"
   | "FzfPreviewGitActions"
   | "FzfPreviewGitStatus"
   | "FzfPreviewGitStatusActions"

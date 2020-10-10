@@ -80,6 +80,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
+import { vimCommands, vimCommandsDefaultOptions } from "@/fzf/resource/vim-command"
 import type { RemoteFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -307,6 +308,16 @@ export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimCommand",
+    sourceFunc: vimCommands,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimCommandsDefaultOptions,
+    defaultProcessesName: "vim-command",
+    enableConvertForFzf: false,
+    enableDevIcons: false,
   },
   {
     commandName: "FzfPreviewGitActions",
