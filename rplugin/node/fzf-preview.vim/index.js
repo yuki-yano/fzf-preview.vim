@@ -241,7 +241,7 @@ exports.commandDefinition = exports.vimCommandOptions = void 0;
 const args_1 = __webpack_require__(4);
 const files_from_resources_parser_1 = __webpack_require__(94);
 const resource_1 = __webpack_require__(96);
-const command_pallete_1 = __webpack_require__(169);
+const command_palette_1 = __webpack_require__(169);
 exports.vimCommandOptions = {
     nargs: "?",
     sync: true,
@@ -469,10 +469,10 @@ exports.commandDefinition = [
     },
     {
         commandName: "FzfPreviewCommandPalette",
-        sourceFunc: command_pallete_1.commandPalette,
+        sourceFunc: command_palette_1.commandPalette,
         sourceFuncArgsParser: args_1.parseEmptySourceFuncArgs,
         vimCommandOptions: exports.vimCommandOptions,
-        defaultFzfOptionFunc: command_pallete_1.commandPaletteDefaultOptions,
+        defaultFzfOptionFunc: command_palette_1.commandPaletteDefaultOptions,
         defaultProcessesName: "command-palette",
         enableConvertForFzf: false,
         enableDevIcons: false,
