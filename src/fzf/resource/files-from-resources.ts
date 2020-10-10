@@ -49,6 +49,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     ) {
       return line1.data.file === line2.data.file
     }
+
     return true
   })
 

@@ -38,6 +38,7 @@ export const bufferLines = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {}"`
 }
 

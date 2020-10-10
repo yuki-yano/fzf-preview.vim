@@ -22,6 +22,7 @@ const removeFzfPreviewPrefix = (name: string) => {
   if (result && result.groups) {
     return result.groups.name
   }
+
   return name
 }
 

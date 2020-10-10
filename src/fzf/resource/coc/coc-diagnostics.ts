@@ -12,6 +12,7 @@ import type {
 
 export const diagnosticToResourceLine = (diagnostic: Diagnostic): ResourceLine => {
   const { file, lineNumber, message } = diagnostic
+
   return {
     data: {
       command: "FzfPreviewCocDiagnostics",
@@ -36,6 +37,7 @@ export const cocDiagnostics = async (_args: SourceFuncArgs): Promise<Resource> =
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {2..}"`
 }
 

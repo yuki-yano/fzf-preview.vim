@@ -4,6 +4,7 @@ import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from
 
 export const ctags = async (_args: SourceFuncArgs): Promise<Resource> => {
   const tagList = await getCtags()
+
   return {
     type: "json",
     lines: tagList.map((tag) => ({
@@ -21,6 +22,7 @@ export const ctags = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} '{-1}:{2}'"`
 }
 

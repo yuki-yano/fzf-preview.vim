@@ -6,5 +6,6 @@ export const asyncFilter = async <T>(
   asyncCallback: (args: T) => Promise<boolean>
 ): Promise<Array<T>> => {
   const bits = await Promise.all(array.map(asyncCallback))
+
   return array.filter((_, i) => bits[i])
 }

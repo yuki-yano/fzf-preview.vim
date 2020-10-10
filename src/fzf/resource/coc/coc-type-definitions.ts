@@ -25,6 +25,7 @@ export const cocTypeDefinitions = async (_args: SourceFuncArgs): Promise<Resourc
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {2..}"`
 }
 

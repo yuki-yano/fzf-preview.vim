@@ -10,6 +10,7 @@ export const projectFiles = async (_args: SourceFuncArgs): Promise<Resource> => 
   }
 
   const lines = (await execProjectFiles()).filter((file) => file !== "" && !file.includes(" "))
+
   return {
     type: "json",
     lines: lines.map((line) => ({

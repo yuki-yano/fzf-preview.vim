@@ -36,6 +36,7 @@ export const gitLogs = async (_args: SourceFuncArgs): Promise<Resource> => {
   }
 
   const logs = await execGitLog()
+
   return createResource(logs, false)
 }
 
@@ -45,6 +46,7 @@ export const gitCurrentLogs = async (_args: SourceFuncArgs): Promise<Resource> =
   }
 
   const logs = await execGitLog({ currentFile: true })
+
   return createResource(logs, true)
 }
 

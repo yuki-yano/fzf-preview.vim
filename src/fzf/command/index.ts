@@ -20,11 +20,13 @@ const getDefaultProcesses = (defaultProcessesName: string) => {
   if (targetProcessesDefinition == null) {
     throw new Error(`Processes not found: "${defaultProcessesName}"`)
   }
+
   return targetProcessesDefinition.processes
 }
 
 const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOptionFunc"]) => {
   const defaultOptions = defaultFzfOptionFunc()
+
   // eslint-disable-next-line no-return-await
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
 }

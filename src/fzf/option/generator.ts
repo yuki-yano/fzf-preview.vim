@@ -38,6 +38,7 @@ const getUserDefaultOptions = (): FzfOptions => {
     if (typeof value === "string") {
       return `"${value}"`
     }
+
     return value
   })
 }
@@ -73,6 +74,7 @@ const getPreviewWindowOption = (): FzfOptions => {
 
 const getPreviewKeyBindings = (): FzfOptions => {
   const previewKeyBindings = globalVariableSelector("fzfPreviewPreviewKeyBindings")
+
   return previewKeyBindings == null || previewKeyBindings === ""
     ? {}
     : { "--bind": `"${previewKeyBindings as string}"` }
@@ -80,6 +82,7 @@ const getPreviewKeyBindings = (): FzfOptions => {
 
 const getColorOption = (): FzfOptions => {
   const colorOptionVimValue = globalVariableSelector("fzfPreviewFzfColorOption")
+
   return colorOptionVimValue == null || colorOptionVimValue === ""
     ? {}
     : { "--color": `"${colorOptionVimValue as string}"` }

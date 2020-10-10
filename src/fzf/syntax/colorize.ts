@@ -39,6 +39,7 @@ export const colorizeFile = (filePath: string): string => {
   } else {
     const file = splittedFilePath.slice(-1).toString()
     const directory = splittedFilePath.slice(0, -1).join("/")
+
     return `${colorize(`${directory}/`, "cyan")}${file}`
   }
 }

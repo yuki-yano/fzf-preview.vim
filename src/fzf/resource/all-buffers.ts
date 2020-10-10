@@ -10,6 +10,7 @@ const SPACER = "  "
 // If it contains ansi escape, it will not align well
 const colorizeArrayedBuffer = (list: Array<string>): string => {
   const [bufnr, fileName] = list
+
   return [colorize(bufnr, "blue"), colorizeFile(fileName)].join(SPACER).trim()
 }
 

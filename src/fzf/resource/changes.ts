@@ -14,6 +14,7 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
       throw new Error(`Changes line is invalid: "${change}"`)
     }
     const { lineNumber, text } = result.groups
+
     return { lineNumber: Number(lineNumber), text }
   })
 
@@ -43,6 +44,7 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2..}"`
 }
 

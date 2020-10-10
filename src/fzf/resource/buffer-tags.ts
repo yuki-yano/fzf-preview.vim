@@ -50,6 +50,7 @@ export const bufferTags = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2..}"`
 }
 

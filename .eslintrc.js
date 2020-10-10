@@ -38,6 +38,14 @@ module.exports = {
         ignorePropertyModificationsFor: ["draft", "state"],
       },
     ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        blankLine: "always",
+        prev: "*",
+        next: "return",
+      },
+    ],
     "no-return-await": "off",
 
     "simple-import-sort/sort": "warn",

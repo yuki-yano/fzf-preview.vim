@@ -8,6 +8,7 @@ const optionsToAddFzfArg = (options: ArgsOptions): Array<string> => {
   if (options["add-fzf-arg"] && typeof options["add-fzf-arg"] === "string") {
     return [options["add-fzf-arg"]]
   }
+
   return []
 }
 

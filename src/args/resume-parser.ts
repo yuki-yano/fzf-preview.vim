@@ -15,5 +15,6 @@ export const parseResume = async (commandName: FzfCommandName, args: string): Pr
   await dispatch(loadResume())
 
   const resumeQuery = resumeSelector(commandName)
+
   return resumeQuery != null ? resumeQuery : null
 }

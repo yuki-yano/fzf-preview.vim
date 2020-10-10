@@ -45,6 +45,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
 
       const file = stripAnsi(result.groups.file)
       const { status } = result.groups
+
       return {
         data: {
           command: "FzfPreviewGitStatus",

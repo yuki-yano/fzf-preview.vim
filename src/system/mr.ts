@@ -31,14 +31,17 @@ const mrwFilePath = () => `${cacheDirectory()}/mrw`
 
 const readFile = (filePath: string) => {
   const files = readFileOrCreateDirectory(filePath)
+
   return files
 }
 
 export const readMruFile = (): Array<string> => {
   const files = readFile(mruFilePath())
+
   return files
 }
 export const readMrwFile = (): Array<string> => {
   const files = readFile(mrwFilePath())
+
   return files
 }

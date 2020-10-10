@@ -15,6 +15,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
   }
 
   const lineList = await execLines(currentFile)
+
   return {
     type: "json",
     lines: lineList.map((line) => {
@@ -39,6 +40,7 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2}"`
 }
 

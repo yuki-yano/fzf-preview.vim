@@ -8,6 +8,7 @@ import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from
 export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
   const grepArgs = args.args.join(" ")
   const lines = await execGrep(grepArgs)
+
   return {
     type: "json",
     lines: lines.map((line) => {
@@ -30,6 +31,7 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {2..}"`
 }
 

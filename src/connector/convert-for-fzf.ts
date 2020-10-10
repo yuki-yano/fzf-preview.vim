@@ -36,6 +36,7 @@ const createDevIconsList = (files: Array<string>) => {
     }
 
     const extension = file.split(".").slice(-1)[0]
+
     return extensionIcons[extension] != null ? extensionIcons[extension] : defaultIcon
   })
 }

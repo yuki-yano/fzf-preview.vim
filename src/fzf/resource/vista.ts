@@ -29,6 +29,7 @@ export const vistaCtags = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} '{-1}:{2}'"`
 }
 

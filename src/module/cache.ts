@@ -18,6 +18,7 @@ export const cacheModule = createSlice({
       if (payload) {
         return { ...state, ...payload }
       }
+
       return state
     },
     // TODO: unnecessary project root cache

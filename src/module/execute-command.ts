@@ -29,6 +29,7 @@ export const executeCommandModule = createSlice({
       if (payload) {
         return { ...state, ...payload }
       }
+
       return state
     },
     setExecuteCommand: (
