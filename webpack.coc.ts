@@ -1,5 +1,5 @@
 import path from "path"
-import webpack from "webpack"
+import { DefinePlugin } from "webpack"
 import { merge } from "webpack-merge"
 
 import common from "./webpack.common"
@@ -15,7 +15,7 @@ export default merge(common, {
     libraryTarget: "commonjs",
   },
   plugins: [
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       PLUGIN: JSON.stringify({
         ENV: "coc",
       }),

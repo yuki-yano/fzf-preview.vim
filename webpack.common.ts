@@ -1,8 +1,9 @@
 import path from "path"
+import { Configuration } from "webpack"
 
-export default {
-  target: "node" as const,
-  mode: "none" as const,
+const common: Configuration = {
+  target: "node",
+  mode: "none",
   resolve: {
     mainFields: ["module", "main"],
     extensions: [".js", ".ts"],
@@ -28,11 +29,17 @@ export default {
       },
     ],
   },
-  stats: {
-    warningsFilter: [/yargs/],
+  cache: {
+    type: "filesystem",
+    buildDependencies: {
+      config: [__filename],
+    },
   },
+  ignoreWarnings: [/warning/, { module: /yargs/ }],
   node: {
     __dirname: false,
     __filename: false,
   },
 }
+
+export default common

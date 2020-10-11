@@ -89,8 +89,8 @@
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.3",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.1.4"
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.0.0",
+    "webpack-merge": "^5.2.0"
   }
 }
