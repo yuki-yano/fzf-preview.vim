@@ -59,7 +59,7 @@ export const tabeditConsumer = createOpenFileConsumer("tabedit")
 export const dropConsumer = createOpenFileConsumer("drop")
 
 export const exportQuickfixConsumer = createBulkLineConsumer(async (dataList) => {
-  const quickFixList: Array<ExportQuickFix> = dataList.map((data) => {
+  const quickFixList: ReadonlyArray<ExportQuickFix> = dataList.map((data) => {
     switch (data.type) {
       case "file": {
         return {

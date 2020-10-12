@@ -41,11 +41,11 @@ export const initializeExtension = async (workspace: Workspace): Promise<void> =
   await dispatch(saveStore({ modules: ["cache"] }))
 }
 
-export const registerCommands = (commandManager: CommandManager): Array<Disposable> => {
+export const registerCommands = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
   return cocCommandDefinition.map((fzfCommand) => {
     return commandManager.registerCommand(
       `fzf-preview.${removeFzfPreviewPrefix(fzfCommand.commandName)}`,
-      async (...params: Array<string>) => {
+      async (...params: ReadonlyArray<string>) => {
         const args = params.join(" ")
         await executeCommand(args, fzfCommand)
       }
@@ -53,7 +53,7 @@ export const registerCommands = (commandManager: CommandManager): Array<Disposab
   })
 }
 
-export const registerProcesses = (commandManager: CommandManager): Array<Disposable> => {
+export const registerProcesses = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
   return flatMap(processesDefinition, ({ processes }) => {
     return processes.map((process) => {
       return commandManager.registerCommand(
@@ -66,17 +66,17 @@ export const registerProcesses = (commandManager: CommandManager): Array<Disposa
   })
 }
 
-export const registerFunctions = (commandManager: CommandManager): Array<Disposable> => {
+export const registerFunctions = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
   return [
     commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
-    commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
+    commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: ReadonlyArray<string>) => {
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
     commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
   ]
 }
 
-export const registerAutocmds = (workspace: Workspace): Array<Disposable> => {
+export const registerAutocmds = (workspace: Workspace): ReadonlyArray<Disposable> => {
   return [
     workspace.registerAutocmd({
       event: "DirChanged",

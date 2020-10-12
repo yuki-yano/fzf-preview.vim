@@ -12,7 +12,7 @@ type Option = {
   title?: string
 }
 
-export const exportQuickFix = async (quickFixList: Array<ExportQuickFix>, option?: Option): Promise<void> => {
+export const exportQuickFix = async (quickFixList: ReadonlyArray<ExportQuickFix>, option?: Option): Promise<void> => {
   await pluginCall("setqflist", [[], "r", { items: quickFixList, ...option }])
   await pluginCommand("copen")
 }

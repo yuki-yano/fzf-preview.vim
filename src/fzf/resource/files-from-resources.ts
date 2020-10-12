@@ -1,4 +1,5 @@
 import { uniqWith } from "lodash"
+import { Mutable } from "type-fest"
 
 import { FILE_RESOURCES } from "@/const/fzf-option"
 import { fileFormatBuffers } from "@/fzf/resource/buffers"
@@ -34,7 +35,7 @@ const resourceFunctions: ResourceFunctions = {
 
 export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource> => {
   const emptySourceFuncArgs = { args: [], extraArgs: [] }
-  const lines: ResourceLines = []
+  const lines: Mutable<ResourceLines> = []
 
   for (const resource of args.args) {
     // eslint-disable-next-line no-await-in-loop

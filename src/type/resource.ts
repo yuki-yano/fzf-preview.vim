@@ -45,7 +45,7 @@ export type GitStatusActionData = {
   command: FzfCommandName
   type: "git-status-actions"
   action: GitStatusAction
-  files: Array<string>
+  files: ReadonlyArray<string>
 }
 
 export type GitBranchData = {
@@ -61,7 +61,7 @@ export type GitBranchActionData = {
   command: FzfCommandName
   type: "git-branch-actions"
   action: GitBranchAction
-  branches: Array<string>
+  branches: ReadonlyArray<string>
 }
 
 export type GitLogData = {
@@ -78,7 +78,7 @@ export type GitLogActionData = {
   command: FzfCommandName
   type: "git-log-actions"
   action: GitLogAction
-  hashes: Array<string>
+  hashes: ReadonlyArray<string>
   isCurrentFile: boolean
 }
 
@@ -97,8 +97,8 @@ export type GitStashActionData = {
   command: FzfCommandName
   type: "git-stash-actions"
   action: GitStashAction
-  names: Array<string>
-  hashes: Array<string>
+  names: ReadonlyArray<string>
+  hashes: ReadonlyArray<string>
 }
 
 export type GitReflogData = {
@@ -115,8 +115,8 @@ export type GitReflogActionData = {
   command: FzfCommandName
   type: "git-reflog-actions"
   action: GitReflogAction
-  names: Array<string>
-  hashes: Array<string>
+  names: ReadonlyArray<string>
+  hashes: ReadonlyArray<string>
 }
 
 export type RegisterData = {
@@ -159,7 +159,7 @@ export type ResourceLine = {
   displayText: string
 }
 
-export type ResourceLines = Array<ResourceLine>
+export type ResourceLines = ReadonlyArray<ResourceLine>
 
 type JsonResource = {
   type: "json"

@@ -20,7 +20,7 @@ export const registerRemoteCommands = (): void => {
   commandDefinition.forEach((fzfCommand) => {
     pluginRegisterCommand(
       fzfCommand.commandName,
-      async (params: Array<string>) => {
+      async (params: ReadonlyArray<string>) => {
         const args = params[0] != null ? params[0] : ""
         await executeCommand(args, fzfCommand)
       },
@@ -50,7 +50,7 @@ export const registerFunction = (): void => {
 
   pluginRegisterFunction(
     "FzfPreviewGetDefaultProcesses",
-    ([processesName]: Array<string>) => getDefaultProcesses(processesName),
+    ([processesName]: ReadonlyArray<string>) => getDefaultProcesses(processesName),
     { sync: true }
   )
 

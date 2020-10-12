@@ -2,7 +2,7 @@ import { DEFINED_FZF_OPTION_TYPES_IN_PLUGIN } from "@/const/fzf-option"
 import type { FzfOptions } from "@/type"
 
 export const joinBind = (
-  bind: Array<{
+  bind: ReadonlyArray<{
     key: string
     action: string
   }>

@@ -7,5 +7,5 @@ type Tag = {
   type: string
 }
 
-export const getCtags = async (): Promise<Array<Tag>> =>
-  (await pluginCall("fzf_preview#remote#resource#tags#ctags")) as Array<Tag>
+export const getCtags = async (): Promise<ReadonlyArray<Tag>> =>
+  (await pluginCall("fzf_preview#remote#resource#tags#ctags")) as ReadonlyArray<Tag>
