@@ -6,14 +6,11 @@ import { flatMap, mapValues } from "lodash"
 import { cocCommandDefinition } from "@/association/coc-command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { saveStore } from "@/module/persist"
 import { setCocClient } from "@/plugin"
-import { dispatch } from "@/store"
 import type { CallbackLines } from "@/type"
 
 const removeFzfPreviewPrefix = (name: string) => {
@@ -35,10 +32,8 @@ export const setRuntimePath = async (context: ExtensionContext, { nvim }: Worksp
   await nvim.command("runtime plugin/fzf_preview.vim")
 }
 
-export const initializeExtension = async (workspace: Workspace): Promise<void> => {
+export const initializeExtension = (workspace: Workspace): void => {
   setCocClient(workspace.nvim)
-  await cacheProjectRoot()
-  await dispatch(saveStore({ modules: ["cache"] }))
 }
 
 export const registerCommands = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
@@ -73,19 +68,5 @@ export const registerFunctions = (commandManager: CommandManager): ReadonlyArray
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
     commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
-  ]
-}
-
-export const registerAutocmds = (workspace: Workspace): ReadonlyArray<Disposable> => {
-  return [
-    workspace.registerAutocmd({
-      event: "DirChanged",
-      request: true,
-      callback: async () => {
-        await cacheProjectRoot()
-        await dispatch(saveStore({ modules: ["cache"] }))
-      },
-      pattern: "*",
-    }),
   ]
 }

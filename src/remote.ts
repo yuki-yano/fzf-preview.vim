@@ -1,7 +1,7 @@
 import { NvimPlugin } from "neovim"
 
 import { setRemotePlugin } from "@/plugin"
-import { registerAutocmd, registerFunction, registerProcesses, registerRemoteCommands } from "@/register/remote"
+import { registerFunction, registerProcesses, registerRemoteCommands } from "@/register/remote"
 
 module.exports = (plugin: NvimPlugin) => {
   setRemotePlugin(plugin)
@@ -12,7 +12,6 @@ module.exports = (plugin: NvimPlugin) => {
 
   registerRemoteCommands()
   registerProcesses()
-  registerAutocmd()
   registerFunction()
 
   plugin.registerCommand(

@@ -175,7 +175,7 @@ augroup END
 
 function! s:doautocmd_from_remote_plugin() abort
   if exists(':FzfPreviewRemoteEnvironment')
-    call timer_start(0, 'FzfPreviewInitializeRemotePlugin')
+    " call timer_start(0, 'FzfPreviewInitializeRemotePlugin')
   endif
 
   if exists(':FzfPreviewRemoteEnvironment')
