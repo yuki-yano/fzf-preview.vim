@@ -1,20 +1,12 @@
 import { commandDefinition } from "@/association/command"
 import { dispatchResumeQuery } from "@/connector/resume"
 import { HANDLER_NAME } from "@/const/fzf-handler"
-import { cacheProjectRoot } from "@/fzf/cache"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { saveStore } from "@/module/persist"
-import { pluginRegisterAutocmd, pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
-import { dispatch } from "@/store"
+import { pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
 import { CallbackLines } from "@/type"
-
-const initializeRemotePlugin = async (): Promise<void> => {
-  await cacheProjectRoot()
-  await dispatch(saveStore({ modules: ["cache"] }))
-}
 
 export const registerRemoteCommands = (): void => {
   commandDefinition.forEach((fzfCommand) => {
@@ -46,8 +38,6 @@ export const registerProcesses = (): void => {
 export const registerFunction = (): void => {
   pluginRegisterFunction(HANDLER_NAME, callProcess, { sync: true })
 
-  pluginRegisterFunction("FzfPreviewInitializeRemotePlugin", initializeRemotePlugin, { sync: false })
-
   pluginRegisterFunction(
     "FzfPreviewGetDefaultProcesses",
     ([processesName]: Array<string>) => getDefaultProcesses(processesName),
@@ -55,18 +45,4 @@ export const registerFunction = (): void => {
   )
 
   pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
-}
-
-export const registerAutocmd = (): void => {
-  pluginRegisterAutocmd(
-    "DirChanged",
-    async () => {
-      await cacheProjectRoot()
-      await dispatch(saveStore({ modules: ["cache"] }))
-    },
-    {
-      sync: false,
-      pattern: "*",
-    }
-  )
 }

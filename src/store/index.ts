@@ -1,6 +1,5 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
-import { cacheModule } from "@/module/cache"
 import { executeCommandModule } from "@/module/execute-command"
 import { gitConfigModule } from "@/module/git-config"
 import { resumeModule } from "@/module/resume"
@@ -12,7 +11,6 @@ const setupStore = () => {
     reducer: {
       vimVariable: vimVariableModule.reducer,
       executeCommand: executeCommandModule.reducer,
-      cache: cacheModule.reducer,
       resume: resumeModule.reducer,
       session: sessionModule.reducer,
       gitConfig: gitConfigModule.reducer,

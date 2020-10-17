@@ -6,7 +6,7 @@ import { HANDLER_NAME } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
-import { loadCache, saveStore } from "@/module/persist"
+import { saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
@@ -20,11 +20,13 @@ const getDefaultProcesses = (defaultProcessesName: string) => {
   if (targetProcessesDefinition == null) {
     throw new Error(`Processes not found: "${defaultProcessesName}"`)
   }
+
   return targetProcessesDefinition.processes
 }
 
 const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOptionFunc"]) => {
   const defaultOptions = defaultFzfOptionFunc()
+
   // eslint-disable-next-line no-return-await
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
 }
@@ -50,8 +52,6 @@ export const executeCommand = async (
     beforeCommandHook,
   }: FzfCommand
 ): Promise<void> => {
-  await dispatch(loadCache())
-
   await syncVimVariable()
   await syncVimOptions()
 
@@ -95,7 +95,7 @@ export const executeCommand = async (
     })
   )
   await setResourceCommandName(commandName)
-  await dispatch(saveStore({ modules: ["executeCommand", "cache"] }))
+  await dispatch(saveStore({ modules: ["executeCommand"] }))
 
   const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,

@@ -11,6 +11,7 @@ const bufferToArray = (buffer: VimBuffer) => {
   if (buffer.isCurrent === true) {
     return [`[${buffer.bufnr}] `, "%", `${buffer.isModified ? " [+] " : ""}`, ` ${buffer.fileName}`]
   }
+
   return [
     `[${buffer.bufnr}] `,
     `${buffer.isAlternate ? "#" : ""}`,
@@ -42,6 +43,7 @@ const getSimpleBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
   if (options && options.ignoreCurrentBuffer) {
     return [alternateBuffer, ...otherBuffers]
   }
+
   return [currentBuffer, alternateBuffer, ...otherBuffers]
 }
 
@@ -53,6 +55,7 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   if (options && options.ignoreCurrentBuffer) {
     return await asyncFilter(Array.from(new Set([alternateBuffer, ...otherBuffers])), (buffer) => existsBuffer(buffer))
   }
+
   return await asyncFilter(Array.from(new Set([currentBuffer, alternateBuffer, ...otherBuffers])), (buffer) =>
     existsBuffer(buffer)
   )
@@ -88,11 +91,13 @@ export const fileFormatBuffers = async (_args: SourceFuncArgs): Promise<Resource
   if (!(await isGitDirectory())) {
     const bufferList = await getSimpleBuffers({ ignoreCurrentBuffer: true })
     const displayLines = bufferList.map((buffer) => buffer.fileName)
+
     return createBuffers(bufferList, displayLines)
   }
 
   const bufferList = await getGitProjectBuffers({ ignoreCurrentBuffer: true })
   const displayLines = bufferList.map((buffer) => buffer.fileName)
+
   return createBuffers(bufferList, displayLines)
 }
 

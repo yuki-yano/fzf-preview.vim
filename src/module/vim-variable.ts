@@ -74,6 +74,7 @@ export const vimVariableModule = createSlice({
       if (payload) {
         return { ...state, ...payload }
       }
+
       return state
     },
     setGlobalVariable: (state, { payload }: PayloadAction<GlobalVariable>) => {

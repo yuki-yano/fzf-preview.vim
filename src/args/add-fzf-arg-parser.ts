@@ -8,6 +8,7 @@ const optionsToAddFzfArg = (options: ArgsOptions): Array<string> => {
   if (options["add-fzf-arg"] && typeof options["add-fzf-arg"] === "string") {
     return [options["add-fzf-arg"]]
   }
+
   return []
 }
 
@@ -26,7 +27,7 @@ const parseOptions = (options: ArgsOptions) => {
     .filter((match): match is RegExpExecArray => match != null)
     .map((match) => ({ optionName: match[1], value: match[2] }))
 
-  return notExistsValueOptions.concat(existsValueOptions)
+  return [...notExistsValueOptions, ...existsValueOptions]
 }
 
 export const parseAddFzfArg = (args: string): Array<AddFzfArg> => {

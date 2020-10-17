@@ -20,5 +20,6 @@ export const parseSession = async (args: string): Promise<Session | null> => {
   if (currentSession == null) {
     throw new Error(`Invalid session token: ${sessionToken}`)
   }
+
   return currentSession
 }

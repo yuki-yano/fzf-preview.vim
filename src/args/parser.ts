@@ -9,5 +9,6 @@ export const argsParser = (): Argv => {
     "camel-case-expansion": false,
     "unknown-options-as-args": true,
   })
+
   return yargs
 }

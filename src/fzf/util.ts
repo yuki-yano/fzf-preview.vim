@@ -44,5 +44,6 @@ export const parseQuickFixAndLocationListLine = (line: string): ParsedQuickFix =
   }
 
   const { fileName, lineNumber, text } = result.groups
+
   return { fileName, lineNumber: Number(lineNumber), text }
 }

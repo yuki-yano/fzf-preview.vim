@@ -21,6 +21,7 @@ export const execGitFiles = async (): Promise<Array<string>> => {
   }
 
   const lines = (await pluginCall("fzf_preview#remote#resource#git_files#get", [gitFilesCommand])) as Array<string>
+
   return lines
 }
 
@@ -31,6 +32,7 @@ export const execGitStatus = async (): Promise<Array<string>> => {
   }
 
   const lines = (await pluginCall("fzf_preview#remote#resource#git_status#get", [gitStatusCommand])) as Array<string>
+
   return lines
 }
 
@@ -41,6 +43,7 @@ export const execGitBranch = async (): Promise<Array<GitBranch>> => {
 
   return lines.map((line) => {
     const [prefix, name, date, author] = line.split("    ")
+
     return {
       prefix,
       name,
@@ -58,6 +61,7 @@ export const execGitLog = async (options?: { currentFile: boolean }): Promise<Ar
 
   return lines.map((line) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
+
     return {
       prefix,
       hash,
@@ -79,6 +83,7 @@ export const execGitReflog = async (): Promise<Array<GitReflog>> => {
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
     const name = lines2[i]
+
     return {
       prefix,
       name,
@@ -101,6 +106,7 @@ export const execGitStash = async (): Promise<Array<GitStash>> => {
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
     const name = lines2[i]
+
     return {
       prefix,
       name,

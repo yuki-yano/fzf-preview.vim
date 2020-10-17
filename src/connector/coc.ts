@@ -74,6 +74,7 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
           return null
         }
         const text = await getLineFromFile(absoluteFilePath, lineNumber)
+
         return { file: relativeFilePath, lineNumber, text }
       })
     )

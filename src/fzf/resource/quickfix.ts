@@ -7,6 +7,7 @@ import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, Source
 export const quickFix = async (_args: SourceFuncArgs): Promise<Resource> => {
   const resourceLines: ResourceLines = (await getQuickFix()).map((line) => {
     const { fileName, lineNumber, text } = parseQuickFixAndLocationListLine(line)
+
     return {
       data: {
         command: "FzfPreviewQuickFix",
@@ -27,6 +28,7 @@ export const quickFix = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {2..}"`
 }
 

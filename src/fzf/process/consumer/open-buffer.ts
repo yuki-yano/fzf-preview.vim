@@ -8,6 +8,7 @@ const convertOpenCommand = (openCommand: OpenCommand): OpenCommand => {
   if (openCommand === "edit" && globalVariableSelector("fzfPreviewBuffersJump") !== 0) {
     return "drop"
   }
+
   return openCommand
 }
 

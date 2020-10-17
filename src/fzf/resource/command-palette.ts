@@ -10,7 +10,7 @@ export const commandPalette = async (_args: SourceFuncArgs): Promise<Resource> =
 
   return {
     type: "json",
-    lines: uniqWith(history.concat(commands), (a, b) => a.name === b.name).map((command) => ({
+    lines: uniqWith([...history, ...commands], (a, b) => a.name === b.name).map((command) => ({
       data: {
         command: "FzfPreviewCommandPalette",
         type: "command-palette",

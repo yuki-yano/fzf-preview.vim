@@ -17,6 +17,7 @@ export const resumeModule = createSlice({
       if (payload) {
         return { ...state, ...payload }
       }
+
       return state
     },
     setQuery: (state, { payload }: PayloadAction<{ commandName: FzfCommandName; query: string }>) => {

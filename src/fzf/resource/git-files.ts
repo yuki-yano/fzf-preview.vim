@@ -10,6 +10,7 @@ export const gitFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   }
 
   const lines = (await execGitFiles()).filter((file) => file !== "" && !file.includes(" "))
+
   return {
     type: "json",
     lines: lines.map((line) => ({

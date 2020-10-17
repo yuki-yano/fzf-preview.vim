@@ -10,5 +10,6 @@ export const execLines = async (filePath: string): Promise<Array<string>> => {
   const lines = (await pluginCall("fzf_preview#remote#resource#lines#get", [`${linesCommand} ${filePath}`])) as Array<
     string
   >
+
   return lines
 }

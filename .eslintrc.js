@@ -10,7 +10,9 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:prettier/recommended",
+    "prettier",
     "prettier/@typescript-eslint",
+    "prettier/standard",
   ],
   plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
   parserOptions: {
@@ -36,6 +38,14 @@ module.exports = {
       {
         props: true,
         ignorePropertyModificationsFor: ["draft", "state"],
+      },
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        blankLine: "always",
+        prev: "*",
+        next: "return",
       },
     ],
     "no-return-await": "off",
@@ -74,7 +84,7 @@ module.exports = {
     {
       parserOptions: {
         sourceType: "module",
-        project: "./tsconfig-for-webpack-config.json",
+        project: "./tsconfig.webpack.json",
       },
       files: ["./webpack.*.ts"],
       rules: {

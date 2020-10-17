@@ -15,6 +15,7 @@ export const cocCurrentDiagnostics = async (_args: SourceFuncArgs): Promise<Reso
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
+
   return `"${grepPreviewCommand} {2..}"`
 }
 
