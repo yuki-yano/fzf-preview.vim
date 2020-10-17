@@ -36,11 +36,11 @@ export const initializeExtension = (workspace: Workspace): void => {
   setCocClient(workspace.nvim)
 }
 
-export const registerCommands = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
+export const registerCommands = (commandManager: CommandManager): Array<Disposable> => {
   return cocCommandDefinition.map((fzfCommand) => {
     return commandManager.registerCommand(
       `fzf-preview.${removeFzfPreviewPrefix(fzfCommand.commandName)}`,
-      async (...params: ReadonlyArray<string>) => {
+      async (...params: Array<string>) => {
         const args = params.join(" ")
         await executeCommand(args, fzfCommand)
       }
@@ -48,7 +48,7 @@ export const registerCommands = (commandManager: CommandManager): ReadonlyArray<
   })
 }
 
-export const registerProcesses = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
+export const registerProcesses = (commandManager: CommandManager): Array<Disposable> => {
   return flatMap(processesDefinition, ({ processes }) => {
     return processes.map((process) => {
       return commandManager.registerCommand(
@@ -61,10 +61,10 @@ export const registerProcesses = (commandManager: CommandManager): ReadonlyArray
   })
 }
 
-export const registerFunctions = (commandManager: CommandManager): ReadonlyArray<Disposable> => {
+export const registerFunctions = (commandManager: CommandManager): Array<Disposable> => {
   return [
     commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
-    commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: ReadonlyArray<string>) => {
+    commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
       return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
     }),
     commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),

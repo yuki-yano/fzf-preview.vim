@@ -6,5 +6,5 @@ type Jump = {
   text: string
 }
 
-export const getJumps = async (): Promise<ReadonlyArray<Jump>> =>
-  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as ReadonlyArray<Jump>
+export const getJumps = async (): Promise<Array<Jump>> =>
+  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as Array<Jump>

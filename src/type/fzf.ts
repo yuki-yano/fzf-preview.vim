@@ -10,9 +10,9 @@ export type FzfCommandDynamicOption = {
 }
 
 export type SelectedLine = string
-export type SelectedLines = ReadonlyArray<SelectedLine>
+export type SelectedLines = Array<SelectedLine>
 
-export type ExpectKeyAndSelectedLines = ReadonlyArray<string>
+export type ExpectKeyAndSelectedLines = Array<string>
 
 type RemoteFzfCommandName =
   | "FzfPreviewProjectFiles"
@@ -65,8 +65,8 @@ type CocFzfCommandName =
 export type FzfCommandName = RemoteFzfCommandName | CocFzfCommandName
 
 export type SourceFuncArgs = {
-  args: ReadonlyArray<string>
-  extraArgs: ReadonlyArray<string>
+  args: Array<string>
+  extraArgs: Array<string>
 }
 
 type FzfCommandBase = {
@@ -133,9 +133,9 @@ export type AddFzfArg = {
 export type ResumeQuery = string | null
 
 export type Session = {
-  gitStatusDataList?: ReadonlyArray<GitStatusData>
-  gitBranches?: ReadonlyArray<GitBranchData>
-  gitLogs?: ReadonlyArray<GitLogData>
-  gitStashes?: ReadonlyArray<GitStashData>
-  gitReflogs?: ReadonlyArray<GitReflogData>
+  gitStatusDataList?: Array<GitStatusData>
+  gitBranches?: Array<GitBranchData>
+  gitLogs?: Array<GitLogData>
+  gitStashes?: Array<GitStashData>
+  gitReflogs?: Array<GitReflogData>
 }

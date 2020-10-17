@@ -41,22 +41,22 @@ describe("generateOptions", () => {
     {
       name: "",
       key: "enter",
-      execute: (_: ReadonlyArray<ResourceData>) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-a",
-      execute: (_: ReadonlyArray<ResourceData>) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-b",
-      execute: (_: ReadonlyArray<ResourceData>) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-c",
-      execute: (_: ReadonlyArray<ResourceData>) => {},
+      execute: (_: Array<ResourceData>) => {},
     },
   ]
 

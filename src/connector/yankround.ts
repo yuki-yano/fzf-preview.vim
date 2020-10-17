@@ -6,5 +6,5 @@ type YankHistory = {
   option: string
 }
 
-export const getYankround = async (): Promise<ReadonlyArray<YankHistory>> =>
-  (await pluginCall("fzf_preview#remote#resource#yankround#get")) as ReadonlyArray<YankHistory>
+export const getYankround = async (): Promise<Array<YankHistory>> =>
+  (await pluginCall("fzf_preview#remote#resource#yankround#get")) as Array<YankHistory>

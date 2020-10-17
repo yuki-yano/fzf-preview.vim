@@ -58,7 +58,7 @@ export const loadGitConfig = createAsyncThunk<void, undefined, { dispatch: AppDi
 
 export const saveStore = createAsyncThunk<
   void,
-  { modules: ReadonlyArray<Module> },
+  { modules: Array<Module> },
   { dispatch: AppDispatch; state: RootState }
 >(PERSIST_SAVE_STORE, async ({ modules }, { getState }) => {
   await Promise.all(

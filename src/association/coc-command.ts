@@ -11,7 +11,7 @@ import {
 import { cocTypeDefinitions, cocTypeDefinitionsDefaultOptions } from "@/fzf/resource/coc/coc-type-definitions"
 import type { FzfCommand } from "@/type"
 
-export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
+export const cocCommandDefinition: Array<FzfCommand> = [
   ...commandDefinition,
   {
     commandName: "FzfPreviewCocReferences",

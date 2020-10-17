@@ -16,7 +16,7 @@ module.exports = (plugin: NvimPlugin) => {
 
   plugin.registerCommand(
     "FzfPreviewRemoteEnvironment",
-    async (_args: ReadonlyArray<string>) => {
+    async (_args: Array<string>) => {
       await plugin.nvim.command("echo 'fzf-preview is remote plugin'")
     },
     { nargs: "*" }

@@ -16,7 +16,7 @@ export const createSingleLineConsumer = (consume: (data: ResourceData) => Promis
     kind: "single",
   } as const)
 
-export const createBulkLineConsumer = (consume: (dataList: ReadonlyArray<ResourceData>) => Promise<void>) =>
+export const createBulkLineConsumer = (consume: (dataList: Array<ResourceData>) => Promise<void>) =>
   ({
     consume,
     kind: "bulk",

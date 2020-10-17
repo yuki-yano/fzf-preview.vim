@@ -2,19 +2,19 @@ import { PROCESSES_NAME } from "@/const/fzf-processes"
 import { ResourceData } from "@/type/resource"
 
 export type CallbackLine = string
-export type CallbackLines = ReadonlyArray<CallbackLine>
+export type CallbackLines = Array<CallbackLine>
 
 export type Process = {
   name: string
   key: string
-  execute: (lines: ReadonlyArray<ResourceData>) => void | Promise<void>
+  execute: (lines: Array<ResourceData>) => void | Promise<void>
 }
 
-export type Processes = ReadonlyArray<Process>
+export type Processes = Array<Process>
 
 export type ProcessesName = typeof PROCESSES_NAME[number]
 
-export type ProcessesDefinition = ReadonlyArray<{
+export type ProcessesDefinition = Array<{
   name: ProcessesName
   processes: Processes
 }>
@@ -40,7 +40,7 @@ export type SingleLineConsumer = {
   kind: "single"
 }
 export type BulkLineConsumer = {
-  consume: (lines: ReadonlyArray<ResourceData>) => Promise<void>
+  consume: (lines: Array<ResourceData>) => Promise<void>
   kind: "bulk"
 }
 export type LineConsumer = SingleLineConsumer | BulkLineConsumer

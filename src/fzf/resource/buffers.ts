@@ -22,7 +22,7 @@ const bufferToArray = (buffer: VimBuffer) => {
 
 // Colorize after align
 // If it contains ansi escape, it will not align well
-const colorizeArrayedBuffer = (list: ReadonlyArray<string>): string => {
+const colorizeArrayedBuffer = (list: Array<string>): string => {
   const [bufnr, symbol, modified, fileName] = list
   if (symbol.includes("%")) {
     return list.join("").trim()
@@ -61,7 +61,7 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   )
 }
 
-const createBuffers = (bufferList: ReadonlyArray<VimBuffer>, displayLines: ReadonlyArray<string>): Resource => ({
+const createBuffers = (bufferList: Array<VimBuffer>, displayLines: Array<string>): Resource => ({
   type: "json",
   lines: bufferList.map((buffer, i) => ({
     data: {

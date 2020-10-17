@@ -6,5 +6,5 @@ type Mark = {
   text: string
 }
 
-export const getMarks = async (): Promise<ReadonlyArray<Mark>> =>
-  (await pluginCall("fzf_preview#remote#resource#marks#get")) as ReadonlyArray<Mark>
+export const getMarks = async (): Promise<Array<Mark>> =>
+  (await pluginCall("fzf_preview#remote#resource#marks#get")) as Array<Mark>

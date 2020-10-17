@@ -10,7 +10,7 @@ type Options = {
   enableDevIcons: boolean
 }
 
-const createDevIconsList = (files: ReadonlyArray<string>) => {
+const createDevIconsList = (files: Array<string>) => {
   const defaultIcon = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesDefaultSymbol") as string
   const extensionIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExtensionSymbols") as {
     [key: string]: string

@@ -40,7 +40,7 @@ export const pluginCommand = (arg: string): Promise<any> => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const pluginCall = (fname: string, args?: VimValue | ReadonlyArray<VimValue>): Promise<any> | null => {
+export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>): Promise<any> | null => {
   if (remotePlugin != null) {
     return remotePlugin.nvim.call(fname, args)
   } else if (cocClient != null) {

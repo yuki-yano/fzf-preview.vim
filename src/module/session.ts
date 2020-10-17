@@ -31,11 +31,11 @@ export const sessionModule = createSlice({
       }
     },
     setSession: (state, { payload }: PayloadAction<{ sessionToken: string; session: Session }>) => {
-      state.sessions[payload.sessionToken] = createDraft(payload.session)
+      state.sessions[payload.sessionToken] = payload.session
       state.currentSession = undefined
     },
     setCurrentSession: (state, { payload }: PayloadAction<{ session: Session }>) => {
-      state.currentSession = createDraft(payload.session)
+      state.currentSession = payload.session
     },
     clearCurrentSession: (state, _: PayloadAction<undefined>) => {
       state.currentSession = undefined

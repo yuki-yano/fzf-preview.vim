@@ -7,5 +7,5 @@ type Bookmark = {
   comment: string
 }
 
-export const getBookmarks = async (): Promise<ReadonlyArray<Bookmark>> =>
-  (await pluginCall("fzf_preview#remote#resource#bookmarks#get")) as ReadonlyArray<Bookmark>
+export const getBookmarks = async (): Promise<Array<Bookmark>> =>
+  (await pluginCall("fzf_preview#remote#resource#bookmarks#get")) as Array<Bookmark>

@@ -58,7 +58,7 @@ describe("open file consumer", () => {
   describe("export quickfix", () => {
     it("with only filename", async () => {
       ;(executeCommandSelector as jest.Mock).mockImplementation(() => ({ commandName: "fooCommand" }))
-      const dataList: ReadonlyArray<FileData> = [
+      const dataList: Array<FileData> = [
         {
           command: "FzfPreviewProjectFiles",
           type: "file",
@@ -78,7 +78,7 @@ describe("open file consumer", () => {
 
     it("with filename, line number and text", async () => {
       ;(executeCommandSelector as jest.Mock).mockImplementation(() => ({ commandName: "fooCommand" }))
-      const dataList: ReadonlyArray<LineData> = [
+      const dataList: Array<LineData> = [
         {
           command: "FzfPreviewProjectGrep",
           type: "line",

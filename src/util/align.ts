@@ -2,7 +2,7 @@ import printf from "printf"
 
 import { transpose } from "@/util/array"
 
-export const alignLists = (lists: Array<Array<string>>): ReadonlyArray<ReadonlyArray<string>> => {
+export const alignLists = (lists: Array<Array<string>>): Array<Array<string>> => {
   if (lists.length === 0) {
     return lists
   }

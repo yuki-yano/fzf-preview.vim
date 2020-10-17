@@ -29,16 +29,16 @@ const diagnosticItemToData = async (
   }
 }
 
-export const getDiagnostics = async (): Promise<ReadonlyArray<Diagnostic>> => {
-  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as ReadonlyArray<DiagnosticItem>
+export const getDiagnostics = async (): Promise<Array<Diagnostic>> => {
+  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
   const diagnostics = await Promise.all(diagnosticItems.map(async (item) => await diagnosticItemToData(item)))
 
   return diagnostics.filter((diagnostic): diagnostic is Diagnostic => diagnostic != null)
 }
 
-export const getCurrentDiagnostics = async (): Promise<ReadonlyArray<Diagnostic>> => {
+export const getCurrentDiagnostics = async (): Promise<Array<Diagnostic>> => {
   const currentFile = await getCurrentFilePath()
-  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as ReadonlyArray<DiagnosticItem>
+  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
   const diagnostics = await Promise.all(
     diagnosticItems.map(async (item) => await diagnosticItemToData(item, { currentFile }))
   )
@@ -61,7 +61,7 @@ const getCurrentState = async () => {
   return { document, position, symbol }
 }
 
-const cocLocationToLocation = async (locations: ReadonlyArray<CocLocation>): Promise<ReadonlyArray<Location>> => {
+const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Array<Location>> => {
   const currentPath = await getCurrentPath()
 
   return (
@@ -81,7 +81,7 @@ const cocLocationToLocation = async (locations: ReadonlyArray<CocLocation>): Pro
   ).filter((location): location is Location => location != null)
 }
 
-export const getReferences = async (): Promise<{ references: ReadonlyArray<Location>; symbol: string }> => {
+export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
   const { document, position, symbol } = await getCurrentState()
   const locations = await languages.getReferences(document, { includeDeclaration: false }, position)
 
@@ -91,7 +91,7 @@ export const getReferences = async (): Promise<{ references: ReadonlyArray<Locat
   }
 }
 
-export const getTypeDefinition = async (): Promise<{ typeDefinitions: ReadonlyArray<Location>; symbol: string }> => {
+export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Location>; symbol: string }> => {
   const { document, position, symbol } = await getCurrentState()
   const locations = await languages.getTypeDefinition(document, position)
 

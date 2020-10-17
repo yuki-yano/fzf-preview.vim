@@ -14,14 +14,14 @@ export type VistaBufferTag = {
   line: string
 }
 
-export const getVistaCtags = async (): Promise<ReadonlyArray<VistaTag>> => {
-  const tags = (await pluginCall("fzf_preview#remote#resource#vista#ctags")) as ReadonlyArray<VistaTag>
+export const getVistaCtags = async (): Promise<Array<VistaTag>> => {
+  const tags = (await pluginCall("fzf_preview#remote#resource#vista#ctags")) as Array<VistaTag>
 
   return tags
 }
 
-export const getVistaBufferCtags = async (): Promise<ReadonlyArray<VistaBufferTag>> => {
-  const tags = (await pluginCall("fzf_preview#remote#resource#vista#buffer_ctags")) as ReadonlyArray<VistaBufferTag>
+export const getVistaBufferCtags = async (): Promise<Array<VistaBufferTag>> => {
+  const tags = (await pluginCall("fzf_preview#remote#resource#vista#buffer_ctags")) as Array<VistaBufferTag>
 
   return tags
 }
