@@ -60,8 +60,8 @@ export const gitStashes = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 export const gitStashesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--multi": true,
-  "--header": 'Enter: git show, C-s: git status, <: Back actions, >: Select action',
+  "--header": "Enter: git show, C-s: git status, <: Back actions, >: Select action",
   "--prompt": "GitStash> ",
   "--preview": `${GIT_STASH_PREVIEW_COMMAND}`,
-  "--preview-window": 'down:50%',
+  "--preview-window": "down:50%",
 })

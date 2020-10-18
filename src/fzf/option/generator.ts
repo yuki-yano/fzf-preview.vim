@@ -66,7 +66,7 @@ const getPreviewWindowOption = (): FzfOptions => {
 
   const columns = vimOptionsSelector("columns")
   if (columns < PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
-    return { "--preview-window": 'down:50%' }
+    return { "--preview-window": "down:50%" }
   } else {
     return {}
   }
@@ -75,9 +75,7 @@ const getPreviewWindowOption = (): FzfOptions => {
 const getPreviewKeyBindings = (): FzfOptions => {
   const previewKeyBindings = globalVariableSelector("fzfPreviewPreviewKeyBindings")
 
-  return previewKeyBindings == null || previewKeyBindings === ""
-    ? {}
-    : { "--bind": `${previewKeyBindings as string}` }
+  return previewKeyBindings == null || previewKeyBindings === "" ? {} : { "--bind": `${previewKeyBindings as string}` }
 }
 
 const getColorOption = (): FzfOptions => {

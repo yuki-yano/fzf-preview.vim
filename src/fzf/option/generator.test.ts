@@ -244,7 +244,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
       })
-    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": 'foo' })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": "foo" })
   })
 
   it("--preview-window options when columns less than layout change size", async () => {
@@ -262,7 +262,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
       })
-    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": 'down:50%' })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": "down:50%" })
   })
 
   it("set --color options", async () => {
@@ -282,7 +282,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
       })
-    ).toEqual({ ...fzfCommandDefaultOptions, "--color": 'foo' })
+    ).toEqual({ ...fzfCommandDefaultOptions, "--color": "foo" })
   })
 
   it("empty user options", async () => {
@@ -331,7 +331,7 @@ describe("generateOptions", () => {
         resumeQuery: "foo",
       })
 
-      const queryOption = { "--query": 'foo' }
+      const queryOption = { "--query": "foo" }
 
       expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
       expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...queryOption })

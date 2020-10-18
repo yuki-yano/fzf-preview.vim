@@ -49,8 +49,7 @@ export const GIT_LOG_ACTIONS = [
 export const GIT_STASH_ACTIONS = ["show", "diff", "apply", "pop", "drop", "yank"] as const
 export const GIT_REFLOG_ACTIONS = ["show", "diff", "reset", "reset-hard", "reset-soft", "checkout", "yank"] as const
 
-export const GIT_BRANCH_COMMAND =
-  "git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%(color:reset)    %(color:reset)%(HEAD) %(color:magenta)%(refname:short)%(color:reset)    %(color:yellow)%(authordate:short)%(color:reset)    %(color:blue)[%(authorname)]%(color:reset)%09' 2> " + nullStream
+export const GIT_BRANCH_COMMAND = `git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%(color:reset)    %(color:reset)%(HEAD) %(color:magenta)%(refname:short)%(color:reset)    %(color:yellow)%(authordate:short)%(color:reset)    %(color:blue)[%(authorname)]%(color:reset)%09' 2> ${nullStream}`
 
 const GIT_BRANCH_PREVIEW_COMMAND_OPTION =
   "--decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always"

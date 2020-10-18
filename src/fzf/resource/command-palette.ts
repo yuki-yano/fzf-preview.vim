@@ -25,6 +25,6 @@ export const commandPalette = async (_args: SourceFuncArgs): Promise<Resource> =
 }
 
 export const commandPaletteDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": 'CommandPalette> ',
-  "--header": 'C-e: Edit',
+  "--prompt": "CommandPalette> ",
+  "--header": "C-e: Edit",
 })

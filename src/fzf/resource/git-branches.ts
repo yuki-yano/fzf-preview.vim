@@ -56,8 +56,8 @@ export const gitBranches = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 export const gitBranchesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--multi": true,
-  "--header": 'Enter: checkout, C-s: git status,<: Back actions,  >: Select action',
+  "--header": "Enter: checkout, C-s: git status,<: Back actions,  >: Select action",
   "--prompt": "GitBranch> ",
   "--preview": `${GIT_BRANCH_PREVIEW_COMMAND}`,
-  "--preview-window": 'down:50%',
+  "--preview-window": "down:50%",
 })
