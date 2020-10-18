@@ -1,4 +1,4 @@
-import { fzfOptionsToString, joinBind } from "@/fzf/option/convert"
+import { fzfOptionsToStringArray, joinBind } from "@/fzf/option/convert"
 import { FzfOptions } from "@/type"
 
 const defaultBind = [
@@ -22,7 +22,7 @@ describe("joinBind", () => {
   })
 })
 
-describe("fzfOptionsToString", () => {
+describe("fzfOptionsToStringArray", () => {
   let options: FzfOptions = {}
 
   describe("setting defined options", () => {
@@ -35,28 +35,33 @@ describe("fzfOptionsToString", () => {
     })
 
     it("default value", () => {
-      expect(fzfOptionsToString(options)).toBe(
-        '--ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --expect="ctrl-x,ctrl-v,ctrl-t"'
-      )
+      expect(fzfOptionsToStringArray(options)).toEqual([
+        "--ansi",
+        "--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview",
+        "--expect=ctrl-x,ctrl-v,ctrl-t",
+      ])
     })
 
     it("delete ansi", () => {
       options["--ansi"] = undefined
-      expect(fzfOptionsToString(options)).toBe(
-        '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --expect="ctrl-x,ctrl-v,ctrl-t"'
-      )
+      expect(fzfOptionsToStringArray(options)).toEqual([
+        "--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview",
+        "--expect=ctrl-x,ctrl-v,ctrl-t",
+      ])
     })
 
     it("string bind", () => {
-      options["--bind"] = '"foo"'
-      expect(fzfOptionsToString(options)).toBe('--ansi --bind="foo" --expect="ctrl-x,ctrl-v,ctrl-t"')
+      options["--bind"] = "foo"
+      expect(fzfOptionsToStringArray(options)).toEqual(["--ansi", "--bind=foo", "--expect=ctrl-x,ctrl-v,ctrl-t"])
     })
 
     it("string expect", () => {
-      options["--expect"] = '"foo"'
-      expect(fzfOptionsToString(options)).toBe(
-        '--ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --expect="foo"'
-      )
+      options["--expect"] = "foo"
+      expect(fzfOptionsToStringArray(options)).toEqual([
+        "--ansi",
+        "--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview",
+        "--expect=foo",
+      ])
     })
   })
 
@@ -66,14 +71,14 @@ describe("fzfOptionsToString", () => {
         "--foo": undefined,
         "--bar": "bar",
       }
-      expect(fzfOptionsToString(options)).toBe("--foo --bar=bar")
+      expect(fzfOptionsToStringArray(options)).toEqual(["--foo", "--bar=bar"])
     })
 
     it('use double quote in value: --foobar: ""foo bar""', () => {
       options = {
-        "--foobar": '"foo bar"',
+        "--foobar": "foo bar",
       }
-      expect(fzfOptionsToString(options)).toBe('--foobar="foo bar"')
+      expect(fzfOptionsToStringArray(options)).toEqual(["--foobar=foo bar"])
     })
 
     // If not enclosed in double quotes, another args is used
@@ -81,7 +86,7 @@ describe("fzfOptionsToString", () => {
       options = {
         "--foobar": "foo bar",
       }
-      expect(fzfOptionsToString(options)).toBe("--foobar=foo bar")
+      expect(fzfOptionsToStringArray(options)).toEqual(["--foobar=foo bar"])
     })
   })
 })

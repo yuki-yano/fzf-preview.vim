@@ -30,11 +30,11 @@ export const vistaCtags = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} '{-1}:{2}'"`
+  return `${grepPreviewCommand} '{-1}:{2}'`
 }
 
 export const vistaCtagsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"VistaCtags> "',
+  "--prompt": "VistaCtags> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

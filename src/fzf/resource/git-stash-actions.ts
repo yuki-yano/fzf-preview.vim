@@ -62,5 +62,5 @@ export const gitStashActions = async (_args: SourceFuncArgs): Promise<Resource> 
 }
 
 export const gitStashActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitStashActions> "',
+  "--prompt": "GitStashActions> ",
 })

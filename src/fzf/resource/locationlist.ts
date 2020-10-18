@@ -29,11 +29,11 @@ export const locationList = async (_args: SourceFuncArgs): Promise<Resource> => 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `${grepPreviewCommand} {2..}`
 }
 
 export const locationListDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"LocationList> "',
+  "--prompt": "LocationList> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

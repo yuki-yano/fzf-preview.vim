@@ -11,7 +11,7 @@ export const filePreviewCommand = (): string => {
   const binaryPreviewCommand = globalVariableSelector("fzfBinaryPreviewCommand") as string
   const ifBinaryCommand = globalVariableSelector("fzfPreviewIfBinaryCommand") as string
 
-  return `'${ifBinaryCommand} && ${binaryPreviewCommand} || ${previewCommand}'`
+  return `${ifBinaryCommand} && ${binaryPreviewCommand} || ${previewCommand}`
 }
 
 const createGitLogAndStashOption = (prefix: string) => {

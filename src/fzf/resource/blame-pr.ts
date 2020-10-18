@@ -49,7 +49,7 @@ export const blamePr = async (_args: SourceFuncArgs): Promise<Resource> => {
 }
 
 export const blamePrDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Blame PR> "',
+  "--prompt": "Blame PR> ",
   "--multi": true,
-  "--preview": '"gh pr view {3}"',
+  "--preview": 'gh pr view {3}',
 })

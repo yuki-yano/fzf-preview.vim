@@ -25,7 +25,7 @@ export const defaultOptions: FzfOptions = {
   // alt-enter is workaround
   "--expect": ["alt-enter"],
   "--bind": defaultBind,
-  "--with-nth": '"2.."',
+  "--with-nth": "2..",
 } as const
 
 const getUserDefaultOptions = (): FzfOptions => {
@@ -36,7 +36,7 @@ const getUserDefaultOptions = (): FzfOptions => {
 
   return mapValues(userDefaultOptions, (value) => {
     if (typeof value === "string") {
-      return `"${value}"`
+      return `${value}`
     }
 
     return value
@@ -61,12 +61,12 @@ const getExpectFromDefaultProcesses = (defaultProcesses: Processes): FzfOptions 
 const getPreviewWindowOption = (): FzfOptions => {
   const previewWindowOptionVimValue = globalVariableSelector("fzfPreviewFzfPreviewWindowOption")
   if (previewWindowOptionVimValue != null && previewWindowOptionVimValue !== "") {
-    return { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
+    return { "--preview-window": `${previewWindowOptionVimValue as string}` }
   }
 
   const columns = vimOptionsSelector("columns")
   if (columns < PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
-    return { "--preview-window": '"down:50%"' }
+    return { "--preview-window": 'down:50%' }
   } else {
     return {}
   }
@@ -77,7 +77,7 @@ const getPreviewKeyBindings = (): FzfOptions => {
 
   return previewKeyBindings == null || previewKeyBindings === ""
     ? {}
-    : { "--bind": `"${previewKeyBindings as string}"` }
+    : { "--bind": `${previewKeyBindings as string}` }
 }
 
 const getColorOption = (): FzfOptions => {
@@ -85,7 +85,7 @@ const getColorOption = (): FzfOptions => {
 
   return colorOptionVimValue == null || colorOptionVimValue === ""
     ? {}
-    : { "--color": `"${colorOptionVimValue as string}"` }
+    : { "--color": `${colorOptionVimValue as string}` }
 }
 
 const getExpectFromUserProcesses = async (userProcesses: UserProcesses | undefined): Promise<FzfOptions> => {
@@ -137,7 +137,7 @@ export const generateOptions = async ({
   userOptions,
   resumeQuery,
 }: OptionsArgs): Promise<FzfOptions> => {
-  const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` }
+  const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": `${resumeQuery}` }
 
   const fzfCommandOptions = {
     ...defaultOptions,

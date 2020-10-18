@@ -24,9 +24,9 @@ const definedOptionsToArray = (options: FzfOptions) => {
   }
   if (options["--expect"] && Array.isArray(options["--expect"])) {
     if (options["--expect"].length > 0) {
-      arrayOptions.push(`--expect="${options["--expect"].join(",")}"`)
+      arrayOptions.push(`--expect=${options["--expect"].join(",")}`)
     } else {
-      arrayOptions.push(`--expect="alt-enter"`)
+      arrayOptions.push(`--expect=alt-enter`)
     }
   } else if (options["--expect"] && typeof options["--expect"] === "string") {
     arrayOptions.push(`--expect=${options["--expect"]}`)
@@ -52,6 +52,6 @@ const optionsToArray = (options: FzfOptions) => {
   return arrayOptions
 }
 
-export const fzfOptionsToString = (options: FzfOptions): string => {
-  return optionsToArray(options).join(" ")
+export const fzfOptionsToStringArray = (options: FzfOptions): Array<string> => {
+  return optionsToArray(options)
 }

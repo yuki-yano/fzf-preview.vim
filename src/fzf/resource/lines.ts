@@ -41,11 +41,11 @@ export const lines = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = async () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} ${await getCurrentFilePath()}:{2}"`
+  return `${grepPreviewCommand} ${await getCurrentFilePath()}:{2}`
 }
 
 export const linesDefaultOptions = async (): Promise<FzfCommandDefinitionDefaultOption> => ({
-  "--prompt": '"Lines> "',
+  "--prompt": "Lines> ",
   "--multi": true,
   "--preview": await previewCommand(),
 })

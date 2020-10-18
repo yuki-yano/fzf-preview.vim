@@ -62,5 +62,5 @@ export const gitReflogActions = async (_args: SourceFuncArgs): Promise<Resource>
 }
 
 export const gitReflogActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitReflogActions> "',
+  "--prompt": "GitReflogActions> ",
 })

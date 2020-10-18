@@ -29,11 +29,11 @@ export const quickFix = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `${grepPreviewCommand} {2..}`
 }
 
 export const quickFixDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"QuickFix> "',
+  "--prompt": "QuickFix> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

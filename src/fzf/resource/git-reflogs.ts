@@ -37,8 +37,8 @@ export const gitReflogs = async (_args: SourceFuncArgs): Promise<Resource> => {
 
 export const gitReflogsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--multi": true,
-  "--header": '"Enter: git show, C-s: git status, <: Back actions, >: Select action"',
-  "--prompt": '"GitReflog> "',
-  "--preview": `"${GIT_REFLOG_PREVIEW_COMMAND}"`,
-  "--preview-window": '"down:50%"',
+  "--header": "Enter: git show, C-s: git status, <: Back actions, >: Select action",
+  "--prompt": "GitReflog> ",
+  "--preview": `${GIT_REFLOG_PREVIEW_COMMAND}`,
+  "--preview-window": "down:50%",
 })

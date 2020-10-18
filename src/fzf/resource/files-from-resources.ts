@@ -63,12 +63,12 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
       },
       displayText: colorizeFile((line.data as FileData).file),
     })),
-    options: { "--header": `"[Resources] ${args.args.join(" ")}"` },
+    options: { "--header": `[Resources] ${args.args.join(" ")}` },
   }
 }
 
 export const filesFromResourcesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"ResourceFrom> "',
+  "--prompt": "ResourceFrom> ",
   "--multi": true,
   "--preview": filePreviewCommand(),
   "--keep-right": true,

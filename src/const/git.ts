@@ -57,5 +57,5 @@ const GIT_BRANCH_PREVIEW_COMMAND_OPTION =
 export const GIT_BRANCH_PREVIEW_COMMAND = `[[ '{2}' != '*' ]] && git log {2} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION} 2> ${nullStream} || git log {3} ${GIT_BRANCH_PREVIEW_COMMAND_OPTION} 2> ${nullStream}`
 
 export const GIT_LOG_PREVIEW_COMMAND = "git show {2} --color=always"
-export const GIT_STASH_PREVIEW_COMMAND = "git show {2} --color=always 2> " + nullStream
+export const GIT_STASH_PREVIEW_COMMAND = `git show {2} --color=always 2> ${nullStream}`
 export const GIT_REFLOG_PREVIEW_COMMAND = "git show {2} --color=always"

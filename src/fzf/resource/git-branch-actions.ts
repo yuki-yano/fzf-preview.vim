@@ -59,5 +59,5 @@ export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource>
 }
 
 export const gitBranchActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitBranchActions> "',
+  "--prompt": "GitBranchActions> ",
 })

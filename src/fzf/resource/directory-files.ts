@@ -7,7 +7,7 @@ import type { FzfCommandDefinitionDefaultOption, FzfCommandDynamicOption, Resour
 export const directoryFiles = async ({ args }: SourceFuncArgs): Promise<Resource> => {
   const arg = args[0] != null ? args[0] : ""
   const lines = (await execDirectoryFiles(arg)).filter((file) => file !== "" && !file.includes(" "))
-  const options: FzfCommandDynamicOption | undefined = arg ? { "--header": `"[Directory] ${arg}"` } : undefined
+  const options: FzfCommandDynamicOption | undefined = arg ? { "--header": `[Directory] ${arg}` } : undefined
 
   return {
     type: "json",
@@ -24,7 +24,7 @@ export const directoryFiles = async ({ args }: SourceFuncArgs): Promise<Resource
 }
 
 export const directoryFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"DirectoryFiles> "',
+  "--prompt": "DirectoryFiles> ",
   "--multi": true,
   "--preview": filePreviewCommand(),
   "--keep-right": true,

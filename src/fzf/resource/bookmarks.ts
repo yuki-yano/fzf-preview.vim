@@ -26,11 +26,11 @@ export const bookmarks = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {}"`
+  return `${grepPreviewCommand} {}`
 }
 
 export const bookmarksDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Bookmarks> "',
+  "--prompt": "Bookmarks> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

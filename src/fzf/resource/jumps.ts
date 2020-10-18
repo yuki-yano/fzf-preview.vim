@@ -26,11 +26,11 @@ export const jumps = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `${grepPreviewCommand} {2..}`
 }
 
 export const jumpsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Jumps> "',
+  "--prompt": "Jumps> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

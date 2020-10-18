@@ -30,7 +30,7 @@ export const projectMrwFiles = async (_args: SourceFuncArgs): Promise<Resource> 
 }
 
 export const projectMrwFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"ProjectMrwFiles> "',
+  "--prompt": "ProjectMrwFiles> ",
   "--multi": true,
   "--preview": filePreviewCommand(),
   "--keep-right": true,
