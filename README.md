@@ -417,6 +417,25 @@ let g:fzf_preview_dev_icons_limit = 5000
 $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 ```
 
+#### Windows
+
+Windows is partially supported with the following customization.
+
+```vim
+let g:fzf_preview_command = 'cat'                               " Not installed bat
+" let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
+
+" their is no windows native command to test if a file is binary, so we have to disable the test, and fall back to the text file preview
+let g:fzf_preview_if_binary_command = '(VER>NUL)'
+let g:fzf_binary_preview_command = g:fzf_preview_command
+
+" ! should not be escaped
+let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages --glob "!.git/*" --glob !"* *"'
+let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g !"* *"'
+```
+
+Every thing should works except the default git actions preview and yankround preview.
+
 ### Command Options
 
 Comment out line is settings for coc extensions.
