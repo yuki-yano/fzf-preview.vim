@@ -3,10 +3,7 @@ import { find } from "lodash"
 
 import type { Color, Diagnostic } from "@/type"
 
-type ColorCode = {
-  [key in Color]: string
-}
-const colorCode: ColorCode = {
+const colorCode = {
   reset: ansi.style.reset,
   black: ansi.style.black,
   red: ansi.style.red,
@@ -16,7 +13,7 @@ const colorCode: ColorCode = {
   magenta: ansi.style.magenta,
   cyan: ansi.style.cyan,
   white: ansi.style.white,
-}
+} as const
 
 type Options = {
   bold?: boolean
