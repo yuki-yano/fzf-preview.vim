@@ -375,7 +375,8 @@ let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 let g:fzf_preview_disable_mru = 0
 
 " Commands used for current file lines
-let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
+let g:fzf_preview_lines_command = 'cat -n'                                " Not Installed bat
+" let g:fzf_preview_lines_command = 'bat --color=always --plain --number' " Installed bat
 
 " Commands used for preview of the grep result
 let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
