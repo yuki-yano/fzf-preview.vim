@@ -1,4 +1,4 @@
-import { fzfOptionsToString } from "@/fzf/option/convert"
+import { fzfOptionsToStringArray } from "@/fzf/option/convert"
 import { pluginCall } from "@/plugin"
 import type { FzfOptions, ResourceLine, ResourceLines } from "@/type"
 
@@ -16,7 +16,7 @@ export const fzfRunner = async ({ resourceLines, handler, options }: Parameter):
   await pluginCall("fzf_preview#remote#runner#fzf_run", {
     source: resourceLines.map((line) => resourceLineToFzfLine(line)),
     handler,
-    options: fzfOptionsToString(options),
+    options: fzfOptionsToStringArray(options),
     environment: PLUGIN.ENV,
   })
 }

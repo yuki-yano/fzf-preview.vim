@@ -19,18 +19,18 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
   return {
     type: "json",
     lines: resourceLines,
-    options: { "--header": `"[Symbol] ${symbol}"` },
+    options: { "--header": `[Symbol] ${symbol}` },
   }
 }
 
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `${grepPreviewCommand} {2..}`
 }
 
 export const cocReferencesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"References> "',
+  "--prompt": "References> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

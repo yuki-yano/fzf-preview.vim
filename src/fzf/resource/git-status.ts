@@ -68,8 +68,8 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
 }
 
 export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitStatus> "',
+  "--prompt": "GitStatus> ",
   "--multi": true,
-  "--preview": `'${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}'`,
+  "--preview": `${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}`,
   "--keep-right": true,
 })

@@ -25,7 +25,7 @@ export const gitFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
 }
 
 export const gitFilesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitFiles> "',
+  "--prompt": "GitFiles> ",
   "--multi": true,
   "--preview": filePreviewCommand(),
   "--keep-right": true,

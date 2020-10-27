@@ -25,11 +25,11 @@ const previewCommand = () => {
   const yankroundPreviewCommand = globalVariableSelector("fzfPreviewYankroundPreviewCommand") as string
   const historyFile = `${globalVariableSelector("yankroundDir") as string}/history`
 
-  return `"${yankroundPreviewCommand} ${historyFile} {2}"`
+  return `${yankroundPreviewCommand} ${historyFile} {2}`
 }
 
 export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Yankround> "',
+  "--prompt": "Yankround> ",
   "--preview": previewCommand(),
   "--no-sort": true,
   "--with-nth": "4..",

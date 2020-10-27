@@ -23,11 +23,11 @@ export const ctags = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} '{-1}:{2}'"`
+  return `${grepPreviewCommand} '{-1}:{2}'`
 }
 
 export const ctagsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Ctags> "',
+  "--prompt": "Ctags> ",
   "--multi": true,
   "--preview": previewCommand(),
 })

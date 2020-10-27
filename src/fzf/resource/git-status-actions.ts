@@ -59,5 +59,5 @@ export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource>
 }
 
 export const gitStatusActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"GitStatusActions> "',
+  "--prompt": "GitStatusActions> ",
 })

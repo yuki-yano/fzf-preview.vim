@@ -102,7 +102,7 @@ export const fileFormatBuffers = async (_args: SourceFuncArgs): Promise<Resource
 }
 
 export const buffersDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Buffers> "',
+  "--prompt": "Buffers> ",
   "--multi": true,
   "--preview": filePreviewCommand(),
   "--keep-right": true,
