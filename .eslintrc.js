@@ -85,9 +85,9 @@ module.exports = {
     {
       parserOptions: {
         sourceType: "module",
-        project: "./tsconfig.webpack.json",
+        project: "./tsconfig.webpack-jest.json",
       },
-      files: ["./webpack.*.ts"],
+      files: ["./webpack.*.ts", "./jest.config.ts"],
       rules: {
         "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
         "no-restricted-imports": "off",

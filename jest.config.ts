@@ -1,11 +1,14 @@
-module.exports = {
+import type { Config } from "@jest/types"
+
+const config: Config.InitialOptions = {
+  verbose: true,
   moduleFileExtensions: ["js", "ts"],
   transform: {
     "^.+\\.ts$": "ts-jest",
   },
   globals: {
     "ts-jest": {
-      tsConfig: "tsconfig.json",
+      tsconfig: "tsconfig.json",
     },
   },
   moduleNameMapper: {
@@ -16,3 +19,5 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
 }
+
+export default config
