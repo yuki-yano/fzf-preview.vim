@@ -1,6 +1,6 @@
 import { gitCheckout, gitCommit, gitDiff, gitRebaseInteractive, gitReset, gitShow, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
-import { FzfCommandName } from "@/type"
+import type { FzfCommandName } from "@/type"
 import { unreachable } from "@/util/type"
 
 /* eslint-disable complexity */

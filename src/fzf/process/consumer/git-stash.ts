@@ -1,7 +1,7 @@
 import { gitShow, gitStashCreate } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
-import { GitStashData } from "@/type"
+import type { GitStashData } from "@/type"
 
 export const chainGitStashActionsConsumer = createBulkLineConsumer(async (dataList) => {
   const gitStashData = dataList.filter((data): data is GitStashData => data.type === "git-stash")

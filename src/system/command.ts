@@ -1,4 +1,5 @@
-import { exec, execSync, SpawnSyncReturns } from "child_process"
+import type { SpawnSyncReturns } from "child_process"
+import { exec, execSync } from "child_process"
 import { promisify } from "util"
 
 import { MAX_BUFFER_SIZE } from "@/const/system"

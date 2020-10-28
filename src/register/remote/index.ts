@@ -6,7 +6,7 @@ import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
 import { pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
-import { CallbackLines } from "@/type"
+import type { CallbackLines } from "@/type"
 
 export const registerRemoteCommands = (): void => {
   commandDefinition.forEach((fzfCommand) => {

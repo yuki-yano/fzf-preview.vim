@@ -1,4 +1,4 @@
-import {
+import type {
   GIT_ACTIONS,
   GIT_BRANCH_ACTIONS,
   GIT_LOG_ACTIONS,

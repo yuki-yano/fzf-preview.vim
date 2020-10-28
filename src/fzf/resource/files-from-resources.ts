@@ -1,6 +1,6 @@
 import { uniqWith } from "lodash"
 
-import { FILE_RESOURCES } from "@/const/fzf-option"
+import type { FILE_RESOURCES } from "@/const/fzf-option"
 import { fileFormatBuffers } from "@/fzf/resource/buffers"
 import { directoryFiles } from "@/fzf/resource/directory-files"
 import { gitFiles } from "@/fzf/resource/git-files"

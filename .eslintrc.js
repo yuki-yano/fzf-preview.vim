@@ -54,6 +54,7 @@ module.exports = {
     "no-restricted-imports": ["error", { patterns: ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
+    "@typescript-eslint/consistent-type-imports": "error",
 
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],

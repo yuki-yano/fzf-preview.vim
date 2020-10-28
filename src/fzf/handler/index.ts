@@ -1,5 +1,5 @@
 import { createProcessFunctionName } from "@/fzf/util"
-import { State as ExecuteCommandState } from "@/module/execute-command"
+import type { State as ExecuteCommandState } from "@/module/execute-command"
 import { loadExecuteCommandStore } from "@/module/persist"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { processesRunner } from "@/plugin/process-runner"

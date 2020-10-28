@@ -1,4 +1,5 @@
-import { getVistaBufferCtags, VistaBufferTag } from "@/connector/vista"
+import type { VistaBufferTag } from "@/connector/vista"
+import { getVistaBufferCtags } from "@/connector/vista"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"

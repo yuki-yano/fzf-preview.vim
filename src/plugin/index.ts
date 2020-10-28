@@ -1,7 +1,7 @@
-import { Neovim } from "coc.nvim"
-import { NvimPlugin } from "neovim"
-import { AutocmdOptions, CommandOptions, NvimFunctionOptions } from "neovim/lib/host/NvimPlugin"
-import { VimValue } from "neovim/lib/types/VimValue"
+import type { Neovim } from "coc.nvim"
+import type { NvimPlugin } from "neovim"
+import type { AutocmdOptions, CommandOptions, NvimFunctionOptions } from "neovim/lib/host/NvimPlugin"
+import type { VimValue } from "neovim/lib/types/VimValue"
 
 // @ts-ignore
 let remotePlugin: NvimPlugin = null // eslint-disable-line import/no-mutable-exports

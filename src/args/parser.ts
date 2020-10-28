@@ -1,4 +1,5 @@
-import yargs, { Argv } from "yargs"
+import type { Argv } from "yargs"
+import yargs from "yargs"
 
 export const argsParser = (): Argv => {
   yargs.option("add-fzf-arg", { type: "string" })

@@ -1,4 +1,4 @@
-import { VimValue } from "neovim/lib/types/VimValue"
+import type { VimValue } from "neovim/lib/types/VimValue"
 
 import { store } from "@/store"
 import type { GlobalVariableName, VimOptionName } from "@/type"

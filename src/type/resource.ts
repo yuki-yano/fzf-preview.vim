@@ -1,5 +1,12 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
-import { GitAction, GitBranchAction, GitLogAction, GitReflogAction, GitStashAction, GitStatusAction } from "@/type/git"
+import type {
+  GitAction,
+  GitBranchAction,
+  GitLogAction,
+  GitReflogAction,
+  GitStashAction,
+  GitStatusAction,
+} from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName

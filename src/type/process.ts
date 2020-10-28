@@ -1,5 +1,5 @@
-import { PROCESSES_NAME } from "@/const/fzf-processes"
-import { ResourceData } from "@/type/resource"
+import type { PROCESSES_NAME } from "@/const/fzf-processes"
+import type { ResourceData } from "@/type/resource"
 
 export type CallbackLine = string
 export type CallbackLines = Array<CallbackLine>

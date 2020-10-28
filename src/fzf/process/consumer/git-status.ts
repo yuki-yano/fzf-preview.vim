@@ -1,7 +1,7 @@
 import { gitAdd, gitCommit, gitPatch, gitReset } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
-import { GitStatusData } from "@/type"
+import type { GitStatusData } from "@/type"
 
 export const chainGitStatusActionsConsumer = createBulkLineConsumer(async (dataList) => {
   const gitStatusDataList = dataList.filter((data): data is GitStatusData => data.type === "git-status")

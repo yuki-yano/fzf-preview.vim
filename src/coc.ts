@@ -1,4 +1,5 @@
-import { commands, ExtensionContext, workspace } from "coc.nvim"
+import type { ExtensionContext } from "coc.nvim"
+import { commands, workspace } from "coc.nvim"
 
 import {
   initializeExtension,
