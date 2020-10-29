@@ -10,7 +10,7 @@ export const joinBind = (
   return bind.map(({ key, action }) => `${key}:${action}`).join(",")
 }
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 const definedOptionsToArray = (options: FzfOptions) => {
   const arrayOptions: Array<string> = []
 
@@ -34,7 +34,6 @@ const definedOptionsToArray = (options: FzfOptions) => {
 
   return arrayOptions
 }
-/* eslint-enable complexity */
 
 const optionsToArray = (options: FzfOptions) => {
   const arrayOptions = definedOptionsToArray(options)

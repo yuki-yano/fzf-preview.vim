@@ -2,7 +2,7 @@ import { gitDiff, gitShow, gitStashApply, gitStashDrop, gitStashPop, gitYank } f
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 export const execGitStashActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-stash-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -75,4 +75,3 @@ export const execGitStashActionConsumer = createSingleLineConsumer(async (data) 
     }
   }
 })
-/* eslint-enable complexity */

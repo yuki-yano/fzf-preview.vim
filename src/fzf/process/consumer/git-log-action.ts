@@ -3,7 +3,7 @@ import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consume
 import type { FzfCommandName } from "@/type"
 import { unreachable } from "@/util/type"
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 export const execGitLogActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-log-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -111,4 +111,3 @@ export const execGitLogActionConsumer = createSingleLineConsumer(async (data) =>
     }
   }
 })
-/* eslint-enable complexity */

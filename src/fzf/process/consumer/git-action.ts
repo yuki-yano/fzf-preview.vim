@@ -5,7 +5,7 @@ import { saveStore } from "@/module/persist"
 import { dispatch } from "@/store"
 import { unreachable } from "@/util/type"
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -80,4 +80,3 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
   }
 })
-/* eslint-enable complexity */
