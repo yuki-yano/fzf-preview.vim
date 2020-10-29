@@ -58,17 +58,37 @@ const getExpectFromDefaultProcesses = (defaultProcesses: Processes): FzfOptions 
   return { "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter") }
 }
 
-const getPreviewWindowOption = (): FzfOptions => {
+// eslint-disable-next-line complexity
+const getPreviewWindowOption = (fzfCommandDefaultOptions: FzfOptions): FzfOptions => {
+  const defaultPreviewWindowOption =
+    fzfCommandDefaultOptions["--preview-window"] != null &&
+    typeof fzfCommandDefaultOptions["--preview-window"] === "string"
+      ? `${fzfCommandDefaultOptions["--preview-window"]}`
+      : null
+
   const previewWindowOptionVimValue = globalVariableSelector("fzfPreviewFzfPreviewWindowOption")
+
   if (previewWindowOptionVimValue != null && previewWindowOptionVimValue !== "") {
-    return { "--preview-window": `"${previewWindowOptionVimValue as string}"` }
+    if (defaultPreviewWindowOption != null) {
+      return {
+        "--preview-window": `"${defaultPreviewWindowOption}:${previewWindowOptionVimValue as string}"`,
+      }
+    } else {
+      return {
+        "--preview-window": `"${previewWindowOptionVimValue as string}"`,
+      }
+    }
   }
 
   const columns = vimOptionsSelector("columns")
   if (columns < PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
-    return { "--preview-window": '"down:50%"' }
+    if (defaultPreviewWindowOption != null) {
+      return { "--preview-window": `"${defaultPreviewWindowOption}:down:50%"` }
+    } else {
+      return { "--preview-window": '"down:50%"' }
+    }
   } else {
-    return {}
+    return { "--preview-window": defaultPreviewWindowOption != null ? defaultPreviewWindowOption : undefined }
   }
 }
 
@@ -145,7 +165,7 @@ export const generateOptions = async ({
     ...fzfCommandDefaultOptions,
     ...dynamicOptions,
     ...getExpectFromDefaultProcesses(defaultProcesses),
-    ...getPreviewWindowOption(),
+    ...getPreviewWindowOption(fzfCommandDefaultOptions),
     ...getPreviewKeyBindings(),
     ...getColorOption(),
     ...(await getExpectFromUserProcesses(userProcesses)),

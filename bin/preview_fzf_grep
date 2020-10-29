@@ -9,7 +9,7 @@ import os
 bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi-dark'))
 
 GREP_OUTPUT_REGEX = re.compile(
-    r'^(\s\s\s.+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
+    r'^(\s\s\s.+\s)?(\d+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
 )
 CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
@@ -29,7 +29,10 @@ if not match:
 
 file_name = match.group('file_name')
 line_num = int(match.group('line_num'))
-start = max(line_num - 10, 1)
+
+# Set preview window offset. See: https://github.com/junegunn/fzf/commit/0f9cb5590ec0a397143a7a4caf003a54885f4375
+# start = max(line_num - 10, 1)
+start = 1
 last = line_num + 100
 
 cats = [

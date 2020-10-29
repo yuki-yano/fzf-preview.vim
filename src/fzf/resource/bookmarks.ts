@@ -33,4 +33,6 @@ export const bookmarksDefaultOptions = (): FzfCommandDefinitionDefaultOption => 
   "--prompt": '"Bookmarks> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

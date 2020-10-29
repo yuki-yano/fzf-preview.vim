@@ -38,4 +38,6 @@ export const vistaCtagsDefaultOptions = (): FzfCommandDefinitionDefaultOption =>
   "--prompt": '"VistaCtags> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"2.."',
 })

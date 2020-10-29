@@ -46,4 +46,6 @@ export const bufferLinesDefaultOptions = (): FzfCommandDefinitionDefaultOption =
   "--prompt": '"BufferLines> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

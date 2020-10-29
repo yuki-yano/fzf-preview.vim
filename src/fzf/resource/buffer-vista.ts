@@ -48,4 +48,6 @@ export const vistaBufferCtagsDefaultOptions = async (): Promise<FzfCommandDefini
   "--prompt": '"VistaBufferCtags> "',
   "--multi": true,
   "--preview": await previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

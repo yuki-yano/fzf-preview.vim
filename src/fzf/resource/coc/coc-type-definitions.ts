@@ -26,11 +26,13 @@ export const cocTypeDefinitions = async (_args: SourceFuncArgs): Promise<Resourc
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `"${grepPreviewCommand} {3..}"`
 }
 
 export const cocTypeDefinitionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"TypeDefinitions> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })
