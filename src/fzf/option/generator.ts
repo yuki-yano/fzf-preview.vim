@@ -87,8 +87,10 @@ const getPreviewWindowOption = (fzfCommandDefaultOptions: FzfOptions): FzfOption
     } else {
       return { "--preview-window": '"down:50%"' }
     }
+  } else if (defaultPreviewWindowOption != null) {
+    return { "--preview-window": defaultPreviewWindowOption }
   } else {
-    return { "--preview-window": defaultPreviewWindowOption != null ? defaultPreviewWindowOption : undefined }
+    return {}
   }
 }
 
