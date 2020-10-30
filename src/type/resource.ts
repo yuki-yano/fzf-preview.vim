@@ -1,10 +1,18 @@
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
-import { GitAction, GitBranchAction, GitLogAction, GitReflogAction, GitStashAction, GitStatusAction } from "@/type/git"
+import type {
+  GitAction,
+  GitBranchAction,
+  GitLogAction,
+  GitReflogAction,
+  GitStashAction,
+  GitStatusAction,
+} from "@/type/git"
 
 export type FileData = {
   command: FzfCommandName
   type: "file"
   file: string
+  lineNumber?: undefined
 }
 
 export type LineData = {
@@ -20,18 +28,21 @@ export type BufferData = {
   type: "buffer"
   file: string
   bufnr: number
+  lineNumber?: undefined
 }
 
 export type CommandPaletteData = {
   command: FzfCommandName
   type: "command-palette"
   name: string
+  lineNumber?: undefined
 }
 
 export type GitActionData = {
   command: FzfCommandName
   type: "git-actions"
   action: GitAction
+  lineNumber?: undefined
 }
 
 export type GitStatusData = {
@@ -39,6 +50,7 @@ export type GitStatusData = {
   type: "git-status"
   file: string
   status: string
+  lineNumber?: undefined
 }
 
 export type GitStatusActionData = {
@@ -46,6 +58,7 @@ export type GitStatusActionData = {
   type: "git-status-actions"
   action: GitStatusAction
   files: Array<string>
+  lineNumber?: undefined
 }
 
 export type GitBranchData = {
@@ -55,6 +68,7 @@ export type GitBranchData = {
   date: string
   author: string
   isCreate: boolean
+  lineNumber?: undefined
 }
 
 export type GitBranchActionData = {
@@ -62,6 +76,7 @@ export type GitBranchActionData = {
   type: "git-branch-actions"
   action: GitBranchAction
   branches: Array<string>
+  lineNumber?: undefined
 }
 
 export type GitLogData = {
@@ -72,6 +87,7 @@ export type GitLogData = {
   author: string
   comment: string
   isCurrentFile: boolean
+  lineNumber?: undefined
 }
 
 export type GitLogActionData = {
@@ -80,6 +96,7 @@ export type GitLogActionData = {
   action: GitLogAction
   hashes: Array<string>
   isCurrentFile: boolean
+  lineNumber?: undefined
 }
 
 export type GitStashData = {
@@ -91,6 +108,7 @@ export type GitStashData = {
   author: string
   comment: string
   isCreate: boolean
+  lineNumber?: undefined
 }
 
 export type GitStashActionData = {
@@ -99,6 +117,7 @@ export type GitStashActionData = {
   action: GitStashAction
   names: Array<string>
   hashes: Array<string>
+  lineNumber?: undefined
 }
 
 export type GitReflogData = {
@@ -109,6 +128,7 @@ export type GitReflogData = {
   date: string
   author: string
   comment: string
+  lineNumber?: undefined
 }
 
 export type GitReflogActionData = {
@@ -117,6 +137,7 @@ export type GitReflogActionData = {
   action: GitReflogAction
   names: Array<string>
   hashes: Array<string>
+  lineNumber?: undefined
 }
 
 export type RegisterData = {
@@ -131,6 +152,7 @@ export type GitPrData = {
   command: FzfCommandName
   type: "git-pr"
   prNumber?: number
+  lineNumber?: undefined
 }
 
 export type ResourceData =

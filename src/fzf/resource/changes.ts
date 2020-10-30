@@ -52,4 +52,6 @@ export const changesDefaultOptions = async (): Promise<FzfCommandDefinitionDefau
   "--prompt": '"Changes> "',
   "--multi": true,
   "--preview": await previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

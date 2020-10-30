@@ -1,4 +1,5 @@
-import { getVistaCtags, VistaTag } from "@/connector/vista"
+import type { VistaTag } from "@/connector/vista"
+import { getVistaCtags } from "@/connector/vista"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { alignLists } from "@/util/align"
@@ -37,4 +38,6 @@ export const vistaCtagsDefaultOptions = (): FzfCommandDefinitionDefaultOption =>
   "--prompt": '"VistaCtags> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"2.."',
 })

@@ -1,4 +1,4 @@
-import { VimValue } from "neovim/lib/types/VimValue"
+import type { VimValue } from "neovim/lib/types/VimValue"
 
 import { vimVariableAssociation } from "@/association/vim-variable"
 import { vimVariableModule } from "@/module/vim-variable"

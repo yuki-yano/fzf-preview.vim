@@ -1,7 +1,7 @@
 import { exportQuickFix, openFile } from "@/connector/open-file"
 import { editConsumer, exportQuickfixConsumer, splitConsumer } from "@/fzf/process/consumer/open-file"
 import { executeCommandSelector } from "@/module/selector/execute-command"
-import { FileData, LineData } from "@/type"
+import type { FileData, LineData } from "@/type"
 
 jest.mock("@/connector/open-file")
 jest.mock("@/module/selector/execute-command")

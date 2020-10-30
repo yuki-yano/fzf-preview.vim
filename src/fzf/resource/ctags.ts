@@ -30,4 +30,6 @@ export const ctagsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"Ctags> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"2.."',
 })

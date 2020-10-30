@@ -1,7 +1,7 @@
 import { gitShow } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
-import { GitLogData } from "@/type"
+import type { GitLogData } from "@/type"
 
 export const gitShowConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-log" && data.type !== "git-reflog") {

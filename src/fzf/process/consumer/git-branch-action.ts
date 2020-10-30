@@ -12,7 +12,7 @@ import {
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 export const execGitBranchActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-branch-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -147,4 +147,3 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
     }
   }
 })
-/* eslint-enable complexity */

@@ -58,4 +58,6 @@ export const bufferTagsDefaultOptions = async (): Promise<FzfCommandDefinitionDe
   "--prompt": '"BufferTags> "',
   "--multi": true,
   "--preview": await previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

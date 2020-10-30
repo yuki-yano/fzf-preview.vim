@@ -1,6 +1,6 @@
-import { Disposable, ExtensionContext } from "coc.nvim"
-import { CommandManager } from "coc.nvim/lib/commands"
-import { Workspace } from "coc.nvim/lib/workspace"
+import type { Disposable, ExtensionContext } from "coc.nvim"
+import type { CommandManager } from "coc.nvim/lib/commands"
+import type { Workspace } from "coc.nvim/lib/workspace"
 import { flatMap, mapValues } from "lodash"
 
 import { cocCommandDefinition } from "@/association/coc-command"

@@ -1,8 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import type { PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { mapKeys, mapValues } from "lodash"
-import { VimValue } from "neovim/lib/types/VimValue"
+import type { VimValue } from "neovim/lib/types/VimValue"
 
-import { vimOptions } from "@/association/vim-variable"
+import type { vimOptions } from "@/association/vim-variable"
 import { VIM_VARIABLE } from "@/const/module"
 import type { GlobalVariableName } from "@/type"
 

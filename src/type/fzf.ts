@@ -1,7 +1,7 @@
-import { CommandOptions } from "neovim/lib/host/NvimPlugin"
-import { Merge } from "type-fest"
+import type { CommandOptions } from "neovim/lib/host/NvimPlugin"
+import type { Merge } from "type-fest"
 
-import { ProcessesName } from "@/type/process"
+import type { ProcessesName } from "@/type/process"
 import type { GitBranchData, GitLogData, GitReflogData, GitStashData, GitStatusData, Resource } from "@/type/resource"
 
 export type FzfCommandDynamicOption = {

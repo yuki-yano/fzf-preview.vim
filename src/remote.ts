@@ -1,4 +1,4 @@
-import { NvimPlugin } from "neovim"
+import type { NvimPlugin } from "neovim"
 
 import { setRemotePlugin } from "@/plugin"
 import { registerFunction, registerProcesses, registerRemoteCommands } from "@/register/remote"

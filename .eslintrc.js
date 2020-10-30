@@ -54,6 +54,7 @@ module.exports = {
     "no-restricted-imports": ["error", { patterns: ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
+    "@typescript-eslint/consistent-type-imports": "error",
 
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
@@ -84,9 +85,9 @@ module.exports = {
     {
       parserOptions: {
         sourceType: "module",
-        project: "./tsconfig.webpack.json",
+        project: "./tsconfig.webpack-jest.json",
       },
-      files: ["./webpack.*.ts"],
+      files: ["./webpack.*.ts", "./jest.config.ts"],
       rules: {
         "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
         "no-restricted-imports": "off",

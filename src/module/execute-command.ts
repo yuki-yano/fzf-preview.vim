@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { VimValue } from "neovim/lib/types/VimValue"
+import type { PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
+import type { VimValue } from "neovim/lib/types/VimValue"
 
 import { EXECUTE_COMMAND } from "@/const/module"
 import type { FzfPreviewCommandList, UserProcesses } from "@/type"

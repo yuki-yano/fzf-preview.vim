@@ -1,5 +1,6 @@
-import { DiagnosticItem, languages, workspace } from "coc.nvim"
-import { Location as CocLocation } from "vscode-languageserver-types"
+import type { DiagnosticItem } from "coc.nvim"
+import { languages, workspace } from "coc.nvim"
+import type { Location as CocLocation } from "vscode-languageserver-types"
 
 import { getLineFromFile } from "@/connector/util"
 import { pluginCall } from "@/plugin"

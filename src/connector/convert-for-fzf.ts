@@ -52,10 +52,14 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
     const convertedTexts = lines.map((line) => stripAnsi(line.displayText).split(":")[0])
     const icons = createDevIconsList(convertedTexts).map((icon) => colorizeDevIcon(icon))
 
-    return lines.map((line, i) => ({
-      data: line.data,
-      displayText: `${icons[i]}  ${lines[i].displayText}`,
-    }))
+    return lines.map((line, i) => {
+      const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : ""
+
+      return {
+        data: line.data,
+        displayText: `${lineNumber}${icons[i]}  ${line.displayText}`,
+      }
+    })
   }
 
   return lines

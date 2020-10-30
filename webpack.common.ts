@@ -16,16 +16,12 @@ const common: Configuration = {
       {
         test: /\.ts$/,
         include: [path.resolve(__dirname, "src")],
-        use: [
-          {
-            loader: "ts-loader",
-            options: {
-              compilerOptions: {
-                sourceMap: true,
-              },
-            },
+        loader: "ts-loader",
+        options: {
+          compilerOptions: {
+            sourceMap: true,
           },
-        ],
+        },
       },
     ],
   },

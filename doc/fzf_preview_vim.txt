@@ -43,7 +43,7 @@ Requirements:
     https://github.com/BurntSushi/ripgrep
 
 Optional:
-- bat (Add color to the preview and require FzfPreviewLines)
+- bat (Add color to the preview)
     https://github.com/sharkdp/bat
 
 - vim-devicons (Use devicons)
@@ -488,9 +488,12 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_lines_command*
     This command is used for get current file lines.
-    Bat is required.
 
-    Default value is 'bat --color=always --plain --number {-1}'
+    Installed bat:
+        Default value is 'bat --color=always --plain --number'
+
+    Not installed bat:
+        Default value is 'cat -n'
 
 
 *g:fzf_preview_grep_preview_cmd*

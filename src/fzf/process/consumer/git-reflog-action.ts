@@ -2,7 +2,7 @@ import { gitCheckout, gitDiff, gitReset, gitShow, gitYank } from "@/connector/gi
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 export const execGitReflogActionConsumer = createSingleLineConsumer(async (data) => {
   if (data.type !== "git-reflog-actions") {
     throw new Error(`Unexpected data type: ${data.type}`)
@@ -83,4 +83,3 @@ export const execGitReflogActionConsumer = createSingleLineConsumer(async (data)
     }
   }
 })
-/* eslint-enable complexity */

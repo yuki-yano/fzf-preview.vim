@@ -9,7 +9,7 @@ import os
 bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi-dark'))
 
 GREP_OUTPUT_REGEX = re.compile(
-    r'^(\s\s\s.+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
+    r'^(\s\s\s.+\s)?(\d+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
 )
 CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
@@ -29,8 +29,10 @@ if not match:
 
 file_name = match.group('file_name')
 line_num = int(match.group('line_num'))
-start = max(line_num - 10, 1)
-last = line_num + 100
+
+# Set preview window offset. See: https://github.com/junegunn/fzf/commit/0f9cb5590ec0a397143a7a4caf003a54885f4375
+# start = max(line_num - 10, 1)
+# last = line_num + 100
 
 cats = [
     f'bat --color=always --style=grid --theme="{bat_theme}" --plain',
@@ -45,10 +47,10 @@ seds = [
 sed = list(filter(is_installed, seds))[0]
 
 result = subprocess.check_output(
-    f'{cat} "{file_name}" | {sed} -n {start},{last}p', shell=True)
+    f'{cat} "{file_name}"', shell=True)
 
 for index, line in enumerate(result.decode().split("\n")):
-    if int(line_num) - start == index:
+    if int(line_num) - 1 == index:
         line = CLEAN_LINE_REGEX.sub('', line)
         print(f"\033[1m\033[4m\033[31m{line}\033[0m")
     else:

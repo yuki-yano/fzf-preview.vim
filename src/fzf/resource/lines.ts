@@ -48,4 +48,6 @@ export const linesDefaultOptions = async (): Promise<FzfCommandDefinitionDefault
   "--prompt": '"Lines> "',
   "--multi": true,
   "--preview": await previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })

@@ -32,11 +32,13 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {2..}"`
+  return `"${grepPreviewCommand} {3..}"`
 }
 
 export const projectGrepDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"ProjectGrep> "',
   "--multi": true,
   "--preview": previewCommand(),
+  "--preview-window": '"+{2}-10"',
+  "--with-nth": '"3.."',
 })
