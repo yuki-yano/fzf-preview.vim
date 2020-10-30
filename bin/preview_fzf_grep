@@ -32,8 +32,7 @@ line_num = int(match.group('line_num'))
 
 # Set preview window offset. See: https://github.com/junegunn/fzf/commit/0f9cb5590ec0a397143a7a4caf003a54885f4375
 # start = max(line_num - 10, 1)
-start = 1
-last = line_num + 100
+# last = line_num + 100
 
 cats = [
     f'bat --color=always --style=grid --theme="{bat_theme}" --plain',
@@ -48,10 +47,10 @@ seds = [
 sed = list(filter(is_installed, seds))[0]
 
 result = subprocess.check_output(
-    f'{cat} "{file_name}" | {sed} -n {start},{last}p', shell=True)
+    f'{cat} "{file_name}"', shell=True)
 
 for index, line in enumerate(result.decode().split("\n")):
-    if int(line_num) - start == index:
+    if int(line_num) - 1 == index:
         line = CLEAN_LINE_REGEX.sub('', line)
         print(f"\033[1m\033[4m\033[31m{line}\033[0m")
     else:
