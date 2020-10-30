@@ -470,6 +470,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/10/30 version 0.4.24
+  - Improved grep etc previews to scroll to the top of the file.
+
 - 2020/10/4 version 0.4.20
   - Implement CommandPalette resource.
 
