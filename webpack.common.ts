@@ -1,5 +1,5 @@
 import path from "path"
-import { Configuration } from "webpack"
+import type { Configuration } from "webpack"
 
 const common: Configuration = {
   target: "node",
@@ -16,12 +16,7 @@ const common: Configuration = {
       {
         test: /\.ts$/,
         include: [path.resolve(__dirname, "src")],
-        loader: "ts-loader",
-        options: {
-          compilerOptions: {
-            sourceMap: true,
-          },
-        },
+        use: "ts-loader",
       },
     ],
   },
@@ -31,7 +26,7 @@ const common: Configuration = {
       config: [__filename],
     },
   },
-  ignoreWarnings: [/warning/, { module: /yargs/ }],
+  ignoreWarnings: [{ module: /yargs/ }],
   node: {
     __dirname: false,
     __filename: false,
