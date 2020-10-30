@@ -29504,6 +29504,8 @@ exports.linesDefaultOptions = async () => ({
     "--prompt": '"Lines> "',
     "--multi": true,
     "--preview": await previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -29574,6 +29576,8 @@ exports.bufferLinesDefaultOptions = () => ({
     "--prompt": '"BufferLines> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -29611,6 +29615,8 @@ exports.ctagsDefaultOptions = () => ({
     "--prompt": '"Ctags> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"2.."',
 });
 
 
@@ -29678,6 +29684,8 @@ exports.bufferTagsDefaultOptions = async () => ({
     "--prompt": '"BufferTags> "',
     "--multi": true,
     "--preview": await previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -29846,12 +29854,14 @@ exports.quickFix = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.quickFixDefaultOptions = () => ({
     "--prompt": '"QuickFix> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -29901,12 +29911,14 @@ exports.locationList = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.locationListDefaultOptions = () => ({
     "--prompt": '"LocationList> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -29941,12 +29953,14 @@ exports.jumps = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.jumpsDefaultOptions = () => ({
     "--prompt": '"Jumps> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -30011,6 +30025,8 @@ exports.changesDefaultOptions = async () => ({
     "--prompt": '"Changes> "',
     "--multi": true,
     "--preview": await previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -30055,12 +30071,14 @@ exports.marks = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.marksDefaultOptions = () => ({
     "--prompt": '"Marks> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -30114,12 +30132,14 @@ exports.projectGrep = async (args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.projectGrepDefaultOptions = () => ({
     "--prompt": '"ProjectGrep> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -30988,6 +31008,8 @@ exports.bookmarksDefaultOptions = () => ({
     "--prompt": '"Bookmarks> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -31094,6 +31116,8 @@ exports.vistaCtagsDefaultOptions = () => ({
     "--prompt": '"VistaCtags> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"2.."',
 });
 
 
@@ -31162,6 +31186,8 @@ exports.vistaBufferCtagsDefaultOptions = async () => ({
     "--prompt": '"VistaBufferCtags> "',
     "--multi": true,
     "--preview": await previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -31473,10 +31499,13 @@ exports.convertForFzf = (lines, options) => {
     if (enableDevIcons) {
         const convertedTexts = lines.map((line) => strip_ansi_1.default(line.displayText).split(":")[0]);
         const icons = createDevIconsList(convertedTexts).map((icon) => colorize_1.colorizeDevIcon(icon));
-        return lines.map((line, i) => ({
-            data: line.data,
-            displayText: `${icons[i]}  ${lines[i].displayText}`,
-        }));
+        return lines.map((line, i) => {
+            const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : "";
+            return {
+                data: line.data,
+                displayText: `${lineNumber}${icons[i]}  ${line.displayText}`,
+            };
+        });
     }
     return lines;
 };
@@ -31547,14 +31576,36 @@ const isCustomProcessesVimVariable = (variable, userProcesses) => {
 const getExpectFromDefaultProcesses = (defaultProcesses) => {
     return { "--expect": defaultProcesses.map(({ key }) => key).filter((key) => key !== "enter") };
 };
-const getPreviewWindowOption = () => {
+// eslint-disable-next-line complexity
+const getPreviewWindowOption = (fzfCommandDefaultOptions) => {
+    const defaultPreviewWindowOption = fzfCommandDefaultOptions["--preview-window"] != null &&
+        typeof fzfCommandDefaultOptions["--preview-window"] === "string"
+        ? `${fzfCommandDefaultOptions["--preview-window"]}`
+        : null;
     const previewWindowOptionVimValue = vim_variable_1.globalVariableSelector("fzfPreviewFzfPreviewWindowOption");
     if (previewWindowOptionVimValue != null && previewWindowOptionVimValue !== "") {
-        return { "--preview-window": `"${previewWindowOptionVimValue}"` };
+        if (defaultPreviewWindowOption != null) {
+            return {
+                "--preview-window": `"${defaultPreviewWindowOption}:${previewWindowOptionVimValue}"`,
+            };
+        }
+        else {
+            return {
+                "--preview-window": `"${previewWindowOptionVimValue}"`,
+            };
+        }
     }
     const columns = vim_variable_1.vimOptionsSelector("columns");
     if (columns < fzf_option_1.PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE) {
-        return { "--preview-window": '"down:50%"' };
+        if (defaultPreviewWindowOption != null) {
+            return { "--preview-window": `"${defaultPreviewWindowOption}:down:50%"` };
+        }
+        else {
+            return { "--preview-window": '"down:50%"' };
+        }
+    }
+    else if (defaultPreviewWindowOption != null) {
+        return { "--preview-window": defaultPreviewWindowOption };
     }
     else {
         return {};
@@ -31600,7 +31651,7 @@ const getExpectFromUserProcesses = async (userProcesses) => {
 };
 exports.generateOptions = async ({ fzfCommandDefaultOptions, dynamicOptions, defaultProcesses, userProcesses, userOptions, resumeQuery, }) => {
     const resumeQueryOption = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` };
-    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), getUserDefaultOptions()), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption()), getPreviewKeyBindings()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
+    const fzfCommandOptions = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, exports.defaultOptions), getUserDefaultOptions()), fzfCommandDefaultOptions), dynamicOptions), getExpectFromDefaultProcesses(defaultProcesses)), getPreviewWindowOption(fzfCommandDefaultOptions)), getPreviewKeyBindings()), getColorOption()), (await getExpectFromUserProcesses(userProcesses))), resumeQueryOption);
     userOptions.forEach((userOption) => {
         fzfCommandOptions[userOption.optionName] = userOption.value;
     });
@@ -32396,7 +32447,7 @@ const git_config_1 = __webpack_require__(46);
 const persist_1 = __webpack_require__(55);
 const store_1 = __webpack_require__(36);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -32468,7 +32519,6 @@ exports.execGitActionConsumer = consumer_1.createSingleLineConsumer(async (data)
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -32598,7 +32648,7 @@ exports.execGitBranchActionConsumer = void 0;
 const git_1 = __webpack_require__(71);
 const consumer_1 = __webpack_require__(144);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-branch-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -32718,7 +32768,6 @@ exports.execGitBranchActionConsumer = consumer_1.createSingleLineConsumer(async 
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -32794,7 +32843,7 @@ exports.execGitLogActionConsumer = void 0;
 const git_1 = __webpack_require__(71);
 const consumer_1 = __webpack_require__(144);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-log-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -32888,7 +32937,6 @@ exports.execGitLogActionConsumer = consumer_1.createSingleLineConsumer(async (da
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -32956,7 +33004,7 @@ exports.execGitReflogActionConsumer = void 0;
 const git_1 = __webpack_require__(71);
 const consumer_1 = __webpack_require__(144);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitReflogActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-reflog-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -33027,7 +33075,6 @@ exports.execGitReflogActionConsumer = consumer_1.createSingleLineConsumer(async 
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -33113,7 +33160,7 @@ exports.execGitStashActionConsumer = void 0;
 const git_1 = __webpack_require__(71);
 const consumer_1 = __webpack_require__(144);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-stash-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -33177,7 +33224,6 @@ exports.execGitStashActionConsumer = consumer_1.createSingleLineConsumer(async (
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -33405,7 +33451,7 @@ exports.execGitStatusActionConsumer = void 0;
 const git_1 = __webpack_require__(71);
 const consumer_1 = __webpack_require__(144);
 const type_1 = __webpack_require__(163);
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async (data) => {
     if (data.type !== "git-status-actions") {
         throw new Error(`Unexpected data type: ${data.type}`);
@@ -33416,7 +33462,7 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
     switch (data.action) {
         case "add": {
             for (const file of data.files) {
-                // eslint-disable-next-line
+                // eslint-disable-next-line no-await-in-loop
                 await git_1.gitAdd(file);
             }
             await consumer_1.chainFzfCommand("FzfPreviewGitStatus");
@@ -33424,7 +33470,7 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
         }
         case "reset": {
             for (const file of data.files) {
-                // eslint-disable-next-line
+                // eslint-disable-next-line no-await-in-loop
                 await git_1.gitReset(file);
             }
             await consumer_1.chainFzfCommand("FzfPreviewGitStatus");
@@ -33432,14 +33478,14 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
         }
         case "patch": {
             for (const file of data.files) {
-                // eslint-disable-next-line
+                // eslint-disable-next-line no-await-in-loop
                 await git_1.gitPatch(file);
             }
             break;
         }
         case "checkout": {
             for (const file of data.files) {
-                // eslint-disable-next-line
+                // eslint-disable-next-line no-await-in-loop
                 await git_1.gitCheckout(file);
             }
             await consumer_1.chainFzfCommand("FzfPreviewGitStatus");
@@ -33453,7 +33499,6 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
         }
     }
 });
-/* eslint-enable complexity */
 
 
 /***/ }),
@@ -33796,7 +33841,7 @@ exports.fzfRunner = async ({ resourceLines, handler, options }) => {
         source: resourceLines.map((line) => resourceLineToFzfLine(line)),
         handler,
         options: convert_1.fzfOptionsToString(options),
-        environment: {"ENV":"coc"}.ENV,
+        environment: {"ENV":"remote"}.ENV,
     });
 };
 
@@ -33813,7 +33858,7 @@ const fzf_option_1 = __webpack_require__(58);
 exports.joinBind = (bind) => {
     return bind.map(({ key, action }) => `${key}:${action}`).join(",");
 };
-/* eslint-disable complexity */
+// eslint-disable-next-line complexity
 const definedOptionsToArray = (options) => {
     const arrayOptions = [];
     if (options["--ansi"]) {
@@ -33838,7 +33883,6 @@ const definedOptionsToArray = (options) => {
     }
     return arrayOptions;
 };
-/* eslint-enable complexity */
 const optionsToArray = (options) => {
     const arrayOptions = definedOptionsToArray(options);
     Object.entries(options)
@@ -33940,7 +33984,7 @@ const getProcessesName = (userProcesses) => {
 };
 exports.processesRunner = async ({ processesFunctionName, expectKey, lines, userProcesses, }) => {
     await plugin_1.pluginCall("fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default_process", [
-        {"ENV":"coc"}.ENV,
+        {"ENV":"remote"}.ENV,
         processesFunctionName,
         expectKey,
         lines,
@@ -34059,12 +34103,14 @@ exports.cocReferences = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.cocReferencesDefaultOptions = () => ({
     "--prompt": '"References> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -122320,12 +122366,14 @@ exports.cocDiagnostics = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.cocDiagnosticsDefaultOptions = () => ({
     "--prompt": '"Diagnostics> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -122350,12 +122398,14 @@ exports.cocCurrentDiagnostics = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.cocCurrentDiagnosticsDefaultOptions = () => ({
     "--prompt": '"CurrentDiagnostics> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
@@ -122390,12 +122440,14 @@ exports.cocTypeDefinitions = async (_args) => {
 };
 const previewCommand = () => {
     const grepPreviewCommand = vim_variable_1.globalVariableSelector("fzfPreviewGrepPreviewCmd");
-    return `"${grepPreviewCommand} {2..}"`;
+    return `"${grepPreviewCommand} {3..}"`;
 };
 exports.cocTypeDefinitionsDefaultOptions = () => ({
     "--prompt": '"TypeDefinitions> "',
     "--multi": true,
     "--preview": previewCommand(),
+    "--preview-window": '"+{2}-10"',
+    "--with-nth": '"3.."',
 });
 
 
