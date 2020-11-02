@@ -20,12 +20,6 @@ const common: Configuration = {
       },
     ],
   },
-  cache: {
-    type: "filesystem",
-    buildDependencies: {
-      config: [__filename],
-    },
-  },
   ignoreWarnings: [{ module: /yargs/ }],
   node: {
     __dirname: false,
