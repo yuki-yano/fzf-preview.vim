@@ -1,10 +1,10 @@
 import path from "path"
-import webpack from "webpack"
+import { DefinePlugin } from "webpack"
 import { merge } from "webpack-merge"
 
 import common from "./webpack.common"
 
-module.exports = merge(common, {
+export default merge(common, {
   entry: "./src/remote.ts",
   output: {
     path: path.join(__dirname, "rplugin/node/fzf-preview.vim"),
@@ -12,7 +12,7 @@ module.exports = merge(common, {
     libraryTarget: "commonjs2",
   },
   plugins: [
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       PLUGIN: JSON.stringify({
         ENV: "remote",
       }),
