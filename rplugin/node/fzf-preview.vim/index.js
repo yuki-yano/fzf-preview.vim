@@ -31507,7 +31507,13 @@ exports.convertForFzf = (lines, options) => {
             };
         });
     }
-    return lines;
+    return lines.map((line) => {
+        const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : "";
+        return {
+            data: line.data,
+            displayText: `${lineNumber}${line.displayText}`,
+        };
+    });
 };
 
 
