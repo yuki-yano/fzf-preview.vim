@@ -513,7 +513,7 @@ OPTIONS                                         *fzf-preview-options*
     Specify the color option to be passed to the fzf command.
     Options are a string passed directly to fzf's "--color" option.
 
-    Default value is 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+    Default value is ''
 
 
 *g:fzf_preview_custom_processes*

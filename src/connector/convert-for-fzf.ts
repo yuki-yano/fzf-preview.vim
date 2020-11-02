@@ -62,5 +62,12 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
     })
   }
 
-  return lines
+  return lines.map((line) => {
+    const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : ""
+
+    return {
+      data: line.data,
+      displayText: `${lineNumber}${line.displayText}`,
+    }
+  })
 }

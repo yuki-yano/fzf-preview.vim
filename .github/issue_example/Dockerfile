@@ -24,6 +24,10 @@ RUN dpkg -i bat_0.15.4_amd64.deb
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
 RUN dpkg -i ripgrep_11.0.2_amd64.deb
 
+# fd
+RUN curl -LO https://github.com/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb
+RUN dpkg -i fd_8.1.1_amd64.deb
+
 # vim plugin
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 RUN mkdir -p /root/.config/nvim
