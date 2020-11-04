@@ -457,8 +457,8 @@ OPTIONS                                         *fzf-preview-options*
 *g:fzf_preview_git_status_preview_command*
     This is the command used to git status preview
 
-    Default value is  "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
-                    \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+    Default value is  "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+                    \ "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
                     \ g:fzf_preview_command
 
 
