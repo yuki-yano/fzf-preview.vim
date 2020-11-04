@@ -1,4 +1,6 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Neovim
 RUN apt-get update && apt install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip git
@@ -16,17 +18,15 @@ RUN apt install -y nodejs
 # Python
 RUN apt install -y python
 
-# bat
-RUN curl -LO https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb
-RUN dpkg -i bat_0.15.4_amd64.deb
+# bat & ripgrep
+# RUN apt install -y bat
+# RUN apt install -y ripgrep
 
-# ripgrep
-RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-RUN dpkg -i ripgrep_11.0.2_amd64.deb
+# Workaround for https://github.com/sharkdp/bat/issues/938
+RUN apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
 
 # fd
-RUN curl -LO https://github.com/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb
-RUN dpkg -i fd_8.1.1_amd64.deb
+RUN apt install -y fd-find
 
 # vim plugin
 RUN sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -38,6 +38,7 @@ call plug#end() \n\
 \n\
 let g:coc_global_extensions = ['coc-fzf-preview'] \n" >> /root/.config/nvim/init.vim
 
-RUN nvim +PlugInstall +qa!
+RUN nvim -c "PlugInstall" -c "qa!"
+RUN nvim -c "CocInstall -sync coc-fzf-preview" -c "qa!"
 
 ENTRYPOINT ["nvim"]
