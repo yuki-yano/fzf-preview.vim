@@ -35,7 +35,7 @@ line_num = int(match.group('line_num'))
 # last = line_num + 100
 
 cats = [
-    f'bat --color=always --style=grid --theme="{bat_theme}" --plain',
+    f'bat --highlight-line="{line_num}" --color=always --style=grid --theme="{bat_theme}" --plain',
     'cat'
 ]
 cat = list(filter(is_installed, cats))[0]
@@ -50,7 +50,7 @@ result = subprocess.check_output(
     f'{cat} "{file_name}"', shell=True)
 
 for index, line in enumerate(result.decode().split("\n")):
-    if int(line_num) - 1 == index:
+    if cat == 'cat' and int(line_num) - 1 == index:
         line = CLEAN_LINE_REGEX.sub('', line)
         print(f"\033[1m\033[4m\033[31m{line}\033[0m")
     else:
