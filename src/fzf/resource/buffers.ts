@@ -3,6 +3,8 @@ import { isGitDirectory } from "@/connector/util"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import { existsFileAsync } from "@/system/file"
+import { readMruFile } from "@/system/mr"
+import { filterProjectEnabledFile } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
 import { alignLists } from "@/util/align"
 import { asyncFilter } from "@/util/array"
@@ -52,12 +54,20 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   const alternateBuffer = await getAlternateBuffer()
   const otherBuffers = await getOtherBuffers()
 
+  const mruFiles = await filterProjectEnabledFile(readMruFile())
+  const sortedBuffers = mruFiles
+    .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))
+    .filter((buffer): buffer is VimBuffer => buffer != null)
+
   if (options && options.ignoreCurrentBuffer) {
-    return await asyncFilter(Array.from(new Set([alternateBuffer, ...otherBuffers])), (buffer) => existsBuffer(buffer))
+    return await asyncFilter(Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])), (buffer) =>
+      existsBuffer(buffer)
+    )
   }
 
-  return await asyncFilter(Array.from(new Set([currentBuffer, alternateBuffer, ...otherBuffers])), (buffer) =>
-    existsBuffer(buffer)
+  return await asyncFilter(
+    Array.from(new Set([currentBuffer, alternateBuffer, ...sortedBuffers, ...otherBuffers])),
+    (buffer) => existsBuffer(buffer)
   )
 }
 
