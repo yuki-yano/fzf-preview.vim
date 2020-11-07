@@ -374,6 +374,9 @@ let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 " If this value is not 0, disable mru and mrw
 let g:fzf_preview_disable_mru = 0
 
+" Limit of the number of files to be saved by mru
+let g:fzf_preview_mru_limit = 1000
+
 " Commands used for current file lines
 let g:fzf_preview_lines_command = 'cat -n'                                " Not Installed bat
 " let g:fzf_preview_lines_command = 'bat --color=always --plain --number' " Installed bat

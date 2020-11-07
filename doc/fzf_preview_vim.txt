@@ -486,6 +486,12 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0
 
 
+*g:fzf_preview_mru_limit*
+    Limit of the number of files to be saved by mru.
+
+    Default value is 1000
+
+
 *g:fzf_preview_lines_command*
     This command is used for get current file lines.
 

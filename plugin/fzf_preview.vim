@@ -82,6 +82,10 @@ if !exists('g:fzf_preview_disable_mru')
   let g:fzf_preview_disable_mru = 0
 endif
 
+if !exists('g:fzf_preview_mru_limit')
+  let g:fzf_preview_mru_limit = 1000
+endif
+
 if !exists('g:fzf_preview_cache_directory')
   let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 endif
