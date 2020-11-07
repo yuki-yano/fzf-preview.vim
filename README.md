@@ -361,8 +361,8 @@ let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-m
 let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
 
 " Commands used for git status preview.
-let g:fzf_preview_git_status_preview_command =  "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
-\ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+let g:fzf_preview_git_status_preview_command =  "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
+\ "[[ $(git diff -- {-1}) != \"\" ]] && git diff --color=always -- {-1} || " .
 \ g:fzf_preview_command
 
 " Commands used for project grep
@@ -373,6 +373,9 @@ let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
 
 " If this value is not 0, disable mru and mrw
 let g:fzf_preview_disable_mru = 0
+
+" Limit of the number of files to be saved by mru
+let g:fzf_preview_mru_limit = 1000
 
 " Commands used for current file lines
 let g:fzf_preview_lines_command = 'cat -n'                                " Not Installed bat
@@ -469,6 +472,11 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/11/07 version 0.4.26
+  - Change buffer sort with mru order.
+  - Add mru and mrw limit settings.
+  - Improve grep preview highlight.
 
 - 2020/10/30 version 0.4.24
   - Improved grep etc previews to scroll to the top of the file.

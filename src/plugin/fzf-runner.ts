@@ -2,6 +2,8 @@ import { fzfOptionsToString } from "@/fzf/option/convert"
 import { pluginCall } from "@/plugin"
 import type { FzfOptions, ResourceLine, ResourceLines } from "@/type"
 
+const PREFIX_SPACE = "   "
+
 type Parameter = {
   resourceLines: ResourceLines
   handler: string
@@ -9,7 +11,7 @@ type Parameter = {
 }
 
 const resourceLineToFzfLine = (resourceLine: ResourceLine): string => {
-  return `   ${encodeURIComponent(JSON.stringify(resourceLine.data))} ${resourceLine.displayText}`
+  return `${PREFIX_SPACE}${encodeURIComponent(JSON.stringify(resourceLine.data))} ${resourceLine.displayText}`
 }
 
 export const fzfRunner = async ({ resourceLines, handler, options }: Parameter): Promise<void> => {

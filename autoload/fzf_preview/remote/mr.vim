@@ -2,7 +2,7 @@ function! fzf_preview#remote#mr#append(path, cache_path) abort
   let files = s:get_files_with_create_directory(a:cache_path)
 
   call insert(files, a:path)
-  call writefile(fzf_preview#remote#util#uniq(files), a:cache_path)
+  call writefile(fzf_preview#remote#util#uniq(files)[:g:fzf_preview_mru_limit - 1], a:cache_path)
 endfunction
 
 function! fzf_preview#remote#mr#mru_file_path() abort

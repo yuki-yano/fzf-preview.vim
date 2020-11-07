@@ -16,7 +16,10 @@ const common: Configuration = {
       {
         test: /\.ts$/,
         include: [path.resolve(__dirname, "src")],
-        use: "ts-loader",
+        loader: "ts-loader",
+        options: {
+          transpileOnly: true,
+        },
       },
     ],
   },
