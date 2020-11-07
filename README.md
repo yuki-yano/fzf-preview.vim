@@ -473,6 +473,11 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2020/11/07 version 0.4.26
+  - Change buffer sort with mru order.
+  - Add mru and mrw limit settings.
+  - Improve grep preview highlight.
+
 - 2020/10/30 version 0.4.24
   - Improved grep etc previews to scroll to the top of the file.
 
