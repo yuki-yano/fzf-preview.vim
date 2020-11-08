@@ -381,6 +381,14 @@ OPTIONS                                         *fzf-preview-options*
     Default value is 0.9
 
 
+*g:fzf_preview_direct_window_option*
+    This value is used to position the window.
+    It is passed to the window option of |fzf#run|, and
+    |g:fzf_preview_floating_window_rate| is disabled.
+
+    Default value is ''
+
+
 *g:fzf_preview_default_fzf_options*
     It is used as the default option when starting fzf.
     Set a dictionary variable whose option name is key.
