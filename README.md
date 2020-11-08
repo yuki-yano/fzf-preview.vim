@@ -327,6 +327,9 @@ set viminfo='1000
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
 
+" fzf window position settings
+let g:fzf_preview_direct_window_option = ''
+
 " fzf command default options
 let g:fzf_preview_default_fzf_options = { '--reverse': v:true, '--preview-window': 'wrap' }
 
@@ -472,6 +475,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/11/08 version 0.4.27
+  - Add g:fzf_preview_direct_window_option option.
 
 - 2020/11/07 version 0.4.26
   - Change buffer sort with mru order.

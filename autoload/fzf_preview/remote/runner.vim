@@ -10,11 +10,13 @@ function! fzf_preview#remote#runner#fzf_run(params) abort
     let Sink = function('s:coc_handler')
   endif
 
+  let window = g:fzf_preview_direct_window_option !=# '' ? g:fzf_preview_direct_window_option : { 'width': g:fzf_preview_floating_window_rate, 'height': g:fzf_preview_floating_window_rate }
+
   call fzf#run({
   \ 'source':  source,
   \ 'sink*':   Sink,
   \ 'options': options,
-  \ 'window':  { 'width': g:fzf_preview_floating_window_rate, 'height': g:fzf_preview_floating_window_rate },
+  \ 'window':  window,
   \ })
 endfunction
 
