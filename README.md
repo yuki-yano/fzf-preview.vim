@@ -552,10 +552,6 @@ endfunction
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 ```
 
-## Inspired by
-
-- [antoinemadec/coc-fzf](https://github.com/antoinemadec/coc-fzf)
-
 ## License
 
 The MIT License (MIT)
