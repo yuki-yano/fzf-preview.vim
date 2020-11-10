@@ -186,9 +186,9 @@ augroup fzf_preview_initialized
 augroup END
 
 function! s:doautocmd_from_remote_plugin() abort
-  if exists(':FzfPreviewRemoteEnvironment')
+  " if exists(':FzfPreviewRemoteEnvironment')
     " call timer_start(0, 'FzfPreviewInitializeRemotePlugin')
-  endif
+  " endif
 
   if exists(':FzfPreviewRemoteEnvironment')
     silent doautocmd User fzf_preview#initialized
