@@ -50,7 +50,8 @@ module.exports = {
     ],
     "no-return-await": "off",
 
-    "simple-import-sort/sort": "warn",
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn",
     "no-restricted-imports": ["error", { patterns: ["./", "../"] }],
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
