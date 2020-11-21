@@ -1,5 +1,5 @@
 import { fzfOptionsToString } from "@/fzf/option/convert"
-import { pluginCall } from "@/plugin"
+import { pluginCall, pluginCommand } from "@/plugin"
 import type { FzfOptions, ResourceLine, ResourceLines } from "@/type"
 
 const PREFIX_SPACE = "   "
@@ -15,6 +15,7 @@ const resourceLineToFzfLine = (resourceLine: ResourceLine): string => {
 }
 
 export const fzfRunner = async ({ resourceLines, handler, options }: Parameter): Promise<void> => {
+  await pluginCommand("nohlsearch")
   await pluginCall("fzf_preview#remote#runner#fzf_run", {
     source: resourceLines.map((line) => resourceLineToFzfLine(line)),
     handler,
