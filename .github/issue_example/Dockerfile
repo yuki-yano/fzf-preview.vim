@@ -3,7 +3,7 @@ FROM ubuntu:focal
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Neovim
-RUN apt-get update && apt install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip git
+RUN apt update && apt install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip git
 
 WORKDIR /usr/local/src
 RUN git clone https://github.com/neovim/neovim.git
@@ -11,12 +11,16 @@ RUN git clone https://github.com/neovim/neovim.git
 WORKDIR /usr/local/src/neovim
 RUN make && make install
 
+# zsh
+RUN apt install -y zsh
+
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt install -y nodejs
 
 # Python
-RUN apt install -y python
+RUN apt install -y python python3 python3-pip
+# RUN pip3 install neovim
 
 # bat & ripgrep
 # RUN apt install -y bat
