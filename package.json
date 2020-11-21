@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch",
     "lint": "eslint --ext .ts src",
-    "lint:fix": "eslint --ext --fix .ts src",
+    "lint:fix": "eslint --ext .ts --fix src",
     "lint:watch": "esw --watch --color --clear --ext .ts src",
     "test": "jest",
     "test:watch": "jest --watch",
