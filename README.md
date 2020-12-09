@@ -196,10 +196,10 @@ and
 :FzfPreviewCommandPalette                         " Execute and edit command history
 :CocCommand fzf-preview.CommandPalette
 
-:FzfPreviewGitActions                         " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+:FzfPreviewGitActions                         " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
 :CocCommand fzf-preview.GitActions
 
-:FzfPreviewGitStatus                          " Select git status listed file. (Required [Fugitive](https://github.com/tpope/vim-fugitive) and [Gina](https://github.com/lambdalisue/gina.vim))
+:FzfPreviewGitStatus                          " Select git status listed file. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
 :CocCommand fzf-preview.GitStatus
 
 :FzfPreviewVistaCtags                         " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
@@ -361,7 +361,7 @@ let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
 let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
 
 " Commands used to get the git status file list
-let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+let g:fzf_preview_git_status_command = 'git -c color.status=always status --short --untracked-files=all'
 
 " Commands used for git status preview.
 let g:fzf_preview_git_status_preview_command =  "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached --color=always -- {-1} || " .
