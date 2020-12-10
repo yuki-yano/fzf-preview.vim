@@ -459,7 +459,7 @@ OPTIONS                                         *fzf-preview-options*
 *g:fzf_preview_git_status_command*
     This is the command used to git status files
 
-    Default value is "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+    Default value is 'git -c color.status=always status --short --untracked-files=all'
 
 
 *g:fzf_preview_git_status_preview_command*
