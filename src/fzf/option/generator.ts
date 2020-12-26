@@ -8,11 +8,11 @@ import type { AddFzfArg, CustomProcessesVimVariable, FzfOptions, Processes, Resu
 const defaultBind = [
   {
     key: "ctrl-d",
-    action: "preview-page-down",
+    action: "preview-half-page-down",
   },
   {
     key: "ctrl-u",
-    action: "preview-page-up",
+    action: "preview-half-page-up",
   },
   {
     key: "?",
