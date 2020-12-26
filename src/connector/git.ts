@@ -37,9 +37,9 @@ export const execGitStatus = async (): Promise<Array<string>> => {
 }
 
 export const execGitBranch = async (): Promise<Array<GitBranch>> => {
-  const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [GIT_BRANCH_COMMAND])) as Array<
-    string
-  >
+  const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
+    GIT_BRANCH_COMMAND,
+  ])) as Array<string>
 
   return lines.map((line) => {
     const [prefix, name, date, author] = line.split("    ")
@@ -76,9 +76,9 @@ export const execGitReflog = async (): Promise<Array<GitReflog>> => {
   const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitReflogDecorateCommand,
   ])) as Array<string>
-  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [gitReflogNameCommand])) as Array<
-    string
-  >
+  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
+    gitReflogNameCommand,
+  ])) as Array<string>
 
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
@@ -99,9 +99,9 @@ export const execGitStash = async (): Promise<Array<GitStash>> => {
   const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitStashDecorateCommand,
   ])) as Array<string>
-  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [gitStashNameCommand])) as Array<
-    string
-  >
+  const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
+    gitStashNameCommand,
+  ])) as Array<string>
 
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)

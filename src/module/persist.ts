@@ -19,9 +19,9 @@ type Module = keyof ReturnType<typeof store.getState>
 export const loadExecuteCommandStore = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_STORE,
   async (_: undefined, { dispatch }) => {
-    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
-      RootState
-    >
+    const restoredStore: Partial<RootState> = (await pluginCall(
+      "fzf_preview#remote#store#restore_store"
+    )) as Partial<RootState>
     dispatch(executeCommandModule.actions.restore(restoredStore.executeCommand))
   }
 )
@@ -29,9 +29,9 @@ export const loadExecuteCommandStore = createAsyncThunk<void, undefined, { dispa
 export const loadResume = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_RESUME,
   async (_: undefined, { dispatch }) => {
-    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
-      RootState
-    >
+    const restoredStore: Partial<RootState> = (await pluginCall(
+      "fzf_preview#remote#store#restore_store"
+    )) as Partial<RootState>
     dispatch(resumeModule.actions.restore(restoredStore.resume))
   }
 )
@@ -39,9 +39,9 @@ export const loadResume = createAsyncThunk<void, undefined, { dispatch: AppDispa
 export const loadSession = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_SESSION,
   async (_: undefined, { dispatch }) => {
-    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
-      RootState
-    >
+    const restoredStore: Partial<RootState> = (await pluginCall(
+      "fzf_preview#remote#store#restore_store"
+    )) as Partial<RootState>
     dispatch(sessionModule.actions.restore(restoredStore.session))
   }
 )
@@ -49,9 +49,9 @@ export const loadSession = createAsyncThunk<void, undefined, { dispatch: AppDisp
 export const loadGitConfig = createAsyncThunk<void, undefined, { dispatch: AppDispatch; state: RootState }>(
   PERSIST_LOAD_GIT_CONFIG,
   async (_: undefined, { dispatch }) => {
-    const restoredStore: Partial<RootState> = (await pluginCall("fzf_preview#remote#store#restore_store")) as Partial<
-      RootState
-    >
+    const restoredStore: Partial<RootState> = (await pluginCall(
+      "fzf_preview#remote#store#restore_store"
+    )) as Partial<RootState>
     dispatch(gitConfigModule.actions.restore(restoredStore.gitConfig))
   }
 )

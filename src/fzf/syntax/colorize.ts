@@ -41,6 +41,9 @@ export const colorizeFile = (filePath: string): string => {
   }
 }
 
+// The colorize based on coc-fzf
+// REF: https://github.com/antoinemadec/coc-fzf
+// MIT: Copyright (c) 2020 Antoine
 export const diagnosticToDisplayText = ({ file, lineNumber, severity, message }: Diagnostic): string => {
   const severityColor = {
     Error: "red",
