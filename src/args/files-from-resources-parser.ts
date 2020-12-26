@@ -1,3 +1,5 @@
+import { flatMap } from "lodash"
+
 import { argsParser } from "@/args/parser"
 import { FILE_RESOURCES } from "@/const/fzf-option"
 import type { SourceFuncArgs } from "@/type"
@@ -6,7 +8,8 @@ export const parseResources = (args: string): SourceFuncArgs => {
   const parser = argsParser()
   const options = parser.parse(args)
 
-  const resources = options._
+  // There is a bug that comma-separated arguments come in when using coc on windows.
+  const resources = flatMap(options._, (resource) => resource.split(","))
 
   if (resources.length === 0) {
     throw new Error("Select one or more resources")
