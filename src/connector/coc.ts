@@ -69,7 +69,7 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
     await Promise.all(
       locations.map(async (location) => {
         const lineNumber = location.range.start.line + 1
-        const absoluteFilePath = dropFileProtocol(location.uri)
+        const absoluteFilePath = decodeURIComponent(dropFileProtocol(location.uri))
         const relativeFilePath = filePathToRelativeFilePath(absoluteFilePath, currentPath)
         if (relativeFilePath == null) {
           return null
