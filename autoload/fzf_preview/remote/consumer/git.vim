@@ -31,6 +31,15 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
+function! fzf_preview#remote#consumer#git#chaperon(file) abort
+  if has('nvim') && exists(':Gina') == 2
+    execute 'Gina chaperon ' . a:file
+    return
+  endif
+
+  echoerr 'Gina not installed'
+endfunction
+
 function! fzf_preview#remote#consumer#git#commit(option) abort
   if match(a:option, '--fixup') != -1
     echomsg system('git commit ' . a:option)
