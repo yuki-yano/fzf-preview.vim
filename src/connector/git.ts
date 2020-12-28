@@ -130,6 +130,10 @@ export const gitPatch = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#patch", [file])
 }
 
+export const gitChaperon = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#chaperon", [file])
+}
+
 type CommitOption =
   | { name: "--amend" }
   | { name: "--amend --no-edit" }
