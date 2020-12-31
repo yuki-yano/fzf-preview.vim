@@ -684,11 +684,19 @@ FUNCTIONS                                       *fzf-preview-functions*
 ==============================================================================
 USER AUTOCMD EVENTS                        *fzf-preview-user-autocmd-events*
 
-*fzf_preview#initialized*
-    Runs when initialization of the Remote Plugin and coc extensions is complete.
+*fzf_preview#remote#initialized*
+    Runs when initialization of the Vim script RPC is complete.
 
 *fzf_preview#rpc#initialized*
     Runs when initialization of the Vim script RPC is complete.
+
+*fzf_preview#coc#initialized*
+    Runs when initialization of the Vim script RPC is complete.
+
+Deprecated
+*fzf_preview#initialized*
+    Runs when initialization of the Remote Plugin, coc extensions and
+    Vim script RPC is complete.
 
 ==============================================================================
 BASE DEFAULT KEYMAP                             *fzf-preview-keymap*
