@@ -9,12 +9,8 @@ module.exports =
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const plugin_1 = __webpack_require__(1);
 const remote_1 = __webpack_require__(2);
-module.exports = async (plugin) => {
+module.exports = (plugin) => {
     plugin_1.setRemotePlugin(plugin);
-    const disableRemotePlugin = await plugin_1.pluginGetVar("fzf_preview_disable_remote_plugin");
-    if (disableRemotePlugin) {
-        return;
-    }
     if (process.env.FZF_PREVIEW_DEBUG === "1") {
         plugin.setOptions({ dev: true, alwaysInit: true });
     }
@@ -108,7 +104,7 @@ const pluginGetVar = (name) => {
     else if (rpcClient != null) {
         return rpcClient.sendRequest("getVar", { name });
     }
-    throw new Error("Unexpected remote plugin and coc client is not exists");
+    throw new Error("Unexpected remote plugin, coc client and rpc client is not exists");
 };
 exports.pluginGetVar = pluginGetVar;
 const pluginGetVvar = (name) => {
@@ -121,7 +117,7 @@ const pluginGetVvar = (name) => {
     else if (rpcClient != null) {
         return rpcClient.sendRequest("getVvar", name);
     }
-    throw new Error("Unexpected remote plugin and coc client is not exists");
+    throw new Error("Unexpected remote plugin, coc client and rpc client is not exists");
 };
 exports.pluginGetVvar = pluginGetVvar;
 
