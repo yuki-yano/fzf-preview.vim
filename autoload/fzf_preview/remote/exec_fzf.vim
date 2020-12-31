@@ -14,5 +14,11 @@ function! fzf_preview#remote#exec_fzf#exec(command, env, ...) abort
     else
       execute 'CocCommand ' . command_name
     endif
+  elseif a:env ==# 'rpc'
+    if session_token !=# ''
+      execute a:command . 'Rpc --session=' . session_token
+    else
+      execute a:command . 'Rpc'
+    endif
   endif
 endfunction
