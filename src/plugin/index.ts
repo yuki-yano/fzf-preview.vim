@@ -76,7 +76,7 @@ export const pluginGetVar = (name: string): Promise<VimValue> => {
     return rpcClient.sendRequest("getVar", { name })
   }
 
-  throw new Error("Unexpected remote plugin and coc client is not exists")
+  throw new Error("Unexpected remote plugin, coc client and rpc client is not exists")
 }
 
 export const pluginGetVvar = (name: string): Promise<VimValue> => {
@@ -88,5 +88,5 @@ export const pluginGetVvar = (name: string): Promise<VimValue> => {
     return rpcClient.sendRequest("getVvar", name)
   }
 
-  throw new Error("Unexpected remote plugin and coc client is not exists")
+  throw new Error("Unexpected remote plugin, coc client and rpc client is not exists")
 }

@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
@@ -33,6 +33,9 @@
     "dev:remote": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --watch --config webpack.remote.ts",
     "dev:coc": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --watch --config webpack.coc.ts",
     "dev:rpc": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --watch --config webpack.rpc.ts",
+    "release:remote": "yarn run clean && yarn run build:remote",
+    "release:coc": "yarn run clean && yarn run build:coc",
+    "release:rpc": "yarn run clean && yarn run build:rpc",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch",
     "lint": "eslint --ext .ts src",
@@ -41,8 +44,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cli": "ts-node --files -r tsconfig-paths/register",
-    "clean": "rimraf lib rplugin/node/fzf-preview.vim/index.js",
-    "postinstall": "yarn run build:remote"
+    "clean": "rimraf lib rplugin/node/fzf-preview.vim/index.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
