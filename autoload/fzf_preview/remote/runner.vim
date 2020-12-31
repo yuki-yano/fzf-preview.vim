@@ -8,6 +8,8 @@ function! fzf_preview#remote#runner#fzf_run(params) abort
     let Sink = function('s:handler_wrapper', [handler])
   elseif env ==# 'coc'
     let Sink = function('s:coc_handler')
+  elseif env ==# 'rpc'
+    let Sink = function('fzf_preview#rpc#rpc_handler')
   endif
 
   let window = g:fzf_preview_direct_window_option !=# '' ? g:fzf_preview_direct_window_option : { 'width': g:fzf_preview_floating_window_rate, 'height': g:fzf_preview_floating_window_rate }

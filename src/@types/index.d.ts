@@ -1,3 +1,3 @@
 declare const PLUGIN: {
-  ENV: "remote" | "coc"
+  ENV: "remote" | "coc" | "rpc"
 }

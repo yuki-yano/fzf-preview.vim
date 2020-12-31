@@ -14,7 +14,7 @@ export type SelectedLines = Array<SelectedLine>
 
 export type ExpectKeyAndSelectedLines = Array<string>
 
-type RemoteFzfCommandName =
+export type BaseFzfCommandName =
   | "FzfPreviewProjectFiles"
   | "FzfPreviewGitFiles"
   | "FzfPreviewDirectoryFiles"
@@ -56,13 +56,13 @@ type RemoteFzfCommandName =
   | "FzfPreviewVistaBufferCtags"
   | "FzfPreviewBlamePR"
 
-type CocFzfCommandName =
+export type CocFzfCommandName =
   | "FzfPreviewCocReferences"
   | "FzfPreviewCocDiagnostics"
   | "FzfPreviewCocCurrentDiagnostics"
   | "FzfPreviewCocTypeDefinitions"
 
-export type FzfCommandName = RemoteFzfCommandName | CocFzfCommandName
+export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
 export type SourceFuncArgs = {
   args: Array<string>
@@ -82,10 +82,10 @@ type FzfCommandBase = {
   beforeCommandHook?: (args: string) => void
 }
 
-export type RemoteFzfCommand = Merge<
+export type BaseFzfCommand = Merge<
   FzfCommandBase,
   {
-    commandName: RemoteFzfCommandName
+    commandName: BaseFzfCommandName
   }
 >
 
@@ -96,7 +96,7 @@ export type CocFzfCommand = Merge<
   }
 >
 
-export type FzfCommand = RemoteFzfCommand | CocFzfCommand
+export type FzfCommand = BaseFzfCommand | CocFzfCommand
 
 export type FzfOptions = {
   "--ansi"?: boolean

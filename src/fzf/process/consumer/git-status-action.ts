@@ -1,4 +1,4 @@
-import { gitAdd, gitCheckout, gitPatch, gitReset } from "@/connector/git"
+import { gitAdd, gitChaperon, gitCheckout, gitPatch, gitReset } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -41,6 +41,13 @@ export const execGitStatusActionConsumer = createSingleLineConsumer(async (data)
         await gitCheckout(file)
       }
       await chainFzfCommand("FzfPreviewGitStatus")
+      break
+    }
+    case "chaperon": {
+      for (const file of data.files) {
+        // eslint-disable-next-line no-await-in-loop
+        await gitChaperon(file)
+      }
       break
     }
 

@@ -9,7 +9,7 @@ import type { CallbackLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLine
 
 /* eslint-disable */
 const commands: Array<FzfCommand> =
-  PLUGIN.ENV === "remote"
+  PLUGIN.ENV === "remote" || PLUGIN.ENV === "rpc"
     ? (require("@/association/command").commandDefinition as Array<FzfCommand>)
     : PLUGIN.ENV === "coc"
     ? (require("@/association/coc-command").cocCommandDefinition as Array<FzfCommand>)
@@ -36,7 +36,7 @@ const runProcess = async (
   }
 }
 
-export const callProcess = async ([lines]: [CallbackLines, ...Array<unknown>]): Promise<void> => {
+export const callProcess = async ([lines]: [CallbackLines, ...ReadonlyArray<unknown>]): Promise<void> => {
   await syncVimVariable()
   await dispatch(loadExecuteCommandStore())
   const executeCommand = executeCommandSelector()
