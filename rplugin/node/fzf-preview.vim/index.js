@@ -9,8 +9,12 @@ module.exports =
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const plugin_1 = __webpack_require__(1);
 const remote_1 = __webpack_require__(2);
-module.exports = (plugin) => {
+module.exports = async (plugin) => {
     plugin_1.setRemotePlugin(plugin);
+    const disableRemotePlugin = await plugin_1.pluginGetVar("fzf_preview_disable_remote_plugin");
+    if (disableRemotePlugin) {
+        return;
+    }
     if (process.env.FZF_PREVIEW_DEBUG === "1") {
         plugin.setOptions({ dev: true, alwaysInit: true });
     }
@@ -30,11 +34,13 @@ module.exports = (plugin) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.pluginGetVvar = exports.pluginGetVar = exports.pluginCall = exports.pluginCommand = exports.pluginRegisterAutocmd = exports.pluginRegisterFunction = exports.pluginRegisterCommand = exports.setCocClient = exports.setRemotePlugin = void 0;
+exports.pluginGetVvar = exports.pluginGetVar = exports.pluginCall = exports.pluginCommand = exports.remotePluginRegisterFunction = exports.remotePluginRegisterCommand = exports.setRpcClient = exports.setCocClient = exports.setRemotePlugin = void 0;
 // @ts-ignore
-let remotePlugin = null; // eslint-disable-line import/no-mutable-exports
+let remotePlugin = null;
 // @ts-ignore
-let cocClient = null; // eslint-disable-line import/no-mutable-exports
+let cocClient = null;
+// @ts-ignore
+let rpcClient = null;
 const setRemotePlugin = (initialPlugin) => {
     remotePlugin = initialPlugin;
 };
@@ -43,26 +49,41 @@ const setCocClient = (initialCocClient) => {
     cocClient = initialCocClient;
 };
 exports.setCocClient = setCocClient;
+const setRpcClient = (initialRpcClient) => {
+    rpcClient = initialRpcClient;
+};
+exports.setRpcClient = setRpcClient;
 // eslint-disable-next-line @typescript-eslint/ban-types
-const pluginRegisterCommand = (name, fn, options) => remotePlugin.registerCommand(name, fn, options);
-exports.pluginRegisterCommand = pluginRegisterCommand;
+const remotePluginRegisterCommand = (name, fn, options) => remotePlugin.registerCommand(name, fn, options);
+exports.remotePluginRegisterCommand = remotePluginRegisterCommand;
 // eslint-disable-next-line @typescript-eslint/ban-types
-const pluginRegisterFunction = (name, fn, options) => remotePlugin.registerFunction(name, fn, options);
-exports.pluginRegisterFunction = pluginRegisterFunction;
-// eslint-disable-next-line @typescript-eslint/ban-types
-const pluginRegisterAutocmd = (name, fn, options) => remotePlugin.registerAutocmd(name, fn, options);
-exports.pluginRegisterAutocmd = pluginRegisterAutocmd;
+const remotePluginRegisterFunction = (name, fn, options) => remotePlugin.registerFunction(name, fn, options);
+exports.remotePluginRegisterFunction = remotePluginRegisterFunction;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pluginCommand = (arg) => {
+const pluginCommand = (command) => {
     if (remotePlugin != null) {
-        return remotePlugin.nvim.command(arg);
+        return remotePlugin.nvim.command(command);
     }
     else if (cocClient != null) {
-        return cocClient.command(arg);
+        return cocClient.command(command);
     }
-    throw new Error("Unexpected remote plugin and coc client is not exists");
+    else if (rpcClient != null) {
+        return rpcClient.sendRequest("execCommand", { command });
+    }
+    throw new Error("Unexpected remote plugin, coc client and rpc client is not exists");
 };
 exports.pluginCommand = pluginCommand;
+const convertRpcArgs = (args) => {
+    if (args == null) {
+        return [];
+    }
+    else if (Array.isArray(args)) {
+        return args;
+    }
+    else {
+        return [args];
+    }
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pluginCall = (fname, args) => {
     if (remotePlugin != null) {
@@ -71,7 +92,10 @@ const pluginCall = (fname, args) => {
     else if (cocClient != null) {
         return cocClient.callFunction(fname, args);
     }
-    throw new Error("Unexpected remote plugin and coc client is not exists");
+    else if (rpcClient != null) {
+        return rpcClient.sendRequest("execCall", { fname, args: convertRpcArgs(args) });
+    }
+    throw new Error("Unexpected remote plugin, coc client and rpc client is not exists");
 };
 exports.pluginCall = pluginCall;
 const pluginGetVar = (name) => {
@@ -80,6 +104,9 @@ const pluginGetVar = (name) => {
     }
     else if (cocClient != null) {
         return cocClient.getVar(name);
+    }
+    else if (rpcClient != null) {
+        return rpcClient.sendRequest("getVar", { name });
     }
     throw new Error("Unexpected remote plugin and coc client is not exists");
 };
@@ -90,6 +117,9 @@ const pluginGetVvar = (name) => {
     }
     else if (cocClient != null) {
         return cocClient.getVvar(name);
+    }
+    else if (rpcClient != null) {
+        return rpcClient.sendRequest("getVvar", name);
     }
     throw new Error("Unexpected remote plugin and coc client is not exists");
 };
@@ -114,7 +144,7 @@ const process_1 = __webpack_require__(141);
 const plugin_1 = __webpack_require__(1);
 const registerRemoteCommands = () => {
     command_1.commandDefinition.forEach((fzfCommand) => {
-        plugin_1.pluginRegisterCommand(fzfCommand.commandName, async (params) => {
+        plugin_1.remotePluginRegisterCommand(fzfCommand.commandName, async (params) => {
             const args = params[0] != null ? params[0] : "";
             await command_2.executeCommand(args, fzfCommand);
         }, fzfCommand.vimCommandOptions);
@@ -124,7 +154,7 @@ exports.registerRemoteCommands = registerRemoteCommands;
 const registerProcesses = () => {
     process_1.processesDefinition.forEach(({ processes }) => {
         processes.forEach((process) => {
-            plugin_1.pluginRegisterFunction(process.name, async ([lines]) => {
+            plugin_1.remotePluginRegisterFunction(process.name, async ([lines]) => {
                 await process_1.executeProcess(lines, process);
             }, { sync: false });
         });
@@ -132,9 +162,9 @@ const registerProcesses = () => {
 };
 exports.registerProcesses = registerProcesses;
 const registerFunction = () => {
-    plugin_1.pluginRegisterFunction(fzf_handler_1.HANDLER_NAME, handler_1.callProcess, { sync: true });
-    plugin_1.pluginRegisterFunction("FzfPreviewGetDefaultProcesses", ([processesName]) => function_1.getDefaultProcesses(processesName), { sync: true });
-    plugin_1.pluginRegisterFunction("FzfPreviewDispatchResumeQuery", resume_1.dispatchResumeQuery, { sync: false });
+    plugin_1.remotePluginRegisterFunction(fzf_handler_1.HANDLER_NAME, handler_1.callProcess, { sync: true });
+    plugin_1.remotePluginRegisterFunction("FzfPreviewGetDefaultProcesses", ([processesName]) => function_1.getDefaultProcesses(processesName), { sync: true });
+    plugin_1.remotePluginRegisterFunction("FzfPreviewDispatchResumeQuery", resume_1.dispatchResumeQuery, { sync: false });
 };
 exports.registerFunction = registerFunction;
 
@@ -29768,7 +29798,7 @@ exports.gitFilesDefaultOptions = gitFilesDefaultOptions;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.gitYank = exports.gitStashCreate = exports.gitStashDrop = exports.gitStashPop = exports.gitStashApply = exports.gitRenameBranch = exports.gitDeleteBranch = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPull = exports.gitFetch = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCreateBranch = exports.gitCheckout = exports.gitCommit = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitStash = exports.execGitReflog = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
+exports.gitYank = exports.gitStashCreate = exports.gitStashDrop = exports.gitStashPop = exports.gitStashApply = exports.gitRenameBranch = exports.gitDeleteBranch = exports.gitRebaseInteractive = exports.gitRebase = exports.gitMerge = exports.gitPull = exports.gitFetch = exports.gitPush = exports.gitShow = exports.gitDiff = exports.gitCreateBranch = exports.gitCheckout = exports.gitCommit = exports.gitChaperon = exports.gitPatch = exports.gitReset = exports.gitAdd = exports.execGitStash = exports.execGitReflog = exports.execGitLog = exports.execGitBranch = exports.execGitStatus = exports.execGitFiles = void 0;
 const git_1 = __webpack_require__(95);
 const util_1 = __webpack_require__(64);
 const persist_1 = __webpack_require__(55);
@@ -29879,6 +29909,10 @@ const gitPatch = async (file) => {
     await plugin_1.pluginCall("fzf_preview#remote#consumer#git#patch", [file]);
 };
 exports.gitPatch = gitPatch;
+const gitChaperon = async (file) => {
+    await plugin_1.pluginCall("fzf_preview#remote#consumer#git#chaperon", [file]);
+};
+exports.gitChaperon = gitChaperon;
 const gitCommit = async (option) => {
     await store_1.dispatch(persist_1.loadGitConfig());
     const noVerify = git_config_1.gitConfigSelector("noVerify");
@@ -29993,7 +30027,7 @@ exports.GIT_ACTIONS = [
     "pull",
     "toggle --no-verify",
 ];
-exports.GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout"];
+exports.GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout", "chaperon"];
 exports.GIT_BRANCH_ACTIONS = [
     "diff",
     "checkout",
@@ -33883,6 +33917,13 @@ exports.execGitStatusActionConsumer = consumer_1.createSingleLineConsumer(async 
             await consumer_1.chainFzfCommand("FzfPreviewGitStatus");
             break;
         }
+        case "chaperon": {
+            for (const file of data.files) {
+                // eslint-disable-next-line no-await-in-loop
+                await git_1.gitChaperon(file);
+            }
+            break;
+        }
         case "header": {
             break;
         }
@@ -34340,7 +34381,7 @@ const process_runner_1 = __webpack_require__(208);
 const sync_vim_variable_1 = __webpack_require__(201);
 const store_1 = __webpack_require__(39);
 /* eslint-disable */
-const commands = {"ENV":"remote"}.ENV === "remote"
+const commands = {"ENV":"remote"}.ENV === "remote" || {"ENV":"remote"}.ENV === "rpc"
     ? __webpack_require__(3).commandDefinition
     : {"ENV":"remote"}.ENV === "coc"
         ? __webpack_require__(209).cocCommandDefinition
@@ -34564,7 +34605,7 @@ const cocLocationToLocation = async (locations) => {
     const currentPath = await file_1.getCurrentPath();
     return (await Promise.all(locations.map(async (location) => {
         const lineNumber = location.range.start.line + 1;
-        const absoluteFilePath = project_1.dropFileProtocol(location.uri);
+        const absoluteFilePath = decodeURIComponent(project_1.dropFileProtocol(location.uri));
         const relativeFilePath = project_1.filePathToRelativeFilePath(absoluteFilePath, currentPath);
         if (relativeFilePath == null) {
             return null;
