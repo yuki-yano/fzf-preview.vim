@@ -2,7 +2,8 @@
 
 fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
-Remote Plugin only works with Neovim, but you can use coc extensions also works in Vim.
+Since fzf-preview.vim implements RPC in the Vim script, it will work in both Vim and Neovim if you use the RPC release.
+It can also be installed as Remote Plugin and coc extensions. If you want to use the integration with coc, install coc extensions.
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 
@@ -47,11 +48,11 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 ### Remote Plugin
 
-- **Neovim** <https://neovim.io/>
+- Neovim <https://neovim.io/>
 
 ### coc extensions
 
-- **coc.nvim** <https://github.com/neoclide/coc.nvim>
+- coc.nvim <https://github.com/neoclide/coc.nvim>
 
 ### Optional
 
@@ -77,6 +78,24 @@ When bat is installed you can highlight the preview and see it. Otherwise, head 
 
 ## Installation
 
+### Vim script RPC
+
+Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
+
+Install `release/rpc` branch.
+
+```vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
+```
+
+or
+
+```vim
+call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/rpc' })
+```
+
 ### Remote Plugin
 
 Install the npm package [neovim](https://www.npmjs.com/package/neovim) to get the remote plugin working.
@@ -87,19 +106,18 @@ $ npm install -g neovim
 
 Use [Dein](https://github.com/Shougo/dein.vim), [vim-plug](https://github.com/junegunn/vim-plug) or any Vim plugin manager of your choice.
 
-Install `release` branch and execute `:UpdateRemotePlugins` when after installed plugin.
+Install `release/remote` branch and execute `:UpdateRemotePlugins` when after installed plugin.
 
 ```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 ```
 
 or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release' })
-" call dein#add('yuki-ycino/fzf-preview.vim', { 'build': 'yarn install' })
+call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/remote' })
 ```
 
 ### coc extensions
@@ -126,95 +144,155 @@ and
 
 ### Command
 
+Vim script RPC, Remote Plugin, and coc extensions, in that order.
+
 ```vim
-:FzfPreviewProjectFiles                       " Select project files
+" Select project files
+:FzfPreviewProjectFilesRpc
+:FzfPreviewProjectFiles
 :CocCommand fzf-preview.ProjectFiles
 
-:FzfPreviewGitFiles                           " Select file from git ls-files
+" Select file from git ls-files
+:FzfPreviewGitFilesRpc
+:FzfPreviewGitFiles
 :CocCommand fzf-preview.GitFiles
 
-:FzfPreviewDirectoryFiles {path or none}      " Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+" Select file from directory files (default to current working directory) (Required [ripgrep](https://github.com/BurntSushi/ripgrep))
+:FzfPreviewDirectoryFilesRpc {path or none}
+:FzfPreviewDirectoryFiles {path or none}
 :CocCommand fzf-preview.DirectoryFiles
 
-:FzfPreviewBuffers                            " Select file buffers. Used open-buffer processes.
+" Select file buffers. Used open-buffer processes.
+:FzfPreviewBuffersRpc
+:FzfPreviewBuffers
 :CocCommand fzf-preview.Buffers
 
-:FzfPreviewAllBuffers                         " Select all buffers. Used open-bufnr processes
+" Select all buffers. Used open-bufnr processes
+:FzfPreviewAllBuffersRpc
+:FzfPreviewAllBuffers
 :CocCommand fzf-preview.AllBuffers
 
-:FzfPreviewProjectOldFiles                    " Select project files from oldfiles
+" Select project files from oldfiles
+:FzfPreviewProjectOldFilesRpc
 :CocCommand fzf-preview.ProjectOldFiles
 
-:FzfPreviewProjectMruFiles                    " Select project mru (Most Recently Used) files
+" Select project mru (Most Recently Used) files
+:FzfPreviewProjectMruFilesRpc
+:FzfPreviewProjectMruFiles
 :CocCommand fzf-preview.ProjectMruFiles
 
-:FzfPreviewProjectMrwFiles                    " Select project mrw (Most Recently Written) files
+" Select project mrw (Most Recently Written) files
+:FzfPreviewProjectMrwFilesRpc
+:FzfPreviewProjectMrwFiles
 :CocCommand fzf-preview.ProjectMrwFiles
 
-:FzfPreviewProjectGrep {word}                 " Grep project files from args word (Required [Python3](https://www.python.org/))
+" Grep project files from args word (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrepRpc {word}
+:FzfPreviewProjectGrep {word}
 :CocCommand fzf-preview.ProjectGrep {word}
 
-:FzfPreviewCtags                              " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+" Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:FzfPreviewCtagsRpc
+:FzfPreviewCtags
 :CocCommand fzf-preview.Ctags
 
-:FzfPreviewBufferTags                         " Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+" Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+:FzfPreviewBufferTagsRpc
+:FzfPreviewBufferTags
 :CocCommand fzf-preview.BufferTags
 
-:FzfPreviewOldFiles                           " Select files from oldfiles
+" Select files from oldfiles
+:FzfPreviewOldFilesRpc
+:FzfPreviewOldFiles
 :CocCommand fzf-preview.OldFiles
 
-:FzfPreviewMruFiles                           " Select mru (Most Recently Used) files
+" Select mru (Most Recently Used) files
+:FzfPreviewMruFilesRpc
+:FzfPreviewMruFiles
 :CocCommand fzf-preview.MruFiles
 
-:FzfPreviewMrwFiles                           " Select mrw (Most Recently Written) files
+" Select mrw (Most Recently Written) files
+:FzfPreviewMrwFilesRpc
+:FzfPreviewMrwFiles
 :CocCommand fzf-preview.MrwFiles
 
-:FzfPreviewQuickFix                           " Select line from QuickFix (Required [Python3](https://www.python.org/))
+" Select line from QuickFix (Required [Python3](https://www.python.org/))
+:FzfPreviewQuickFixRpc
+:FzfPreviewQuickFix
 :CocCommand fzf-preview.QuickFix
 
-:FzfPreviewLocationList                       " Select line from LocationList (Required [Python3](https://www.python.org/))
+" Select line from LocationList (Required [Python3](https://www.python.org/))
+:FzfPreviewLocationListRpc
+:FzfPreviewLocationList
 :CocCommand fzf-preview.LocationList
 
-:FzfPreviewLines                              " Select line from current buffer (Required [bat](https://github.com/sharkdp/bat))
+" Select line from current buffer (Required [bat](https://github.com/sharkdp/bat))
+:FzfPreviewLinesRpc
+:FzfPreviewLines
 :CocCommand fzf-preview.Lines
 
-:FzfPreviewBufferLines                        " Select line from loaded buffer (Required [Python3](https://www.python.org/))
+" Select line from loaded buffer (Required [Python3](https://www.python.org/))
+:FzfPreviewBufferLinesRpc
+:FzfPreviewBufferLines
 :CocCommand fzf-preview.BufferLines
 
-:FzfPreviewJumps                              " Select jumplist item (Required [Python3](https://www.python.org/))
+" Select jumplist item (Required [Python3](https://www.python.org/))
+:FzfPreviewJumpsRpc
+:FzfPreviewJumps
 :CocCommand fzf-preview.Jumps
 
-:FzfPreviewChanges                            " Select changelist item (Required [Python3](https://www.python.org/))
+" Select changelist item (Required [Python3](https://www.python.org/))
+:FzfPreviewChangesRpc
+:FzfPreviewChanges
 :CocCommand fzf-preview.Changes
 
-:FzfPreviewMarks                              " Select mark (Required [Python3](https://www.python.org/))
+" Select mark (Required [Python3](https://www.python.org/))
+:FzfPreviewMarksRpc
 :CocCommand fzf-preview.Marks
 
-:FzfPreviewFromResources                      " Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
+" Select files from selected resources (project, git, directory, buffer, project_old, project_mru, project_mrw, old, mru, mrw)
+:FzfPreviewFromResourcesRpc
+:FzfPreviewFromResources
 :CocCommand fzf-preview.FromResources
 
-:FzfPreviewCommandPalette                         " Execute and edit command history
+" Execute and edit command history
+:FzfPreviewCommandPaletteRpc
+:FzfPreviewCommandPalette
 :CocCommand fzf-preview.CommandPalette
 
-:FzfPreviewGitActions                         " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
+" Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
+:FzfPreviewGitActionsRpc
+:FzfPreviewGitActions
 :CocCommand fzf-preview.GitActions
 
-:FzfPreviewGitStatus                          " Select git status listed file. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
+" Select git status listed file. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
+:FzfPreviewGitStatusRpc
+:FzfPreviewGitStatus
 :CocCommand fzf-preview.GitStatus
 
-:FzfPreviewVistaCtags                         " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+" Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:FzfPreviewVistaCtagsRpc
+:FzfPreviewVistaCtags
 :CocCommand fzf-preview.VistaCtags
 
-:FzfPreviewVistaBufferCtags                   " Select current buffer tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+" Select current buffer tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
+:FzfPreviewVistaBufferCtagsRpc
+:FzfPreviewVistaBufferCtags
 :CocCommand fzf-preview.VistaBufferCtags
 
-:FzfPreviewBookmarks                          " Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+" Select bookmarks (Required [vim-bookmarks](https://github.com/MattesGroeger/vim-bookmarks))
+:FzfPreviewBookmarksRpc
+:FzfPreviewBookmarks
 :CocCommand fzf-preview.Bookmarks
 
-:FzfPreviewYankround                          " Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
+" Select register history (Required [yankround.vim](https://github.com/LeafCage/yankround.vim))
+:FzfPreviewYankroundRpc
+:FzfPreviewYankround
 :CocCommand fzf-preview.Yankround
 
-:FzfPreviewBlamePR                            " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
+" Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
+:FzfPreviewBlamePRRpc
+:FzfPreviewBlamePR
 :CocCommand fzf-preview.BlamePR
 
 :CocCommand fzf-preview.CocReferences         " Select references from coc.nvim (only coc extensions)
@@ -227,6 +305,29 @@ and
 ```
 
 ### Recommended mappings
+
+#### Vim script RPC
+
+```vim
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
+
+nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>FzfPreviewJumpsRpc<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>FzfPreviewChangesRpc<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
+xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTagsRpc<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFixRpc<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
+```
 
 #### Remote Plugin
 
@@ -354,7 +455,7 @@ let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
 let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'               " Not Installed ripgrep
 " let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
 
-" Commands used to get the file list from git reposiroty
+" Commands used to get the file list from git repository
 let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
 
 " Commands used to get the file list from current directory
@@ -475,6 +576,11 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2020/12/31 version 0.5.0
+  - Implement Vim script RPC
+    - Only need Vim and Node
+  - **Breaking change**: The release branch of the Remote Plugin has been changed to release/remote.
 
 - 2020/11/08 version 0.4.27
   - Add g:fzf_preview_direct_window_option option.
