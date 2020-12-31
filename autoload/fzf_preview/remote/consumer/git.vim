@@ -1,3 +1,12 @@
+" using pseudo synchronous call in Vim8 because Vim8 asynchronous call is unstable
+function s:execute(command)
+  if !has('nvim')
+    call feedkeys(':' . a:command . "\n", 'n')
+  else
+    execute a:command
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#add(file) abort
   call system('git add ' . a:file)
   if v:shell_error
@@ -20,8 +29,8 @@ function! fzf_preview#remote#consumer#git#reset(file, option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#patch(file) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina patch ' . a:file
+  if exists(':Gina') == 2
+    call s:execute('Gina patch ' . a:file)
     return
   elseif exists(':Git') != 0
     execute 'tabedit ' . a:file . ' | Git diff'
@@ -32,8 +41,8 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#chaperon(file) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina chaperon ' . a:file
+  if exists(':Gina') == 2
+    call s:execute('Gina chaperon ' . a:file)
     return
   endif
 
@@ -44,8 +53,8 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
   if match(a:option, '--fixup') != -1
     echomsg system('git commit ' . a:option)
     return
-  elseif has('nvim') && exists(':Gina') == 2
-    execute 'Gina commit --verbose ' . a:option
+  elseif exists(':Gina') == 2
+    call s:execute('Gina commit --verbose ' . a:option)
     return
   elseif exists(':Git') == 2
     execute 'Git commit --verbose ' . a:option
@@ -56,8 +65,8 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#checkout(branch_or_file) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina checkout ' . a:branch_or_file
+  if exists(':Gina') == 2
+    call s:execute('Gina checkout ' . a:branch_or_file)
     return
   elseif exists(':Git') == 2
     execute 'Git checkout ' . a:branch_or_file
@@ -81,7 +90,7 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
   " NOTE: Gina can not handle two branches
-  if has('nvim') && exists(':Gina') == 2
+  if exists(':Gina') == 2
     execute 'silent Gina diff ' . a:branch . '..' . branch2
     echomsg 'git diff ' . a:branch . '..' . branch2
     return
@@ -95,8 +104,8 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina show ' . a:name_or_hash
+  if exists(':Gina') == 2
+    call s:execute('Gina show ' . a:name_or_hash)
     return
   elseif exists(':Git') == 2
     execute 'Git show ' . a:name_or_hash
@@ -107,8 +116,8 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#merge(branch, option) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina merge ' . a:option . ' ' . a:branch
+  if exists(':Gina') == 2
+    call s:execute('Gina merge ' . a:option . ' ' . a:branch)
     return
   elseif exists(':Git') == 2
     execute 'Git merge ' . a:option . ' ' . a:branch
@@ -119,8 +128,8 @@ function! fzf_preview#remote#consumer#git#merge(branch, option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#rebase(branch) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina rebase ' . a:branch
+  if exists(':Gina') == 2
+    call s:execute('Gina rebase ' . a:branch)
     return
   elseif exists(':Git') == 2
     execute 'Git rebase ' . a:branch
@@ -140,8 +149,8 @@ function! fzf_preview#remote#consumer#git#rebase_interactive(branch_or_hash) abo
 endfunction
 
 function! fzf_preview#remote#consumer#git#push(option) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina push ' . a:option
+  if exists(':Gina') == 2
+    call s:execute('Gina push ' . a:option)
     return
   elseif exists(':Git') == 2
     execute 'Git push ' . a:option
@@ -155,8 +164,8 @@ function! fzf_preview#remote#consumer#git#push(option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#fetch() abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina fetch'
+  if exists(':Gina') == 2
+    call s:execute('Gina fetch')
     return
   elseif exists(':Git') == 2
     execute 'Git fetch'
@@ -170,8 +179,8 @@ function! fzf_preview#remote#consumer#git#fetch() abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina branch --delete ' . a:option . ' ' . a:branch
+  if exists(':Gina') == 2
+    call s:execute('Gina branch --delete ' . a:option . ' ' . a:branch)
     return
   elseif exists(':Git') == 2
     execute 'Git branch --delete ' . a:option . ' ' . a:branch
@@ -239,8 +248,8 @@ function! fzf_preview#remote#consumer#git#stash_create() abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#pull() abort
-  if has('nvim') && exists(':Gina') == 2
-    execute 'Gina pull'
+  if exists(':Gina') == 2
+    call s:execute('Gina pull')
     return
   elseif exists(':Git') == 2
     execute 'Git pull'
