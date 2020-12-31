@@ -33,12 +33,15 @@ connection.onRequest(getDefaultProcessesRequest, () => {
 })
 
 const execCommandRequest = new rpc.RequestType<RpcExecCommandParams, void, void>("execCommand")
-connection.onRequest(execCommandRequest, ({ commandName, args }) => {
-  commandDefinition.forEach(async (fzfCommand) => {
+connection.onRequest(execCommandRequest, async ({ commandName, args }) => {
+  for (const fzfCommand of commandDefinition) {
     if (commandName === fzfCommand.commandName) {
+      // eslint-disable-next-line no-await-in-loop
       await executeCommand(args != null ? args : "", fzfCommand)
+
+      return
     }
-  })
+  }
 })
 
 const callProcessRequest = new rpc.RequestType<RpcCallProcessParams, void, void>("callProcess")
@@ -47,14 +50,17 @@ connection.onRequest(callProcessRequest, async ({ lines }) => {
 })
 
 const execProcessCallbackRequest = new rpc.RequestType<RpcExecProcessCallbackParams, void, void>("execProcessCallback")
-connection.onRequest(execProcessCallbackRequest, ({ processName, lines }) => {
-  processesDefinition.forEach(({ processes }) => {
-    processes.forEach(async (process) => {
+connection.onRequest(execProcessCallbackRequest, async ({ processName, lines }) => {
+  for (const { processes } of processesDefinition) {
+    for (const process of processes) {
       if (processName === process.name) {
+        // eslint-disable-next-line no-await-in-loop
         await executeProcess(lines, process)
+
+        return
       }
-    })
-  })
+    }
+  }
 })
 
 setRpcClient(connection)
