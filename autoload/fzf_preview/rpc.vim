@@ -14,7 +14,7 @@ let default_processes = {}
 call s:Promise.on_unhandled_rejection({ err -> fzf_preview#rpc#log('[ERROR]', err) })
 
 function! fzf_preview#rpc#initialize() abort
-  call s:server()
+  call s:start()
 
   function! s:initialize_default_processes(response) abort
     let s:default_processes = a:response
@@ -30,7 +30,7 @@ function! fzf_preview#rpc#get_default_processes(name) abort
 endfunction
 
 function! fzf_preview#rpc#command(command, ...) abort
-  call s:server()
+  call s:start()
   if a:0 == 0
     call s:state.server.request('execCommand', { 'commandName': a:command })
   else
@@ -52,7 +52,7 @@ function! fzf_preview#rpc#log(...) abort
   endif
 endfunction
 
-function! s:server() abort
+function! s:start() abort
   try
     if !empty(s:state.server)
       return s:state.server
