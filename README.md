@@ -563,8 +563,8 @@ nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
 " Do not need to pass a value for this option.
 
 " Example: Reuse last query for project grep.
-nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
-" nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep --resume<Space>
+nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep . --resume<Space>
+" nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep . --resume<Space>
 ```
 
 ### Function
