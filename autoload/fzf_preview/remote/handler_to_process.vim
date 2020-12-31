@@ -3,6 +3,8 @@ function! fzf_preview#remote#handler_to_process#call_funcref_or_fallback_default
     call s:call_remote_plugin(a:default_process_function_name, a:expect_key, a:lines, a:process_name)
   elseif a:env ==# 'coc'
     call s:call_coc(a:default_process_function_name, a:expect_key, a:lines, a:process_name)
+  elseif a:env ==# 'rpc'
+    call s:call_rpc(a:default_process_function_name, a:expect_key, a:lines, a:process_name)
   endif
 endfunction
 
@@ -14,7 +16,11 @@ function! s:call_remote_plugin(default_process_function_name, expect_key, lines,
     let Process = processes[a:expect_key]
 
     if type(Process) == v:t_string
-      call call(Process, [a:lines])
+      if exists('*' . Process)
+        call call(Process, [a:lines])
+      else
+        call fzf_preview#rpc#exec_process_callback(Process, a:lines)
+      endif
     elseif type(Process) == v:t_func
       call Process(a:lines)
     endif
@@ -30,10 +36,30 @@ function! s:call_coc(default_process_function_name, expect_key, lines, process_n
     let Process = processes[a:expect_key]
 
     if type(Process) == v:t_string
+      let Process = substitute(Process, '^FzfPreview', '', '')
       if exists('*' . Process)
         call call(Process, [a:lines])
       else
         call CocAction('runCommand', 'fzf-preview-callback.' . Process, [a:lines])
+      endif
+    elseif type(Process) == v:t_func
+      call Process(a:lines)
+    endif
+  endif
+endfunction
+
+function! s:call_rpc(default_process_function_name, expect_key, lines, process_name) abort
+  if (a:process_name == v:null)
+    call fzf_preview#rpc#exec_process_callback(a:default_process_function_name, a:lines)
+  else
+    let processes = eval('g:' . a:process_name)
+    let Process = processes[a:expect_key]
+
+    if type(Process) == v:t_string
+      if exists('*' . Process)
+        call call(Process, [a:lines])
+      else
+        call fzf_preview#rpc#exec_process_callback(Process, a:lines)
       endif
     elseif type(Process) == v:t_func
       call Process(a:lines)

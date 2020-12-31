@@ -81,14 +81,14 @@ import {
   yankroundDefaultOptions,
 } from "@/fzf/resource"
 import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-palette"
-import type { RemoteFzfCommand } from "@/type"
+import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
   nargs: "?",
   sync: true,
 } as const
 
-export const commandDefinition: ReadonlyArray<RemoteFzfCommand> = [
+export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
   {
     commandName: "FzfPreviewProjectFiles",
     sourceFunc: projectFiles,

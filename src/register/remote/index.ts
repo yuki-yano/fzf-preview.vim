@@ -5,12 +5,12 @@ import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { pluginRegisterCommand, pluginRegisterFunction } from "@/plugin"
+import { remotePluginRegisterCommand, remotePluginRegisterFunction } from "@/plugin"
 import type { CallbackLines } from "@/type"
 
 export const registerRemoteCommands = (): void => {
   commandDefinition.forEach((fzfCommand) => {
-    pluginRegisterCommand(
+    remotePluginRegisterCommand(
       fzfCommand.commandName,
       async (params: Array<string>) => {
         const args = params[0] != null ? params[0] : ""
@@ -24,7 +24,7 @@ export const registerRemoteCommands = (): void => {
 export const registerProcesses = (): void => {
   processesDefinition.forEach(({ processes }) => {
     processes.forEach((process) => {
-      pluginRegisterFunction(
+      remotePluginRegisterFunction(
         process.name,
         async ([lines]: [CallbackLines, ...Array<unknown>]) => {
           await executeProcess(lines, process)
@@ -36,13 +36,13 @@ export const registerProcesses = (): void => {
 }
 
 export const registerFunction = (): void => {
-  pluginRegisterFunction(HANDLER_NAME, callProcess, { sync: true })
+  remotePluginRegisterFunction(HANDLER_NAME, callProcess, { sync: true })
 
-  pluginRegisterFunction(
+  remotePluginRegisterFunction(
     "FzfPreviewGetDefaultProcesses",
     ([processesName]: Array<string>) => getDefaultProcesses(processesName),
     { sync: true }
   )
 
-  pluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
+  remotePluginRegisterFunction("FzfPreviewDispatchResumeQuery", dispatchResumeQuery, { sync: false })
 }

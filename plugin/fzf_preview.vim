@@ -182,18 +182,60 @@ endfunction
 augroup fzf_preview_initialized
   autocmd!
   autocmd VimEnter * call s:doautocmd_from_remote_plugin()
+  autocmd VimEnter * call s:doautocmd_from_rpc()
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
 
 function! s:doautocmd_from_remote_plugin() abort
-  " if exists(':FzfPreviewRemoteEnvironment')
-    " call timer_start(0, 'FzfPreviewInitializeRemotePlugin')
-  " endif
-
   if exists(':FzfPreviewRemoteEnvironment')
     silent doautocmd User fzf_preview#initialized
   endif
 endfunction
+
+function! s:doautocmd_from_rpc() abort
+  call fzf_preview#rpc#initialize()
+endfunction
+
+command! -nargs=? FzfPreviewProjectFilesRpc call fzf_preview#rpc#command('FzfPreviewProjectFiles', <f-args>)
+command! -nargs=? FzfPreviewGitFilesRpc call fzf_preview#rpc#command('FzfPreviewGitFiles', <f-args>)
+command! -nargs=? FzfPreviewDirectoryFilesRpc call fzf_preview#rpc#command('FzfPreviewDirectoryFiles', <f-args>)
+command! -nargs=? FzfPreviewBuffersRpc call fzf_preview#rpc#command('FzfPreviewBuffers', <f-args>)
+command! -nargs=? FzfPreviewAllBuffersRpc call fzf_preview#rpc#command('FzfPreviewAllBuffers', <f-args>)
+command! -nargs=? FzfPreviewProjectOldFilesRpc call fzf_preview#rpc#command('FzfPreviewProjectOldFiles', <f-args>)
+command! -nargs=? FzfPreviewProjectMruFilesRpc call fzf_preview#rpc#command('FzfPreviewProjectMruFiles', <f-args>)
+command! -nargs=? FzfPreviewProjectMrwFilesRpc call fzf_preview#rpc#command('FzfPreviewProjectMrwFiles', <f-args>)
+command! -nargs=? FzfPreviewLinesRpc call fzf_preview#rpc#command('FzfPreviewLines', <f-args>)
+command! -nargs=? FzfPreviewBufferLinesRpc call fzf_preview#rpc#command('FzfPreviewBufferLines', <f-args>)
+command! -nargs=? FzfPreviewCtagsRpc call fzf_preview#rpc#command('FzfPreviewCtags', <f-args>)
+command! -nargs=? FzfPreviewBufferTagsRpc call fzf_preview#rpc#command('FzfPreviewBufferTags', <f-args>)
+command! -nargs=? FzfPreviewOldFilesRpc call fzf_preview#rpc#command('FzfPreviewOldFiles', <f-args>)
+command! -nargs=? FzfPreviewMruFilesRpc call fzf_preview#rpc#command('FzfPreviewMruFiles', <f-args>)
+command! -nargs=? FzfPreviewMrwFilesRpc call fzf_preview#rpc#command('FzfPreviewMrwFiles', <f-args>)
+command! -nargs=? FzfPreviewQuickFixRpc call fzf_preview#rpc#command('FzfPreviewQuickFix', <f-args>)
+command! -nargs=? FzfPreviewLocationListRpc call fzf_preview#rpc#command('FzfPreviewLocationList', <f-args>)
+command! -nargs=? FzfPreviewJumpsRpc call fzf_preview#rpc#command('FzfPreviewJumps', <f-args>)
+command! -nargs=? FzfPreviewChangesRpc call fzf_preview#rpc#command('FzfPreviewChanges', <f-args>)
+command! -nargs=? FzfPreviewMarksRpc call fzf_preview#rpc#command('FzfPreviewMarks', <f-args>)
+command! -nargs=? FzfPreviewProjectGrepRpc call fzf_preview#rpc#command('FzfPreviewProjectGrep', <f-args>)
+command! -nargs=? FzfPreviewFromResourcesRpc call fzf_preview#rpc#command('FzfPreviewFromResources', <f-args>)
+command! -nargs=? FzfPreviewCommandPaletteRpc call fzf_preview#rpc#command('FzfPreviewCommandPalette', <f-args>)
+command! -nargs=? FzfPreviewGitActionsRpc call fzf_preview#rpc#command('FzfPreviewGitActions', <f-args>)
+command! -nargs=? FzfPreviewGitStatusRpc call fzf_preview#rpc#command('FzfPreviewGitStatus', <f-args>)
+command! -nargs=? FzfPreviewGitStatusActionsRpc call fzf_preview#rpc#command('FzfPreviewGitStatusActions', <f-args>)
+command! -nargs=? FzfPreviewGitBranchesRpc call fzf_preview#rpc#command('FzfPreviewGitBranches', <f-args>)
+command! -nargs=? FzfPreviewGitBranchActionsRpc call fzf_preview#rpc#command('FzfPreviewGitBranchActions', <f-args>)
+command! -nargs=? FzfPreviewGitLogsRpc call fzf_preview#rpc#command('FzfPreviewGitLogs', <f-args>)
+command! -nargs=? FzfPreviewGitCurrentLogsRpc call fzf_preview#rpc#command('FzfPreviewGitCurrentLogs', <f-args>)
+command! -nargs=? FzfPreviewGitLogActionsRpc call fzf_preview#rpc#command('FzfPreviewGitLogActions', <f-args>)
+command! -nargs=? FzfPreviewGitStashesRpc call fzf_preview#rpc#command('FzfPreviewGitStashes', <f-args>)
+command! -nargs=? FzfPreviewGitStashActionsRpc call fzf_preview#rpc#command('FzfPreviewGitStashActions', <f-args>)
+command! -nargs=? FzfPreviewGitReflogsRpc call fzf_preview#rpc#command('FzfPreviewGitReflogs', <f-args>)
+command! -nargs=? FzfPreviewGitReflogActionsRpc call fzf_preview#rpc#command('FzfPreviewGitReflogActions', <f-args>)
+command! -nargs=? FzfPreviewBookmarksRpc call fzf_preview#rpc#command('FzfPreviewBookmarks', <f-args>)
+command! -nargs=? FzfPreviewYankroundRpc call fzf_preview#rpc#command('FzfPreviewYankround', <f-args>)
+command! -nargs=? FzfPreviewVistaCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaCtags', <f-args>)
+command! -nargs=? FzfPreviewVistaBufferCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaBufferCtags', <f-args>)
+command! -nargs=? FzfPreviewBlamePRRpc call fzf_preview#rpc#command('FzfPreviewBlamePR', <f-args>)
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
