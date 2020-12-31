@@ -189,6 +189,7 @@ augroup END
 function! s:doautocmd_from_remote_plugin() abort
   if exists(':FzfPreviewRemoteEnvironment')
     silent doautocmd User fzf_preview#initialized
+    silent doautocmd User fzf_preview#remote#initialized
   endif
 endfunction
 

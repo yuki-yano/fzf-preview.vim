@@ -295,13 +295,17 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewBlamePR
 :CocCommand fzf-preview.BlamePR
 
-:CocCommand fzf-preview.CocReferences         " Select references from coc.nvim (only coc extensions)
+" Select references from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocReferences
 
-:CocCommand fzf-preview.CocDiagnostics        " Select diagnostics from coc.nvim (only coc extensions)
+" Select diagnostics from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocDiagnostics
 
-:CocCommand fzf-preview.CocCurrentDiagnostics " Select current file diagnostics from coc.nvim (only coc extensions)
+" Select current file diagnostics from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocCurrentDiagnostics
 
-:CocCommand fzf-preview.CocTypeDefinitions    " Select type definitions from coc.nvim (only coc extensions)
+" Select type definitions from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocTypeDefinitions
 ```
 
 ### Recommended mappings

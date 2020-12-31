@@ -65,7 +65,7 @@ export const registerFunctions = (commandManager: CommandManager): Array<Disposa
   return [
     commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
     commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
-      return mapValues(getDefaultProcesses(processesName), (value) => removeFzfPreviewPrefix(value))
+      return mapValues(getDefaultProcesses(processesName), (name) => name)
     }),
     commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
   ]

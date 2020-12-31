@@ -21,4 +21,5 @@ export async function activate(context: ExtensionContext): Promise<void> {
   )
 
   await workspace.nvim.command("silent doautocmd User fzf_preview#initialized")
+  await workspace.nvim.command("silent doautocmd User fzf_preview#coc#initialized")
 }
