@@ -1,6 +1,6 @@
 /node_modules
 
-/lib
+/lib/index.js
 /rplugin/node/fzf-preview.vim/index.js
 
 /doc/tags
