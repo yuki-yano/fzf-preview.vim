@@ -25,6 +25,15 @@ function! fzf_preview#rpc#initialize() abort
   call s:state.server.request('getDefaultProcesses', {}).then({ response -> s:initialize_default_processes(response) })
 endfunction
 
+function! fzf_preview#rpc#restart() abort
+  if !empty(s:state.server)
+    call s:state.server.stop()
+  endif
+
+  let s:state.server = v:null
+  call s:start()
+endfunction
+
 function! fzf_preview#rpc#get_default_processes(name) abort
   return s:default_processes[a:name]
 endfunction
