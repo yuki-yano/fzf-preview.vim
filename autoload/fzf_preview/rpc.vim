@@ -100,5 +100,5 @@ function! s:on_request(request) abort
 endfunction
 
 function! s:command() abort
-  return [printf('%s/lib/rpc.js', s:root_dir)]
+  return ['node', printf('%s/lib/rpc.js', s:root_dir)]
 endfunction
