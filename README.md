@@ -574,7 +574,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep . --resume<Space>
 ```vim
 " Get the initial value of the open file processes
 " processes_name is 'open-file', 'open-buffer' and 'open-bufnr'.
-" plugin_type is 'remote' or 'coc'. Default value is 'remote'
+" plugin_type is 'remote', 'coc' or 'rpc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
 
