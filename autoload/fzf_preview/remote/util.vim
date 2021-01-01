@@ -1,5 +1,15 @@
+let s:is_win = has('win32') || has('win64')
+
+function! fzf_preview#remote#util#git_directory() abort
+  if s:is_win
+    return system('git rev-parse --show-toplevel 2> nul')
+  else
+    return system('git rev-parse --show-toplevel 2>/dev/null')
+  endif
+endfunction
+
 function! fzf_preview#remote#util#is_git_directory() abort
-  let git_root = system('git rev-parse --show-toplevel 2>/dev/null')
+  let git_root = fzf_preview#remote#util#git_directory()
   if git_root ==# ''
     return v:false
   else
@@ -8,7 +18,7 @@ function! fzf_preview#remote#util#is_git_directory() abort
 endfunction
 
 function! fzf_preview#remote#util#project_root() abort
-  let git_root = system('git rev-parse --show-toplevel 2>/dev/null')
+  let git_root = fzf_preview#remote#util#git_directory()
   if git_root ==# ''
     echomsg 'The current directory is not a git project'
     return ''
