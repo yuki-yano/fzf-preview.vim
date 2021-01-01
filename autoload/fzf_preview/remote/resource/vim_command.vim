@@ -6,7 +6,7 @@ function! fzf_preview#remote#resource#vim_command#commands() abort
 endfunction
 
 function! fzf_preview#remote#resource#vim_command#history() abort
-  let commands = filter(map(range(1, histnr(':')), {_, index -> histget(':', index)}), {_, command -> command !=# ''})
+  let commands = filter(map(range(1, max([0, histnr(':')])), {_, index -> histget(':', index)}), {_, command -> command !=# ''})
   return map(reverse(commands), {index, command -> {
   \   'name': command,
   \   'number': index + 1,
