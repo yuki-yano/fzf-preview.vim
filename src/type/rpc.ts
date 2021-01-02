@@ -15,3 +15,8 @@ export type RpcExecProcessCallbackParams = {
   processName: string
   lines: Array<string>
 }
+
+export type DispatchResumeQueryParams = {
+  commandName: BaseFzfCommandName
+  query: string
+}

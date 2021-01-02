@@ -1,12 +1,18 @@
 import * as rpc from "vscode-jsonrpc"
 
 import { commandDefinition } from "@/association/command"
+import { dispatchResumeQuery } from "@/connector/resume"
 import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
 import { setRpcClient } from "@/plugin"
-import type { RpcCallProcessParams, RpcExecCommandParams, RpcExecProcessCallbackParams } from "@/type"
+import type {
+  DispatchResumeQueryParams,
+  RpcCallProcessParams,
+  RpcExecCommandParams,
+  RpcExecProcessCallbackParams,
+} from "@/type"
 
 const connection = rpc.createMessageConnection(
   // @ts-ignore
@@ -61,6 +67,11 @@ connection.onRequest(execProcessCallbackRequest, async ({ processName, lines }) 
       }
     }
   }
+})
+
+const dispatchResumeQueryRequest = new rpc.RequestType<DispatchResumeQueryParams, void, void>("dispatchResumeQuery")
+connection.onRequest(dispatchResumeQueryRequest, async ({ commandName, query }) => {
+  await dispatchResumeQuery([commandName, query])
 })
 
 setRpcClient(connection)

@@ -57,6 +57,10 @@ function! fzf_preview#rpc#exec_process_callback(process_name, lines) abort
   call s:state.server.request('execProcessCallback', { 'processName': a:process_name, 'lines': a:lines })
 endfunction
 
+function! fzf_preview#rpc#dispatch_resume_query(command_name, query) abort
+  call s:state.server.request('dispatchResumeQuery', { 'commandName': a:command_name, 'query': a:query })
+endfunction
+
 function! fzf_preview#rpc#log(...) abort
   if exists('g:fzf_preview_debug')
     call writefile([join([strftime('%H:%M:%S')] + a:000, "\t")], '/tmp/fzf_preview_rpc.log', 'a')
