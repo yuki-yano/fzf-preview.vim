@@ -18,6 +18,8 @@ function! fzf_preview#rpc#initialize() abort
 
   function! s:initialize_default_processes(response) abort
     let s:default_processes = a:response
+
+    let g:fzf_preview_has_rpc = v:true
     silent doautocmd User fzf_preview#initialized
     silent doautocmd User fzf_preview#rpc#initialized
   endfunction

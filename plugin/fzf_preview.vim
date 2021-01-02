@@ -188,6 +188,7 @@ augroup END
 
 function! s:doautocmd_from_remote_plugin() abort
   if exists(':FzfPreviewRemoteEnvironment')
+    let g:fzf_preview_has_remote = v:true
     silent doautocmd User fzf_preview#initialized
     silent doautocmd User fzf_preview#remote#initialized
   endif
