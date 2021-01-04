@@ -181,9 +181,9 @@ endfunction
 
 augroup fzf_preview_initialized
   autocmd!
-  autocmd VimEnter    * call s:doautocmd_from_remote_plugin()
+  autocmd VimEnter * call s:doautocmd_from_remote_plugin()
   autocmd VimEnter * call s:doautocmd_from_coc()
-  autocmd VimEnter    * call s:doautocmd_from_rpc()
+  autocmd VimEnter * call s:doautocmd_from_rpc()
 
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
