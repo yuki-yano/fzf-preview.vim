@@ -7,9 +7,9 @@
   "repository": {
     "url": "git@github.com:yuki-ycino/fzf-preview.vim"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/coc.js",
   "files": [
-    "lib",
+    "lib/coc.js",
     "autoload",
     "plugin",
     "bin"
