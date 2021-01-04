@@ -10,7 +10,7 @@ import { executeCommand } from "@/fzf/command"
 import { getDefaultProcesses } from "@/fzf/function"
 import { callProcess } from "@/fzf/handler"
 import { executeProcess, processesDefinition } from "@/fzf/process"
-import { setCocClient } from "@/plugin"
+import { pluginCommand, setCocClient } from "@/plugin"
 import type { CallbackLines } from "@/type"
 
 const removeFzfPreviewPrefix = (name: string) => {
@@ -63,6 +63,10 @@ export const registerProcesses = (commandManager: CommandManager): Array<Disposa
 
 export const registerFunctions = (commandManager: CommandManager): Array<Disposable> => {
   return [
+    commandManager.registerCommand(`fzf-preview.Initialized`, async () => {
+      await pluginCommand("silent doautocmd User fzf_preview#initialized")
+      await pluginCommand("silent doautocmd User fzf_preview#coc#initialized")
+    }),
     commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
     commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) => {
       return mapValues(getDefaultProcesses(processesName), (name) => name)

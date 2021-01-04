@@ -1,9 +1,11 @@
 # fzf-preview.vim
 
-fzf-preview is a coc extensions and Neovim plugin that provides collection of features to assist file management using fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
+fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
 Since fzf-preview.vim implements RPC in the Vim script, it will work in both Vim and Neovim if you use the RPC release.
 It can also be installed as Remote Plugin and coc extensions. If you want to use the integration with coc, install coc extensions.
+
+[Introductory Article](https://zenn.dev/yano/articles/vim_with_fzf_preview_is_best_experience) (Japanese)
 
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 
@@ -563,8 +565,8 @@ nnoremap <Leader>g :<C-u>FzfPreviewProjectGrep --add-fzf-arg=--nth=3<Space>
 " Do not need to pass a value for this option.
 
 " Example: Reuse last query for project grep.
-nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
-" nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep --resume<Space>
+nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep . --resume<Space>
+" nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep . --resume<Space>
 ```
 
 ### Function
@@ -572,7 +574,7 @@ nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
 ```vim
 " Get the initial value of the open file processes
 " processes_name is 'open-file', 'open-buffer' and 'open-bufnr'.
-" plugin_type is 'remote' or 'coc'. Default value is 'remote'
+" plugin_type is 'remote', 'coc' or 'rpc'. Default value is 'remote'
 call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_type})
 ```
 

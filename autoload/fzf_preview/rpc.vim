@@ -14,10 +14,16 @@ let default_processes = {}
 call s:Promise.on_unhandled_rejection({ err -> fzf_preview#rpc#log('[ERROR]', err) })
 
 function! fzf_preview#rpc#initialize() abort
-  call s:server()
+  if !executable(printf('%s/lib/rpc.js', s:root_dir))
+    return
+  endif
+
+  call s:start()
 
   function! s:initialize_default_processes(response) abort
     let s:default_processes = a:response
+
+    let g:fzf_preview_has_rpc = v:true
     silent doautocmd User fzf_preview#initialized
     silent doautocmd User fzf_preview#rpc#initialized
   endfunction
@@ -25,12 +31,21 @@ function! fzf_preview#rpc#initialize() abort
   call s:state.server.request('getDefaultProcesses', {}).then({ response -> s:initialize_default_processes(response) })
 endfunction
 
+function! fzf_preview#rpc#restart() abort
+  if !empty(s:state.server)
+    call s:state.server.stop()
+  endif
+
+  let s:state.server = v:null
+  call s:start()
+endfunction
+
 function! fzf_preview#rpc#get_default_processes(name) abort
   return s:default_processes[a:name]
 endfunction
 
 function! fzf_preview#rpc#command(command, ...) abort
-  call s:server()
+  call s:start()
   if a:0 == 0
     call s:state.server.request('execCommand', { 'commandName': a:command })
   else
@@ -46,13 +61,17 @@ function! fzf_preview#rpc#exec_process_callback(process_name, lines) abort
   call s:state.server.request('execProcessCallback', { 'processName': a:process_name, 'lines': a:lines })
 endfunction
 
+function! fzf_preview#rpc#dispatch_resume_query(command_name, query) abort
+  call s:state.server.request('dispatchResumeQuery', { 'commandName': a:command_name, 'query': a:query })
+endfunction
+
 function! fzf_preview#rpc#log(...) abort
   if exists('g:fzf_preview_debug')
     call writefile([join([strftime('%H:%M:%S')] + a:000, "\t")], '/tmp/fzf_preview_rpc.log', 'a')
   endif
 endfunction
 
-function! s:server() abort
+function! s:start() abort
   try
     if !empty(s:state.server)
       return s:state.server

@@ -1,1 +1,1 @@
-export type Color = "reset" | "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white"
+export type Color = "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white"

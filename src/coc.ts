@@ -19,7 +19,4 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ...registerProcesses(commands),
     ...registerFunctions(commands)
   )
-
-  await workspace.nvim.command("silent doautocmd User fzf_preview#initialized")
-  await workspace.nvim.command("silent doautocmd User fzf_preview#coc#initialized")
 }
