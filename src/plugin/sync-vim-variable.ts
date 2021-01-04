@@ -1,41 +1,15 @@
-import type { VimValue } from "neovim/lib/types/VimValue"
-
-import { vimVariableAssociation } from "@/association/vim-variable"
 import { vimVariableModule } from "@/module/vim-variable"
-import { pluginCall, pluginGetVar } from "@/plugin"
+import { pluginCall } from "@/plugin"
 import { dispatch } from "@/store"
-import type { VimVariableName } from "@/type"
-import { objectKeys } from "@/util/object"
-
-const getGlobalVariable = async (variableName: VimVariableName): Promise<VimValue | null> => {
-  try {
-    return await pluginGetVar(variableName)
-  } catch (_error) {
-    return new Promise((resolve) => {
-      resolve(null)
-    })
-  }
-}
+import type { GlobalVariableName, GlobalVariables } from "@/type"
 
 export const syncVimVariable = async (): Promise<void> => {
-  const variableNames = objectKeys(vimVariableAssociation)
-  const vimVariableActions = vimVariableModule.actions
+  const { actions } = vimVariableModule
+  const variables = await (pluginCall("fzf_preview#remote#variable#get_global_variables") as Promise<GlobalVariables>)
 
-  await Promise.all(
-    variableNames.map(async (variableName) => {
-      const value = await getGlobalVariable(vimVariableAssociation[variableName])
-      if (value == null) {
-        return
-      }
-
-      dispatch(
-        vimVariableActions.setGlobalVariable({
-          name: variableName,
-          value,
-        })
-      )
-    })
-  )
+  Object.entries(variables).forEach(([name, value]) => {
+    dispatch(actions.setGlobalVariable({ name: name as GlobalVariableName, value }))
+  })
 }
 
 export const syncVimOptions = async (): Promise<void> => {

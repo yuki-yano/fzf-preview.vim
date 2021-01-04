@@ -414,8 +414,8 @@ COMMAND OPTIONS                                 *fzf-preview-command-options*
 
     Usage example: Reuse last query for project grep.
 >
-    nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep --resume<Space>
-    " nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep --resume<Space>
+    nnoremap <Leader>G :<C-u>FzfPreviewProjectGrep . --resume<Space>
+    " nnoremap <Leader>G :<C-u>CocCommand fzf-preview.ProjectGrep . --resume<Space>
 <
 
 ==============================================================================
