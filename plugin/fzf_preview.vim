@@ -181,8 +181,10 @@ endfunction
 
 augroup fzf_preview_initialized
   autocmd!
-  autocmd VimEnter * call s:doautocmd_from_remote_plugin()
-  autocmd VimEnter * call s:doautocmd_from_rpc()
+  autocmd VimEnter    * call s:doautocmd_from_remote_plugin()
+  autocmd VimEnter * call s:doautocmd_from_coc()
+  autocmd VimEnter    * call s:doautocmd_from_rpc()
+
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
 augroup END
 
@@ -191,6 +193,12 @@ function! s:doautocmd_from_remote_plugin() abort
     let g:fzf_preview_has_remote = v:true
     silent doautocmd User fzf_preview#initialized
     silent doautocmd User fzf_preview#remote#initialized
+  endif
+endfunction
+
+function! s:doautocmd_from_coc() abort
+  if exists(':CocActionAsync') == 2
+    call CocActionAsync('runCommand', 'fzf-preview.Initialized')
   endif
 endfunction
 
