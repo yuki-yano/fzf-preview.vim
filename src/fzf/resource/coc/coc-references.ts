@@ -4,7 +4,7 @@ import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
 export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const { references, symbol } = await getReferences()
+  const { references } = await getReferences()
   const resourceLines: ResourceLines = references.map(({ file, lineNumber, text }) => ({
     data: {
       command: "FzfPreviewCocReferences",
@@ -19,7 +19,6 @@ export const cocReferences = async (_args: SourceFuncArgs): Promise<Resource> =>
   return {
     type: "json",
     lines: resourceLines,
-    options: { "--header": `"[Symbol] ${symbol}"` },
   }
 }
 

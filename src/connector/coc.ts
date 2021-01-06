@@ -57,6 +57,7 @@ type Location = {
 const getCurrentState = async () => {
   const { document, position } = await workspace.getCurrentState()
 
+  // Don't use symbol now that it returns a line in coc.nvim 0.0.80.
   const range = await workspace.getSelectedRange("n", await workspace.document)
   const symbol = range && range != null ? document.getText(range) : ""
 
