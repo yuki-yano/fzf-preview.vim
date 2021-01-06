@@ -6,6 +6,9 @@ import common from "./webpack.common"
 
 export default merge(common, {
   entry: "./src/rpc.ts",
+  externals: {
+    "coc.nvim": "commonjs coc.nvim",
+  },
   output: {
     path: path.join(__dirname, "lib"),
     filename: "rpc.js",

@@ -1,10 +1,11 @@
-import type { DiagnosticItem } from "coc.nvim"
-import { languages, workspace } from "coc.nvim"
+import type { DiagnosticItem, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
+import { CancellationTokenSource, languages, workspace } from "coc.nvim"
+import { uniqWith } from "lodash"
 import type { Location as CocLocation } from "vscode-languageserver-types"
 
 import { getLineFromFile } from "@/connector/util"
 import { pluginCall } from "@/plugin"
-import { existsFileAsync, getCurrentFilePath, getCurrentPath } from "@/system/file"
+import { collapseHome, existsFileAsync, getCurrentFilePath, getCurrentPath } from "@/system/file"
 import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, DiagnosticLevel } from "@/type"
 
@@ -56,8 +57,9 @@ type Location = {
 const getCurrentState = async () => {
   const { document, position } = await workspace.getCurrentState()
 
-  const ranges = await languages.getSelectionRanges(document, [position])
-  const symbol = ranges && ranges[0] ? document.getText(ranges[0].range) : ""
+  // Don't use symbol now that it returns a line in coc.nvim 0.0.80.
+  const range = await workspace.getSelectedRange("n", await workspace.document)
+  const symbol = range && range != null ? document.getText(range) : ""
 
   return { document, position, symbol }
 }
@@ -70,34 +72,94 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
       locations.map(async (location) => {
         const lineNumber = location.range.start.line + 1
         const absoluteFilePath = decodeURIComponent(dropFileProtocol(location.uri))
-        const relativeFilePath = filePathToRelativeFilePath(absoluteFilePath, currentPath)
-        if (relativeFilePath == null) {
+        const filePath =
+          new RegExp(`^${currentPath}`).exec(absoluteFilePath) != null
+            ? filePathToRelativeFilePath(absoluteFilePath, currentPath)
+            : collapseHome(absoluteFilePath)
+
+        if (filePath == null) {
           return null
         }
         const text = await getLineFromFile(absoluteFilePath, lineNumber)
 
-        return { file: relativeFilePath, lineNumber, text }
+        return { file: filePath, lineNumber, text }
       })
     )
   ).filter((location): location is Location => location != null)
 }
 
+type ReferenceProviders = Array<{
+  provider: ReferenceProvider
+}>
+
+type TypeDefinitionProviders = Array<{
+  provider: TypeDefinitionProvider
+}>
+
 export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
+  let locations: Array<CocLocation> = []
+
   const { document, position, symbol } = await getCurrentState()
-  const locations = await languages.getReferences(document, { includeDeclaration: false }, position)
+  const tokenSource = new CancellationTokenSource()
+
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const providers: ReferenceProviders = Array.from(languages.referenceManager.providers)
+  for (const { provider } of providers) {
+    // eslint-disable-next-line no-await-in-loop
+    const references = await provider.provideReferences(
+      document,
+      position,
+      {
+        includeDeclaration: false,
+      },
+      tokenSource.token
+    )
+    if (references != null) {
+      locations = [...locations, ...references]
+    }
+  }
+
+  const references = uniqWith(
+    await cocLocationToLocation(locations),
+    (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
+  )
 
   return {
-    references: await cocLocationToLocation(locations),
+    references,
     symbol,
   }
 }
 
 export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Location>; symbol: string }> => {
+  let locations: Array<CocLocation> = []
+
   const { document, position, symbol } = await getCurrentState()
-  const locations = await languages.getTypeDefinition(document, position)
+  const tokenSource = new CancellationTokenSource()
+
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const providers: TypeDefinitionProviders = Array.from(languages.typeDefinitionManager.providers)
+  for (const { provider } of providers) {
+    // eslint-disable-next-line no-await-in-loop
+    const typeDefinitions = (await provider.provideTypeDefinition(
+      document,
+      position,
+      tokenSource.token
+    )) as Array<CocLocation>
+    if (typeDefinitions != null) {
+      locations = [...locations, ...typeDefinitions]
+    }
+  }
+
+  console.error(locations)
+  const typeDefinitions = uniqWith(
+    await cocLocationToLocation(locations),
+    (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
+  )
 
   return {
-    typeDefinitions: await cocLocationToLocation(locations),
+    typeDefinitions,
     symbol,
   }
 }

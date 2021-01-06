@@ -59,7 +59,7 @@ export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>): Pr
   if (remotePlugin != null) {
     return remotePlugin.nvim.call(fname, args)
   } else if (cocClient != null) {
-    return cocClient.callFunction(fname, args)
+    return cocClient.call(fname, args)
   } else if (rpcClient != null) {
     return rpcClient.sendRequest("execCall", { fname, args: convertRpcArgs(args) })
   }
@@ -67,7 +67,7 @@ export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>): Pr
   throw new Error("Unexpected remote plugin, coc client and rpc client is not exists")
 }
 
-export const pluginGetVar = (name: string): Promise<VimValue> => {
+export const pluginGetVar = (name: string): Promise<VimValue | null> => {
   if (remotePlugin != null) {
     return remotePlugin.nvim.getVar(name)
   } else if (cocClient != null) {
