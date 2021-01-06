@@ -35,4 +35,5 @@ export const cocReferencesDefaultOptions = (): FzfCommandDefinitionDefaultOption
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',
   "--with-nth": '"3.."',
+  "--keep-right": true,
 })

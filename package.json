@@ -50,7 +50,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "camelcase": "^6.2.0",
     "chalk": "^4.1.0",
-    "coc.nvim": "^0.0.79",
+    "coc.nvim": "^0.0.80",
     "immer": "^8.0.0",
     "lodash": "^4.17.20",
     "neovim": "^4.9.0",

@@ -47,7 +47,7 @@ seds = [
 sed = list(filter(is_installed, seds))[0]
 
 result = subprocess.check_output(
-    f'{cat} "{file_name}"', shell=True)
+    f'{cat} {file_name}', shell=True)
 
 for index, line in enumerate(result.decode().split("\n")):
     if cat == 'cat' and int(line_num) - 1 == index:
