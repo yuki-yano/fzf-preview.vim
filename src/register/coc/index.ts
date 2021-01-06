@@ -64,6 +64,7 @@ export const registerProcesses = (commandManager: CommandManager): Array<Disposa
 export const registerFunctions = (commandManager: CommandManager): Array<Disposable> => {
   return [
     commandManager.registerCommand(`fzf-preview.Initialized`, async () => {
+      await pluginCommand("let g:fzf_preview_has_coc = v:true")
       await pluginCommand("silent doautocmd User fzf_preview#initialized")
       await pluginCommand("silent doautocmd User fzf_preview#coc#initialized")
     }),
