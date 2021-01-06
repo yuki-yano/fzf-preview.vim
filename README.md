@@ -648,7 +648,7 @@ let $SHELL = "/bin/zsh"
 ```vim
 augroup fzf_preview
   autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+  autocmd User fzf_preview#rpc#initialized call s:fzf_preview_settings() " fzf_preview#remote#initialized or fzf_preview#coc#initialized
 augroup END
 
 function! s:fzf_preview_settings() abort
