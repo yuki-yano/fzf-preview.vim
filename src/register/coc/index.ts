@@ -35,42 +35,38 @@ export const initializeExtension = (): void => {
   setCocClient(workspace.nvim)
 }
 
-export const registerCommands = (commandManager: typeof commands): Array<Disposable> => {
-  return cocCommandDefinition.map((fzfCommand) => {
-    return commandManager.registerCommand(
+export const registerCommands = (commandManager: typeof commands): Array<Disposable> =>
+  cocCommandDefinition.map((fzfCommand) =>
+    commandManager.registerCommand(
       `fzf-preview.${removeFzfPreviewPrefix(fzfCommand.commandName)}`,
       async (...params: Array<string>) => {
         const args = params.join(" ")
         await executeCommand(args, fzfCommand)
       }
     )
-  })
-}
+  )
 
-export const registerProcesses = (commandManager: typeof commands): Array<Disposable> => {
-  return flatMap(processesDefinition, ({ processes }) => {
-    return processes.map((process) => {
-      return commandManager.registerCommand(
+export const registerProcesses = (commandManager: typeof commands): Array<Disposable> =>
+  flatMap(processesDefinition, ({ processes }) =>
+    processes.map((process) =>
+      commandManager.registerCommand(
         `fzf-preview-callback.${removeFzfPreviewPrefix(process.name)}`,
         async ([lines]: [CallbackLines, ...Array<unknown>]) => {
           await executeProcess(lines, process)
         }
       )
-    })
-  })
-}
+    )
+  )
 
-export const registerFunctions = (commandManager: typeof commands): Array<Disposable> => {
-  return [
-    commandManager.registerCommand(`fzf-preview.Initialized`, async () => {
-      await pluginCommand("let g:fzf_preview_has_coc = v:true")
-      await pluginCommand("silent doautocmd User fzf_preview#initialized")
-      await pluginCommand("silent doautocmd User fzf_preview#coc#initialized")
-    }),
-    commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
-    commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) =>
-      mapValues(getDefaultProcesses(processesName), (name) => name)
-    ),
-    commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
-  ]
-}
+export const registerFunctions = (commandManager: typeof commands): Array<Disposable> => [
+  commandManager.registerCommand(`fzf-preview.Initialized`, async () => {
+    await pluginCommand("let g:fzf_preview_has_coc = v:true")
+    await pluginCommand("silent doautocmd User fzf_preview#initialized")
+    await pluginCommand("silent doautocmd User fzf_preview#coc#initialized")
+  }),
+  commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
+  commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) =>
+    mapValues(getDefaultProcesses(processesName), (name) => name)
+  ),
+  commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),
+]
