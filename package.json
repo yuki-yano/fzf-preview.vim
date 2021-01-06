@@ -1,15 +1,15 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
   "repository": {
     "url": "git@github.com:yuki-ycino/fzf-preview.vim"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/coc.js",
   "files": [
-    "lib",
+    "lib/coc.js",
     "autoload",
     "plugin",
     "bin"
@@ -50,7 +50,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "camelcase": "^6.2.0",
     "chalk": "^4.1.0",
-    "coc.nvim": "^0.0.79",
+    "coc.nvim": "^0.0.80",
     "immer": "^8.0.0",
     "lodash": "^4.17.20",
     "neovim": "^4.9.0",
@@ -98,7 +98,6 @@
     "typescript": "^4.1.2",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
-    "webpack-merge": "^5.4.0",
-    "webpack-shell-plugin-next": "^2.1.1"
+    "webpack-merge": "^5.4.0"
   }
 }

@@ -11,6 +11,10 @@ export const expandHome = (filePath: string): string => {
   return filePath
 }
 
+export const collapseHome = (filePath: string): string => {
+  return filePath.replace(process.env.HOME as string, "~")
+}
+
 export const existsFileAsync = async (filePath: string): Promise<boolean> => {
   const result = (await pluginCall("filereadable", [filePath])) as number
   if (result === 0) {

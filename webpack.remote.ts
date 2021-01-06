@@ -6,6 +6,9 @@ import common from "./webpack.common"
 
 export default merge(common, {
   entry: "./src/remote.ts",
+  externals: {
+    "coc.nvim": "commonjs2 coc.nvim",
+  },
   output: {
     path: path.join(__dirname, "rplugin/node/fzf-preview.vim"),
     filename: "index.js",
