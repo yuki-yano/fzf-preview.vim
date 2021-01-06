@@ -11,7 +11,7 @@ export default merge(common, {
   },
   output: {
     path: path.join(__dirname, "lib"),
-    filename: "index.js",
+    filename: "coc.js",
     libraryTarget: "commonjs",
   },
   plugins: [

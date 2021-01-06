@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "coc.nvim"
-import { commands, workspace } from "coc.nvim"
+import { commands } from "coc.nvim"
 
 import {
   initializeExtension,
@@ -11,8 +11,8 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function activate(context: ExtensionContext): Promise<void> {
-  await setRuntimePath(context, workspace)
-  initializeExtension(workspace)
+  await setRuntimePath(context)
+  initializeExtension()
 
   context.subscriptions.push(
     ...registerCommands(commands),

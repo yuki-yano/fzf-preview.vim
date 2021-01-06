@@ -14,7 +14,7 @@ let default_processes = {}
 call s:Promise.on_unhandled_rejection({ err -> fzf_preview#rpc#log('[ERROR]', err) })
 
 function! fzf_preview#rpc#initialize() abort
-  if !executable(printf('%s/lib/rpc.js', s:root_dir))
+  if !filereadable(printf('%s/lib/rpc.js', s:root_dir))
     return
   endif
 
@@ -104,5 +104,5 @@ function! s:on_request(request) abort
 endfunction
 
 function! s:command() abort
-  return [printf('%s/lib/rpc.js', s:root_dir)]
+  return ['node', printf('%s/lib/rpc.js', s:root_dir)]
 endfunction
