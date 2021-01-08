@@ -583,6 +583,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/01/06 version 0.6.0
+  - Update coc.nvim package version to 0.0.80.
+
 - 2020/12/31 version 0.5.0
   - Implement Vim script RPC
     - Only need Vim and Node
