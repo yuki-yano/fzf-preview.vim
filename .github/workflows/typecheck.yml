@@ -1,0 +1,19 @@
+name: TypeCheck
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run typecheck
