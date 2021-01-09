@@ -1,0 +1,64 @@
+name: Ship js trigger
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  release_coc:
+    name: Release coc extensions
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: "https://registry.npmjs.org"
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run release-build:coc
+      - run: yarn run shipjs trigger
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+  release_remote:
+    name: Release remote plugin
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: "https://registry.npmjs.org"
+      - run: git checkout release/remote
+      - run: git merge master
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run release-build:remote
+      - run: VERSION=$(yarn run --silent print-version)
+      - run: git add --all
+      - run: git commit -m "Release ${VERSION}" --allow-empty
+      - run: git push origin release/remote
+
+  release_rpc:
+    name: Release RPC
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: "https://registry.npmjs.org"
+      - run: git checkout release/rpc
+      - run: git merge master
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run release-build:rpc
+      - run: VERSION=$(yarn run --silent print-version)
+      - run: git add --all
+      - run: git commit -m "Release ${VERSION}" --allow-empty
+      - run: git push origin release/rpc
