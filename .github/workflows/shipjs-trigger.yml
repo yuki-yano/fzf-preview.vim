@@ -33,6 +33,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+      - run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
       - run: git checkout release/remote
       - run: git merge master
       - run: yarn install --ignore-script --frozen-lockfile
@@ -53,6 +56,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+      - run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
       - run: git checkout release/rpc
       - run: git merge master
       - run: yarn install --ignore-script --frozen-lockfile
