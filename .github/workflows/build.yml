@@ -1,4 +1,4 @@
-name: Lint
+name: Build
 
 on:
   push:
@@ -7,13 +7,21 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
       - uses: actions/setup-node@v1
         with:
           node-version: 15
       - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run typecheck
       - run: yarn run lint
+      - run: yarn run test
+      - run: yarn run release-build:remote
+      - run: yarn run release-build:coc
+      - run: yarn run release-build:rpc

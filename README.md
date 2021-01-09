@@ -1,5 +1,7 @@
 # fzf-preview.vim
 
+[![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
+
 [![Support](https://img.shields.io/badge/Support-Vim%208.1%20or%20above-yellowgreen)](https://www.vim.org)
 [![Support](https://img.shields.io/badge/Support-Neovim%200.4%20or%20above-yellowgreen)](https://neovim.io)
 [![Language](https://img.shields.io/badge/Language-TypeScript-blue)](https://www.typescriptlang.org)
@@ -13,9 +15,6 @@
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/LICENSE)
 [![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/doc/fzf_preview_vim.txt)
 [![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-ycino/fzf-preview.vim/graphs/contributors)
-[![TypeCheck](https://github.com/yuki-ycino/fzf-preview.vim/workflows/TypeCheck/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:TypeCheck)
-[![Lint](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Lint/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Lint)
-[![Test](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Test/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Test)
 
 fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
