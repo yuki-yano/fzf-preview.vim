@@ -5,8 +5,10 @@ export const parseGrepArgs = (args: string): SourceFuncArgs => {
   const parser = argsParser()
   const options = parser.parse(args)
 
+  const grepArgs = options._.map((resource) => (typeof resource === "number" ? resource.toString() : resource))
+
   return {
-    args: options._.length > 0 ? options._ : [],
+    args: grepArgs,
     extraArgs: [],
   }
 }
