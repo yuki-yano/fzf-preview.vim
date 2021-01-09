@@ -34,7 +34,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
-          registry-url: "https://registry.npmjs.org"
       - run: git checkout release/remote
       - run: git merge master
       - run: yarn install --ignore-script --frozen-lockfile
@@ -53,7 +52,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
-          registry-url: "https://registry.npmjs.org"
       - run: git checkout release/rpc
       - run: git merge master
       - run: yarn install --ignore-script --frozen-lockfile

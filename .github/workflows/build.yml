@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -25,24 +24,3 @@ jobs:
       - run: yarn run release-build:remote
       - run: yarn run release-build:coc
       - run: yarn run release-build:rpc
-
-  release_prepare:
-    if: github.ref == 'refs/heads/master' && success()
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: master
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 15
-      - run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git config --global pull.rebase false
-      - run: yarn install --ignore-script --frozen-lockfile
-      - run: yarn run --silent can-npm-publish && yarn run release -- --yes --no-browse || true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
