@@ -21,9 +21,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run release-build:coc
-      - run: yarn run shipjs trigger
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
   release_remote:
     name: Release remote plugin
@@ -31,6 +28,8 @@ jobs:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v1
         with:
           node-version: 15
@@ -49,6 +48,8 @@ jobs:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v1
         with:
           node-version: 15
