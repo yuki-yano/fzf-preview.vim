@@ -1,0 +1,35 @@
+name: Release coc extensions
+
+on:
+  workflow_run:
+    workflows:
+      - Can release
+    types:
+      - completed
+
+jobs:
+  release:
+    name: Release coc extensions
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: https://registry.npmjs.org/
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - run: |
+          TAG="v$(yarn run --silent print-version)"
+          git tag $TAG
+          git push origin $TAG
+      - run: yarn run release-build:coc
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

@@ -1,0 +1,31 @@
+name: Release RPC
+
+on:
+  workflow_run:
+    workflows:
+      - Can release
+    types:
+      - completed
+
+jobs:
+  release:
+    name: Release RPC
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+      - run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - run: git checkout release/rpc
+      - run: git merge master
+      - run: yarn install --ignore-script --frozen-lockfile
+      - run: yarn run release-build:rpc
+      - run: git add --all
+      - run: git commit -m "Release $(yarn run --silent print-version)" --allow-empty
+      - run: git push origin release/rpc
