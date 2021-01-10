@@ -1,6 +1,9 @@
 # fzf-preview.vim
 
 [![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
+[![Release RPC](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20RPC/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+RPC%22)
+[![Release remote plugin](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20remote%20plugin/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+remote+plugin%22)
+[![Release coc extensions](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20coc%20extensions/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+coc+extensions%22)
 
 [![Support](https://img.shields.io/badge/Support-Vim%208.1%20or%20above-yellowgreen)](https://www.vim.org)
 [![Support](https://img.shields.io/badge/Support-Neovim%200.4%20or%20above-yellowgreen)](https://neovim.io)
