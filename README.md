@@ -1,6 +1,9 @@
-# fzf-preview.vim
+# ![logo](https://user-images.githubusercontent.com/5423775/104124691-7f8b4c00-5395-11eb-85d6-93b1c55cf0c8.png)
 
 [![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
+[![Release RPC](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20Vim%20script%20RPC/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:"Release+Vim+script+RPC")
+[![Release remote plugin](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20remote%20plugin/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+remote+plugin%22)
+[![Release coc extensions](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20coc%20extensions/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+coc+extensions%22)
 
 [![Support](https://img.shields.io/badge/Support-Vim%208.1%20or%20above-yellowgreen)](https://www.vim.org)
 [![Support](https://img.shields.io/badge/Support-Neovim%200.4%20or%20above-yellowgreen)](https://neovim.io)
@@ -26,6 +29,18 @@ It can also be installed as Remote Plugin and coc extensions. If you want to use
 This plugin can be easily extended in comparison to [fzf.vim](https://github.com/junegunn/fzf.vim).
 
 e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bdelete(delete a selected buffer from the buffer list)
+
+## TOC
+
+- [1. Features](#features)
+- [2. Demo](#demo)
+- [3. Requirements](#requirements)
+- [4. Installation](#installation)
+- [5. Usage](#usage)
+- [6. Customization](#customization)
+- [7. Release note](#release-note)
+- [8. Others](#others)
+- [9. License](#license)
 
 ## Features
 
@@ -598,6 +613,11 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/01/10 version 2.0.0
+  - Release of stable version.
+  - Change release from github actions.
+  - Update latest npm packages.
 
 - 2021/01/06 version 0.6.0
   - Update coc.nvim package version to 0.0.80.

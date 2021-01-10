@@ -1,3 +1,6 @@
 {
-  "line-length": false
+  "line-length": false,
+  "no-inline-html": false,
+  "no-duplicate-header": false,
+  "commands-show-output": false
 }
