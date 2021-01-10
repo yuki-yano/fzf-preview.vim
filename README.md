@@ -614,6 +614,11 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/01/10 version 2.0.0
+  - Release of stable version.
+  - Change release from github actions.
+  - Update latest npm packages.
+
 - 2021/01/06 version 0.6.0
   - Update coc.nvim package version to 0.0.80.
 
