@@ -1,4 +1,4 @@
-# fzf-preview.vim
+# ![logo](https://user-images.githubusercontent.com/5423775/104124691-7f8b4c00-5395-11eb-85d6-93b1c55cf0c8.png)
 
 [![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
 [![Release RPC](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20Vim%20script%20RPC/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:"Release+Vim+script+RPC")
