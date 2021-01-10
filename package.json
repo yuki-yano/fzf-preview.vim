@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "0.6.0",
+  "version": "2.0.0",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
@@ -44,7 +44,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cli": "ts-node --files -r tsconfig-paths/register",
-    "clean": "rimraf lib rplugin/node/fzf-preview.vim/index.js"
+    "clean": "rimraf lib rplugin/node/fzf-preview.vim/index.js",
+    "print-version": "cat package.json | yarn run --silent json version"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
@@ -78,6 +79,7 @@
     "@types/yargs": "^15.0.12",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
+    "can-npm-publish": "^1.3.3",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^7.1.0",
@@ -89,6 +91,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-watch": "^7.0.0",
     "jest": "^26.6.3",
+    "json": "^10.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
