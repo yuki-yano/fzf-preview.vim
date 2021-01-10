@@ -1,5 +1,21 @@
 # fzf-preview.vim
 
+[![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
+
+[![Support](https://img.shields.io/badge/Support-Vim%208.1%20or%20above-yellowgreen)](https://www.vim.org)
+[![Support](https://img.shields.io/badge/Support-Neovim%200.4%20or%20above-yellowgreen)](https://neovim.io)
+[![Language](https://img.shields.io/badge/Language-TypeScript-blue)](https://www.typescriptlang.org)
+[![Language](https://img.shields.io/badge/Language-Vim%20script-green)](https://www.vim.org)
+[![Lint with](https://img.shields.io/badge/Lint%20with-ESLint-blueviolet)](https://eslint.org)
+[![Styled with](https://img.shields.io/badge/Styled%20with-Prettier-ff69b4)](https://prettier.io)
+[![Tested with](https://img.shields.io/badge/Tested%20with-Jest-green)](https://jestjs.io/)
+[![Powered by](https://img.shields.io/badge/Powered%20by-fzf-7b3948)](https://github.com/junegunn/fzf)
+[![Powered by](https://img.shields.io/badge/Powered%20by-coc.nvim-7b3948)](https://github.com/neoclide/coc.nvim)
+[![Powered by](https://img.shields.io/badge/Powered%20by-vital--vs-7b3948)](https://github.com/hrsh7th/vim-vital-vs)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/LICENSE)
+[![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/doc/fzf_preview_vim.txt)
+[![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-ycino/fzf-preview.vim/graphs/contributors)
+
 fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
 Since fzf-preview.vim implements RPC in the Vim script, it will work in both Vim and Neovim if you use the RPC release.
@@ -583,6 +599,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/01/06 version 0.6.0
+  - Update coc.nvim package version to 0.0.80.
+
 - 2020/12/31 version 0.5.0
   - Implement Vim script RPC
     - Only need Vim and Node
@@ -648,7 +667,7 @@ let $SHELL = "/bin/zsh"
 ```vim
 augroup fzf_preview
   autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+  autocmd User fzf_preview#rpc#initialized call s:fzf_preview_settings() " fzf_preview#remote#initialized or fzf_preview#coc#initialized
 augroup END
 
 function! s:fzf_preview_settings() abort

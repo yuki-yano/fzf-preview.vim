@@ -5,8 +5,10 @@ export const parseDictionaryFilesArgs = (args: string): SourceFuncArgs => {
   const parser = argsParser()
   const options = parser.parse(args)
 
+  const directories = options._.map((resource) => (typeof resource === "number" ? resource.toString() : resource))
+
   return {
-    args: options._.length > 0 ? [options._[0]] : [],
+    args: directories.length > 0 ? [directories[0]] : [],
     extraArgs: [],
   }
 }
