@@ -152,7 +152,6 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Loca
     }
   }
 
-  console.error(locations)
   const typeDefinitions = uniqWith(
     await cocLocationToLocation(locations),
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text

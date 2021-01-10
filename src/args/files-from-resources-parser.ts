@@ -6,7 +6,7 @@ export const parseResources = (args: string): SourceFuncArgs => {
   const parser = argsParser()
   const options = parser.parse(args)
 
-  const resources = options._
+  const resources = options._.map((resource) => (typeof resource === "number" ? resource.toString() : resource))
 
   if (resources.length === 0) {
     throw new Error("Select one or more resources")
