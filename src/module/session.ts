@@ -3,9 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { createDraft } from "immer"
 
 import { SESSION } from "@/const/module"
-import type { Session } from "@/type"
-
-type SessionToken = string
+import type { Session, SessionToken } from "@/type"
 
 export type State = {
   currentSession?: Session
@@ -31,7 +29,7 @@ export const sessionModule = createSlice({
         state.currentSession = currentSession
       }
     },
-    setSession: (state, { payload }: PayloadAction<{ sessionToken: string; session: Session }>) => {
+    setSession: (state, { payload }: PayloadAction<{ sessionToken: SessionToken; session: Session }>) => {
       state.sessions[payload.sessionToken] = payload.session
       state.currentSession = undefined
     },

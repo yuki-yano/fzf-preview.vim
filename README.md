@@ -15,8 +15,8 @@
 [![Powered by](https://img.shields.io/badge/Powered%20by-fzf-7b3948)](https://github.com/junegunn/fzf)
 [![Powered by](https://img.shields.io/badge/Powered%20by-coc.nvim-7b3948)](https://github.com/neoclide/coc.nvim)
 [![Powered by](https://img.shields.io/badge/Powered%20by-vital--vs-7b3948)](https://github.com/hrsh7th/vim-vital-vs)
-[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/LICENSE)
-[![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-ycino/fzf-preview.vim/blob/master/doc/fzf_preview_vim.txt)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-ycino/fzf-preview.vim/blob/main/LICENSE)
+[![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-ycino/fzf-preview.vim/blob/main/doc/fzf_preview_vim.txt)
 [![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-ycino/fzf-preview.vim/graphs/contributors)
 
 fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
