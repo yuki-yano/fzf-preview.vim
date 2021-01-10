@@ -5,7 +5,7 @@ on:
     workflows:
       - Can release
     branches:
-      - master
+      - main
     types:
       - completed
 
@@ -25,7 +25,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - run: git checkout release/remote
-      - run: git merge master
+      - run: git merge main
       - run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run release-build:remote
       - run: git add --all
