@@ -1,15 +1,17 @@
-name: Release RPC
+name: Release Vim script RPC
 
 on:
   workflow_run:
     workflows:
       - Can release
+    branches:
+      - master
     types:
       - completed
 
 jobs:
   release:
-    name: Release RPC
+    name: Release Vim script RPC
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:

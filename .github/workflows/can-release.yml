@@ -4,12 +4,14 @@ on:
   workflow_run:
     workflows:
       - Build
+    branches:
+      - master
     types:
       - completed
 
 jobs:
   can_release:
-    if: github.ref == 'refs/heads/master' && github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +21,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
-      - run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git config --global pull.rebase false
       - run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run can-npm-publish
