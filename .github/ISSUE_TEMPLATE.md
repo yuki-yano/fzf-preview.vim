@@ -29,7 +29,7 @@
 
 ### Dockerfile that reproduces the problem (if possible)
 
-Refer to https://github.com/yuki-ycino/fzf-preview.vim/blob/master/.github/issue_example/Dockerfile
+Refer to https://github.com/yuki-ycino/fzf-preview.vim/blob/main/.github/issue_example/Dockerfile
 
 ```Dockerfile
 ```

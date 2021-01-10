@@ -105,8 +105,8 @@ to get the remote plugin working.
 <
 
 Use Dein, vim-plug or any Vim plugin manager of your choice.
-Install release/remote branch (or install `master` branch and run `$yarn install`) and
-`:UpdateRemotePlugins` when after installed plugin.
+Install release/remote branch and `:UpdateRemotePlugins`
+when after installed plugin.
 
 >
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
