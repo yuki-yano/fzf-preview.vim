@@ -139,3 +139,5 @@ export type Session = {
   gitStashes?: Array<GitStashData>
   gitReflogs?: Array<GitReflogData>
 }
+
+export type SessionToken = string
