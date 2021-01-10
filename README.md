@@ -30,6 +30,18 @@ This plugin can be easily extended in comparison to [fzf.vim](https://github.com
 
 e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bdelete(delete a selected buffer from the buffer list)
 
+## TOC
+
+- [1. Features](#features)
+- [2. Demo](#demo)
+- [3. Requirements](#requirements)
+- [4. Installation](#installation)
+- [5. Usage](#usage)
+- [6. Customization](#customization)
+- [7. Release note](#release-note)
+- [8. Others](#others)
+- [9. License](#license)
+
 ## Features
 
 1. Provides an excellent UI with floating windows by default
