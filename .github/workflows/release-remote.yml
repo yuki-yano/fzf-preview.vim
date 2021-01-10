@@ -4,6 +4,8 @@ on:
   workflow_run:
     workflows:
       - Can release
+    branches:
+      - master
     types:
       - completed
 
