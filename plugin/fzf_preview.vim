@@ -33,7 +33,11 @@ if !exists('g:fzf_preview_command')
 endif
 
 if !exists('g:fzf_preview_if_binary_command')
-  let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
+  if executable('fish')
+    let g:fzf_preview_if_binary_command = "test (file -b --mime-encoding {}) = 'binary'"
+  else
+    let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
+  endif
 endif
 
 if !exists('g:fzf_binary_preview_command')
