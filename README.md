@@ -93,7 +93,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 - **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
-- **Fugitive (Require git integration)**  (Recommended) <https://github.com/tpope/vim-fugitive>
+- **Fugitive (Require git integration)** (Recommended) <https://github.com/tpope/vim-fugitive>
 - Gina (Require git integration) <https://github.com/lambdalisue/gina.vim>
 - universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
 - vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
@@ -483,8 +483,8 @@ let g:fzf_preview_command = 'cat'                               " Not installed 
 " let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
 
 " g:fzf_binary_preview_command is executed if this command succeeds, and g:fzf_preview_command is executed if it fails
-let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'
-
+let g:fzf_preview_if_binary_command = '[[ "$(file --mime {})" =~ binary ]]'            " Bash & Zsh shells
+" let g:fzf_preview_if_binary_command = "test (file -b --mime-encoding {}) = 'binary'" " Fish shell
 " Commands used for binary file
 let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
 
@@ -615,52 +615,66 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <summary>Changes history</summary>
 
 - 2021/01/10 version 2.0.0
+
   - Release of stable version.
   - Change release from github actions.
   - Update latest npm packages.
 
 - 2021/01/06 version 0.6.0
+
   - Update coc.nvim package version to 0.0.80.
 
 - 2020/12/31 version 0.5.0
+
   - Implement Vim script RPC
     - Only need Vim and Node
   - **Breaking change**: The release branch of the Remote Plugin has been changed to release/remote.
 
 - 2020/11/08 version 0.4.27
+
   - Add g:fzf_preview_direct_window_option option.
 
 - 2020/11/07 version 0.4.26
+
   - Change buffer sort with mru order.
   - Add mru and mrw limit settings.
   - Improve grep preview highlight.
 
 - 2020/10/30 version 0.4.24
+
   - Improved grep etc previews to scroll to the top of the file.
 
 - 2020/10/4 version 0.4.20
+
   - Implement CommandPalette resource.
 
 - 2020/10/4 version 0.4.17
+
   - Implement CocTypeDefinitions resource.
 
 - 2020/07/30 version 0.4.7
+
   - Implement git reflog integration.
 
 - 2020/07/30 version 0.4.6
+
   - Implement git stash integration.
   - Implement rename git branch.
 
 - 2020/07/27 version 0.4.1
+
   - Implement create git branch.
 
 - 2020/07/27 version 0.4.0
+
   - Implement interactive git integration. (`:FzfPreviewGitActions` and `:CocCommand fzf-preview.GitActions`)
 
 - 2020/07/24 version 0.3.2
+
   - Remove g:fzf_preview_filelist_postprocess_command and to colorize the fzf window by default
 
 - 2020/07/24 version 0.2.1
+
   - Change g:fzf_preview_default_fzf_options and g:fzf_preview_fzf_preview_window_option default value.
   - Fix export quickfix bug in grep.
 
