@@ -1,5 +1,6 @@
 # ![logo](https://user-images.githubusercontent.com/5423775/104124691-7f8b4c00-5395-11eb-85d6-93b1c55cf0c8.png)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3864c1a6a0fb47aab80d6706be5f7175)](https://app.codacy.com/gh/yuki-ycino/fzf-preview.vim?utm_source=github.com&utm_medium=referral&utm_content=yuki-ycino/fzf-preview.vim&utm_campaign=Badge_Grade)
 [![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
 [![Release RPC](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20Vim%20script%20RPC/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:"Release+Vim+script+RPC")
 [![Release remote plugin](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20remote%20plugin/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+remote+plugin%22)
