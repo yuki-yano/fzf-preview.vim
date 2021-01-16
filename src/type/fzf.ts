@@ -63,6 +63,7 @@ export type CocFzfCommandName =
   | "FzfPreviewCocDiagnostics"
   | "FzfPreviewCocCurrentDiagnostics"
   | "FzfPreviewCocTypeDefinitions"
+  | "FzfPreviewCocImplementations"
 
 export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
