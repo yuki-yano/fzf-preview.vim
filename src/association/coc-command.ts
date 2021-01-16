@@ -5,10 +5,13 @@ import {
   cocCurrentDiagnosticsDefaultOptions,
   cocDiagnostics,
   cocDiagnosticsDefaultOptions,
+  cocImplementations,
+  cocImplementationsDefaultOptions,
   cocReferences,
   cocReferencesDefaultOptions,
+  cocTypeDefinitions,
+  cocTypeDefinitionsDefaultOptions,
 } from "@/fzf/resource/coc"
-import { cocTypeDefinitions, cocTypeDefinitionsDefaultOptions } from "@/fzf/resource/coc/coc-type-definitions"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: Array<FzfCommand> = [
@@ -49,6 +52,16 @@ export const cocCommandDefinition: Array<FzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocTypeDefinitionsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewCocImplementations",
+    sourceFunc: cocImplementations,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocImplementationsDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,

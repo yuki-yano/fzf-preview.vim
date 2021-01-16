@@ -350,6 +350,9 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 
 " Select type definitions from coc.nvim (only coc extensions)
 :CocCommand fzf-preview.CocTypeDefinitions
+
+" Select implementations from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocImplementations
 ```
 
 ### Recommended mappings
