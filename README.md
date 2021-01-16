@@ -628,6 +628,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/01/16 version 2.0.7
+  - Implement coc implementations resource.
+
 - 2021/01/16 version 2.0.6
   - Implement [memolist.vim](https://github.com/glidenote/memolist.vim) resource.
 
