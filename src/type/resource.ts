@@ -155,6 +155,14 @@ export type MemoListData = {
   lineNumber?: undefined
 }
 
+export type MemoListLineData = {
+  command: FzfCommandName
+  type: "line"
+  file: string
+  lineNumber: number
+  text: string
+}
+
 export type GitPrData = {
   command: FzfCommandName
   type: "git-pr"

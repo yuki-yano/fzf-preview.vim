@@ -55,6 +55,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewVistaCtags"
   | "FzfPreviewVistaBufferCtags"
   | "FzfPreviewMemoList"
+  | "FzfPreviewMemoListGrep"
   | "FzfPreviewBlamePR"
 
 export type CocFzfCommandName =
