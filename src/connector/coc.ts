@@ -1,4 +1,4 @@
-import type { DiagnosticItem, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
+import type { DiagnosticItem, ImplementationProvider, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
 import { CancellationTokenSource, languages, workspace } from "coc.nvim"
 import { uniqWith } from "lodash"
 import type { Location as CocLocation } from "vscode-languageserver-types"
@@ -98,6 +98,10 @@ type TypeDefinitionProviders = Array<{
   provider: TypeDefinitionProvider
 }>
 
+type ImplementationProviders = Array<{
+  provider: ImplementationProvider
+}>
+
 export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
   let locations: Array<CocLocation> = []
 
@@ -161,6 +165,38 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Loca
 
   return {
     typeDefinitions,
+    symbol,
+  }
+}
+
+export const getImplementations = async (): Promise<{ implementations: Array<Location>; symbol: string }> => {
+  let locations: Array<CocLocation> = []
+
+  const { document, position, symbol } = await getCurrentState()
+  const tokenSource = new CancellationTokenSource()
+
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const providers: ImplementationProviders = Array.from(languages.implementationManager.providers)
+  for (const { provider } of providers) {
+    // eslint-disable-next-line no-await-in-loop
+    const implementations = (await provider.provideImplementation(
+      document,
+      position,
+      tokenSource.token
+    )) as Array<CocLocation>
+    if (implementations != null) {
+      locations = [...locations, ...implementations]
+    }
+  }
+
+  const implementations = uniqWith(
+    await cocLocationToLocation(locations),
+    (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
+  )
+
+  return {
+    implementations,
     symbol,
   }
 }
