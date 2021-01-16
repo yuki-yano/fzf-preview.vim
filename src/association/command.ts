@@ -15,6 +15,8 @@ import {
   bufferTagsDefaultOptions,
   changes,
   changesDefaultOptions,
+  commandPalette,
+  commandPaletteDefaultOptions,
   ctags,
   ctagsDefaultOptions,
   directoryFiles,
@@ -55,6 +57,10 @@ import {
   locationListDefaultOptions,
   marks,
   marksDefaultOptions,
+  memoList,
+  memoListDefaultOptions,
+  memoListGrep,
+  memoListGrepDefaultOptions,
   mruFiles,
   mruFilesDefaultOptions,
   mrwFiles,
@@ -80,7 +86,6 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-palette"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -458,6 +463,26 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "register",
     enableConvertForFzf: false,
     enableDevIcons: false,
+  },
+  {
+    commandName: "FzfPreviewMemoList",
+    sourceFunc: memoList,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: memoListDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewMemoListGrep",
+    sourceFunc: memoListGrep,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: memoListGrepDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
   },
   {
     commandName: "FzfPreviewVistaCtags",
