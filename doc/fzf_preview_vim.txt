@@ -67,6 +67,9 @@ Optional:
 - yankround.vim (Require FzfPreviewYankround)
     https://github.com/LeafCage/yankround.vim
 
+- memolist.vim (Require FzfPreviewMemoList and FzfPreviewMemoListGrep)
+    https://github.com/glidenote/memolist.vim
+
 - GitHub cli (Require integrate with GitHub)
     https://github.com/cli/cli
 
@@ -351,6 +354,18 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :CocCommand fzf-preview.Yankround
      Select register history and insert " register from yankround.vim
      Use register processes.
+
+                                                *:FzfPreviewMemoList*
+:FzfPreviewMemoListRpc
+:FzfPreviewMemoList
+:CocCommand fzf-preview.MemoList
+     Select memolist and open from memolist.vim.
+
+                                                *:FzfPreviewMemoListGrep*
+:FzfPreviewMemoListGrepRpc
+:FzfPreviewMemoListGrep
+:CocCommand fzf-preview.MemoListGrep
+     Grep memolist and open from memolist.vim.
 
                                                 *:FzfPreviewBlamePR*
 :FzfPreviewBlamePRRpc

@@ -99,6 +99,7 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 - vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
 - vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
 - yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
+- memolist.vim (Require FzfPreviewMemoList and FzfPreviewMemoListGrep) <https://github.com/glidenote/memolist.vim>
 - GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
 - Yarn (Require build latest version) <https://classic.yarnpkg.com/>
 
@@ -322,6 +323,16 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewYankroundRpc
 :FzfPreviewYankround
 :CocCommand fzf-preview.Yankround
+
+" Select memolist (Required [glidenote/memolist.vim](https://github.com/glidenote/memolist.vim)
+:FzfPreviewMemoListRpc
+:FzfPreviewMemoList
+:CocCommand fzf-preview.MemoList
+
+" Grep memolist (Required [glidenote/memolist.vim](https://github.com/glidenote/memolist.vim)
+:FzfPreviewMemoListGrepRpc
+:FzfPreviewMemoListGrep
+:CocCommand fzf-preview.MemoListGrep
 
 " Open the PR corresponding to the selected line (Required [GitHub cli](https://github.com/cli/cli))
 :FzfPreviewBlamePRRpc
@@ -613,6 +624,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/01/16 version 2.0.5
+  - Implement [memolist.vim](https://github.com/glidenote/memolist.vim) resource.
 
 - 2021/01/10 version 2.0.0
   - Release of stable version.
