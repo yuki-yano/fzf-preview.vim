@@ -81,6 +81,7 @@ import {
   yankroundDefaultOptions,
 } from "@/fzf/resource"
 import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-palette"
+import { memoList, memoListDefaultOptions } from "@/fzf/resource/memolist"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -456,6 +457,16 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: yankroundDefaultOptions,
     defaultProcessesName: "register",
+    enableConvertForFzf: false,
+    enableDevIcons: false,
+  },
+  {
+    commandName: "FzfPreviewMemoList",
+    sourceFunc: memoList,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: memoListDefaultOptions,
+    defaultProcessesName: "open-file",
     enableConvertForFzf: false,
     enableDevIcons: false,
   },

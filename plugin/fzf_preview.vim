@@ -243,6 +243,7 @@ command! -nargs=? FzfPreviewGitReflogsRpc call fzf_preview#rpc#command('FzfPrevi
 command! -nargs=? FzfPreviewGitReflogActionsRpc call fzf_preview#rpc#command('FzfPreviewGitReflogActions', <f-args>)
 command! -nargs=? FzfPreviewBookmarksRpc call fzf_preview#rpc#command('FzfPreviewBookmarks', <f-args>)
 command! -nargs=? FzfPreviewYankroundRpc call fzf_preview#rpc#command('FzfPreviewYankround', <f-args>)
+command! -nargs=? FzfPreviewMemoListRpc call fzf_preview#rpc#command('FzfPreviewMemoList', <f-args>)
 command! -nargs=? FzfPreviewVistaCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaCtags', <f-args>)
 command! -nargs=? FzfPreviewVistaBufferCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaBufferCtags', <f-args>)
 command! -nargs=? FzfPreviewBlamePRRpc call fzf_preview#rpc#command('FzfPreviewBlamePR', <f-args>)

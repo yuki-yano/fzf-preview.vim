@@ -54,6 +54,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewYankround"
   | "FzfPreviewVistaCtags"
   | "FzfPreviewVistaBufferCtags"
+  | "FzfPreviewMemoList"
   | "FzfPreviewBlamePR"
 
 export type CocFzfCommandName =

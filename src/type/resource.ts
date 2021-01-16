@@ -148,6 +148,13 @@ export type RegisterData = {
   option: string
 }
 
+export type MemoListData = {
+  command: FzfCommandName
+  type: "file"
+  file: string
+  lineNumber?: undefined
+}
+
 export type GitPrData = {
   command: FzfCommandName
   type: "git-pr"
