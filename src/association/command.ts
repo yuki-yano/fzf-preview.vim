@@ -15,6 +15,8 @@ import {
   bufferTagsDefaultOptions,
   changes,
   changesDefaultOptions,
+  commandPalette,
+  commandPaletteDefaultOptions,
   ctags,
   ctagsDefaultOptions,
   directoryFiles,
@@ -55,6 +57,8 @@ import {
   locationListDefaultOptions,
   marks,
   marksDefaultOptions,
+  memoList,
+  memoListDefaultOptions,
   memoListGrep,
   memoListGrepDefaultOptions,
   mruFiles,
@@ -82,8 +86,6 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
-import { commandPalette, commandPaletteDefaultOptions } from "@/fzf/resource/command-palette"
-import { memoList, memoListDefaultOptions } from "@/fzf/resource/memolist"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
