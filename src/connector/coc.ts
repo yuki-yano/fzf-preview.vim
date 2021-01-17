@@ -9,6 +9,18 @@ import { collapseHome, existsFileAsync, getCurrentFilePath, getCurrentPath } fro
 import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, DiagnosticLevel } from "@/type"
 
+type ReferenceProviders = Array<{
+  provider: ReferenceProvider
+}>
+
+type TypeDefinitionProviders = Array<{
+  provider: TypeDefinitionProvider
+}>
+
+type ImplementationProviders = Array<{
+  provider: ImplementationProvider
+}>
+
 const diagnosticItemToData = async (
   item: DiagnosticItem,
   option?: { currentFile: string }
@@ -89,18 +101,6 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
     )
   ).filter((location): location is Location => location != null)
 }
-
-type ReferenceProviders = Array<{
-  provider: ReferenceProvider
-}>
-
-type TypeDefinitionProviders = Array<{
-  provider: TypeDefinitionProvider
-}>
-
-type ImplementationProviders = Array<{
-  provider: ImplementationProvider
-}>
 
 export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
   let locations: Array<CocLocation> = []
