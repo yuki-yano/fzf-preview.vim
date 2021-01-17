@@ -148,21 +148,6 @@ export type RegisterData = {
   option: string
 }
 
-export type MemoListData = {
-  command: FzfCommandName
-  type: "file"
-  file: string
-  lineNumber?: undefined
-}
-
-export type MemoListLineData = {
-  command: FzfCommandName
-  type: "line"
-  file: string
-  lineNumber: number
-  text: string
-}
-
 export type GitPrData = {
   command: FzfCommandName
   type: "git-pr"
@@ -188,8 +173,6 @@ export type ResourceData =
   | GitReflogActionData
   | RegisterData
   | GitPrData
-
-export type ResourceType = ResourceData["type"]
 
 export type ResourceLine = {
   data: ResourceData
