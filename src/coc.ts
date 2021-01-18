@@ -11,8 +11,8 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function activate(context: ExtensionContext): Promise<void> {
+  await initializeExtension()
   await setRuntimePath(context)
-  initializeExtension()
 
   context.subscriptions.push(
     ...registerCommands(commands),
