@@ -31,8 +31,9 @@ export const setRuntimePath = async (context: ExtensionContext): Promise<void> =
   await workspace.nvim.command("runtime plugin/fzf_preview.vim")
 }
 
-export const initializeExtension = (): void => {
+export const initializeExtension = async (): Promise<void> => {
   setCocClient(workspace.nvim)
+  await pluginCommand("let g:fzf_preview_has_coc = v:true")
 }
 
 export const registerCommands = (commandManager: typeof commands): Array<Disposable> =>
@@ -59,11 +60,6 @@ export const registerProcesses = (commandManager: typeof commands): Array<Dispos
   )
 
 export const registerFunctions = (commandManager: typeof commands): Array<Disposable> => [
-  commandManager.registerCommand(`fzf-preview.Initialized`, async () => {
-    await pluginCommand("let g:fzf_preview_has_coc = v:true")
-    await pluginCommand("silent doautocmd User fzf_preview#initialized")
-    await pluginCommand("silent doautocmd User fzf_preview#coc#initialized")
-  }),
   commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
   commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) =>
     mapValues(getDefaultProcesses(processesName), (name) => name)

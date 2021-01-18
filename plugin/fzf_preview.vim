@@ -197,9 +197,8 @@ function! s:doautocmd_from_remote() abort
 endfunction
 
 function! s:doautocmd_from_coc() abort
-  if exists('*CocActionAsync')
-    call CocActionAsync('runCommand', 'fzf-preview.Initialized')
-  endif
+  silent doautocmd User fzf_preview#initialized
+  silent doautocmd User fzf_preview#coc#initialized
 endfunction
 
 function! s:doautocmd_from_rpc() abort
