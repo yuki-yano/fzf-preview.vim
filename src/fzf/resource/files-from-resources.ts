@@ -34,12 +34,12 @@ const resourceFunctions: ResourceFunctions = {
 
 export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource> => {
   const emptySourceFuncArgs = { args: [], extraArgs: [] }
-  const lines: ResourceLines = []
+  let lines: ResourceLines = []
 
   for (const resource of args.args) {
     // eslint-disable-next-line no-await-in-loop
     const filesFromResource = await resourceFunctions[resource as typeof FILE_RESOURCES[number]](emptySourceFuncArgs)
-    lines.push(...filesFromResource.lines)
+    lines = [...lines, ...filesFromResource.lines]
   }
 
   const uniqLines = uniqWith(lines, (line1, line2) => {

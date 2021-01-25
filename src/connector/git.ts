@@ -14,32 +14,36 @@ import { dispatch } from "@/store"
 import { getCurrentFilePath } from "@/system/file"
 import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
 
-export const execGitFiles = async (): Promise<Array<string>> => {
+export const execGitFiles = async (): Promise<ReadonlyArray<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
   if (typeof gitFilesCommand !== "string") {
     return []
   }
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#git_files#get", [gitFilesCommand])) as Array<string>
+  const lines = (await pluginCall("fzf_preview#remote#resource#git_files#get", [
+    gitFilesCommand,
+  ])) as ReadonlyArray<string>
 
   return lines
 }
 
-export const execGitStatus = async (): Promise<Array<string>> => {
+export const execGitStatus = async (): Promise<ReadonlyArray<string>> => {
   const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
   if (typeof gitStatusCommand !== "string") {
     return []
   }
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#git_status#get", [gitStatusCommand])) as Array<string>
+  const lines = (await pluginCall("fzf_preview#remote#resource#git_status#get", [
+    gitStatusCommand,
+  ])) as ReadonlyArray<string>
 
   return lines
 }
 
-export const execGitBranch = async (): Promise<Array<GitBranch>> => {
+export const execGitBranch = async (): Promise<ReadonlyArray<GitBranch>> => {
   const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     GIT_BRANCH_COMMAND,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
 
   return lines.map((line) => {
     const [prefix, name, date, author] = line.split("    ")
@@ -53,11 +57,11 @@ export const execGitBranch = async (): Promise<Array<GitBranch>> => {
   })
 }
 
-export const execGitLog = async (options?: { currentFile: boolean }): Promise<Array<GitLog>> => {
+export const execGitLog = async (options?: { currentFile: boolean }): Promise<ReadonlyArray<GitLog>> => {
   const command =
     options?.currentFile === true ? createGitLogCommand(await getCurrentFilePath()) : createGitLogCommand()
 
-  const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [command])) as Array<string>
+  const lines = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [command])) as ReadonlyArray<string>
 
   return lines.map((line) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
@@ -72,13 +76,13 @@ export const execGitLog = async (options?: { currentFile: boolean }): Promise<Ar
   })
 }
 
-export const execGitReflog = async (): Promise<Array<GitReflog>> => {
+export const execGitReflog = async (): Promise<ReadonlyArray<GitReflog>> => {
   const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitReflogDecorateCommand,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
   const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitReflogNameCommand,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
 
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)
@@ -95,13 +99,13 @@ export const execGitReflog = async (): Promise<Array<GitReflog>> => {
   })
 }
 
-export const execGitStash = async (): Promise<Array<GitStash>> => {
+export const execGitStash = async (): Promise<ReadonlyArray<GitStash>> => {
   const lines1 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitStashDecorateCommand,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
   const lines2 = (await pluginCall("fzf_preview#remote#resource#util#exec_command", [
     gitStashNameCommand,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
 
   return lines1.map((line, i) => {
     const [prefix, hash, date, author, comment] = line.split(/\s{4,}/)

@@ -35,12 +35,12 @@ const readFile = (filePath: string) => {
   return files
 }
 
-export const readMruFile = (): Array<string> => {
+export const readMruFile = (): ReadonlyArray<string> => {
   const files = readFile(mruFilePath())
 
   return files
 }
-export const readMrwFile = (): Array<string> => {
+export const readMrwFile = (): ReadonlyArray<string> => {
   const files = readFile(mrwFilePath())
 
   return files

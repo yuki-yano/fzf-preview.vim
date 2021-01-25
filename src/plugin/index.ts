@@ -44,7 +44,7 @@ export const pluginCommand = (command: string): Promise<any> => {
   throw new Error("Unexpected remote plugin, coc client and rpc client is not exists")
 }
 
-const convertRpcArgs = (args?: VimValue | Array<VimValue>) => {
+const convertRpcArgs = (args?: VimValue | ReadonlyArray<VimValue>) => {
   if (args == null) {
     return []
   } else if (Array.isArray(args)) {
@@ -55,7 +55,7 @@ const convertRpcArgs = (args?: VimValue | Array<VimValue>) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const pluginCall = (fname: string, args?: VimValue | Array<VimValue>): Promise<any> | null => {
+export const pluginCall = (fname: string, args?: VimValue | ReadonlyArray<VimValue>): Promise<any> | null => {
   if (remotePlugin != null) {
     return remotePlugin.nvim.call(fname, args)
   } else if (cocClient != null) {

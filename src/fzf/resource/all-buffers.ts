@@ -8,7 +8,7 @@ const SPACER = "  "
 
 // Colorize after align
 // If it contains ansi escape, it will not align well
-const colorizeArrayedBuffer = (list: Array<string>): string => {
+const colorizeArrayedBuffer = (list: ReadonlyArray<string>): string => {
   const [bufnr, fileName] = list
 
   return [colorize(bufnr, "blue"), colorizeFile(fileName)].join(SPACER).trim()

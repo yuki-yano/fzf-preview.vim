@@ -1,3 +1,5 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import type {
   GIT_ACTIONS,
   GIT_BRANCH_ACTIONS,
@@ -14,35 +16,35 @@ export type GitLogAction = typeof GIT_LOG_ACTIONS[number] | "header"
 export type GitStashAction = typeof GIT_STASH_ACTIONS[number] | "header"
 export type GitReflogAction = typeof GIT_REFLOG_ACTIONS[number] | "header"
 
-export type GitBranch = {
+export type GitBranch = ReadonlyDeep<{
   prefix: string
   name: string
   date: string
   author: string
-}
+}>
 
-export type GitLog = {
+export type GitLog = ReadonlyDeep<{
   prefix: string
   hash: string
   date: string
   author: string
   comment: string
-}
+}>
 
-export type GitStash = {
-  prefix: string
-  name: string
-  hash: string
-  date: string
-  author: string
-  comment: string
-}
-
-export type GitReflog = {
+export type GitStash = ReadonlyDeep<{
   prefix: string
   name: string
   hash: string
   date: string
   author: string
   comment: string
-}
+}>
+
+export type GitReflog = ReadonlyDeep<{
+  prefix: string
+  name: string
+  hash: string
+  date: string
+  author: string
+  comment: string
+}>

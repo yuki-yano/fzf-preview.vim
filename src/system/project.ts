@@ -22,7 +22,7 @@ export const filePathToRelativeFilePath = (file: string, currentPath: string): s
   return execArray.groups.fileName
 }
 
-export const filterProjectEnabledFile = async (files: Array<string>): Promise<Array<string>> => {
+export const filterProjectEnabledFile = async (files: ReadonlyArray<string>): Promise<ReadonlyArray<string>> => {
   const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))
   const currentPath = await getCurrentPath()
 

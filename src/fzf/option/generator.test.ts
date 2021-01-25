@@ -41,22 +41,22 @@ describe("generateOptions", () => {
     {
       name: "",
       key: "enter",
-      execute: (_: Array<ResourceData>) => {},
+      execute: (_: ReadonlyArray<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-a",
-      execute: (_: Array<ResourceData>) => {},
+      execute: (_: ReadonlyArray<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-b",
-      execute: (_: Array<ResourceData>) => {},
+      execute: (_: ReadonlyArray<ResourceData>) => {},
     },
     {
       name: "",
       key: "ctrl-c",
-      execute: (_: Array<ResourceData>) => {},
+      execute: (_: ReadonlyArray<ResourceData>) => {},
     },
   ]
 
@@ -100,7 +100,7 @@ describe("generateOptions", () => {
     })
 
     it("other default processes", async () => {
-      fzfCommandDefaultOptions["--expect"] = ["ctrl-a", "ctrl-b", "ctrl-c"]
+      fzfCommandDefaultOptions = { ...fzfCommandDefaultOptions, "--expect": ["ctrl-a", "ctrl-b", "ctrl-c"] }
       expect(
         await generateOptions({
           fzfCommandDefaultOptions,
@@ -124,7 +124,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions = { ...fzfCommandDefaultOptions, "--expect": ["ctrl-d", "ctrl-e", "ctrl-f"] }
 
       expect(
         await generateOptions({
@@ -148,7 +148,7 @@ describe("generateOptions", () => {
         })
       )
 
-      fzfCommandDefaultOptions["--expect"] = ["ctrl-d", "ctrl-e", "ctrl-f"]
+      fzfCommandDefaultOptions = { ...fzfCommandDefaultOptions, "--expect": ["ctrl-d", "ctrl-e", "ctrl-f"] }
 
       expect(
         await generateOptions({
