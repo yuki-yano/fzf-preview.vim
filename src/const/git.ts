@@ -14,10 +14,10 @@ export const GIT_ACTIONS = [
   "pull",
   "toggle --no-verify",
 ] as const
-export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "checkout", "chaperon"] as const
+export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "restore", "chaperon"] as const
 export const GIT_BRANCH_ACTIONS = [
   "diff",
-  "checkout",
+  "switch",
   "reset",
   "reset --hard",
   "reset --soft",
@@ -36,14 +36,14 @@ export const GIT_LOG_ACTIONS = [
   "reset",
   "reset-hard",
   "reset-soft",
-  "checkout",
+  "switch",
   "commit --squash",
   "commit --fixup",
   "rebase --interactive",
   "yank",
 ] as const
 export const GIT_STASH_ACTIONS = ["show", "diff", "apply", "pop", "drop", "yank"] as const
-export const GIT_REFLOG_ACTIONS = ["show", "diff", "reset", "reset-hard", "reset-soft", "checkout", "yank"] as const
+export const GIT_REFLOG_ACTIONS = ["show", "diff", "reset", "reset-hard", "reset-soft", "switch", "yank"] as const
 
 export const GIT_BRANCH_COMMAND =
   "git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%(color:reset)    %(color:reset)%(HEAD) %(color:magenta)%(refname:short)%(color:reset)    %(color:yellow)%(authordate:short)%(color:reset)    %(color:blue)[%(authorname)]%(color:reset)%09' 2> /dev/null"

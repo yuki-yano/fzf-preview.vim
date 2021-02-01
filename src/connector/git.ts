@@ -155,8 +155,12 @@ export const gitCommit = async (option?: CommitOption): Promise<void> => {
   }
 }
 
-export const gitCheckout = async (branchOrFile: string): Promise<void> => {
-  await pluginCall("fzf_preview#remote#consumer#git#checkout", [branchOrFile])
+export const gitRestore = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#restore", [file])
+}
+
+export const gitSwitch = async (branch: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#switch", [branch])
 }
 
 export const gitCreateBranch = async (): Promise<void> => {

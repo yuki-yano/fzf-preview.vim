@@ -1,4 +1,4 @@
-import { gitCheckout, gitDiff, gitReset, gitShow, gitYank } from "@/connector/git"
+import { gitDiff, gitReset, gitShow, gitSwitch, gitYank } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -55,12 +55,12 @@ export const execGitReflogActionConsumer = createSingleLineConsumer(async (data)
       await chainFzfCommand("FzfPreviewGitReflogs")
       break
     }
-    case "checkout": {
+    case "switch": {
       if (data.hashes.length > 1) {
         throw new Error("Hashes must be one")
       }
 
-      await gitCheckout(data.hashes[0])
+      await gitSwitch(data.hashes[0])
       await chainFzfCommand("FzfPreviewGitReflogs")
       break
     }
