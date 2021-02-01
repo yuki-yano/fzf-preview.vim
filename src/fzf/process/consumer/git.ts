@@ -1,4 +1,4 @@
-import { gitCheckout, gitCreateBranch } from "@/connector/git"
+import { gitCreateBranch, gitSwitch } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
 import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
 
@@ -30,9 +30,9 @@ export const chainGitLogsConsumer = createBulkLineConsumer(async (dataList) => {
   }
 })
 
-export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
+export const gitSwitchConsumer = createBulkLineConsumer(async (dataList) => {
   if (dataList.length > 1) {
-    throw new Error("The git checkout should not be multiple lines.")
+    throw new Error("The git switch should not be multiple lines.")
   }
 
   const data = dataList[0]
@@ -40,16 +40,16 @@ export const gitCheckoutConsumer = createBulkLineConsumer(async (dataList) => {
   switch (data.type) {
     case "git-branch": {
       if (data.isCreate === false) {
-        await gitCheckout(data.name)
-        await vimEchoMessage(`git checkout ${data.name}`)
+        await gitSwitch(data.name)
+        await vimEchoMessage(`git switch ${data.name}`)
       } else {
         await gitCreateBranch()
       }
       break
     }
     case "git-log": {
-      await gitCheckout(data.hash)
-      await vimEchoMessage(`git checkout ${data.hash}`)
+      await gitSwitch(data.hash)
+      await vimEchoMessage(`git switch ${data.hash}`)
       break
     }
 
