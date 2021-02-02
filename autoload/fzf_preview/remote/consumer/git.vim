@@ -30,7 +30,7 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#patch(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina patch ' . a:file)
+    call s:execute('Gina patch ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') != 0
     execute 'tabedit ' . a:file . ' | Git diff'
@@ -42,7 +42,7 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#chaperon(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina chaperon ' . a:file)
+    call s:execute('Gina chaperon ' . fnamemodify(a:file, ':p'))
     return
   endif
 
@@ -66,7 +66,7 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#restore(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina checkout -- ' . a:file)
+    call s:execute('Gina checkout -- ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') == 2
     execute 'Git checkout -- ' . a:file
