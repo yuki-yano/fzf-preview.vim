@@ -1,5 +1,4 @@
 import {
-  gitCheckout,
   gitDeleteBranch,
   gitDiff,
   gitMerge,
@@ -7,6 +6,7 @@ import {
   gitRebaseInteractive,
   gitRenameBranch,
   gitReset,
+  gitSwitch,
   gitYank,
 } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
@@ -24,12 +24,12 @@ export const execGitBranchActionConsumer = createSingleLineConsumer(async (data)
   }
 
   switch (data.action) {
-    case "checkout": {
+    case "switch": {
       if (data.branches.length > 1) {
         throw new Error("Branch must be one")
       }
 
-      await gitCheckout(data.branches[0])
+      await gitSwitch(data.branches[0])
       await chainFzfCommand("FzfPreviewGitBranches")
       break
     }

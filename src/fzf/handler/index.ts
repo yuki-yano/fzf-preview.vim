@@ -1,18 +1,16 @@
 import { createProcessFunctionName } from "@/fzf/util"
 import type { State as ExecuteCommandState } from "@/module/execute-command"
-import { loadExecuteCommandStore } from "@/module/persist"
 import { executeCommandSelector } from "@/module/selector/execute-command"
 import { processesRunner } from "@/plugin/process-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
-import { dispatch } from "@/store"
 import type { CallbackLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
 
 /* eslint-disable */
-const commands: Array<FzfCommand> =
+const commands: ReadonlyArray<FzfCommand> =
   PLUGIN.ENV === "remote" || PLUGIN.ENV === "rpc"
-    ? (require("@/association/command").commandDefinition as Array<FzfCommand>)
+    ? (require("@/association/command").commandDefinition as ReadonlyArray<FzfCommand>)
     : PLUGIN.ENV === "coc"
-    ? (require("@/association/coc-command").cocCommandDefinition as Array<FzfCommand>)
+    ? (require("@/association/coc-command").cocCommandDefinition as ReadonlyArray<FzfCommand>)
     : []
 /* eslint-enable */
 
@@ -38,7 +36,6 @@ const runProcess = async (
 
 export const callProcess = async ([lines]: [CallbackLines, ...ReadonlyArray<unknown>]): Promise<void> => {
   await syncVimVariable()
-  await dispatch(loadExecuteCommandStore())
   const executeCommand = executeCommandSelector()
   await runProcess(lines, executeCommand)
 }

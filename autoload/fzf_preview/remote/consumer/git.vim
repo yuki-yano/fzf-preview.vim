@@ -1,5 +1,5 @@
 " using pseudo synchronous call in Vim8 because Vim8 asynchronous call is unstable
-function s:execute(command)
+function! s:execute(command) abort
   if !has('nvim')
     call feedkeys(':' . a:command . "\n", 'n')
   else
@@ -30,7 +30,7 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#patch(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina patch ' . a:file)
+    call s:execute('Gina patch ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') != 0
     execute 'tabedit ' . a:file . ' | Git diff'
@@ -42,7 +42,7 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#chaperon(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina chaperon ' . a:file)
+    call s:execute('Gina chaperon ' . fnamemodify(a:file, ':p'))
     return
   endif
 
@@ -64,17 +64,32 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
   echoerr 'Fugitive and Gina not installed'
 endfunction
 
-function! fzf_preview#remote#consumer#git#checkout(branch_or_file) abort
+function! fzf_preview#remote#consumer#git#restore(file) abort
   if exists(':Gina') == 2
-    call s:execute('Gina checkout ' . a:branch_or_file)
+    call s:execute('Gina checkout -- ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') == 2
-    execute 'Git checkout ' . a:branch_or_file
+    execute 'Git checkout -- ' . a:file
     return
   else
-    call system('git checkout ' . a:branch_or_file)
+    call system('git checkout -- ' . a:file)
     if v:shell_error
-      echomsg 'Failed: git checkout ' . a:branch_or_file
+      echomsg 'Failed: git checkout -- ' . a:file
+    endif
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#switch(branch) abort
+  if exists(':Gina') == 2
+    call s:execute('Gina checkout ' . a:branch)
+    return
+  elseif exists(':Git') == 2
+    execute 'Git checkout ' . a:branch
+    return
+  else
+    call system('git checkout ' . a:branch)
+    if v:shell_error
+      echomsg 'Failed: git checkout ' . a:branch
     endif
   endif
 endfunction

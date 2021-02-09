@@ -1,4 +1,5 @@
 import camelCase from "camelcase"
+import type { ReadonlyDeep } from "type-fest"
 
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { ProcessesName } from "@/type"
@@ -30,11 +31,11 @@ export const createGitLogCommand = (file?: string): string => {
   return `git log ${createGitLogAndStashOption("commit")} ${targetFile}`
 }
 
-type ParsedQuickFix = {
+type ParsedQuickFix = ReadonlyDeep<{
   fileName: string
   lineNumber: number
   text: string
-}
+}>
 
 export const parseQuickFixAndLocationListLine = (line: string): ParsedQuickFix => {
   const result = /^(?<fileName>[^|]*)\|((?<lineNumber>\d+)( col (\d+))?[^|]*)?\|(?<text>.*)/.exec(line)

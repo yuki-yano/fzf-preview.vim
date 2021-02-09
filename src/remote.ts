@@ -6,17 +6,13 @@ import { registerFunction, registerProcesses, registerRemoteCommands } from "@/r
 module.exports = (plugin: NvimPlugin) => {
   setRemotePlugin(plugin)
 
-  if (process.env.FZF_PREVIEW_DEBUG === "1") {
-    plugin.setOptions({ dev: true, alwaysInit: true })
-  }
-
   registerRemoteCommands()
   registerProcesses()
   registerFunction()
 
   plugin.registerCommand(
     "FzfPreviewRemoteEnvironment",
-    async (_args: Array<string>) => {
+    async (_args: ReadonlyArray<string>) => {
       await plugin.nvim.command("echo 'fzf-preview is remote plugin'")
     },
     { nargs: "*" }

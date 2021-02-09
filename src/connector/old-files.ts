@@ -1,3 +1,4 @@
 import { pluginGetVvar } from "@/plugin"
 
-export const getOldFiles = async (): Promise<Array<string>> => (await pluginGetVvar("oldfiles")) as Array<string>
+export const getOldFiles = async (): Promise<ReadonlyArray<string>> =>
+  (await pluginGetVvar("oldfiles")) as ReadonlyArray<string>

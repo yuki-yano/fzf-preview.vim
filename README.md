@@ -1,9 +1,9 @@
 # ![logo](https://user-images.githubusercontent.com/5423775/104124691-7f8b4c00-5395-11eb-85d6-93b1c55cf0c8.png)
 
-[![Build](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:Build)
-[![Release RPC](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20Vim%20script%20RPC/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:"Release+Vim+script+RPC")
-[![Release remote plugin](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20remote%20plugin/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+remote+plugin%22)
-[![Release coc extensions](https://github.com/yuki-ycino/fzf-preview.vim/workflows/Release%20coc%20extensions/badge.svg)](https://github.com/yuki-ycino/fzf-preview.vim/actions?query=workflow:%22Release+coc+extensions%22)
+[![Build](https://github.com/yuki-yano/fzf-preview.vim/workflows/Build/badge.svg)](https://github.com/yuki-yano/fzf-preview.vim/actions?query=workflow:Build)
+[![Release RPC](https://github.com/yuki-yano/fzf-preview.vim/workflows/Release%20Vim%20script%20RPC/badge.svg)](https://github.com/yuki-yano/fzf-preview.vim/actions?query=workflow:"Release+Vim+script+RPC")
+[![Release remote plugin](https://github.com/yuki-yano/fzf-preview.vim/workflows/Release%20remote%20plugin/badge.svg)](https://github.com/yuki-yano/fzf-preview.vim/actions?query=workflow:%22Release+remote+plugin%22)
+[![Release coc extensions](https://github.com/yuki-yano/fzf-preview.vim/workflows/Release%20coc%20extensions/badge.svg)](https://github.com/yuki-yano/fzf-preview.vim/actions?query=workflow:%22Release+coc+extensions%22)
 
 [![Support](https://img.shields.io/badge/Support-Vim%208.1%20or%20above-yellowgreen)](https://www.vim.org)
 [![Support](https://img.shields.io/badge/Support-Neovim%200.4%20or%20above-yellowgreen)](https://neovim.io)
@@ -15,9 +15,9 @@
 [![Powered by](https://img.shields.io/badge/Powered%20by-fzf-7b3948)](https://github.com/junegunn/fzf)
 [![Powered by](https://img.shields.io/badge/Powered%20by-coc.nvim-7b3948)](https://github.com/neoclide/coc.nvim)
 [![Powered by](https://img.shields.io/badge/Powered%20by-vital--vs-7b3948)](https://github.com/hrsh7th/vim-vital-vs)
-[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-ycino/fzf-preview.vim/blob/main/LICENSE)
-[![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-ycino/fzf-preview.vim/blob/main/doc/fzf_preview_vim.txt)
-[![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-ycino/fzf-preview.vim/graphs/contributors)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yuki-yano/fzf-preview.vim/blob/main/LICENSE)
+[![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-yano/fzf-preview.vim/blob/main/doc/fzf_preview_vim.txt)
+[![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-yano/fzf-preview.vim/graphs/contributors)
 
 fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
 
@@ -120,14 +120,14 @@ Install `release/rpc` branch.
 
 ```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
+Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 ```
 
 or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/rpc' })
+call dein#add('yuki-yano/fzf-preview.vim', { 'rev': 'release/rpc' })
 ```
 
 ### Remote Plugin
@@ -144,14 +144,14 @@ Install `release/remote` branch and execute `:UpdateRemotePlugins` when after in
 
 ```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 ```
 
 or
 
 ```vim
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/remote' })
+call dein#add('yuki-yano/fzf-preview.vim', { 'rev': 'release/remote' })
 ```
 
 ### coc extensions

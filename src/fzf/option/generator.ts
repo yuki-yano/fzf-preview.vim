@@ -147,7 +147,7 @@ type OptionsArgs = {
   dynamicOptions?: FzfOptions
   defaultProcesses: Processes
   userProcesses?: UserProcesses
-  userOptions: Array<AddFzfArg>
+  userOptions: ReadonlyArray<AddFzfArg>
   resumeQuery?: ResumeQuery
 }
 

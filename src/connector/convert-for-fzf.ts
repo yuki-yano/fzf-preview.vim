@@ -1,16 +1,17 @@
 import stripAnsi from "strip-ansi"
+import type { ReadonlyDeep } from "type-fest"
 
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
 import { colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { ResourceLines } from "@/type"
 
-type Options = {
+type Options = ReadonlyDeep<{
   enableConvertForFzf: boolean
   enableDevIcons: boolean
-}
+}>
 
-const createDevIconsList = (files: Array<string>) => {
+const createDevIconsList = (files: ReadonlyArray<string>) => {
   const defaultIcon = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesDefaultSymbol") as string
   const extensionIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExtensionSymbols") as {
     [key: string]: string

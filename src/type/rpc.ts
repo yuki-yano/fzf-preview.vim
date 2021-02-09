@@ -8,12 +8,12 @@ export type RpcExecCommandParams = {
 }
 
 export type RpcCallProcessParams = {
-  lines: Array<string>
+  lines: ReadonlyArray<string>
 }
 
 export type RpcExecProcessCallbackParams = {
   processName: string
-  lines: Array<string>
+  lines: ReadonlyArray<string>
 }
 
 export type DispatchResumeQueryParams = {

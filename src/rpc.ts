@@ -70,8 +70,8 @@ connection.onRequest(execProcessCallbackRequest, async ({ processName, lines }) 
 })
 
 const dispatchResumeQueryRequest = new rpc.RequestType<DispatchResumeQueryParams, void, void>("dispatchResumeQuery")
-connection.onRequest(dispatchResumeQueryRequest, async ({ commandName, query }) => {
-  await dispatchResumeQuery([commandName, query])
+connection.onRequest(dispatchResumeQueryRequest, ({ commandName, query }) => {
+  dispatchResumeQuery([commandName, query])
 })
 
 setRpcClient(connection)

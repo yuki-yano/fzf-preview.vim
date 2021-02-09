@@ -1,6 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
-import { createDraft } from "immer"
+import { castDraft, createDraft } from "immer"
 
 import { SESSION } from "@/const/module"
 import type { Session, SessionToken } from "@/type"
@@ -30,11 +30,11 @@ export const sessionModule = createSlice({
       }
     },
     setSession: (state, { payload }: PayloadAction<{ sessionToken: SessionToken; session: Session }>) => {
-      state.sessions[payload.sessionToken] = payload.session
+      state.sessions[payload.sessionToken] = castDraft(payload.session)
       state.currentSession = undefined
     },
     setCurrentSession: (state, { payload }: PayloadAction<{ session: Session }>) => {
-      state.currentSession = payload.session
+      state.currentSession = castDraft(payload.session)
     },
     clearCurrentSession: (state, _: PayloadAction<undefined>) => {
       state.currentSession = undefined

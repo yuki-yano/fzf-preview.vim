@@ -1,10 +1,12 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import { pluginCall } from "@/plugin"
 
-type Jump = {
+type Jump = ReadonlyDeep<{
   file: string
   line: string
   text: string
-}
+}>
 
-export const getJumps = async (): Promise<Array<Jump>> =>
-  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as Array<Jump>
+export const getJumps = async (): Promise<ReadonlyArray<Jump>> =>
+  (await pluginCall("fzf_preview#remote#resource#jumps#get")) as ReadonlyArray<Jump>

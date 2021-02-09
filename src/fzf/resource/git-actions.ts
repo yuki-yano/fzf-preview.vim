@@ -1,9 +1,7 @@
 import { isGitDirectory } from "@/connector/util"
 import { GIT_ACTIONS } from "@/const/git"
-import { loadGitConfig } from "@/module/persist"
 import { gitConfigSelector } from "@/module/selector/git-config"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { dispatch } from "@/store"
 import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
 
@@ -23,8 +21,6 @@ export const gitActions = async (_args: SourceFuncArgs): Promise<Resource> => {
   if (!(await isGitDirectory())) {
     throw new Error("The current directory is not a git project")
   }
-
-  await dispatch(loadGitConfig())
 
   const displayTextList = await Promise.all(
     GIT_ACTIONS.map(async (action) => {
