@@ -1,3 +1,5 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import {
   dropConsumer,
   editConsumer,
@@ -11,7 +13,7 @@ import type { Processes } from "@/type"
 
 const createOpenFileProcess = createProcessCreator("open-file")
 
-export const openFileProcesses: Processes = [
+export const openFileProcesses: ReadonlyDeep<Processes> = [
   createOpenFileProcess("enter", editConsumer),
   createOpenFileProcess("ctrl-x", splitConsumer),
   createOpenFileProcess("ctrl-v", vsplitConsumer),

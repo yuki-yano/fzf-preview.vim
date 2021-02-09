@@ -1,18 +1,18 @@
 import type { CommandOptions } from "neovim/lib/host/NvimPlugin"
-import type { Merge } from "type-fest"
+import type { Merge, ReadonlyDeep } from "type-fest"
 
 import type { ProcessesName } from "@/type/process"
 import type { GitBranchData, GitLogData, GitReflogData, GitStashData, GitStatusData, Resource } from "@/type/resource"
 
-export type FzfCommandDynamicOption = {
+export type FzfCommandDynamicOption = ReadonlyDeep<{
   "--header"?: string
   "--header-lines"?: string
-}
+}>
 
 export type SelectedLine = string
-export type SelectedLines = Array<SelectedLine>
+export type SelectedLines = ReadonlyArray<SelectedLine>
 
-export type ExpectKeyAndSelectedLines = Array<string>
+export type ExpectKeyAndSelectedLines = ReadonlyArray<string>
 
 export type BaseFzfCommandName =
   | "FzfPreviewProjectFiles"
@@ -67,12 +67,12 @@ export type CocFzfCommandName =
 
 export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
-export type SourceFuncArgs = {
-  args: Array<string>
-  extraArgs: Array<string>
-}
+export type SourceFuncArgs = ReadonlyDeep<{
+  args: ReadonlyArray<string>
+  extraArgs: ReadonlyArray<string>
+}>
 
-type FzfCommandBase = {
+type FzfCommandBase = ReadonlyDeep<{
   sourceFunc: (sourceFuncArgs: SourceFuncArgs) => Promise<Resource>
   sourceFuncArgsParser: (args: string) => SourceFuncArgs
   vimCommandOptions: CommandOptions
@@ -83,25 +83,29 @@ type FzfCommandBase = {
   enableConvertForFzf: boolean
   enableDevIcons: boolean
   beforeCommandHook?: (args: string) => void
-}
+}>
 
-export type BaseFzfCommand = Merge<
-  FzfCommandBase,
-  {
-    commandName: BaseFzfCommandName
-  }
+export type BaseFzfCommand = ReadonlyDeep<
+  Merge<
+    FzfCommandBase,
+    {
+      commandName: BaseFzfCommandName
+    }
+  >
 >
 
-export type CocFzfCommand = Merge<
-  FzfCommandBase,
-  {
-    commandName: CocFzfCommandName
-  }
+export type CocFzfCommand = ReadonlyDeep<
+  Merge<
+    FzfCommandBase,
+    {
+      commandName: CocFzfCommandName
+    }
+  >
 >
 
 export type FzfCommand = BaseFzfCommand | CocFzfCommand
 
-export type FzfOptions = {
+export type FzfOptions = ReadonlyDeep<{
   "--ansi"?: boolean
   "--bind"?:
     | ReadonlyArray<{
@@ -111,9 +115,9 @@ export type FzfOptions = {
     | string
   "--expect"?: ReadonlyArray<string> | string
   [otherProperty: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
-}
+}>
 
-export type FzfCommandDefinitionDefaultOption = {
+export type FzfCommandDefinitionDefaultOption = ReadonlyDeep<{
   "--header"?: string
   "--prompt": string
   "--multi"?: true
@@ -126,21 +130,21 @@ export type FzfCommandDefinitionDefaultOption = {
   "--query"?: string
   "--with-nth"?: string
   "--keep-right"?: true
-}
+}>
 
-export type AddFzfArg = {
+export type AddFzfArg = ReadonlyDeep<{
   optionName: string
   value?: string
-}
+}>
 
 export type ResumeQuery = string | null
 
 export type Session = {
-  gitStatusDataList?: Array<GitStatusData>
-  gitBranches?: Array<GitBranchData>
-  gitLogs?: Array<GitLogData>
-  gitStashes?: Array<GitStashData>
-  gitReflogs?: Array<GitReflogData>
+  gitStatusDataList?: ReadonlyArray<GitStatusData>
+  gitBranches?: ReadonlyArray<GitBranchData>
+  gitLogs?: ReadonlyArray<GitLogData>
+  gitStashes?: ReadonlyArray<GitStashData>
+  gitReflogs?: ReadonlyArray<GitReflogData>
 }
 
 export type SessionToken = string

@@ -1,6 +1,7 @@
 import type { DiagnosticItem, ImplementationProvider, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
 import { CancellationTokenSource, languages, workspace } from "coc.nvim"
 import { uniqWith } from "lodash"
+import type { ReadonlyDeep } from "type-fest"
 import type { Location as CocLocation } from "vscode-languageserver-types"
 
 import { getLineFromFile } from "@/connector/util"
@@ -9,22 +10,22 @@ import { collapseHome, existsFileAsync, getCurrentFilePath, getCurrentPath } fro
 import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, DiagnosticLevel } from "@/type"
 
-type ReferenceProviders = Array<{
+type ReferenceProviders = ReadonlyArray<{
   provider: ReferenceProvider
 }>
 
-type TypeDefinitionProviders = Array<{
+type TypeDefinitionProviders = ReadonlyArray<{
   provider: TypeDefinitionProvider
 }>
 
-type ImplementationProviders = Array<{
+type ImplementationProviders = ReadonlyArray<{
   provider: ImplementationProvider
 }>
 
 const diagnosticItemToData = async (
-  item: DiagnosticItem,
+  item: ReadonlyDeep<DiagnosticItem>,
   option?: { currentFile: string }
-): Promise<Diagnostic | null> => {
+): Promise<ReadonlyDeep<Diagnostic | null>> => {
   if (!(await existsFileAsync(item.file))) {
     return null
   }
@@ -44,19 +45,19 @@ const diagnosticItemToData = async (
     lineNumber: item.lnum,
     severity: item.severity as DiagnosticLevel,
     message: item.message,
-  }
+  } as const
 }
 
-export const getDiagnostics = async (): Promise<Array<Diagnostic>> => {
-  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
+export const getDiagnostics = async (): Promise<ReadonlyArray<Diagnostic>> => {
+  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as ReadonlyArray<DiagnosticItem>
   const diagnostics = await Promise.all(diagnosticItems.map(async (item) => await diagnosticItemToData(item)))
 
   return diagnostics.filter((diagnostic): diagnostic is Diagnostic => diagnostic != null)
 }
 
-export const getCurrentDiagnostics = async (): Promise<Array<Diagnostic>> => {
+export const getCurrentDiagnostics = async (): Promise<ReadonlyArray<Diagnostic>> => {
   const currentFile = await getCurrentFilePath()
-  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as Array<DiagnosticItem>
+  const diagnosticItems = (await pluginCall("CocAction", ["diagnosticList"])) as ReadonlyArray<DiagnosticItem>
   const diagnostics = await Promise.all(
     diagnosticItems.map(async (item) => await diagnosticItemToData(item, { currentFile }))
   )
@@ -75,10 +76,10 @@ const getCurrentState = async () => {
   const range = (await workspace.document).getWordRangeAtPosition(position)
   const symbol = range && range != null ? document.getText(range) : ""
 
-  return { document, position, symbol }
+  return { document, position, symbol } as const
 }
 
-const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Array<Location>> => {
+const cocLocationToLocation = async (locations: ReadonlyArray<CocLocation>): Promise<ReadonlyArray<Location>> => {
   const currentPath = await getCurrentPath()
 
   return (
@@ -102,8 +103,11 @@ const cocLocationToLocation = async (locations: Array<CocLocation>): Promise<Arr
   ).filter((location): location is Location => location != null)
 }
 
-export const getReferences = async (): Promise<{ references: Array<Location>; symbol: string }> => {
-  let locations: Array<CocLocation> = []
+export const getReferences = async (): Promise<{
+  references: ReadonlyArray<Location>
+  symbol: string
+}> => {
+  let locations: ReadonlyArray<CocLocation> = []
 
   const { document, position, symbol } = await getCurrentState()
   const tokenSource = new CancellationTokenSource()
@@ -134,11 +138,11 @@ export const getReferences = async (): Promise<{ references: Array<Location>; sy
   return {
     references,
     symbol,
-  }
+  } as const
 }
 
-export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Location>; symbol: string }> => {
-  let locations: Array<CocLocation> = []
+export const getTypeDefinition = async (): Promise<{ typeDefinitions: ReadonlyArray<Location>; symbol: string }> => {
+  let locations: ReadonlyArray<CocLocation> = []
 
   const { document, position, symbol } = await getCurrentState()
   const tokenSource = new CancellationTokenSource()
@@ -152,7 +156,7 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Loca
       document,
       position,
       tokenSource.token
-    )) as Array<CocLocation>
+    )) as ReadonlyArray<CocLocation>
     if (typeDefinitions != null) {
       locations = [...locations, ...typeDefinitions]
     }
@@ -166,11 +170,14 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: Array<Loca
   return {
     typeDefinitions,
     symbol,
-  }
+  } as const
 }
 
-export const getImplementations = async (): Promise<{ implementations: Array<Location>; symbol: string }> => {
-  let locations: Array<CocLocation> = []
+export const getImplementations = async (): Promise<{
+  implementations: ReadonlyArray<Location>
+  symbol: string
+}> => {
+  let locations: ReadonlyArray<CocLocation> = []
 
   const { document, position, symbol } = await getCurrentState()
   const tokenSource = new CancellationTokenSource()
@@ -184,7 +191,7 @@ export const getImplementations = async (): Promise<{ implementations: Array<Loc
       document,
       position,
       tokenSource.token
-    )) as Array<CocLocation>
+    )) as ReadonlyArray<CocLocation>
     if (implementations != null) {
       locations = [...locations, ...implementations]
     }
@@ -198,5 +205,5 @@ export const getImplementations = async (): Promise<{ implementations: Array<Loc
   return {
     implementations,
     symbol,
-  }
+  } as const
 }

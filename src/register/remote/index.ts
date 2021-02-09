@@ -12,7 +12,7 @@ export const registerRemoteCommands = (): void => {
   commandDefinition.forEach((fzfCommand) => {
     remotePluginRegisterCommand(
       fzfCommand.commandName,
-      async (params: Array<string>) => {
+      async (params: ReadonlyArray<string>) => {
         const args = params[0] != null ? params[0] : ""
         await executeCommand(args, fzfCommand)
       },
@@ -26,7 +26,7 @@ export const registerProcesses = (): void => {
     processes.forEach((process) => {
       remotePluginRegisterFunction(
         process.name,
-        async ([lines]: [CallbackLines, ...Array<unknown>]) => {
+        async ([lines]: [CallbackLines, ...ReadonlyArray<unknown>]) => {
           await executeProcess(lines, process)
         },
         { sync: false }
@@ -40,7 +40,7 @@ export const registerFunction = (): void => {
 
   remotePluginRegisterFunction(
     "FzfPreviewGetDefaultProcesses",
-    ([processesName]: Array<string>) => getDefaultProcesses(processesName),
+    ([processesName]: ReadonlyArray<string>) => getDefaultProcesses(processesName),
     { sync: true }
   )
 

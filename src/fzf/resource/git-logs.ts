@@ -8,7 +8,7 @@ import { alignLists } from "@/util/align"
 
 const SPACER = "    "
 
-const createResource = (logs: Array<GitLog>, isCurrentFile: boolean): Resource => {
+const createResource = (logs: ReadonlyArray<GitLog>, isCurrentFile: boolean): Resource => {
   const displayLines = alignLists(
     logs.map(({ hash, date, author, comment }) => [hash, date, author, comment])
   ).map((list) => list.join(SPACER).trim())

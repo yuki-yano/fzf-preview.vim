@@ -1,8 +1,10 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import { processesDefinition } from "@/fzf/process"
 import { createProcessFunctionName } from "@/fzf/util"
 import type { ProcessesName } from "@/type"
 
-export const getDefaultProcesses = (processesName: string): { [key: string]: string } => {
+export const getDefaultProcesses = (processesName: string): ReadonlyDeep<{ [key: string]: string }> => {
   const targetProcessesDefinition = processesDefinition.find((define) => define.name === processesName)
   if (targetProcessesDefinition == null) {
     throw new Error(`Processes not found: "${processesName}"`)

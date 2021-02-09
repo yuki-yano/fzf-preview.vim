@@ -17,7 +17,7 @@ const vistaBufferTagToArray = ({ lineNumber, kind, text, line }: VistaBufferTag)
 export const vistaBufferCtags = async (_args: SourceFuncArgs): Promise<Resource> => {
   const tags = await getVistaBufferCtags()
   const displayTextList = alignLists(
-    tags.sort((a, b) => a.lineNumber - b.lineNumber).map((tag) => vistaBufferTagToArray(tag))
+    [...tags].sort((a, b) => a.lineNumber - b.lineNumber).map((tag) => vistaBufferTagToArray(tag))
   ).map((tag) => tag.join(SPACER).trim())
 
   const currentFile = await getCurrentFilePath()

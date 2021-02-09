@@ -8,11 +8,11 @@ import { dispatch } from "@/store"
 import type { CallbackLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
 
 /* eslint-disable */
-const commands: Array<FzfCommand> =
+const commands: ReadonlyArray<FzfCommand> =
   PLUGIN.ENV === "remote" || PLUGIN.ENV === "rpc"
-    ? (require("@/association/command").commandDefinition as Array<FzfCommand>)
+    ? (require("@/association/command").commandDefinition as ReadonlyArray<FzfCommand>)
     : PLUGIN.ENV === "coc"
-    ? (require("@/association/coc-command").cocCommandDefinition as Array<FzfCommand>)
+    ? (require("@/association/coc-command").cocCommandDefinition as ReadonlyArray<FzfCommand>)
     : []
 /* eslint-enable */
 
