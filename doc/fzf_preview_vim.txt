@@ -77,7 +77,7 @@ Optional:
     https://classic.yarnpkg.com/
 
 Latest version:
-https://github.com/yuki-ycino/fzf-preview.vim
+https://github.com/yuki-yano/fzf-preview.vim
 
 ==============================================================================
 VIM SCRIPT RPC PLUGIN INSTALLATION        *fzf-preview-vim-rpc-installation*
@@ -87,14 +87,14 @@ Install release/rpc branch.
 
 >
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
+    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
 <
 
 or
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/rpc' })
+    call dein#add('yuki-yano/fzf-preview.vim', { 'rev': 'release/rpc' })
 <
 
 ==============================================================================
@@ -113,14 +113,14 @@ when after installed plugin.
 
 >
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+    Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 <
 
 or
 
 >
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-    call dein#add('yuki-ycino/fzf-preview.vim', { 'rev': 'release/remote' })
+    call dein#add('yuki-yano/fzf-preview.vim', { 'rev': 'release/remote' })
 <
 
 ==============================================================================

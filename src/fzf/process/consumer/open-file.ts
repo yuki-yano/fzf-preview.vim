@@ -1,3 +1,5 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import { exportQuickFix, openFile } from "@/connector/open-file"
 import { createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { executeCommandSelector } from "@/module/selector/execute-command"
@@ -59,7 +61,7 @@ export const tabeditConsumer = createOpenFileConsumer("tabedit")
 export const dropConsumer = createOpenFileConsumer("drop")
 
 export const exportQuickfixConsumer = createBulkLineConsumer(async (dataList) => {
-  const quickFixList: Array<ExportQuickFix> = dataList.map((data) => {
+  const quickFixList: ReadonlyDeep<ReadonlyArray<ExportQuickFix>> = dataList.map((data) => {
     switch (data.type) {
       case "file": {
         return {

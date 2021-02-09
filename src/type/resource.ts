@@ -1,3 +1,5 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
 import type {
   GitAction,
@@ -8,60 +10,60 @@ import type {
   GitStatusAction,
 } from "@/type/git"
 
-export type FileData = {
+export type FileData = ReadonlyDeep<{
   command: FzfCommandName
   type: "file"
   file: string
   lineNumber?: undefined
-}
+}>
 
-export type LineData = {
+export type LineData = ReadonlyDeep<{
   command: FzfCommandName
   type: "line"
   file: string
   lineNumber: number
   text: string
-}
+}>
 
-export type BufferData = {
+export type BufferData = ReadonlyDeep<{
   command: FzfCommandName
   type: "buffer"
   file: string
   bufnr: number
   lineNumber?: undefined
-}
+}>
 
-export type CommandPaletteData = {
+export type CommandPaletteData = ReadonlyDeep<{
   command: FzfCommandName
   type: "command-palette"
   name: string
   lineNumber?: undefined
-}
+}>
 
-export type GitActionData = {
+export type GitActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-actions"
   action: GitAction
   lineNumber?: undefined
-}
+}>
 
-export type GitStatusData = {
+export type GitStatusData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-status"
   file: string
   status: string
   lineNumber?: undefined
-}
+}>
 
-export type GitStatusActionData = {
+export type GitStatusActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-status-actions"
   action: GitStatusAction
-  files: Array<string>
+  files: ReadonlyArray<string>
   lineNumber?: undefined
-}
+}>
 
-export type GitBranchData = {
+export type GitBranchData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-branch"
   name: string
@@ -69,17 +71,17 @@ export type GitBranchData = {
   author: string
   isCreate: boolean
   lineNumber?: undefined
-}
+}>
 
-export type GitBranchActionData = {
+export type GitBranchActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-branch-actions"
   action: GitBranchAction
-  branches: Array<string>
+  branches: ReadonlyArray<string>
   lineNumber?: undefined
-}
+}>
 
-export type GitLogData = {
+export type GitLogData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-log"
   hash: string
@@ -88,18 +90,18 @@ export type GitLogData = {
   comment: string
   isCurrentFile: boolean
   lineNumber?: undefined
-}
+}>
 
-export type GitLogActionData = {
+export type GitLogActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-log-actions"
   action: GitLogAction
-  hashes: Array<string>
+  hashes: ReadonlyArray<string>
   isCurrentFile: boolean
   lineNumber?: undefined
-}
+}>
 
-export type GitStashData = {
+export type GitStashData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-stash"
   name: string
@@ -109,18 +111,18 @@ export type GitStashData = {
   comment: string
   isCreate: boolean
   lineNumber?: undefined
-}
+}>
 
-export type GitStashActionData = {
+export type GitStashActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-stash-actions"
   action: GitStashAction
-  names: Array<string>
-  hashes: Array<string>
+  names: ReadonlyArray<string>
+  hashes: ReadonlyArray<string>
   lineNumber?: undefined
-}
+}>
 
-export type GitReflogData = {
+export type GitReflogData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-reflog"
   name: string
@@ -129,31 +131,31 @@ export type GitReflogData = {
   author: string
   comment: string
   lineNumber?: undefined
-}
+}>
 
-export type GitReflogActionData = {
+export type GitReflogActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-reflog-actions"
   action: GitReflogAction
-  names: Array<string>
-  hashes: Array<string>
+  names: ReadonlyArray<string>
+  hashes: ReadonlyArray<string>
   lineNumber?: undefined
-}
+}>
 
-export type RegisterData = {
+export type RegisterData = ReadonlyDeep<{
   command: FzfCommandName
   type: "register"
   lineNumber: number
   text: string
   option: string
-}
+}>
 
-export type GitPrData = {
+export type GitPrData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-pr"
   prNumber?: number
   lineNumber?: undefined
-}
+}>
 
 export type ResourceData =
   | FileData
@@ -174,23 +176,23 @@ export type ResourceData =
   | RegisterData
   | GitPrData
 
-export type ResourceLine = {
+export type ResourceLine = ReadonlyDeep<{
   data: ResourceData
   displayText: string
-}
+}>
 
-export type ResourceLines = Array<ResourceLine>
+export type ResourceLines = ReadonlyArray<ResourceLine>
 
-type JsonResource = {
+type JsonResource = ReadonlyDeep<{
   type: "json"
   lines: ResourceLines
   options?: FzfCommandDynamicOption
-}
+}>
 
-type TextResource = {
+type TextResource = ReadonlyDeep<{
   type: "text"
   lines: ResourceLines
   options?: FzfCommandDynamicOption
-}
+}>
 
 export type Resource = JsonResource | TextResource

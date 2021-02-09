@@ -1,7 +1,7 @@
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 
-export const execLines = async (filePath: string): Promise<Array<string>> => {
+export const execLines = async (filePath: string): Promise<ReadonlyArray<string>> => {
   const linesCommand = globalVariableSelector("fzfPreviewLinesCommand") as string
   if (typeof linesCommand !== "string") {
     return []
@@ -9,7 +9,7 @@ export const execLines = async (filePath: string): Promise<Array<string>> => {
 
   const lines = (await pluginCall("fzf_preview#remote#resource#lines#get", [
     `${linesCommand} ${filePath}`,
-  ])) as Array<string>
+  ])) as ReadonlyArray<string>
 
   return lines
 }

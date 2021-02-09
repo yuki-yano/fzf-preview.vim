@@ -1,27 +1,29 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import { pluginCall } from "@/plugin"
 
-export type VistaTag = {
+export type VistaTag = ReadonlyDeep<{
   lineNumber: number
   kind: string
   text: string
   tagFile: string
-}
+}>
 
-export type VistaBufferTag = {
+export type VistaBufferTag = ReadonlyDeep<{
   lineNumber: number
   kind: string
   text: string
   line: string
-}
+}>
 
-export const getVistaCtags = async (): Promise<Array<VistaTag>> => {
-  const tags = (await pluginCall("fzf_preview#remote#resource#vista#ctags")) as Array<VistaTag>
+export const getVistaCtags = async (): Promise<ReadonlyArray<VistaTag>> => {
+  const tags = (await pluginCall("fzf_preview#remote#resource#vista#ctags")) as ReadonlyArray<VistaTag>
 
   return tags
 }
 
-export const getVistaBufferCtags = async (): Promise<Array<VistaBufferTag>> => {
-  const tags = (await pluginCall("fzf_preview#remote#resource#vista#buffer_ctags")) as Array<VistaBufferTag>
+export const getVistaBufferCtags = async (): Promise<ReadonlyArray<VistaBufferTag>> => {
+  const tags = (await pluginCall("fzf_preview#remote#resource#vista#buffer_ctags")) as ReadonlyArray<VistaBufferTag>
 
   return tags
 }

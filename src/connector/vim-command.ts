@@ -1,18 +1,20 @@
+import type { ReadonlyDeep } from "type-fest"
+
 import { pluginCall } from "@/plugin"
 
-export type VimCommand = {
+export type VimCommand = ReadonlyDeep<{
   name: string
   number: number | null
-}
+}>
 
-export const getVimCommands = async (): Promise<Array<VimCommand>> => {
-  const commands = (await pluginCall("fzf_preview#remote#resource#vim_command#commands")) as Array<VimCommand>
+export const getVimCommands = async (): Promise<ReadonlyArray<VimCommand>> => {
+  const commands = (await pluginCall("fzf_preview#remote#resource#vim_command#commands")) as ReadonlyArray<VimCommand>
 
   return commands
 }
 
-export const getVimCommandHistory = async (): Promise<Array<VimCommand>> => {
-  const commands = (await pluginCall("fzf_preview#remote#resource#vim_command#history")) as Array<VimCommand>
+export const getVimCommandHistory = async (): Promise<ReadonlyArray<VimCommand>> => {
+  const commands = (await pluginCall("fzf_preview#remote#resource#vim_command#history")) as ReadonlyArray<VimCommand>
 
   return commands
 }

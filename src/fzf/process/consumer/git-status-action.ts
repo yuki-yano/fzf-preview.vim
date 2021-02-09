@@ -1,4 +1,4 @@
-import { gitAdd, gitChaperon, gitCheckout, gitPatch, gitReset } from "@/connector/git"
+import { gitAdd, gitChaperon, gitPatch, gitReset, gitRestore } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -35,10 +35,10 @@ export const execGitStatusActionConsumer = createSingleLineConsumer(async (data)
       }
       break
     }
-    case "checkout": {
+    case "restore": {
       for (const file of data.files) {
         // eslint-disable-next-line no-await-in-loop
-        await gitCheckout(file)
+        await gitRestore(file)
       }
       await chainFzfCommand("FzfPreviewGitStatus")
       break

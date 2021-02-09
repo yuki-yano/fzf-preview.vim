@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: main
       - uses: actions/setup-node@v1
         with:
           node-version: 15
@@ -24,3 +21,13 @@ jobs:
       - run: yarn run release-build:remote
       - run: yarn run release-build:coc
       - run: yarn run release-build:rpc
+      - id: check-release
+        run: |
+          if [[ $(git show --no-patch --format=%s) =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo ::set-output name=IS_RELEASE::true
+          fi
+      - if: steps.check-release.outputs.IS_RELEASE == 'true'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: can-release

@@ -1,10 +1,10 @@
-export const transpose = <T>(table: Array<Array<T>>): Array<Array<T>> =>
+export const transpose = <T>(table: ReadonlyArray<ReadonlyArray<T>>): ReadonlyArray<ReadonlyArray<T>> =>
   table[0].map((_, index) => table.map((row) => row[index]))
 
 export const asyncFilter = async <T>(
-  array: Array<T>,
+  array: ReadonlyArray<T>,
   asyncCallback: (args: T) => Promise<boolean>
-): Promise<Array<T>> => {
+): Promise<ReadonlyArray<T>> => {
   const bits = await Promise.all(array.map(asyncCallback))
 
   return array.filter((_, i) => bits[i])

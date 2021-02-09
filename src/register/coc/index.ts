@@ -36,32 +36,32 @@ export const initializeExtension = async (): Promise<void> => {
   await pluginCommand("let g:fzf_preview_has_coc = v:true")
 }
 
-export const registerCommands = (commandManager: typeof commands): Array<Disposable> =>
+export const registerCommands = (commandManager: typeof commands): ReadonlyArray<Disposable> =>
   cocCommandDefinition.map((fzfCommand) =>
     commandManager.registerCommand(
       `fzf-preview.${removeFzfPreviewPrefix(fzfCommand.commandName)}`,
-      async (...params: Array<string>) => {
+      async (...params: ReadonlyArray<string>) => {
         const args = params.join(" ")
         await executeCommand(args, fzfCommand)
       }
     )
   )
 
-export const registerProcesses = (commandManager: typeof commands): Array<Disposable> =>
+export const registerProcesses = (commandManager: typeof commands): ReadonlyArray<Disposable> =>
   flatMap(processesDefinition, ({ processes }) =>
     processes.map((process) =>
       commandManager.registerCommand(
         `fzf-preview-callback.${removeFzfPreviewPrefix(process.name)}`,
-        async ([lines]: [CallbackLines, ...Array<unknown>]) => {
+        async ([lines]: [CallbackLines, ...ReadonlyArray<unknown>]) => {
           await executeProcess(lines, process)
         }
       )
     )
   )
 
-export const registerFunctions = (commandManager: typeof commands): Array<Disposable> => [
+export const registerFunctions = (commandManager: typeof commands): ReadonlyArray<Disposable> => [
   commandManager.registerCommand(`fzf-preview.${removeFzfPreviewPrefix(HANDLER_NAME)}`, callProcess),
-  commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: Array<string>) =>
+  commandManager.registerCommand("fzf-preview.GetDefaultProcesses", ([processesName]: ReadonlyArray<string>) =>
     mapValues(getDefaultProcesses(processesName), (name) => name)
   ),
   commandManager.registerCommand("fzf-preview-function.DispatchResumeQuery", dispatchResumeQuery),

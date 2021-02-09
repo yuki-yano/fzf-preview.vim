@@ -41,19 +41,19 @@ describe("fzfOptionsToString", () => {
     })
 
     it("delete ansi", () => {
-      options["--ansi"] = undefined
+      options = { ...options, "--ansi": undefined }
       expect(fzfOptionsToString(options)).toBe(
         '--bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --expect="ctrl-x,ctrl-v,ctrl-t"'
       )
     })
 
     it("string bind", () => {
-      options["--bind"] = '"foo"'
+      options = { ...options, "--bind": '"foo"' }
       expect(fzfOptionsToString(options)).toBe('--ansi --bind="foo" --expect="ctrl-x,ctrl-v,ctrl-t"')
     })
 
     it("string expect", () => {
-      options["--expect"] = '"foo"'
+      options = { ...options, "--expect": '"foo"' }
       expect(fzfOptionsToString(options)).toBe(
         '--ansi --bind=ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview --expect="foo"'
       )
