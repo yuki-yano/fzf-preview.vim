@@ -18,5 +18,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 15
-      - run: yarn install --ignore-script --frozen-lockfile
+      - id: check-release
+        run: |
+          if [[ $(git show --no-patch --format=%s) =~ ^v[0-9]+\.[0-9]+\.[0-9]$ ]]; then
+            echo ::set-output name=IS_PUBLISH::true
+          fi
+      - if: steps.check-release.outputs.IS_PUBLISH == 'true'
+        run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run can-npm-publish
