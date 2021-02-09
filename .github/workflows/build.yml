@@ -23,7 +23,7 @@ jobs:
       - run: yarn run release-build:rpc
       - id: check-release
         run: |
-          if [[ $(git show --no-patch --format=%s) =~ ^v[0-9]+\.[0-9]+\.[0-9]$ ]]; then
+          if [[ $(git show --no-patch --format=%s) =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo ::set-output name=IS_RELEASE::true
           fi
       - if: steps.check-release.outputs.IS_RELEASE == 'true'
