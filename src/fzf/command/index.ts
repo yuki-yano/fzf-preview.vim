@@ -6,7 +6,6 @@ import { HANDLER_NAME } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
-import { saveStore } from "@/module/persist"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
@@ -63,8 +62,8 @@ export const executeCommand = async (
   const userProcesses = parseProcesses(defaultProcessesName, args)
   const fzfCommandDefaultOptions = await getDefaultOptions(defaultFzfOptionFunc)
   const defaultProcesses = getDefaultProcesses(defaultProcessesName)
-  const resumeQuery = await parseResume(commandName, args)
-  const currentSession = await parseSession(args)
+  const resumeQuery = parseResume(commandName, args)
+  const currentSession = parseSession(args)
 
   if (currentSession != null) {
     dispatch(sessionModule.actions.setCurrentSession({ session: currentSession }))
@@ -95,7 +94,6 @@ export const executeCommand = async (
     })
   )
   await setResourceCommandName(commandName)
-  await dispatch(saveStore({ modules: ["executeCommand"] }))
 
   const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,

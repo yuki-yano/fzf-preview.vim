@@ -1,7 +1,6 @@
 import { gitCommit, gitFetch, gitPull, gitPush } from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { gitConfigModule } from "@/module/git-config"
-import { saveStore } from "@/module/persist"
 import { dispatch } from "@/store"
 import { unreachable } from "@/util/type"
 
@@ -66,7 +65,6 @@ export const execGitActionConsumer = createSingleLineConsumer(async (data) => {
     }
     case "toggle --no-verify": {
       dispatch(gitConfigModule.actions.toggleNoVerify())
-      await dispatch(saveStore({ modules: ["gitConfig"] }))
       await chainFzfCommand("FzfPreviewGitActions")
       break
     }
