@@ -1,13 +1,9 @@
 name: Can release
 
 on:
-  workflow_run:
-    workflows:
-      - Build
-    branches:
-      - main
-    types:
-      - completed
+  repository_dispatch:
+    types: 
+      - can-release
 
 jobs:
   can_release:
