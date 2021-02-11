@@ -1,20 +1,27 @@
+import fs from "fs"
 import stripAnsi from "strip-ansi"
 
 import { execGrep } from "@/connector/grep"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLine, SourceFuncArgs } from "@/type"
+
+import { resourceLineToFzfLine } from "../../plugin/fzf-runner"
+import { execAsyncCommand } from "../../system/command"
 
 export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
   const grepArgs = args.args.join(" ")
-  const lines = await execGrep(grepArgs)
+  // const lines = await execGrep(grepArgs)
+  const grepCommand = globalVariableSelector("fzfPreviewGrepCmd") as string
+  const lines = await execAsyncCommand(`${grepCommand} ${grepArgs}`)
 
-  return {
-    type: "json",
-    lines: lines.map((line) => {
+  fs.open("/tmp/fzf-preview-grep", "a", (err, fd) => {
+    if (err) throw err
+
+    for (const line of lines.stdout.split("\n")) {
       const [file, lineNumber, ...rest] = line.split(":")
 
-      return {
+      const writeData: Resource["lines"][number] = {
         data: {
           command: "FzfPreviewProjectGrep",
           type: "line",
@@ -24,7 +31,28 @@ export const projectGrep = async (args: SourceFuncArgs): Promise<Resource> => {
         },
         displayText: `${colorizeFile(file)}:${colorize(lineNumber, "green")}: ${rest.join(":")}`,
       }
-    }),
+
+      const converted: ResourceLine = {
+        data: writeData.data,
+        displayText: `${lineNumber}${writeData.displayText}`,
+      } as const
+
+      console.warn(converted)
+      console.warn(resourceLineToFzfLine(converted))
+
+      fs.appendFile(fd, `${resourceLineToFzfLine(converted)}\n`, (e) => {
+        console.error(e)
+      })
+    }
+
+    fs.close(fd, (e) => {
+      console.error(e)
+    })
+  })
+
+  return {
+    type: "json",
+    lines: [],
     options: { "--header": `'[Grep from] ${grepArgs}'` },
   }
 }

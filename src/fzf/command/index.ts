@@ -1,3 +1,5 @@
+import fs from "fs"
+
 import { parseAddFzfArg, parseProcesses, parseResume } from "@/args"
 import { parseSession } from "@/args/session-parser"
 import { convertForFzf } from "@/connector/convert-for-fzf"
@@ -13,6 +15,9 @@ import { syncVimOptions, syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
 import { getCurrentFilePath } from "@/system/file"
 import type { FzfCommand, ResourceLines } from "@/type"
+
+import { pluginCall } from "../../plugin"
+import { fzfOptionsToString } from "../option/convert"
 
 const getDefaultProcesses = (defaultProcessesName: string) => {
   const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
@@ -69,19 +74,31 @@ export const executeCommand = async (
     dispatch(sessionModule.actions.setCurrentSession({ session: currentSession }))
   }
 
-  const sourceFuncArgs = sourceFuncArgsParser(args)
-  const resource = await sourceFunc(sourceFuncArgs)
-  const dynamicOptions = resource.options
-  const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
-
   const fzfOptions = await generateOptions({
     fzfCommandDefaultOptions,
-    dynamicOptions,
+    dynamicOptions: undefined,
     defaultProcesses,
     userProcesses,
     userOptions: addFzfOptions,
     resumeQuery,
   })
+
+  if (fs.existsSync("/tmp/fzf-preview-grep")) {
+    fs.unlinkSync("/tmp/fzf-preview-grep")
+  }
+  fs.closeSync(fs.openSync("/tmp/fzf-preview-grep", "w"))
+
+  await pluginCall("fzf_preview#remote#runner#fzf_run", {
+    source: `tail -n +1 -f /tmp/fzf-preview-grep`,
+    handler: HANDLER_NAME,
+    options: fzfOptionsToString(fzfOptions),
+    environment: PLUGIN.ENV,
+  })
+
+  const sourceFuncArgs = sourceFuncArgsParser(args)
+  const resource = await sourceFunc(sourceFuncArgs)
+  // const dynamicOptions = resource.options
+  const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
 
   dispatch(
     executeCommandModule.actions.setExecuteCommand({
