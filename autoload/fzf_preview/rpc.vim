@@ -54,6 +54,7 @@ function! fzf_preview#rpc#command(command, ...) abort
 endfunction
 
 function! fzf_preview#rpc#rpc_handler(lines) abort
+  call feedkeys('', 'x')
   call s:state.server.request('callProcess', { 'lines': a:lines })
 endfunction
 
