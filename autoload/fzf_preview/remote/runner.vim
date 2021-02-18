@@ -23,9 +23,11 @@ function! fzf_preview#remote#runner#fzf_run(params) abort
 endfunction
 
 function! s:handler_wrapper(handler, lines) abort
+  call feedkeys('', 'x')
   call call(a:handler, [a:lines])
 endfunction
 
 function! s:coc_handler(lines) abort
+  call feedkeys('', 'x')
   call CocAction('runCommand', 'fzf-preview.HandleResource', [a:lines])
 endfunction
