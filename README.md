@@ -19,7 +19,7 @@
 [![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-yano/fzf-preview.vim/blob/main/doc/fzf_preview_vim.txt)
 [![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-yano/fzf-preview.vim/graphs/contributors)
 
-fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
+fzf-preview is a (Neo)vim plugin and coc extension written in TypeScript that provide powerful integration with fzf. It provides multiple presets for fzf and correspondingly powerful preview functionality. It also provides advanced interactive git integration.
 
 Since fzf-preview.vim implements RPC in the Vim script, it will work in both Vim and Neovim if you use the RPC release.
 It can also be installed as Remote Plugin and coc extensions. If you want to use the integration with coc, install coc extensions.
@@ -578,7 +578,7 @@ $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 
 ### Command Options
 
-Comment out line is settings for coc extensions.
+Commented-out lines are settings for the coc extension.
 
 ```vim
 --processes
