@@ -1,29 +1,39 @@
 function! fzf_preview#remote#resource#vista#ctags() abort
-  let data = items(vista#executive#ctags#ProjectRun())
+  let result = vista#executive#ctags#ProjectRun()
+  let keys = keys(result)
   let source = []
 
-  for kind_and_infos in data
-    let [kind, infos] = kind_and_infos
+  let index = 0
+  while index < len(keys)
+    let kind = keys[index]
+    let values = result[kind]
 
-    for info in infos
-      call add(source, { 'lineNumber': info['lnum'], 'kind': kind, 'text': info['text'], 'tagFile': info['tagfile'] })
+    for value in values
+      call add(source, { 'lineNumber': value['lnum'], 'kind': kind, 'text': value['text'], 'tagFile': value['tagfile'] })
     endfor
-  endfor
+
+    let index = index + 1
+  endwhile
 
   return source
 endfunction
 
 function! fzf_preview#remote#resource#vista#buffer_ctags() abort
-  let data = items(vista#executive#ctags#Run(expand('%:p')))
+  let result = vista#executive#ctags#Run(expand('%:p'))
+  let keys = keys(result)
   let source = []
 
-  for kind_and_infos in data
-    let [kind, infos] = kind_and_infos
+  let index = 0
+  while index < len(keys)
+    let kind = keys[index]
+    let values = result[kind]
 
-    for info in infos
-      call add(source, { 'lineNumber': info['lnum'], 'kind': kind, 'text': info['text'], 'line': getline(info['lnum']) })
+    for value in values
+      call add(source, { 'lineNumber': value['lnum'], 'kind': kind, 'text': value['text'], 'line': getline(value['lnum']) })
     endfor
-  endfor
+
+    let index = index + 1
+  endwhile
 
   return source
 endfunction
