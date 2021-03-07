@@ -1,4 +1,4 @@
-import { uniqWith } from "lodash"
+import type { Mutable } from "type-fest"
 
 import type { FILE_RESOURCES } from "@/const/fzf-option"
 import { fileFormatBuffers } from "@/fzf/resource/buffers"
@@ -14,6 +14,7 @@ import { projectOldFiles } from "@/fzf/resource/project-oldfiles"
 import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FileData, FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
+import { uniqWith } from "@/util/uniq-with"
 
 type ResourceFunctions = {
   [key in typeof FILE_RESOURCES[number]]: (args: SourceFuncArgs) => Promise<Resource>
@@ -42,7 +43,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     lines = [...lines, ...filesFromResource.lines]
   }
 
-  const uniqLines = uniqWith(lines, (line1, line2) => {
+  const uniqLines = uniqWith(lines as Mutable<typeof lines>, (line1, line2) => {
     if (
       (line1.data.type === "file" || line1.data.type === "buffer") &&
       (line2.data.type === "file" || line2.data.type === "buffer")
