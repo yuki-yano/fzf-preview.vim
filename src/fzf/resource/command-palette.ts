@@ -1,8 +1,7 @@
-import { uniqWith } from "lodash"
-
 import { getVimCommandHistory, getVimCommands } from "@/connector/vim-command"
 import { colorize } from "@/fzf/syntax/colorize"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs } from "@/type"
+import { uniqWith } from "@/util/uniq-with"
 
 export const commandPalette = async (_args: SourceFuncArgs): Promise<Resource> => {
   const commands = await getVimCommands()
