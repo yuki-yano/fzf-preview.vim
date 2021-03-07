@@ -1,6 +1,5 @@
 import type { DiagnosticItem, ImplementationProvider, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
 import { CancellationTokenSource, languages, workspace } from "coc.nvim"
-import { uniqWith } from "lodash"
 import type { ReadonlyDeep } from "type-fest"
 import type { Location as CocLocation } from "vscode-languageserver-types"
 
@@ -9,6 +8,7 @@ import { pluginCall } from "@/plugin"
 import { collapseHome, existsFileAsync, getCurrentFilePath, getCurrentPath } from "@/system/file"
 import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, DiagnosticLevel } from "@/type"
+import { uniqWith } from "@/util/uniq-with"
 
 type ReferenceProviders = ReadonlyArray<{
   provider: ReferenceProvider
@@ -131,7 +131,7 @@ export const getReferences = async (): Promise<{
   }
 
   const references = uniqWith(
-    await cocLocationToLocation(locations),
+    (await cocLocationToLocation(locations)) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 
@@ -163,7 +163,7 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: ReadonlyAr
   }
 
   const typeDefinitions = uniqWith(
-    await cocLocationToLocation(locations),
+    (await cocLocationToLocation(locations)) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 
@@ -198,7 +198,7 @@ export const getImplementations = async (): Promise<{
   }
 
   const implementations = uniqWith(
-    await cocLocationToLocation(locations),
+    (await cocLocationToLocation(locations)) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 

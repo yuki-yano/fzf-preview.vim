@@ -11,7 +11,7 @@ export const colorize = (str: string, color: Color, options?: Options): string =
   const line = chalk[color](str)
   if (options == null) {
     return line
-  } else if (options.bold) {
+  } else if (options.bold === true) {
     return chalk[color](chalk.bold(line))
   } else {
     return line

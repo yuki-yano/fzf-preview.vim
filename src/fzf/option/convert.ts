@@ -14,21 +14,21 @@ export const joinBind = (
 const definedOptionsToArray = (options: FzfOptions) => {
   const arrayOptions: Array<string> = []
 
-  if (options["--ansi"]) {
+  if (options["--ansi"] != null) {
     arrayOptions.push("--ansi")
   }
   if (options["--bind"] != null && Array.isArray(options["--bind"])) {
     arrayOptions.push(`--bind=${joinBind(options["--bind"])}`)
-  } else if (options["--bind"] && typeof options["--bind"] === "string") {
+  } else if (options["--bind"] != null && typeof options["--bind"] === "string") {
     arrayOptions.push(`--bind=${options["--bind"]}`)
   }
-  if (options["--expect"] && Array.isArray(options["--expect"])) {
+  if (options["--expect"] != null && Array.isArray(options["--expect"])) {
     if (options["--expect"].length > 0) {
       arrayOptions.push(`--expect="${options["--expect"].join(",")}"`)
     } else {
       arrayOptions.push(`--expect="alt-enter"`)
     }
-  } else if (options["--expect"] && typeof options["--expect"] === "string") {
+  } else if (options["--expect"] != null && typeof options["--expect"] === "string") {
     arrayOptions.push(`--expect=${options["--expect"]}`)
   }
 

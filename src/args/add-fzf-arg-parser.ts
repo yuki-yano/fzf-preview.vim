@@ -2,10 +2,10 @@ import { argsParser } from "@/args/parser"
 import type { AddFzfArg, ArgsOptions } from "@/type"
 
 const optionsToAddFzfArg = (options: ArgsOptions): ReadonlyArray<string> => {
-  if (options["add-fzf-arg"] && Array.isArray(options["add-fzf-arg"])) {
+  if (options["add-fzf-arg"] != null && Array.isArray(options["add-fzf-arg"])) {
     return options["add-fzf-arg"] as ReadonlyArray<string>
   }
-  if (options["add-fzf-arg"] && typeof options["add-fzf-arg"] === "string") {
+  if (options["add-fzf-arg"] != null && typeof options["add-fzf-arg"] === "string") {
     return [options["add-fzf-arg"]]
   }
 

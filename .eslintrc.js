@@ -11,8 +11,6 @@ module.exports = {
     "plugin:import/typescript",
     "plugin:prettier/recommended",
     "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/standard",
   ],
   plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
   parserOptions: {
@@ -58,6 +56,7 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": "error",
 
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/strict-boolean-expressions": "error",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
