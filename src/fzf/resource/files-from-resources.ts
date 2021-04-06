@@ -34,7 +34,7 @@ const resourceFunctions: ResourceFunctions = {
 }
 
 export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource> => {
-  const emptySourceFuncArgs = { args: [], extraArgs: [] }
+  const emptySourceFuncArgs = { args: [] }
   let lines: ResourceLines = []
 
   for (const resource of args.args) {

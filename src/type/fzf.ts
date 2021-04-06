@@ -69,7 +69,6 @@ export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
 export type SourceFuncArgs = ReadonlyDeep<{
   args: ReadonlyArray<string>
-  extraArgs: ReadonlyArray<string>
 }>
 
 type FzfCommandBase = ReadonlyDeep<{
