@@ -9,6 +9,5 @@ export const parseDictionaryFilesArgs = (args: string): SourceFuncArgs => {
 
   return {
     args: directories.length > 0 ? [directories[0]] : [],
-    extraArgs: [],
   }
 }

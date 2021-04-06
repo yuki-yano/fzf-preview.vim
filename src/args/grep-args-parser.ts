@@ -9,6 +9,5 @@ export const parseGrepArgs = (args: string): SourceFuncArgs => {
 
   return {
     args: grepArgs,
-    extraArgs: [],
   }
 }
