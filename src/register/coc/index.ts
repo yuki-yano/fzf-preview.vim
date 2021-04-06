@@ -15,7 +15,7 @@ import type { CallbackLines } from "@/type"
 const removeFzfPreviewPrefix = (name: string) => {
   const result = /^FzfPreview(?<name>\S+)/.exec(name)
 
-  if (result && result.groups) {
+  if (result?.groups != null) {
     return result.groups.name
   }
 

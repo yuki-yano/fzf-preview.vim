@@ -2,7 +2,7 @@ import type { ReadonlyDeep } from "type-fest"
 
 import { pluginCall } from "@/plugin"
 
-export type VimCommand = ReadonlyDeep<{
+type VimCommand = ReadonlyDeep<{
   name: string
   number: number | null
 }>

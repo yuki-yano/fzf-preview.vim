@@ -1,6 +1,6 @@
-import { gitAdd, gitCommit, gitPatch, gitReset } from "@/connector/git"
+import { gitAdd, gitCommit, gitReset } from "@/connector/git"
 import { vimEchoMessage } from "@/connector/util"
-import { chainFzfCommand, createBulkLineConsumer, createSingleLineConsumer } from "@/fzf/process/consumer"
+import { chainFzfCommand, createBulkLineConsumer } from "@/fzf/process/consumer"
 import type { GitStatusData } from "@/type"
 
 export const chainGitStatusActionsConsumer = createBulkLineConsumer(async (dataList) => {
@@ -30,10 +30,6 @@ export const gitResetConsumer = createBulkLineConsumer(async (dataList) => {
 
   await vimEchoMessage(`git reset ${gitDataList.map((data) => data.file).join(" ")}`)
   await chainFzfCommand("FzfPreviewGitStatus")
-})
-
-export const gitPatchConsumer = createSingleLineConsumer(async (data) => {
-  await gitPatch((data as GitStatusData).file)
 })
 
 export const gitCommitConsumer = createBulkLineConsumer(async (_) => {

@@ -3,7 +3,6 @@ import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FzfCommandDefinitionDefaultOption, Resource } from "@/type"
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const memoList = async (): Promise<Resource> => {
   const lines = await execMemoListFiles()
 
