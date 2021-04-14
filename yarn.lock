@@ -4748,9 +4748,9 @@ pretty-format@^26.6.2:
     react-is "^17.0.1"
 
 printf@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/printf/-/printf-0.6.0.tgz#a04797a8844ec8d37e41288ddf367288f7dbfff0"
-  integrity sha512-Fddn0Zb7jO5BZDiIZgjHN6eGBVj/0tIWJm4u5ZTV/WtIA7czrEwEYnqzm6QfirB+sWVRpHC/9ADE1LRbiq2AHg==
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/printf/-/printf-0.6.1.tgz#b9afa3d3b55b7f2e8b1715272479fc756ed88650"
+  integrity sha512-is0ctgGdPJ5951KulgfzvHGwJtZ5ck8l042vRkV6jrkpBzTmb/lueTqguWHy2JfVA+RY6gFVlaZgUS0j7S/dsw==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
