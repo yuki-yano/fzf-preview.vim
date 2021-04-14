@@ -11,11 +11,5 @@ export const isGitDirectory = async (): Promise<boolean> => {
   return result
 }
 
-export const getProjectRoot = async (): Promise<string> => {
-  const root = (await pluginCall("fzf_preview#remote#util#project_root")) as string
-
-  return root
-}
-
 export const getLineFromFile = async (file: string, line: number): Promise<string> =>
   (await execAsyncCommand(`sed -n ${line}p ${file}`)).stdout.trim()

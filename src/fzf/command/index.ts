@@ -26,7 +26,6 @@ const getDefaultProcesses = (defaultProcessesName: string) => {
 const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOptionFunc"]) => {
   const defaultOptions = defaultFzfOptionFunc()
 
-  // eslint-disable-next-line no-return-await
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
 }
 

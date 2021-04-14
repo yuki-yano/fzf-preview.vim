@@ -4,7 +4,7 @@ import { asyncFilter } from "@/util/array"
 export const dropFileProtocol = (uri: string): string => {
   const result = /file:\/\/(?<path>\S+)/.exec(uri)
 
-  if (result && result.groups) {
+  if (result?.groups != null) {
     return result.groups.path
   }
 

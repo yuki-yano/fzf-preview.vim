@@ -3,7 +3,6 @@ import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
 import type { FzfCommandDefinitionDefaultOption, FzfCommandDynamicOption, Resource, SourceFuncArgs } from "@/type"
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const directoryFiles = async ({ args }: SourceFuncArgs): Promise<Resource> => {
   const arg = args[0] != null ? args[0] : ""
   const lines = (await execDirectoryFiles(arg)).filter((file) => file !== "" && !file.includes(" "))

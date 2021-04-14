@@ -13,7 +13,7 @@ export const execFzfCommand = async (command: FzfCommandName, options?: Options)
     dispatch(sessionModule.actions.clearCurrentSession())
   }
 
-  if (options != null && options.sessionToken != null) {
+  if (options?.sessionToken != null) {
     await pluginCall("fzf_preview#remote#exec_fzf#exec", [command, PLUGIN.ENV, options.sessionToken])
   } else {
     await pluginCall("fzf_preview#remote#exec_fzf#exec", [command, PLUGIN.ENV])

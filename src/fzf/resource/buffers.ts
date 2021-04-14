@@ -42,7 +42,7 @@ const getSimpleBuffers = async (options?: { ignoreCurrentBuffer: boolean }) => {
   const alternateBuffer = await getAlternateBuffer()
   const otherBuffers = await getOtherBuffers()
 
-  if (options && options.ignoreCurrentBuffer) {
+  if (options?.ignoreCurrentBuffer != null) {
     return [alternateBuffer, ...otherBuffers]
   }
 
@@ -59,7 +59,7 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
     .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)
 
-  if (options && options.ignoreCurrentBuffer) {
+  if (options?.ignoreCurrentBuffer != null) {
     return await asyncFilter(Array.from(new Set([alternateBuffer, ...sortedBuffers, ...otherBuffers])), (buffer) =>
       existsBuffer(buffer)
     )
