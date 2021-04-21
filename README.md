@@ -91,24 +91,24 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 #### Functional
 
-- **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
-- **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
-- **Fugitive (Require git integration)**  (Recommended) <https://github.com/tpope/vim-fugitive>
-- Gina (Require git integration) <https://github.com/lambdalisue/gina.vim>
-- universal-ctags (Require FzfPreviewCtags and FzfPreviewBufferTags) <https://github.com/universal-ctags/ctags>
-- vista.vim (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags) <https://github.com/liuchengxu/vista.vim>
-- vim-bookmarks (Require FzfPreviewBookmarks) <https://github.com/MattesGroeger/vim-bookmarks>
-- yankround.vim (Require FzfPreviewYankround) <https://github.com/LeafCage/yankround.vim>
-- memolist.vim (Require FzfPreviewMemoList and FzfPreviewMemoListGrep) <https://github.com/glidenote/memolist.vim>
-- GitHub cli (Require FzfPreviewBlamePR) <https://github.com/cli/cli>
-- Yarn (Require build latest version) <https://classic.yarnpkg.com/>
+- **[Python3](https://www.python.or) (Used grep preview)** (Recommended) 
+- **[ripgrep](https://github.com/BurntSushi/ripgrep) (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended)
+- **[Fugitive](https://github.com/tpope/vim-fugitive) (Require git integration)**  (Recommended)
+- [Gina](https://github.com/lambdalisue/gina.vim) (Require git integration)
+- [universal-ctags](https://github.com/universal-ctags/ctags) (Require FzfPreviewCtags and FzfPreviewBufferTags)
+- [vista.vim](https://github.com/liuchengxu/vista.vim) (Require FzfPreviewVistaCtags and FzfPreviewVistaBufferCtags)
+- [vim-bookmarks] (Require FzfPreviewBookmarks)
+- [yankround.vim](https://github.com/LeafCage/yankround.vim) (Require FzfPreviewYankround)
+- [memolist.vim](https://github.com/glidenote/memolist.vim) (Require FzfPreviewMemoList and FzfPreviewMemoListGrep)
+- [GitHub cli](https://github.com/cli/cli) (Require FzfPreviewBlamePR)
+- [Yarn](https://classic.yarnpkg.com) (Require build latest version) 
 
 #### Appearance
 
 When bat is installed you can highlight the preview and see it. Otherwise, head will be used
 
-- **bat (Add color to the preview)** (Recommended) <https://github.com/sharkdp/bat>
-- vim-devicons (Use devicons) <https://github.com/ryanoasis/vim-devicons>
+- **[bat](https://github.com/sharkdp/bat) (Add color to the preview)** (Recommended)
+- [vim-devicons](ttps://github.com/ryanoasis/vim-devicons) (Use devicons)
 
 ## Installation
 
