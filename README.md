@@ -221,9 +221,14 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :CocCommand fzf-preview.ProjectMrwFiles
 
 " Grep project files from args word (Required [Python3](https://www.python.org/))
-:FzfPreviewProjectGrepRpc {word}
-:FzfPreviewProjectGrep {word}
-:CocCommand fzf-preview.ProjectGrep {word}
+:FzfPreviewProjectGrepRpc {args}
+:FzfPreviewProjectGrep {args}
+:CocCommand fzf-preview.ProjectGrep {args}
+
+" Run FzfPreviewProjectGrep with the same arguments as before. (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrepRecallRpc
+:FzfPreviewProjectGrepRecall
+:CocCommand fzf-preview.ProjectGrepRecall
 
 " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :FzfPreviewCtagsRpc
@@ -627,6 +632,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/05/18 version 2.1.0
+  - Implement grep recall.
 
 - 2021/01/16 version 2.0.7
   - Implement coc implementations resource.

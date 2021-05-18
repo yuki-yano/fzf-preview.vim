@@ -226,6 +226,7 @@ command! -nargs=? FzfPreviewJumpsRpc call fzf_preview#rpc#command('FzfPreviewJum
 command! -nargs=? FzfPreviewChangesRpc call fzf_preview#rpc#command('FzfPreviewChanges', <f-args>)
 command! -nargs=? FzfPreviewMarksRpc call fzf_preview#rpc#command('FzfPreviewMarks', <f-args>)
 command! -nargs=? FzfPreviewProjectGrepRpc call fzf_preview#rpc#command('FzfPreviewProjectGrep', <f-args>)
+command! -nargs=? FzfPreviewProjectGrepRecallRpc call fzf_preview#rpc#command('FzfPreviewProjectGrepRecall', <f-args>)
 command! -nargs=? FzfPreviewFromResourcesRpc call fzf_preview#rpc#command('FzfPreviewFromResources', <f-args>)
 command! -nargs=? FzfPreviewCommandPaletteRpc call fzf_preview#rpc#command('FzfPreviewCommandPalette', <f-args>)
 command! -nargs=? FzfPreviewGitActionsRpc call fzf_preview#rpc#command('FzfPreviewGitActions', <f-args>)

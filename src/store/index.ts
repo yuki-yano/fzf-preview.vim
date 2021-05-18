@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
 import { executeCommandModule } from "@/module/execute-command"
 import { gitConfigModule } from "@/module/git-config"
+import { recallModule } from "@/module/recall"
 import { resumeModule } from "@/module/resume"
 import { sessionModule } from "@/module/session"
 import { vimVariableModule } from "@/module/vim-variable"
@@ -14,6 +15,7 @@ const setupStore = () => {
       resume: resumeModule.reducer,
       session: sessionModule.reducer,
       gitConfig: gitConfigModule.reducer,
+      recall: recallModule.reducer,
     },
     middleware: getDefaultMiddleware(),
   })
