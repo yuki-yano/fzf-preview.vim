@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { RESUME } from "@/const/module"
 import type { FzfCommandName } from "@/type"
 
-export type State = {
+type State = {
   [commandName in FzfCommandName]?: string
 }
 

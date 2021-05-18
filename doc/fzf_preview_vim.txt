@@ -215,6 +215,12 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
      The retrieved result is displayed in file name, number of lines, preview
      and can be opened with fzf interface.
 
+                                                *:FzfPreviewProjectGrepRecall*
+:FzfPreviewProjectGrepRecallRpc
+:FzfPreviewProjectGrepRecall
+:CocCommand fzf-preview.ProjectGrepRecall
+     Run FzfPreviewProjectGrep with the same arguments as before.
+
                                                 *:FzfPreviewCTags*
 :FzfPreviewCtagsRpc
 :FzfPreviewCtags

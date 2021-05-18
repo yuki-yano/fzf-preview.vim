@@ -5,7 +5,7 @@ import { castDraft, createDraft } from "immer"
 import { SESSION } from "@/const/module"
 import type { Session, SessionToken } from "@/type"
 
-export type State = {
+type State = {
   currentSession?: Session
   sessions: {
     [key in SessionToken]: Session

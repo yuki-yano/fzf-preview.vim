@@ -20,7 +20,7 @@ const defaultBind = [
   },
 ] as const
 
-export const defaultOptions: FzfOptions = {
+const defaultOptions: FzfOptions = {
   "--ansi": true,
   // alt-enter is workaround
   "--expect": ["alt-enter"],

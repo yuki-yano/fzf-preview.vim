@@ -5,6 +5,7 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:eslint-comments/recommended",
     "plugin:node/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -12,7 +13,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "prettier",
   ],
-  plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort"],
+  plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort", "ts-exports"],
   parserOptions: {
     sourceType: "module",
     project: "./tsconfig.json",
@@ -54,16 +55,21 @@ module.exports = {
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
     "@typescript-eslint/consistent-type-imports": "error",
+    "ts-exports/unused-exports": ["error", { ignoreIndex: false }],
 
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/strict-boolean-expressions": "error",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/prefer-nullish-coalescing": "error",
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/restrict-plus-operands": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
+
+    "eslint-comments/no-unused-disable": "error",
 
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": "off",

@@ -9,7 +9,7 @@ import {
   setRuntimePath,
 } from "@/register/coc"
 
-// eslint-disable-next-line @typescript-eslint/require-await
+// eslint-disable-next-line ts-exports/unused-exports
 export async function activate(context: ExtensionContext): Promise<void> {
   await initializeExtension()
   await setRuntimePath(context)

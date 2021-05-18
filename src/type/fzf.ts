@@ -1,15 +1,22 @@
 import type { CommandOptions } from "neovim/lib/host/NvimPlugin"
 import type { Merge, ReadonlyDeep } from "type-fest"
 
-import type { ProcessesName } from "@/type/process"
-import type { GitBranchData, GitLogData, GitReflogData, GitStashData, GitStatusData, Resource } from "@/type/resource"
+import type {
+  GitBranchData,
+  GitLogData,
+  GitReflogData,
+  GitStashData,
+  GitStatusData,
+  ProcessesName,
+  Resource,
+} from "@/type"
 
 export type FzfCommandDynamicOption = ReadonlyDeep<{
   "--header"?: string
   "--header-lines"?: string
 }>
 
-export type SelectedLine = string
+type SelectedLine = string
 export type SelectedLines = ReadonlyArray<SelectedLine>
 
 export type ExpectKeyAndSelectedLines = ReadonlyArray<string>
@@ -36,6 +43,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewChanges"
   | "FzfPreviewMarks"
   | "FzfPreviewProjectGrep"
+  | "FzfPreviewProjectGrepRecall"
   | "FzfPreviewFromResources"
   | "FzfPreviewCommandPalette"
   | "FzfPreviewGitActions"
@@ -58,7 +66,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewMemoListGrep"
   | "FzfPreviewBlamePR"
 
-export type CocFzfCommandName =
+type CocFzfCommandName =
   | "FzfPreviewCocReferences"
   | "FzfPreviewCocDiagnostics"
   | "FzfPreviewCocCurrentDiagnostics"
@@ -69,7 +77,6 @@ export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
 export type SourceFuncArgs = ReadonlyDeep<{
   args: ReadonlyArray<string>
-  extraArgs: ReadonlyArray<string>
 }>
 
 type FzfCommandBase = ReadonlyDeep<{
@@ -94,7 +101,7 @@ export type BaseFzfCommand = ReadonlyDeep<
   >
 >
 
-export type CocFzfCommand = ReadonlyDeep<
+type CocFzfCommand = ReadonlyDeep<
   Merge<
     FzfCommandBase,
     {

@@ -6,6 +6,8 @@ import { HANDLER_NAME } from "@/const/fzf-handler"
 import { generateOptions } from "@/fzf/option/generator"
 import { processesDefinition } from "@/fzf/process"
 import { executeCommandModule } from "@/module/execute-command"
+import { recallModule } from "@/module/recall"
+import { recallSelector } from "@/module/selector/recall"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { sessionModule } from "@/module/session"
 import { fzfRunner } from "@/plugin/fzf-runner"
@@ -26,7 +28,6 @@ const getDefaultProcesses = (defaultProcessesName: string) => {
 const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOptionFunc"]) => {
   const defaultOptions = defaultFzfOptionFunc()
 
-  // eslint-disable-next-line no-return-await
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
 }
 
@@ -56,6 +57,20 @@ export const executeCommand = async (
 
   if (beforeCommandHook != null) {
     beforeCommandHook(args)
+  }
+
+  if (commandName === "FzfPreviewProjectGrep") {
+    dispatch(
+      recallModule.actions.setGrepArgs({
+        grepArgs: args,
+      })
+    )
+  }
+  if (commandName === "FzfPreviewProjectGrepRecall") {
+    // eslint-disable-next-line no-param-reassign
+    args = recallSelector("grepArgs")
+    // eslint-disable-next-line no-param-reassign
+    commandName = "FzfPreviewProjectGrepRecall"
   }
 
   const addFzfOptions = parseAddFzfArg(args)
