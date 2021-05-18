@@ -43,6 +43,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewChanges"
   | "FzfPreviewMarks"
   | "FzfPreviewProjectGrep"
+  | "FzfPreviewProjectGrepRecall"
   | "FzfPreviewFromResources"
   | "FzfPreviewCommandPalette"
   | "FzfPreviewGitActions"

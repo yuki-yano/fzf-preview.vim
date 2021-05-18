@@ -305,6 +305,16 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     enableDevIcons: true,
   },
   {
+    commandName: "FzfPreviewProjectGrepRecall",
+    sourceFunc: projectGrep,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: projectGrepDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
     commandName: "FzfPreviewFromResources",
     sourceFunc: filesFromResources,
     sourceFuncArgsParser: parseResources,
