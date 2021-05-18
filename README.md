@@ -19,7 +19,7 @@
 [![Doc](https://img.shields.io/badge/Doc-:h%20fzf--preview-orange)](https://github.com/yuki-yano/fzf-preview.vim/blob/main/doc/fzf_preview_vim.txt)
 [![All contributors](https://img.shields.io/badge/All%20contributors-17-orange)](https://github.com/yuki-yano/fzf-preview.vim/graphs/contributors)
 
-fzf-preview is a (Neo)vim plugin and coc extensions written by TypeScript that provides powerfully integrates fzf. It provides multiple presets of fzf and correspondingly powerful preview. It also provides advanced interactive git integration.
+fzf-preview is a (Neo)vim plugin and coc extension written in TypeScript that provide powerful integration with fzf. It provides multiple presets for fzf and correspondingly powerful preview functionality. It also provides advanced interactive git integration.
 
 Since fzf-preview.vim implements RPC in the Vim script, it will work in both Vim and Neovim if you use the RPC release.
 It can also be installed as Remote Plugin and coc extensions. If you want to use the integration with coc, install coc extensions.
@@ -221,9 +221,14 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :CocCommand fzf-preview.ProjectMrwFiles
 
 " Grep project files from args word (Required [Python3](https://www.python.org/))
-:FzfPreviewProjectGrepRpc {word}
-:FzfPreviewProjectGrep {word}
-:CocCommand fzf-preview.ProjectGrep {word}
+:FzfPreviewProjectGrepRpc {args}
+:FzfPreviewProjectGrep {args}
+:CocCommand fzf-preview.ProjectGrep {args}
+
+" Run FzfPreviewProjectGrep with the same arguments as before. (Required [Python3](https://www.python.org/))
+:FzfPreviewProjectGrepRecallRpc
+:FzfPreviewProjectGrepRecall
+:CocCommand fzf-preview.ProjectGrepRecall
 
 " Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
 :FzfPreviewCtagsRpc
@@ -578,7 +583,7 @@ $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
 
 ### Command Options
 
-Comment out line is settings for coc extensions.
+Commented-out lines are settings for the coc extension.
 
 ```vim
 --processes
@@ -627,6 +632,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/05/18 version 2.1.0
+  - Implement grep recall.
 
 - 2021/01/16 version 2.0.7
   - Implement coc implementations resource.

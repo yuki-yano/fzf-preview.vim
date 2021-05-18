@@ -5,7 +5,6 @@ import { readMruFile } from "@/system/mr"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 import { asyncFilter } from "@/util/array"
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export const mruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
   const files = readMruFile()
   const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))

@@ -1,14 +1,15 @@
 import type { ReadonlyDeep } from "type-fest"
 
-import type { FzfCommandDynamicOption, FzfCommandName } from "@/type/fzf"
 import type {
+  FzfCommandDynamicOption,
+  FzfCommandName,
   GitAction,
   GitBranchAction,
   GitLogAction,
   GitReflogAction,
   GitStashAction,
   GitStatusAction,
-} from "@/type/git"
+} from "@/type"
 
 export type FileData = ReadonlyDeep<{
   command: FzfCommandName
@@ -25,7 +26,7 @@ export type LineData = ReadonlyDeep<{
   text: string
 }>
 
-export type BufferData = ReadonlyDeep<{
+type BufferData = ReadonlyDeep<{
   command: FzfCommandName
   type: "buffer"
   file: string
@@ -33,14 +34,14 @@ export type BufferData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type CommandPaletteData = ReadonlyDeep<{
+type CommandPaletteData = ReadonlyDeep<{
   command: FzfCommandName
   type: "command-palette"
   name: string
   lineNumber?: undefined
 }>
 
-export type GitActionData = ReadonlyDeep<{
+type GitActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-actions"
   action: GitAction
@@ -55,7 +56,7 @@ export type GitStatusData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type GitStatusActionData = ReadonlyDeep<{
+type GitStatusActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-status-actions"
   action: GitStatusAction
@@ -73,7 +74,7 @@ export type GitBranchData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type GitBranchActionData = ReadonlyDeep<{
+type GitBranchActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-branch-actions"
   action: GitBranchAction
@@ -92,7 +93,7 @@ export type GitLogData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type GitLogActionData = ReadonlyDeep<{
+type GitLogActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-log-actions"
   action: GitLogAction
@@ -113,7 +114,7 @@ export type GitStashData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type GitStashActionData = ReadonlyDeep<{
+type GitStashActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-stash-actions"
   action: GitStashAction
@@ -133,7 +134,7 @@ export type GitReflogData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type GitReflogActionData = ReadonlyDeep<{
+type GitReflogActionData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-reflog-actions"
   action: GitReflogAction
@@ -142,7 +143,7 @@ export type GitReflogActionData = ReadonlyDeep<{
   lineNumber?: undefined
 }>
 
-export type RegisterData = ReadonlyDeep<{
+type RegisterData = ReadonlyDeep<{
   command: FzfCommandName
   type: "register"
   lineNumber: number
@@ -150,7 +151,7 @@ export type RegisterData = ReadonlyDeep<{
   option: string
 }>
 
-export type GitPrData = ReadonlyDeep<{
+type GitPrData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-pr"
   prNumber?: number

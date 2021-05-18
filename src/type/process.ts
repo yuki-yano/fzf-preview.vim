@@ -46,12 +46,12 @@ export type SingleLineConsumer = ReadonlyDeep<{
   kind: "single"
 }>
 
-export type BulkLineConsumer = ReadonlyDeep<{
+type BulkLineConsumer = ReadonlyDeep<{
   consume: (lines: ReadonlyArray<ResourceData>) => Promise<void>
   kind: "bulk"
 }>
 
-export type LineConsumer = SingleLineConsumer | BulkLineConsumer
+type LineConsumer = SingleLineConsumer | BulkLineConsumer
 
 export type CreateProcessCreator = (
   processesName: ProcessesName
