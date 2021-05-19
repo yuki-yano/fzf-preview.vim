@@ -8,7 +8,7 @@ function! s:execute(command) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#add(file) abort
-  call system('git add ' . a:file)
+  call system('git add ' . shellescape(a:file))
   if v:shell_error
     echomsg 'Failed: git add ' . a:file
   endif
@@ -16,9 +16,9 @@ endfunction
 
 function! fzf_preview#remote#consumer#git#reset(file, option) abort
   if a:option !=# ''
-    let command = 'git reset ' . a:option . ' ' . a:file
+    let command = 'git reset ' . a:option . ' ' . shellescape(a:file)
   else
-    let command = 'git reset ' . a:file
+    let command = 'git reset ' . shellescape(a:file)
   endif
 
   call system(command)
@@ -72,7 +72,7 @@ function! fzf_preview#remote#consumer#git#restore(file) abort
     execute 'Git checkout -- ' . a:file
     return
   else
-    call system('git checkout -- ' . a:file)
+    call system('git checkout -- ' . shellescape(a:file))
     if v:shell_error
       echomsg 'Failed: git checkout -- ' . a:file
     endif
@@ -87,7 +87,7 @@ function! fzf_preview#remote#consumer#git#switch(branch) abort
     execute 'Git checkout ' . a:branch
     return
   else
-    call system('git checkout ' . a:branch)
+    call system('git checkout ' . shellescape(a:branch))
     if v:shell_error
       echomsg 'Failed: git checkout ' . a:branch
     endif
@@ -97,7 +97,7 @@ endfunction
 function! fzf_preview#remote#consumer#git#create_branch() abort
   let branch_name = input('Branch name: ')
   if branch_name !=# ''
-    echomsg system('git checkout -b ' . branch_name)
+    echomsg system('git checkout -b ' . shellescape(branch_name))
   endif
 endfunction
 
@@ -201,7 +201,7 @@ function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
     execute 'Git branch --delete ' . a:option . ' ' . a:branch
     return
   else
-    echomsg system('git branch --delete ' . a:option . ' ' . a:branch)
+    echomsg system('git branch --delete ' . a:option . ' ' . shellescape(a:branch))
     if v:shell_error
       echomsg 'Failed: git branch --delete ' . a:option . ' ' . a:branch
     endif
@@ -211,7 +211,7 @@ endfunction
 function! fzf_preview#remote#consumer#git#rename_branch(src) abort
   let dest = input('Branch name: ')
   if dest !=# ''
-    let command = 'git branch -m ' . a:src . ' ' . dest
+    let command = 'git branch -m ' . shellescape(a:src) . ' ' . dest
     echo system(command)
 
     if v:shell_error
@@ -221,7 +221,7 @@ function! fzf_preview#remote#consumer#git#rename_branch(src) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#stash_apply(stash) abort
-  let command = 'git stash apply ' . a:stash
+  let command = 'git stash apply ' . shellescape(a:stash)
   echo system(command)
 
   if v:shell_error
@@ -230,7 +230,7 @@ function! fzf_preview#remote#consumer#git#stash_apply(stash) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#stash_pop(stash) abort
-  let command = 'git stash pop ' . a:stash
+  let command = 'git stash pop ' . shellescape(a:stash)
   echo system(command)
 
   if v:shell_error
@@ -239,7 +239,7 @@ function! fzf_preview#remote#consumer#git#stash_pop(stash) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#stash_drop(stash) abort
-  let command = 'git stash drop ' . a:stash
+  let command = 'git stash drop ' . shellescape(a:stash)
   echo system(command)
 
   if v:shell_error
@@ -278,7 +278,7 @@ function! fzf_preview#remote#consumer#git#pull() abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#yank(branch) abort
-  let hash = system('git rev-parse ' . a:branch)
+  let hash = system('git rev-parse ' . shellescape(a:branch))
   call fzf_preview#remote#consumer#register#set(hash, 'v')
   echomsg 'yanked ' a:branch . ' branch hash: ' . hash
 endfunction
