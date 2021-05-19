@@ -53,6 +53,7 @@ const initialState: State = {
     fzfPreviewFzfPreviewWindowOption: "",
     fzfPreviewPreviewKeyBindings: "",
     fzfPreviewFzfColorOption: "",
+    fzfPreviewHistoryDir: false,
     fzfPreviewBuffersJump: 0,
     yankroundDir: "",
     fzfPreviewYankroundPreviewCommand: "",

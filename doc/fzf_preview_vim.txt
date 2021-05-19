@@ -629,6 +629,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *g:fzf_preview_fzf_preview_window_option*
     Used as fzf preview-window option
+
     For example, 'up:30%'
 
     Default value is ''
@@ -638,6 +639,15 @@ OPTIONS                                         *fzf-preview-options*
     If this value is 1, devicons is used as fzf candidate.
 
     Default value is 0
+
+
+*g:fzf_preview_history_dir*
+    If this value is directory path, use the files in the target directory
+    and the fzf history option will be enabled.
+
+    For example, '~/.fzf'
+
+    Default value is false
 
 
 *g:fzf_preview_dev_icon_prefix_string_length*

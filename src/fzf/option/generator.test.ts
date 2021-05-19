@@ -60,6 +60,11 @@ describe("generateOptions", () => {
     },
   ]
 
+  const emptyHistoryOption = {
+    commandName: "Foo",
+    historyDir: false,
+  } as const
+
   describe("dynamic options", () => {
     it("undefined", async () => {
       expect(
@@ -68,6 +73,7 @@ describe("generateOptions", () => {
           dynamicOptions: undefined,
           defaultProcesses,
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -80,6 +86,7 @@ describe("generateOptions", () => {
           dynamicOptions: { "--header": `"[Grep from] ${grepArgs}"` },
           defaultProcesses,
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual({
         ...fzfCommandDefaultOptions,
@@ -95,6 +102,7 @@ describe("generateOptions", () => {
           fzfCommandDefaultOptions,
           defaultProcesses,
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -106,6 +114,7 @@ describe("generateOptions", () => {
           fzfCommandDefaultOptions,
           defaultProcesses: otherDefaultProcesses,
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -132,6 +141,7 @@ describe("generateOptions", () => {
           defaultProcesses,
           userProcesses: { type: "global_variable", value: "foo" },
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -156,6 +166,7 @@ describe("generateOptions", () => {
           defaultProcesses: otherDefaultProcesses,
           userProcesses: { type: "global_variable", value: "foo" },
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual(fzfCommandDefaultOptions)
     })
@@ -194,6 +205,7 @@ describe("generateOptions", () => {
           defaultProcesses,
           userProcesses: { type: "custom_processes_variable", value: "open-file" },
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual({ ...fzfCommandDefaultOptions, ...customOpenProcessesExpectOptions })
     })
@@ -207,6 +219,7 @@ describe("generateOptions", () => {
           defaultProcesses,
           userProcesses: { type: "custom_processes_variable", value: "register" },
           userOptions: [],
+          historyOption: emptyHistoryOption,
         })
       ).toEqual({ ...fzfCommandDefaultOptions, ...customOtherProcessesExpectOptions })
     })
@@ -223,6 +236,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userProcesses: { type: "global_variable", value: "foo" },
         userOptions: [],
+        historyOption: emptyHistoryOption,
       })
     ).rejects.toThrow("foo")
   })
@@ -243,6 +257,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
+        historyOption: emptyHistoryOption,
       })
     ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": '"foo"' })
   })
@@ -261,6 +276,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
+        historyOption: emptyHistoryOption,
       })
     ).toEqual({ ...fzfCommandDefaultOptions, "--preview-window": '"down:50%"' })
   })
@@ -281,6 +297,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
+        historyOption: emptyHistoryOption,
       })
     ).toEqual({ ...fzfCommandDefaultOptions, "--color": '"foo"' })
   })
@@ -291,6 +308,7 @@ describe("generateOptions", () => {
         fzfCommandDefaultOptions,
         defaultProcesses,
         userOptions: [],
+        historyOption: emptyHistoryOption,
       })
     ).toEqual(fzfCommandDefaultOptions)
   })
@@ -305,6 +323,7 @@ describe("generateOptions", () => {
       fzfCommandDefaultOptions,
       defaultProcesses,
       userOptions,
+      historyOption: emptyHistoryOption,
     })
     expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
     expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...convertedUserOptions })
@@ -317,6 +336,7 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
         resumeQuery: undefined,
+        historyOption: emptyHistoryOption,
       })
 
       expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
@@ -329,12 +349,46 @@ describe("generateOptions", () => {
         defaultProcesses,
         userOptions: [],
         resumeQuery: "foo",
+        historyOption: emptyHistoryOption,
       })
 
       const queryOption = { "--query": '"foo"' }
 
       expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
       expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...queryOption })
+    })
+  })
+
+  describe("history option", () => {
+    it("history is unused", async () => {
+      const generatedOptions = await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcesses,
+        userOptions: [],
+        historyOption: emptyHistoryOption,
+      })
+
+      expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
+      expect(generatedOptions).toEqual(fzfCommandDefaultOptions)
+    })
+
+    it("resume query is exists", async () => {
+      const historyOption = {
+        commandName: "Foo",
+        historyDir: "bar",
+      } as const
+
+      const generatedOptions = await generateOptions({
+        fzfCommandDefaultOptions,
+        defaultProcesses,
+        userOptions: [],
+        historyOption,
+      })
+
+      const expandedHistoryOption = { "--history": '"bar/Foo"' }
+
+      expect(generatedOptions).toEqual(expect.objectContaining(fzfCommandDefaultOptions))
+      expect(generatedOptions).toEqual({ ...fzfCommandDefaultOptions, ...expandedHistoryOption })
     })
   })
 })
