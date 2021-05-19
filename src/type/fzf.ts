@@ -121,6 +121,7 @@ export type FzfOptions = ReadonlyDeep<{
       }>
     | string
   "--expect"?: ReadonlyArray<string> | string
+  "--history"?: string
   [otherProperty: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }>
 

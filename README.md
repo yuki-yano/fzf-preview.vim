@@ -570,6 +570,10 @@ let g:fzf_preview_fzf_preview_window_option = ''
 " Use vim-devicons
 let g:fzf_preview_use_dev_icons = 0
 
+" Use vim-devicons
+let g:fzf_preview_history_dir = false
+" let g:fzf_preview_history_dir = '~/.fzf'
+
 " devicons character width
 let g:fzf_preview_dev_icon_prefix_string_length = 3
 
@@ -632,6 +636,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/05/19 version 2.2.0
+  - Implement fzf history option.
 
 - 2021/05/18 version 2.1.0
   - Implement grep recall.
