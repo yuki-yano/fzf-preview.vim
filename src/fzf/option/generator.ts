@@ -1,3 +1,4 @@
+import expandTilde from "expand-tilde"
 import { isObject, mapValues } from "lodash"
 
 import { PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE } from "@/const/fzf-option"
@@ -148,6 +149,10 @@ type OptionsArgs = {
   defaultProcesses: Processes
   userProcesses?: UserProcesses
   userOptions: ReadonlyArray<AddFzfArg>
+  historyOption: {
+    commandName: string
+    historyDir: string | false
+  }
   resumeQuery?: ResumeQuery
 }
 
@@ -157,8 +162,11 @@ export const generateOptions = async ({
   defaultProcesses,
   userProcesses,
   userOptions,
+  historyOption: { commandName, historyDir },
   resumeQuery,
 }: OptionsArgs): Promise<FzfOptions> => {
+  const historyOption: FzfOptions =
+    typeof historyDir === "string" ? { "--history": `"${expandTilde(historyDir)}/${commandName}"` } : {}
   const resumeQueryOption: FzfOptions = resumeQuery == null ? {} : { "--query": `"${resumeQuery}"` }
 
   const fzfCommandOptions = {
@@ -171,6 +179,7 @@ export const generateOptions = async ({
     ...getPreviewKeyBindings(),
     ...getColorOption(),
     ...(await getExpectFromUserProcesses(userProcesses)),
+    ...historyOption,
     ...resumeQueryOption,
   }
 

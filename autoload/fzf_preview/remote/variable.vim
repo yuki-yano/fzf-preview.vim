@@ -24,6 +24,7 @@ function! fzf_preview#remote#variable#get_global_variables() abort
   \   'fzfPreviewCustomProcesses': g:fzf_preview_custom_processes,
   \   'fzfPreviewFzfPreviewWindowOption': g:fzf_preview_fzf_preview_window_option,
   \   'fzfPreviewPreviewKeyBindings': g:fzf_preview_preview_key_bindings,
+  \   'fzfPreviewHistoryDir': g:fzf_preview_history_dir,
   \   'fzfPreviewFzfColorOption': g:fzf_preview_fzf_color_option,
   \   'fzfPreviewBuffersJump': g:fzf_preview_buffers_jump,
   \   'yankroundDir': get(g:, 'yankround_dir', ''),

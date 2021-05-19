@@ -570,6 +570,10 @@ let g:fzf_preview_fzf_preview_window_option = ''
 " Use vim-devicons
 let g:fzf_preview_use_dev_icons = 0
 
+" Use vim-devicons
+let g:fzf_preview_history_dir = false
+" let g:fzf_preview_history_dir = '~/.fzf'
+
 " devicons character width
 let g:fzf_preview_dev_icon_prefix_string_length = 3
 

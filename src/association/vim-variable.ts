@@ -24,6 +24,7 @@ export const vimVariableAssociation = {
   fzfPreviewFzfPreviewWindowOption: "fzf_preview_fzf_preview_window_option",
   fzfPreviewPreviewKeyBindings: "fzf_preview_preview_key_bindings",
   fzfPreviewFzfColorOption: "fzf_preview_fzf_color_option",
+  fzfPreviewHistoryDir: "fzf_preview_history_dir",
   fzfPreviewBuffersJump: "fzf_preview_buffers_jump",
   yankroundDir: "yankround_dir",
   fzfPreviewYankroundPreviewCommand: "fzf_preview_yankround_preview_command",

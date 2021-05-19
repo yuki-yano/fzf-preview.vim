@@ -110,6 +110,10 @@ if !exists('g:fzf_preview_preview_key_bindings')
   let g:fzf_preview_preview_key_bindings = ''
 endif
 
+if !exists('g:fzf_preview_history_dir')
+  let g:fzf_preview_history_dir = v:false
+endif
+
 if !exists('g:fzf_preview_buffers_jump')
   let g:fzf_preview_buffers_jump = 0
 endif

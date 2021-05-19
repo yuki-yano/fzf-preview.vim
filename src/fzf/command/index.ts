@@ -70,7 +70,7 @@ export const executeCommand = async (
     // eslint-disable-next-line no-param-reassign
     args = recallSelector("grepArgs")
     // eslint-disable-next-line no-param-reassign
-    commandName = "FzfPreviewProjectGrepRecall"
+    commandName = "FzfPreviewProjectGrep"
   }
 
   const addFzfOptions = parseAddFzfArg(args)
@@ -89,12 +89,19 @@ export const executeCommand = async (
   const dynamicOptions = resource.options
   const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
 
+  const historyDir = globalVariableSelector("fzfPreviewHistoryDir") as string | false
+  const historyOption = {
+    commandName,
+    historyDir,
+  }
+
   const fzfOptions = await generateOptions({
     fzfCommandDefaultOptions,
     dynamicOptions,
     defaultProcesses,
     userProcesses,
     userOptions: addFzfOptions,
+    historyOption,
     resumeQuery,
   })
 
