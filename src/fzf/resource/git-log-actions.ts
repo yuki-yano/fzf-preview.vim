@@ -55,12 +55,10 @@ export const gitLogActions = async (_args: SourceFuncArgs): Promise<Resource> =>
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
 export const gitLogActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitLogActions> "',
+  "--header-lines": "2",
 })

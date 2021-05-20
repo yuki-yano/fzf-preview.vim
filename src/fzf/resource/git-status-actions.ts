@@ -52,12 +52,10 @@ export const gitStatusActions = async (_args: SourceFuncArgs): Promise<Resource>
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
 export const gitStatusActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitStatusActions> "',
+  "--header-lines": "2",
 })
