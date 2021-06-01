@@ -104,7 +104,6 @@ endfunction
 function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
-  " NOTE: Gina can not handle two branches
   if exists(':Gina') == 2
     execute 'silent Gina diff ' . a:branch . '..' . branch2
     echomsg 'git diff ' . a:branch . '..' . branch2
@@ -164,32 +163,16 @@ function! fzf_preview#remote#consumer#git#rebase_interactive(branch_or_hash) abo
 endfunction
 
 function! fzf_preview#remote#consumer#git#push(option) abort
-  if exists(':Gina') == 2
-    call s:execute('Gina push ' . a:option)
-    return
-  elseif exists(':Git') == 2
-    execute 'Git push ' . a:option
-    return
-  else
-    echomsg system('git push ' . a:option)
-    if v:shell_error
-      echomsg 'Failed: git push ' . a:option
-    endif
+  echomsg system('git push ' . a:option)
+  if v:shell_error
+    echomsg 'Failed: git push ' . a:option
   endif
 endfunction
 
 function! fzf_preview#remote#consumer#git#fetch() abort
-  if exists(':Gina') == 2
-    call s:execute('Gina fetch')
-    return
-  elseif exists(':Git') == 2
-    execute 'Git fetch'
-    return
-  else
-    echomsg system('git fetch')
-    if v:shell_error
-      echomsg 'Failed: git fetch'
-    endif
+  echomsg system('git fetch')
+  if v:shell_error
+    echomsg 'Failed: git fetch'
   endif
 endfunction
 
@@ -263,17 +246,9 @@ function! fzf_preview#remote#consumer#git#stash_create() abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#pull() abort
-  if exists(':Gina') == 2
-    call s:execute('Gina pull')
-    return
-  elseif exists(':Git') == 2
-    execute 'Git pull'
-    return
-  else
-    echomsg system('git pull')
-    if v:shell_error
-      echomsg 'Failed: git pull'
-    endif
+  echomsg system('git pull')
+  if v:shell_error
+    echomsg 'Failed: git pull'
   endif
 endfunction
 
