@@ -249,6 +249,7 @@ command! -nargs=? FzfPreviewBookmarksRpc call fzf_preview#rpc#command('FzfPrevie
 command! -nargs=? FzfPreviewYankroundRpc call fzf_preview#rpc#command('FzfPreviewYankround', <f-args>)
 command! -nargs=? FzfPreviewMemoListRpc call fzf_preview#rpc#command('FzfPreviewMemoList', <f-args>)
 command! -nargs=? FzfPreviewMemoListGrepRpc call fzf_preview#rpc#command('FzfPreviewMemoListGrep', <f-args>)
+command! -nargs=? FzfPreviewTodoCommentsRpc call fzf_preview#rpc#command('FzfPreviewTodoComments', <f-args>)
 command! -nargs=? FzfPreviewVistaCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaCtags', <f-args>)
 command! -nargs=? FzfPreviewVistaBufferCtagsRpc call fzf_preview#rpc#command('FzfPreviewVistaBufferCtags', <f-args>)
 command! -nargs=? FzfPreviewBlamePRRpc call fzf_preview#rpc#command('FzfPreviewBlamePR', <f-args>)
