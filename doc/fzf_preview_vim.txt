@@ -70,6 +70,9 @@ Optional:
 - memolist.vim (Require FzfPreviewMemoList and FzfPreviewMemoListGrep)
     https://github.com/glidenote/memolist.vim
 
+- todo-comments.nvim (Require FzfPreviewTodoComments)
+    https://github.com/folke/todo-comments.nvim
+
 - GitHub cli (Require integrate with GitHub)
     https://github.com/cli/cli
 
@@ -372,6 +375,12 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewMemoListGrep
 :CocCommand fzf-preview.MemoListGrep
      Grep memolist and open from memolist.vim.
+
+                                                *:FzfPreviewTodoComments*
+:FzfPreviewTodoCommentsRpc
+:FzfPreviewTodoComments
+:CocCommand fzf-preview.TodoComments
+     Search TodoComments from todo-comments.nvim
 
                                                 *:FzfPreviewBlamePR*
 :FzfPreviewBlamePRRpc
