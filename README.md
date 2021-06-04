@@ -588,7 +588,7 @@ let g:fzf_preview_dev_icon_prefix_string_length = 3
 let g:fzf_preview_dev_icons_limit = 5000
 
 " The theme used in the bat preview
-$FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
+$FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi'
 ```
 
 ### Command Options
