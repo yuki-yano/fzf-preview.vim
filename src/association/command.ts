@@ -86,6 +86,7 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
+import { todoComments, todoCommentsDefaultOptions } from "@/fzf/resource/todo-comments"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -490,6 +491,16 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     sourceFuncArgsParser: parseGrepArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: memoListGrepDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewTodoComments",
+    sourceFunc: todoComments,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: todoCommentsDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
