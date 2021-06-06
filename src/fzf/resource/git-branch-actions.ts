@@ -52,12 +52,10 @@ export const gitBranchActions = async (_args: SourceFuncArgs): Promise<Resource>
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
 export const gitBranchActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitBranchActions> "',
+  "--header-lines": "2",
 })

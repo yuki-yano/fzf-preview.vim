@@ -10,7 +10,7 @@ type Parameter = {
   options: FzfOptions
 }
 
-const resourceLineToFzfLine = (resourceLine: ResourceLine): string => {
+export const resourceLineToFzfLine = (resourceLine: ResourceLine): string => {
   return `${PREFIX_SPACE}${encodeURIComponent(JSON.stringify(resourceLine.data))} ${resourceLine.displayText}`
 }
 

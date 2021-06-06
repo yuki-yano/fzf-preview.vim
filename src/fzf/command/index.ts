@@ -1,20 +1,18 @@
 import { parseAddFzfArg, parseProcesses, parseResume } from "@/args"
+import { parseExperimental } from "@/args/experimental-parser"
 import { parseSession } from "@/args/session-parser"
-import { convertForFzf } from "@/connector/convert-for-fzf"
-import { setResourceCommandName } from "@/connector/resume"
-import { HANDLER_NAME } from "@/const/fzf-handler"
-import { generateOptions } from "@/fzf/option/generator"
+import { TEMPORALLY_DATA_FILE_PATH } from "@/const/system"
+import { executeExperimentalFast } from "@/fzf/command/execute-fast"
+import { executeNormal } from "@/fzf/command/execute-normal"
 import { processesDefinition } from "@/fzf/process"
-import { executeCommandModule } from "@/module/execute-command"
 import { recallModule } from "@/module/recall"
 import { recallSelector } from "@/module/selector/recall"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { sessionModule } from "@/module/session"
-import { fzfRunner } from "@/plugin/fzf-runner"
 import { syncVimOptions, syncVimVariable } from "@/plugin/sync-vim-variable"
 import { dispatch } from "@/store"
-import { getCurrentFilePath } from "@/system/file"
-import type { FzfCommand, ResourceLines } from "@/type"
+import { initializeDataTransferFile } from "@/system/file"
+import type { FzfCommand } from "@/type"
 
 const getDefaultProcesses = (defaultProcessesName: string) => {
   const targetProcessesDefinition = processesDefinition.find((define) => define.name === defaultProcessesName)
@@ -29,14 +27,6 @@ const getDefaultOptions = async (defaultFzfOptionFunc: FzfCommand["defaultFzfOpt
   const defaultOptions = defaultFzfOptionFunc()
 
   return defaultOptions instanceof Promise ? await defaultOptions : defaultOptions
-}
-
-const getEnableDevIcons = (resourceLines: ResourceLines, enableDevIconsCommandSetting: boolean) => {
-  return (
-    enableDevIconsCommandSetting &&
-    globalVariableSelector("fzfPreviewUseDevIcons") !== 0 &&
-    globalVariableSelector("fzfPreviewDevIconsLimit") > resourceLines.length
-  )
 }
 
 export const executeCommand = async (
@@ -55,10 +45,13 @@ export const executeCommand = async (
   await syncVimVariable()
   await syncVimOptions()
 
+  initializeDataTransferFile(TEMPORALLY_DATA_FILE_PATH)
+
   if (beforeCommandHook != null) {
     beforeCommandHook(args)
   }
 
+  // For ProjectGrepRecall
   if (commandName === "FzfPreviewProjectGrep") {
     dispatch(
       recallModule.actions.setGrepArgs({
@@ -79,52 +72,36 @@ export const executeCommand = async (
   const defaultProcesses = getDefaultProcesses(defaultProcessesName)
   const resumeQuery = parseResume(commandName, args)
   const currentSession = parseSession(args)
+  const experimental = parseExperimental(args)
 
   if (currentSession != null) {
     dispatch(sessionModule.actions.setCurrentSession({ session: currentSession }))
   }
-
-  const sourceFuncArgs = sourceFuncArgsParser(args)
-  const resource = await sourceFunc(sourceFuncArgs)
-  const dynamicOptions = resource.options
-  const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
 
   const historyDir = globalVariableSelector("fzfPreviewHistoryDir") as string | false
   const historyOption = {
     commandName,
     historyDir,
   }
+  const sourceFuncArgs = sourceFuncArgsParser(args)
 
-  const fzfOptions = await generateOptions({
-    fzfCommandDefaultOptions,
-    dynamicOptions,
-    defaultProcesses,
+  const executeArgs = {
+    sourceFunc,
+    sourceFuncArgs,
+    enableDevIconsCommandSetting,
+    commandName,
     userProcesses,
-    userOptions: addFzfOptions,
+    fzfCommandDefaultOptions,
+    defaultProcesses,
+    addFzfOptions,
     historyOption,
     resumeQuery,
-  })
-
-  dispatch(
-    executeCommandModule.actions.setExecuteCommand({
-      commandName,
-      options: {
-        userProcesses,
-        enableDevIcons,
-        currentFilePath: await getCurrentFilePath(),
-      },
-    })
-  )
-  await setResourceCommandName(commandName)
-
-  const resourceForFzf = convertForFzf(resource.lines, {
     enableConvertForFzf,
-    enableDevIcons,
-  })
+  }
 
-  await fzfRunner({
-    resourceLines: resourceForFzf,
-    handler: HANDLER_NAME,
-    options: fzfOptions,
-  })
+  if (experimental.fast) {
+    await executeExperimentalFast(executeArgs)
+  } else {
+    await executeNormal(executeArgs)
+  }
 }

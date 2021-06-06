@@ -55,12 +55,10 @@ export const gitReflogActions = async (_args: SourceFuncArgs): Promise<Resource>
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
 export const gitReflogActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitReflogActions> "',
+  "--header-lines": "2",
 })

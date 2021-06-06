@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 
+import { TEMPORALLY_DATA_FILE_PATH } from "@/const/system"
 import { pluginCall } from "@/plugin"
 
 export const expandHome = (filePath: string): string => {
@@ -49,4 +50,11 @@ export const getCurrentPath = async (): Promise<string> => {
   const pwd = (await pluginCall("getcwd")) as string
 
   return pwd
+}
+
+export const initializeDataTransferFile = (filePath: string): void => {
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath)
+  }
+  fs.closeSync(fs.openSync(TEMPORALLY_DATA_FILE_PATH, "w"))
 }
