@@ -61,9 +61,6 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
@@ -72,4 +69,5 @@ export const gitStatusDefaultOptions = (): FzfCommandDefinitionDefaultOption => 
   "--multi": true,
   "--preview": `'${globalVariableSelector("fzfPreviewGitStatusPreviewCommand") as string}'`,
   "--keep-right": true,
+  "--header-lines": "2",
 })

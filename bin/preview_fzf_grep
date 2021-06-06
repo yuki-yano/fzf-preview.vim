@@ -6,7 +6,7 @@ import shutil
 import re
 import os
 
-bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi-dark'))
+bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi'))
 
 GREP_OUTPUT_REGEX = re.compile(
     r'^(\s\s\s.+\s)?(\d+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'

@@ -5,6 +5,12 @@ if exists('s:loaded')
 endif
 let s:loaded = 1
 
+if !exists('$FZF_PREVIEW_PREVIEW_BAT_THEME')
+  let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi'
+endif
+
+let s:bat_theme_option = '--theme=' . $FZF_PREVIEW_PREVIEW_BAT_THEME
+
 if !exists('g:fzf_preview_floating_window_rate')
   let g:fzf_preview_floating_window_rate = 0.9
 endif
@@ -26,7 +32,7 @@ endif
 
 if !exists('g:fzf_preview_command')
   if executable('bat')
-    let g:fzf_preview_command = 'bat --color=always --plain {-1}'
+    let g:fzf_preview_command = 'bat ' . s:bat_theme_option . ' --color=always --plain --number {-1}'
   else
     let g:fzf_preview_command = 'head -100 {-1}'
   endif
@@ -72,7 +78,7 @@ endif
 
 if !exists('g:fzf_preview_lines_command')
   if executable('bat')
-    let g:fzf_preview_lines_command = 'bat --color=always --plain --number'
+    let g:fzf_preview_lines_command = 'bat ' . s:bat_theme_option . ' --color=always --plain --number'
   else
     let g:fzf_preview_lines_command = 'cat -n'
   endif

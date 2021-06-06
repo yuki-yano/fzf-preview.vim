@@ -114,7 +114,7 @@ type CocFzfCommand = ReadonlyDeep<
 export type FzfCommand = BaseFzfCommand | CocFzfCommand
 
 export type FzfOptions = ReadonlyDeep<{
-  "--ansi"?: boolean
+  "--ansi"?: true
   "--bind"?:
     | ReadonlyArray<{
         key: string
@@ -128,6 +128,7 @@ export type FzfOptions = ReadonlyDeep<{
 
 export type FzfCommandDefinitionDefaultOption = ReadonlyDeep<{
   "--header"?: string
+  "--header-lines"?: string
   "--prompt": string
   "--multi"?: true
   "--preview"?: string

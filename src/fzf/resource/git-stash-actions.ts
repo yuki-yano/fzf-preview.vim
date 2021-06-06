@@ -55,12 +55,10 @@ export const gitStashActions = async (_args: SourceFuncArgs): Promise<Resource> 
   return {
     type: "json",
     lines,
-    options: {
-      "--header-lines": headers.length.toString(),
-    },
   }
 }
 
 export const gitStashActionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
   "--prompt": '"GitStashActions> "',
+  "--header-lines": "2",
 })
