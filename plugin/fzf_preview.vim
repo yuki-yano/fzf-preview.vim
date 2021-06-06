@@ -32,7 +32,7 @@ endif
 
 if !exists('g:fzf_preview_command')
   if executable('bat')
-    let g:fzf_preview_command = 'bat ' . s:bat_theme_option . ' --color=always --plain {-1}'
+    let g:fzf_preview_command = 'bat ' . s:bat_theme_option . ' --color=always --plain --number {-1}'
   else
     let g:fzf_preview_command = 'head -100 {-1}'
   endif
