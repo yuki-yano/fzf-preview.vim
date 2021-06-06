@@ -684,7 +684,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
-    Default value is 'ansi-dark'
+    Default value is 'ansi'
 
 
 ==============================================================================

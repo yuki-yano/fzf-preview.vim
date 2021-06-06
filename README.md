@@ -588,7 +588,7 @@ let g:fzf_preview_dev_icon_prefix_string_length = 3
 let g:fzf_preview_dev_icons_limit = 5000
 
 " The theme used in the bat preview
-$FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi-dark'
+$FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi'
 ```
 
 ### Command Options
@@ -643,7 +643,10 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
-- 2021/01/16 version 2.4.0
+- 2021/06/06 version 2.5.0
+  - Implement --experimental-fast option.
+
+- 2021/06/04 version 2.4.0
   - Implement [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) resource.
 
 - 2021/05/19 version 2.3.0
