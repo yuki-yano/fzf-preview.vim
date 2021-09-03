@@ -53,7 +53,7 @@
     "chalk": "^4.1.0",
     "coc.nvim": "^0.0.80",
     "expand-tilde": "^2.0.2",
-    "immer": "^8.0.0",
+    "immer": "^9.0.6",
     "lodash": "^4.17.20",
     "neovim": "^4.9.0",
     "printf": "^0.6.0",
