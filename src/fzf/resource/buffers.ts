@@ -55,7 +55,7 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   const otherBuffers = await getOtherBuffers()
   const currentPath = await getCurrentPath()
 
-  const mruFiles = await filterProjectEnabledFile(await readMruFile(), currentPath)
+  const mruFiles = await filterProjectEnabledFile(readMruFile(), currentPath)
   const sortedBuffers = mruFiles
     .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)

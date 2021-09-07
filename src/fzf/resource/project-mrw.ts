@@ -14,7 +14,7 @@ export const projectMrwFiles = async (_args: SourceFuncArgs): Promise<Resource> 
   const currentFile = await getCurrentFilePath()
   const currentPath = await getCurrentPath()
   const files = await filterProjectEnabledFile(
-    (await readMrwFile()).filter((file) => file !== currentFile),
+    readMrwFile().filter((file) => file !== currentFile),
     currentPath
   )
   const resourceLines: ResourceLines = files.map((file) => ({

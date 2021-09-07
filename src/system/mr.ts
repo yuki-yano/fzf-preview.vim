@@ -1,7 +1,6 @@
 import fs from "fs"
 
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import { execAsyncCommand } from "@/system/command"
 import { existsDirectory, expandHome } from "@/system/file"
 
 const cacheDirectory = () => {
@@ -14,16 +13,14 @@ const cacheDirectory = () => {
   return cacheDir
 }
 
-const readFileOrCreateDirectory = async (cacheFile: string) => {
+const readFileOrCreateDirectory = (cacheFile: string) => {
   const cacheDirectoryPath = expandHome(cacheDirectory())
   if (!existsDirectory(cacheDirectoryPath)) {
     fs.mkdirSync(cacheDirectoryPath, { recursive: true })
   }
 
   try {
-    const { stdout: files } = await execAsyncCommand(`cat ${cacheFile}`)
-
-    return files.split("\n")
+    return fs.readFileSync(cacheFile, { encoding: "utf-8" }).split("\n")
   } catch (_error) {
     return []
   }
@@ -38,13 +35,13 @@ const readFile = (filePath: string) => {
   return files
 }
 
-export const readMruFile = async (): Promise<ReadonlyArray<string>> => {
-  const files = await readFile(mruFilePath())
+export const readMruFile = (): ReadonlyArray<string> => {
+  const files = readFile(mruFilePath())
 
   return files
 }
-export const readMrwFile = async (): Promise<ReadonlyArray<string>> => {
-  const files = await readFile(mrwFilePath())
+export const readMrwFile = (): ReadonlyArray<string> => {
+  const files = readFile(mrwFilePath())
 
   return files
 }
