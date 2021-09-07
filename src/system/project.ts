@@ -1,5 +1,5 @@
-import { existsFileAsync, getCurrentPath } from "@/system/file"
-import { asyncFilter } from "@/util/array"
+import { globalVariableSelector } from "@/module/selector/vim-variable"
+import { execAsyncCommand } from "@/system/command"
 
 export const dropFileProtocol = (uri: string): string => {
   const result = /file:\/\/(?<path>\S+)/.exec(uri)
@@ -22,11 +22,16 @@ export const filePathToRelativeFilePath = (file: string, currentPath: string): s
   return execArray.groups.fileName
 }
 
-export const filterProjectEnabledFile = async (files: ReadonlyArray<string>): Promise<ReadonlyArray<string>> => {
-  const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))
-  const currentPath = await getCurrentPath()
+export const filterProjectEnabledFile = async (
+  files: ReadonlyArray<string>,
+  currentPath: string
+): Promise<ReadonlyArray<string>> => {
+  const { stdout } = await execAsyncCommand(globalVariableSelector("fzfPreviewFilelistCommand") as string)
+  const projectFiles = stdout.split("\n").map((file) => file.trim())
+
+  const existsFiles = files
+    .map((file) => filePathToRelativeFilePath(file, currentPath))
+    .filter((file): file is string => projectFiles.some((projectFile) => file != null && projectFile === file))
 
   return existsFiles
-    .map((file) => filePathToRelativeFilePath(file, currentPath))
-    .filter((file): file is string => file != null)
 }

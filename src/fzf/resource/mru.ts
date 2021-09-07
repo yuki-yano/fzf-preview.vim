@@ -6,7 +6,7 @@ import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, Source
 import { asyncFilter } from "@/util/array"
 
 export const mruFiles = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const files = readMruFile()
+  const files = await readMruFile()
   const existsFiles = await asyncFilter(files, (file) => existsFileAsync(file))
 
   const resourceLines: ResourceLines = existsFiles.map((file) => ({

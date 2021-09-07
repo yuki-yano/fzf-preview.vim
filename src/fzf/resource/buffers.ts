@@ -2,7 +2,7 @@ import { getAlternateBuffer, getCurrentBuffer, getOtherBuffers } from "@/connect
 import { isGitDirectory } from "@/connector/util"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
-import { existsFileAsync } from "@/system/file"
+import { existsFileAsync, getCurrentPath } from "@/system/file"
 import { readMruFile } from "@/system/mr"
 import { filterProjectEnabledFile } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, SourceFuncArgs, VimBuffer } from "@/type"
@@ -53,8 +53,9 @@ const getGitProjectBuffers = async (options?: { ignoreCurrentBuffer: boolean }) 
   const currentBuffer = await getCurrentBuffer()
   const alternateBuffer = await getAlternateBuffer()
   const otherBuffers = await getOtherBuffers()
+  const currentPath = await getCurrentPath()
 
-  const mruFiles = await filterProjectEnabledFile(readMruFile())
+  const mruFiles = await filterProjectEnabledFile(await readMruFile(), currentPath)
   const sortedBuffers = mruFiles
     .map<VimBuffer | undefined>((file) => otherBuffers.find((buffer) => buffer.fileName === file))
     .filter((buffer): buffer is VimBuffer => buffer != null)
