@@ -643,6 +643,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/09/08 version 2.6.0
+  - Improve project files performance
+
 - 2021/06/06 version 2.5.0
   - Implement --experimental-fast option.
 

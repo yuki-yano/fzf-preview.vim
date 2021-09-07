@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
