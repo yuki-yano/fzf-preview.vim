@@ -51,6 +51,7 @@ type GitActionData = ReadonlyDeep<{
 export type GitStatusData = ReadonlyDeep<{
   command: FzfCommandName
   type: "git-status"
+  action?: "header"
   file: string
   status: string
   lineNumber?: undefined

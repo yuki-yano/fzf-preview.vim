@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
@@ -103,7 +103,7 @@
     "ts-loader": "^8.0.14",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.1.3",
+    "typescript": "^4.4.2",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1",
     "webpack-merge": "^5.7.3"
