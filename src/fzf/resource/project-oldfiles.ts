@@ -2,6 +2,7 @@ import { getOldFiles } from "@/connector/old-files"
 import { isGitDirectory } from "@/connector/util"
 import { colorizeFile } from "@/fzf/syntax/colorize"
 import { filePreviewCommand } from "@/fzf/util"
+import { getCurrentPath } from "@/system/file"
 import { filterProjectEnabledFile } from "@/system/project"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
@@ -10,7 +11,8 @@ export const projectOldFiles = async (_args: SourceFuncArgs): Promise<Resource> 
     throw new Error("The current directory is not a git project")
   }
 
-  const files = await filterProjectEnabledFile(await getOldFiles())
+  const currentPath = await getCurrentPath()
+  const files = await filterProjectEnabledFile(await getOldFiles(), currentPath)
   const resourceLines: ResourceLines = files.map((file) => ({
     data: {
       command: "FzfPreviewProjectOldFiles",

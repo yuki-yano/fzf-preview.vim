@@ -20,7 +20,7 @@ const readFileOrCreateDirectory = (cacheFile: string) => {
   }
 
   try {
-    return fs.readFileSync(cacheFile).toString().split("\n")
+    return fs.readFileSync(cacheFile, { encoding: "utf-8" }).split("\n")
   } catch (_error) {
     return []
   }

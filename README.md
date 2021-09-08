@@ -532,7 +532,7 @@ let g:fzf_preview_git_status_preview_command =  "[[ $(git diff --cached -- {-1})
 \ g:fzf_preview_command
 
 " Commands used for project grep
-let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading --color=never'
+let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading --color=never --hidden'
 
 " MRU and MRW cache directory
 let g:fzf_preview_cache_directory = expand('~/.cache/vim/fzf_preview')
@@ -642,6 +642,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/09/08 version 2.6.0
+  - Improve project files performance
 
 - 2021/06/06 version 2.5.0
   - Implement --experimental-fast option.

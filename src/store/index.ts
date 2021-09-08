@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
 
 import { executeCommandModule } from "@/module/execute-command"
+import { filePathModule } from "@/module/file-path"
 import { gitConfigModule } from "@/module/git-config"
 import { recallModule } from "@/module/recall"
 import { resumeModule } from "@/module/resume"
@@ -16,6 +17,7 @@ const setupStore = () => {
       session: sessionModule.reducer,
       gitConfig: gitConfigModule.reducer,
       recall: recallModule.reducer,
+      filePath: filePathModule.reducer,
     },
     middleware: getDefaultMiddleware(),
   })
