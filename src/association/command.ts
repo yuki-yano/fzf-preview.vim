@@ -87,6 +87,7 @@ import {
   yankroundDefaultOptions,
 } from "@/fzf/resource"
 import { todoComments, todoCommentsDefaultOptions } from "@/fzf/resource/todo-comments"
+import { grepHelp, grepHelpDefaultOptions } from "@/fzf/resource/vim-help"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -333,6 +334,16 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultFzfOptionFunc: commandPaletteDefaultOptions,
     defaultProcessesName: "command-palette",
     enableConvertForFzf: false,
+    enableDevIcons: false,
+  },
+  {
+    commandName: "FzfPreviewGrepHelp",
+    sourceFunc: grepHelp,
+    sourceFuncArgsParser: parseGrepArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: grepHelpDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
     enableDevIcons: false,
   },
   {
