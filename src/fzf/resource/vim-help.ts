@@ -40,7 +40,7 @@ const previewCommand = () => {
 }
 
 export const grepHelpDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"HelpTags> "',
+  "--prompt": '"GrepHelp> "',
   "--multi": true,
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',
