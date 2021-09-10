@@ -300,6 +300,11 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewCommandPalette
 :CocCommand fzf-preview.CommandPalette
 
+# Grep vim help
+:FzfPreviewGrepHelpRpc
+:FzfPreviewGrepHelp
+:CocCommand fzf-preview.GrepHelp
+
 " Interactive git integration. (Required [Fugitive](https://github.com/tpope/vim-fugitive) or [Gina](https://github.com/lambdalisue/gina.vim))
 :FzfPreviewGitActionsRpc
 :FzfPreviewGitActions
@@ -642,6 +647,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/09/10 version 2.7.0
+  - Implement vim help resource.
 
 - 2021/09/08 version 2.6.0
   - Improve project files performance

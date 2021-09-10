@@ -5,8 +5,11 @@ import subprocess
 import shutil
 import re
 import os
+import glob
 
 bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi'))
+vim_runtime_dir = (os.environ.get('VIMRUNTIME', ''))
+help_root_dir = (os.environ.get('FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR', ''))
 
 GREP_OUTPUT_REGEX = re.compile(
     r'^(\s\s\s.+\s)?(\d+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
@@ -28,6 +31,23 @@ if not match:
     sys.exit(1)
 
 file_name = match.group('file_name')
+
+if not os.path.isfile(file_name):
+    if vim_runtime_dir != '':
+        help_file_list = glob.glob(f'{vim_runtime_dir}/doc/*')
+    else:
+        help_file_list = []
+
+    if help_root_dir != '':
+        help_file_list.extend(glob.glob(f'{os.path.expanduser(help_root_dir)}/**/doc/*', recursive=True))
+
+    match_help_files = list(filter(lambda help_file: file_name in help_file, help_file_list))
+
+    if len(match_help_files) > 0:
+        file_name = match_help_files[0]
+    else:
+        sys.exit(1)
+
 line_num = int(match.group('line_num'))
 
 # Set preview window offset. See: https://github.com/junegunn/fzf/commit/0f9cb5590ec0a397143a7a4caf003a54885f4375

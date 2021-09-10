@@ -324,6 +324,12 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :CocCommand fzf-preview.CommandPalette
      Execute and edit command history
 
+                                                *:FzfPreviewGrepHelp*
+:FzfPreviewGrepHelpRpc
+:FzfPreviewGrepHelp
+:CocCommand fzf-preview.GrepHelp
+     Grep vim help.
+
                                                 *:FzfPreviewGitStatus*
 :FzfPreviewGitStatusRpc
 :FzfPreviewGitStatus
@@ -685,6 +691,10 @@ OPTIONS                                         *fzf-preview-options*
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
     Default value is 'ansi'
+
+*$FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR*
+    The root directory to be searched by GrepHelp.
+    Default value is ''
 
 
 ==============================================================================
