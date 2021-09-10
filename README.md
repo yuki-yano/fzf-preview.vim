@@ -648,6 +648,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2021/09/10 version 2.7.0
+  - Implement vim help resource.
+
 - 2021/09/08 version 2.6.0
   - Improve project files performance
 
