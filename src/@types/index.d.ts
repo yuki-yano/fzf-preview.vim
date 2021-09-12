@@ -1,7 +1,7 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly VIMRUNTIME: string
-    readonly FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR: string
+    readonly FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR?: string
   }
 }
 
