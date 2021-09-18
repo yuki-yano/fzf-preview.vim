@@ -36,7 +36,7 @@ const diagnosticItemToData = async (
   if (file == null) {
     return null
   }
-  if (option?.currentFile != null && option?.currentFile !== file) {
+  if (option?.currentFile != null && option.currentFile !== file) {
     return null
   }
 

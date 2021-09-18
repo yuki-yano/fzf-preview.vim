@@ -23,7 +23,6 @@ const runProcess = async (
   const selectedLines = lines.slice(1) as SelectedLines
 
   const { defaultProcessesName } = commands.find((command) => command.commandName === commandName) as FzfCommand
-  // const convertedLines = dropDevIcon(selectedLines, enableDevIcons).map(convertLine)
 
   if (commandName != null) {
     await processesRunner({

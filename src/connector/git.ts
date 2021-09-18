@@ -11,6 +11,7 @@ import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 import { getCurrentFilePath } from "@/system/file"
 import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
+import { unreachable } from "@/util/type"
 
 export const execGitFiles = async (): Promise<ReadonlyArray<string>> => {
   const gitFilesCommand = globalVariableSelector("fzfPreviewGitFilesCommand")
@@ -149,10 +150,24 @@ export const gitCommit = async (option?: CommitOption): Promise<void> => {
 
   if (option == null) {
     await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption("")])
-  } else if (option.name === "--amend" || option.name === "--amend --no-edit") {
-    await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(option.name)])
-  } else if (option.name === "--squash" || option.name === "--fixup") {
-    await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(`${option.name} ${option.hash}`)])
+
+    return
+  }
+
+  switch (option.name) {
+    case "--amend":
+    case "--amend --no-edit": {
+      await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(option.name)])
+      break
+    }
+    case "--squash":
+    case "--fixup": {
+      await pluginCall("fzf_preview#remote#consumer#git#commit", [addNoVerifyOption(`${option.name} ${option.hash}`)])
+      break
+    }
+    default: {
+      unreachable(option)
+    }
   }
 }
 

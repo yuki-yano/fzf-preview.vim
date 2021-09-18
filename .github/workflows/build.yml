@@ -17,6 +17,7 @@ jobs:
       - run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run typecheck
       - run: yarn run lint
+      - run: yarn run prettier
       - run: yarn run test
       - run: yarn run release-build:remote
       - run: yarn run release-build:coc
