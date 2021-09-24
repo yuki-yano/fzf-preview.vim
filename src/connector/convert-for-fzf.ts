@@ -11,34 +11,41 @@ type Options = ReadonlyDeep<{
   enableDevIcons: boolean
 }>
 
-const createDevIconsList = (files: ReadonlyArray<string>) => {
+const createDevIconsList = (files: ReadonlyArray<string>): ReadonlyArray<string> => {
   const defaultIcon = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesDefaultSymbol") as string
   const extensionIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExtensionSymbols") as {
-    [key: string]: string
+    [key: string]: string | undefined
   }
   const exactIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesExactSymbols") as {
-    [key: string]: string
+    [key: string]: string | undefined
   }
   const patternIcons = globalVariableSelector("webDevIconsUnicodeDecorateFileNodesPatternSymbols") as {
-    [key: string]: string
+    [key: string]: string | undefined
   }
 
   return files.map((file) => {
     if (USE_DEV_ICONS_PATTERN_LIMIT > files.length) {
       for (const [regexp, icon] of Object.entries(patternIcons)) {
+        if (icon == null) {
+          throw new Error("Unexpected pattern icon")
+        }
+
         if (new RegExp(regexp).exec(file)) {
           return icon
         }
       }
     }
 
-    if (exactIcons[file.toLowerCase()] != null) {
-      return exactIcons[file.toLowerCase()]
+    const exactFile = exactIcons[file.toLowerCase()]
+    if (exactFile != null) {
+      return exactFile
     }
 
     const extension = file.split(".").slice(-1)[0]
 
-    return extensionIcons[extension] != null ? extensionIcons[extension] : defaultIcon
+    const extensionIcon = extensionIcons[extension]
+
+    return extensionIcon != null ? extensionIcon : defaultIcon
   })
 }
 
