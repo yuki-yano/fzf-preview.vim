@@ -42,8 +42,7 @@ export const executeCommand = async (
     beforeCommandHook,
   }: FzfCommand
 ): Promise<void> => {
-  await syncVimVariable()
-  await syncVimOptions()
+  await Promise.all([syncVimVariable(), syncVimOptions()])
 
   initializeDataTransferFile(TEMPORALLY_DATA_FILE_PATH)
 

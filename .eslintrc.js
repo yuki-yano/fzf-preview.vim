@@ -10,10 +10,9 @@ module.exports = {
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:prettier/recommended",
     "prettier",
   ],
-  plugins: ["@typescript-eslint", "node", "import", "prettier", "simple-import-sort", "ts-exports"],
+  plugins: ["@typescript-eslint", "node", "import", "simple-import-sort"],
   parserOptions: {
     sourceType: "module",
     project: "./tsconfig.json",
@@ -31,6 +30,7 @@ module.exports = {
     "no-console": "off",
     "no-else-return": "off",
     "object-shorthand": "error",
+    "arrow-body-style": "off",
     "no-restricted-syntax": "off",
     "no-param-reassign": [
       "error",
@@ -55,7 +55,6 @@ module.exports = {
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages", { ts: "never" }],
     "@typescript-eslint/consistent-type-imports": "error",
-    "ts-exports/unused-exports": ["error", { ignoreIndex: false }],
 
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/strict-boolean-expressions": "error",
@@ -73,8 +72,6 @@ module.exports = {
 
     "node/no-unsupported-features/es-syntax": "off",
     "node/no-missing-import": "off",
-
-    "prettier/prettier": "error",
   },
   overrides: [
     {
