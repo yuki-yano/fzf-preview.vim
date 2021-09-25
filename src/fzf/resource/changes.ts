@@ -19,9 +19,9 @@ export const changes = async (_args: SourceFuncArgs): Promise<Resource> => {
   })
 
   const currentFile = await getCurrentFilePath()
-  const displayTextList = alignLists(
-    changeList.map(({ lineNumber, text }) => [lineNumber.toString(), text])
-  ).map((change) => change.join(SPACER).trim())
+  const displayTextList = alignLists(changeList.map(({ lineNumber, text }) => [lineNumber.toString(), text])).map(
+    (change) => change.join(SPACER).trim()
+  )
 
   const resourceLines: ResourceLines = changeList.map(({ lineNumber, text }, i) => {
     return {

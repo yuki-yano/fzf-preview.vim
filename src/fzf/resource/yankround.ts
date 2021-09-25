@@ -33,4 +33,5 @@ export const yankroundDefaultOptions = (): FzfCommandDefinitionDefaultOption => 
   "--preview": previewCommand(),
   "--no-sort": true,
   "--with-nth": "4..",
+  "--header": '"C-y: Paste"',
 })

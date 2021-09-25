@@ -6,15 +6,21 @@ export const createProcessCreator: CreateProcessCreator = (processesName) => (ex
   name: createProcessFunctionName(processesName, expectKey),
   key: expectKey,
   execute: async (dataList: ReadonlyArray<ResourceData>) => {
-    if (lineConsumer.kind === "single") {
-      for (const data of dataList) {
-        // eslint-disable-next-line no-await-in-loop
-        await lineConsumer.consume(data)
+    switch (lineConsumer.kind) {
+      case "single": {
+        for (const data of dataList) {
+          // eslint-disable-next-line no-await-in-loop
+          await lineConsumer.consume(data)
+        }
+        break
       }
-    } else if (lineConsumer.kind === "bulk") {
-      await lineConsumer.consume(dataList)
-    } else {
-      unreachable(lineConsumer)
+      case "bulk": {
+        await lineConsumer.consume(dataList)
+        break
+      }
+      default: {
+        unreachable(lineConsumer)
+      }
     }
   },
 })

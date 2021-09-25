@@ -33,13 +33,11 @@ export type UserProcesses =
       value: string
     }
 
-export type CustomProcessesVimVariable = ReadonlyDeep<
-  {
-    [key in ProcessesName]: {
-      [key: string]: string
-    }
+export type CustomProcessesVimVariable = ReadonlyDeep<{
+  [key in ProcessesName]: {
+    [key: string]: string
   }
->
+}>
 
 export type SingleLineConsumer = ReadonlyDeep<{
   consume: (line: ReadonlyDeep<ResourceData>) => Promise<void>
