@@ -1,5 +1,3 @@
-import type { Mutable } from "type-fest"
-
 import type { FILE_RESOURCES } from "@/const/fzf-option"
 import { fileFormatBuffers } from "@/fzf/resource/buffers"
 import { directoryFiles } from "@/fzf/resource/directory-files"
@@ -43,7 +41,7 @@ export const filesFromResources = async (args: SourceFuncArgs): Promise<Resource
     lines = [...lines, ...filesFromResource.lines]
   }
 
-  const uniqLines = uniqWith(lines as Mutable<typeof lines>, (line1, line2) => {
+  const uniqLines = uniqWith(lines as Array<typeof lines[number]>, (line1, line2) => {
     if (
       (line1.data.type === "file" || line1.data.type === "buffer") &&
       (line2.data.type === "file" || line2.data.type === "buffer")
