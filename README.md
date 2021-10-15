@@ -369,6 +369,9 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 
 " Select implementations from coc.nvim (only coc extensions)
 :CocCommand fzf-preview.CocImplementations
+
+" Select outline from coc.nvim (only coc extensions)
+:CocCommand fzf-preview.CocOutline
 ```
 
 ### Recommended mappings

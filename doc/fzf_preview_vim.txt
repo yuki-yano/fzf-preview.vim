@@ -421,6 +421,11 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
      Select and open the implementations from coc.nvim.
      Only coc extensions.
 
+                                                *:FzfPreviewCocOutline*
+:CocCommand fzf-preview.CocOutline
+     Select and open the outline from coc.nvim.
+     Only coc extensions.
+
 ==============================================================================
 COMMAND OPTIONS                                 *fzf-preview-command-options*
 
