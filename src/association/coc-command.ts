@@ -12,6 +12,7 @@ import {
   cocTypeDefinitions,
   cocTypeDefinitionsDefaultOptions,
 } from "@/fzf/resource/coc"
+import { cocOutline, cocOutlineDefaultOptions } from "@/fzf/resource/coc/coc-outline"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
@@ -62,6 +63,16 @@ export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: cocImplementationsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewCocOutline",
+    sourceFunc: cocOutline,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocOutlineDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
