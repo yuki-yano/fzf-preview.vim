@@ -1,4 +1,4 @@
-import type { DiagnosticItem, ImplementationProvider, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
+import type { DiagnosticItem, ImplementationProvider, Range, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
 import { CancellationTokenSource, languages, workspace } from "coc.nvim"
 import type { ReadonlyDeep } from "type-fest"
 import type { Location as CocLocation } from "vscode-languageserver-types"
@@ -206,4 +206,62 @@ export const getImplementations = async (): Promise<{
     implementations,
     symbol,
   } as const
+}
+
+type CocOutlineItem = {
+  data: {
+    kind: string
+  }
+  filterText: string
+  label: string
+  location: {
+    range: Range
+    uri: string
+  }
+}
+
+type OutlineItem = {
+  kind: string
+  text: string
+  label: string
+  lineNumber: number
+  file: string
+}
+
+const outlineItemToData = async ({
+  data: { kind },
+  filterText,
+  label,
+  location: {
+    uri,
+    range: {
+      start: { line },
+    },
+  },
+}: CocOutlineItem): Promise<OutlineItem | null> => {
+  const currentPath = await getCurrentPath()
+  const file = filePathToRelativeFilePath(decodeURIComponent(dropFileProtocol(uri)), currentPath)
+
+  if (file == null) {
+    return null
+  }
+
+  return {
+    kind,
+    file,
+    text: filterText,
+    label,
+    lineNumber: line + 1,
+  }
+}
+
+export const getOutline = async (): Promise<ReadonlyArray<OutlineItem>> => {
+  const cocOutlineItems = (await pluginCall("CocAction", ["listLoadItems", "outline"])) as ReadonlyArray<CocOutlineItem>
+  const data = Promise.all(
+    cocOutlineItems
+      .map(async (cocItem) => await outlineItemToData(cocItem))
+      .filter(async (item) => (await item) != null)
+  ) as Promise<ReadonlyArray<OutlineItem>>
+
+  return data
 }
