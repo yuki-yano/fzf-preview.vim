@@ -55,7 +55,7 @@ line_num = int(match.group('line_num'))
 # last = line_num + 100
 
 cats = [
-    f'bat --highlight-line="{line_num}" --color=always --theme="{bat_theme}" --plain',
+    f'bat --highlight-line="{line_num}" --color=always --theme="{bat_theme}" --plain --number',
     'cat'
 ]
 cat = list(filter(is_installed, cats))[0]
