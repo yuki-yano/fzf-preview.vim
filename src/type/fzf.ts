@@ -141,6 +141,7 @@ export type FzfCommandDefinitionDefaultOption = ReadonlyDeep<{
   "--bind"?: string
   "--query"?: string
   "--with-nth"?: string
+  "--nth"?: string
   "--keep-right"?: true
 }>
 
