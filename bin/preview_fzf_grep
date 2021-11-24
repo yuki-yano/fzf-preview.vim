@@ -1,77 +1,84 @@
-#!/usr/bin/env python3
+#!/usr/bin/env node
 
-import sys
-import subprocess
-import shutil
-import re
-import os
-import glob
+const { execSync } = require("child_process")
+const path = require("path")
+const { existsSync } = require("fs")
+const util = require("util")
+const glob = util.promisify(require("glob"))
 
-bat_theme = (os.environ.get('FZF_PREVIEW_PREVIEW_BAT_THEME', 'ansi'))
-vim_runtime_dir = (os.environ.get('VIMRUNTIME', ''))
-help_root_dir = (os.environ.get('FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR', ''))
+const BAT_THEME = process.env.FZF_PREVIEW_PREVIEW_BAT_THEME ?? "ansi"
+const VIM_RUNTIME_DIR = process.env.VIMRUNTIME ?? ""
+const HELP_ROOT_DIR = process.env.FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR ?? ""
 
-GREP_OUTPUT_REGEX = re.compile(
-    r'^(\s\s\s.+\s)?(\d+\s)?(?P<dev_icon>.\s\s)?(?P<file_name>[^:]+):(?P<line_num>\d+)(:(?P<col>\d+))?(:(?P<match>.*))?'
-)
-CLEAN_LINE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+const GREP_OUTPUT_REGEX = /^(?<devIcon>.\s\s)?(?<fileName>[^:]+):(?<lineNum>\d+)(:(?<col>\d+))?(:(?<match>.*))?/
 
+const expandHome = (filePath) => {
+  if (filePath.startsWith("~")) {
+    return path.join(process.env.HOME, filePath.slice(1))
+  }
 
-def is_installed(cmd):
-    return shutil.which(cmd.split(' ')[0])
+  return filePath
+}
 
+const isInstalled = (command) => {
+  try {
+    execSync(`which ${command.split(" ")[0]}`, { encoding: "utf-8" })
+    return true
+  } catch (_) {
+    return false
+  }
+}
 
-match = GREP_OUTPUT_REGEX.match(sys.argv[1])
-if not match:
-    print(
-        "Cannot process the entry :(\n"
-        "Please open an issue and describe what happened\n"
-        "including information such as file name and g:fzf_preview_grep_cmd"
+const main = async () => {
+  const match = GREP_OUTPUT_REGEX.exec(process.argv[2])
+
+  if (match == null) {
+    console.log(
+      "Cannot process the entry :(\n",
+      "Please open an issue and describe what happened\n",
+      "including information such as file name and g:fzf_preview_grep_cmd"
     )
-    sys.exit(1)
 
-file_name = match.group('file_name')
+    process.exit(1)
+  }
 
-if not os.path.isfile(file_name):
-    if vim_runtime_dir != '':
-        help_file_list = glob.glob(f'{vim_runtime_dir}/doc/*')
-    else:
-        help_file_list = []
+  let fileName = match.groups["fileName"]
+  const lineNum = Number(match.groups["lineNum"])
 
-    if help_root_dir != '':
-        help_file_list.extend(glob.glob(f'{os.path.expanduser(help_root_dir)}/**/doc/*', recursive=True))
+  if (!existsSync(fileName)) {
+    let helpFileList = []
+    if (VIM_RUNTIME_DIR != "") {
+      helpFileList = await glob(`${VIM_RUNTIME_DIR}/doc/*`)
+    }
 
-    match_help_files = list(filter(lambda help_file: file_name in help_file, help_file_list))
+    if (HELP_ROOT_DIR != "") {
+      helpFileList = [...helpFileList, ...(await glob(`${expandHome(HELP_ROOT_DIR)}/**/doc/*`))]
+    }
 
-    if len(match_help_files) > 0:
-        file_name = match_help_files[0]
-    else:
-        sys.exit(1)
+    const matchHelpFile = helpFileList.find((file) => file.split("/").slice(-1)[0] === fileName)
+    if (matchHelpFile == null) {
+      process.exit(1)
+    } else {
+      fileName = matchHelpFile
+    }
+  }
 
-line_num = int(match.group('line_num'))
+  const cats = [`bat --highlight-line="${lineNum}" --color=always --theme="${BAT_THEME}" --plain --number`, "cat"]
+  const cat = cats.find((cat) => isInstalled(cat))
 
-# Set preview window offset. See: https://github.com/junegunn/fzf/commit/0f9cb5590ec0a397143a7a4caf003a54885f4375
-# start = max(line_num - 10, 1)
-# last = line_num + 100
+  const result = execSync(`${cat} ${fileName}`, { encoding: "utf-8" })
 
-cats = [
-    f'bat --highlight-line="{line_num}" --color=always --theme="{bat_theme}" --plain --number',
-    'cat'
-]
-cat = list(filter(is_installed, cats))[0]
+  if (cat === "cat") {
+    for (const [index, line] of result.split("\n").entries()) {
+      if (lineNum - 1 === index) {
+        console.log(`\x1b[1m\x1b[4m\x1b[31m${line}\x1b[0m`)
+      } else {
+        console.log(line)
+      }
+    }
+  } else {
+    console.log(result)
+  }
+}
 
-seds = [
-    'gsed',
-    'sed'
-]
-sed = list(filter(is_installed, seds))[0]
-
-result = subprocess.check_output(
-    f'{cat} {file_name}', shell=True)
-
-for index, line in enumerate(result.decode().split("\n")):
-    if cat == 'cat' and int(line_num) - 1 == index:
-        line = CLEAN_LINE_REGEX.sub('', line)
-        print(f"\033[1m\033[4m\033[31m{line}\033[0m")
-    else:
-        print(line)
+main()
