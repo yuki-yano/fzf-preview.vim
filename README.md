@@ -91,7 +91,6 @@ e.g. [Fugitive](https://github.com/tpope/vim-fugitive)(launch git commands), bde
 
 #### Functional
 
-- **Python3 (Used grep preview)** (Recommended) <https://www.python.org/>
 - **ripgrep (Require FzfPreviewProjectGrep and FzfPreviewDirectoryFiles)** (Recommended) <https://github.com/BurntSushi/ripgrep>
 - **Fugitive (Require git integration)**  (Recommended) <https://github.com/tpope/vim-fugitive>
 - Gina (Require git integration) <https://github.com/lambdalisue/gina.vim>
@@ -221,22 +220,22 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewProjectMrwFiles
 :CocCommand fzf-preview.ProjectMrwFiles
 
-" Grep project files from args word (Required [Python3](https://www.python.org/))
+" Grep project files from args word
 :FzfPreviewProjectGrepRpc {args}
 :FzfPreviewProjectGrep {args}
 :CocCommand fzf-preview.ProjectGrep {args}
 
-" Run FzfPreviewProjectGrep with the same arguments as before. (Required [Python3](https://www.python.org/))
+" Run FzfPreviewProjectGrep with the same arguments as before.
 :FzfPreviewProjectGrepRecallRpc
 :FzfPreviewProjectGrepRecall
 :CocCommand fzf-preview.ProjectGrepRecall
 
-" Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+" Select tags from tags file (Required [universal-ctags](https://github.com/universal-ctags/ctags))
 :FzfPreviewCtagsRpc
 :FzfPreviewCtags
 :CocCommand fzf-preview.Ctags
 
-" Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags) and [Python3](https://www.python.org/))
+" Select tags from current files (Required [universal-ctags](https://github.com/universal-ctags/ctags))
 :FzfPreviewBufferTagsRpc
 :FzfPreviewBufferTags
 :CocCommand fzf-preview.BufferTags
@@ -256,12 +255,12 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewMrwFiles
 :CocCommand fzf-preview.MrwFiles
 
-" Select line from QuickFix (Required [Python3](https://www.python.org/))
+" Select line from QuickFix
 :FzfPreviewQuickFixRpc
 :FzfPreviewQuickFix
 :CocCommand fzf-preview.QuickFix
 
-" Select line from LocationList (Required [Python3](https://www.python.org/))
+" Select line from LocationList
 :FzfPreviewLocationListRpc
 :FzfPreviewLocationList
 :CocCommand fzf-preview.LocationList
@@ -271,22 +270,22 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewLines
 :CocCommand fzf-preview.Lines
 
-" Select line from loaded buffer (Required [Python3](https://www.python.org/))
+" Select line from loaded buffer
 :FzfPreviewBufferLinesRpc
 :FzfPreviewBufferLines
 :CocCommand fzf-preview.BufferLines
 
-" Select jumplist item (Required [Python3](https://www.python.org/))
+" Select jumplist item
 :FzfPreviewJumpsRpc
 :FzfPreviewJumps
 :CocCommand fzf-preview.Jumps
 
-" Select changelist item (Required [Python3](https://www.python.org/))
+" Select changelist item
 :FzfPreviewChangesRpc
 :FzfPreviewChanges
 :CocCommand fzf-preview.Changes
 
-" Select mark (Required [Python3](https://www.python.org/))
+" Select mark
 :FzfPreviewMarksRpc
 :CocCommand fzf-preview.Marks
 
