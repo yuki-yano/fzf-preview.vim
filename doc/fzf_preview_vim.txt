@@ -35,10 +35,6 @@ Requirements:
 - fzf
     https://github.com/junegunn/fzf
 
-- Python3 (Used grep preview)
-    https://www.python.org/
-    Checked with Python3.6
-
 - ripgrep (Require some preview)
     https://github.com/BurntSushi/ripgrep
 
