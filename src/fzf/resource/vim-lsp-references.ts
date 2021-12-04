@@ -1,13 +1,13 @@
-import { getImplementation } from "@/connector/coc"
+import { getReferences } from "@/connector/vim-lsp"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const cocImplementations = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const { implementations, symbol } = await getImplementation()
-  const resourceLines: ResourceLines = implementations.map(({ file, lineNumber, text }) => ({
+export const vimLspReferences = async (_args: SourceFuncArgs): Promise<Resource> => {
+  const { references } = await getReferences()
+  const resourceLines: ResourceLines = references.map(({ file, lineNumber, text }) => ({
     data: {
-      command: "FzfPreviewCocImplementations",
+      command: "FzfPreviewVimLspReferences",
       type: "line",
       file,
       text,
@@ -19,7 +19,6 @@ export const cocImplementations = async (_args: SourceFuncArgs): Promise<Resourc
   return {
     type: "json",
     lines: resourceLines,
-    options: { "--header": `"[Symbol] ${symbol}"` },
   }
 }
 
@@ -29,8 +28,8 @@ const previewCommand = () => {
   return `"${grepPreviewCommand} {3..}"`
 }
 
-export const cocImplementationsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Implementations> "',
+export const vimLspReferencesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
+  "--prompt": '"References> "',
   "--multi": true,
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',
