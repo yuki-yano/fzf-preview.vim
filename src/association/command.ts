@@ -92,6 +92,7 @@ import {
   vimLspCurrentDiagnostics,
   vimLspCurrentDiagnosticsDefaultOptions,
 } from "@/fzf/resource/vim-lsp-current-diagnostics"
+import { vimLspDefinition, vimLspDefinitionDefaultOptions } from "@/fzf/resource/vim-lsp-definition"
 import { vimLspDiagnostics, vimLspDiagnosticsDefaultOptions } from "@/fzf/resource/vim-lsp-diagnostics"
 import { vimLspImplementation, vimLspImplementationDefaultOptions } from "@/fzf/resource/vim-lsp-implementation"
 import { vimLspReferences, vimLspReferencesDefaultOptions } from "@/fzf/resource/vim-lsp-references"
@@ -500,6 +501,16 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: vimLspCurrentDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimLspDefinition",
+    sourceFunc: vimLspDefinition,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspDefinitionDefaultOptions,
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
