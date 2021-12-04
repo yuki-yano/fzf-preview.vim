@@ -314,6 +314,26 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewGitStatus
 :CocCommand fzf-preview.GitStatus
 
+" Select references from vim-lsp
+:FzfPreviewVimLspReferencesRpc
+:FzfPreviewVimLspReferences
+
+" Select diagnostics from vim-lsp
+:FzfPreviewVimLspDiagnosticsRpc
+:FzfPreviewVimLspDiagnostics
+
+" Select current file diagnostics from vim-lsp
+:FzfPreviewVimLspCurrentDiagnosticsRpc
+:FzfPreviewVimLspCurrentDiagnostics
+
+" Select type definitions from vim-lsp
+:FzfPreviewVimLspTypeDefinitionsRpc
+:FzfPreviewVimLspTypeDefinitions
+
+" Select implementations from vim-lsp
+:FzfPreviewVimLspImplementationsRpc
+:FzfPreviewVimLspImplementations
+
 " Select tags from vista.vim (Required [vista.vim](https://github.com/liuchengxu/vista.vim))
 :FzfPreviewVistaCtagsRpc
 :FzfPreviewVistaCtags
@@ -649,6 +669,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2021/12/05 version 2.12.0
+  - Implement vim-lsp resources.
 
 - 2021/10/15 version 2.9.0
   - Implement coc outline resource.
