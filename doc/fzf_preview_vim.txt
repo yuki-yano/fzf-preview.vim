@@ -353,6 +353,31 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
      Select current buffer tags from vista.vim.
      Required: vista.vim
 
+                                                *:FzfPreviewVimLspReferences*
+:FzfPreviewVimLspReferencesRpc
+:FzfPreviewVimLspReferences
+     Select and open the references from vim-lsp.
+
+                                                *:FzfPreviewVimLspDiagnostics*
+:FzfPreviewVimLspDiagnosticsRpc
+:FzfPreviewVimLspDiagnostics
+     Select and open the diagnostics from vim-lsp.
+
+                                                *:FzfPreviewVimLspCurrentDiagnostics*
+:FzfPreviewVimLspCurrentDiagnosticsRpc
+:FzfPreviewVimLspCurrentDiagnostics
+     Select and open the current file diagnostics from vim-lsp.
+
+                                                *:FzfPreviewVimLspTypeDefinitions*
+:FzfPreviewVimLspCurrentDiagnosticsRpc
+:FzfPreviewVimLspCurrentDiagnostics
+     Select and open the type definitions from coc.nvim.
+
+                                                *:FzfPreviewVimLspImplementations*
+:FzfPreviewVimLspImplementationsRpc
+:FzfPreviewVimLspImplementations
+     Select and open the implementations from vim-lsp.
+
                                                 *:FzfPreviewBookmarks*
 :FzfPreviewBookmarksRpc
 :FzfPreviewBookmarks

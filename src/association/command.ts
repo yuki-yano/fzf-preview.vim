@@ -88,6 +88,14 @@ import {
 } from "@/fzf/resource"
 import { todoComments, todoCommentsDefaultOptions } from "@/fzf/resource/todo-comments"
 import { grepHelp, grepHelpDefaultOptions } from "@/fzf/resource/vim-help"
+import {
+  vimLspCurrentDiagnostics,
+  vimLspCurrentDiagnosticsDefaultOptions,
+} from "@/fzf/resource/vim-lsp-current-diagnostics"
+import { vimLspDiagnostics, vimLspDiagnosticsDefaultOptions } from "@/fzf/resource/vim-lsp-diagnostics"
+import { vimLspImplementation, vimLspImplementationDefaultOptions } from "@/fzf/resource/vim-lsp-implementation"
+import { vimLspReferences, vimLspReferencesDefaultOptions } from "@/fzf/resource/vim-lsp-references"
+import { vimLspTypeDefinition, vimLspTypeDefinitionDefaultOptions } from "@/fzf/resource/vim-lsp-type-definition"
 import type { BaseFzfCommand } from "@/type"
 
 export const vimCommandOptions = {
@@ -465,6 +473,56 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "git-reflog-actions",
     enableConvertForFzf: false,
     enableDevIcons: false,
+  },
+  {
+    commandName: "FzfPreviewVimLspReferences",
+    sourceFunc: vimLspReferences,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspReferencesDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimLspDiagnostics",
+    sourceFunc: vimLspDiagnostics,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimLspCurrentDiagnostics",
+    sourceFunc: vimLspCurrentDiagnostics,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspCurrentDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimLspTypeDefinition",
+    sourceFunc: vimLspTypeDefinition,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspTypeDefinitionDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewVimLspImplementation",
+    sourceFunc: vimLspImplementation,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: vimLspImplementationDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
   },
   {
     commandName: "FzfPreviewBookmarks",

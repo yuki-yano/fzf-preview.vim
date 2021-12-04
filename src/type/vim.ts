@@ -7,12 +7,3 @@ export type VimBuffer = ReadonlyDeep<{
   isAlternate: boolean
   isModified: boolean
 }>
-
-export type DiagnosticLevel = "Error" | "Warning" | "Information" | "Hint"
-
-export type Diagnostic = ReadonlyDeep<{
-  file: string
-  lineNumber: number
-  severity: DiagnosticLevel
-  message: string
-}>
