@@ -255,6 +255,7 @@ command! -nargs=? FzfPreviewGitReflogActionsRpc call fzf_preview#rpc#command('Fz
 command! -nargs=? FzfPreviewVimLspReferencesRpc call fzf_preview#rpc#command('FzfPreviewVimLspReferences', <f-args>)
 command! -nargs=? FzfPreviewVimLspDiagnosticsRpc call fzf_preview#rpc#command('FzfPreviewVimLspDiagnostics', <f-args>)
 command! -nargs=? FzfPreviewVimLspCurrentDiagnosticsRpc call fzf_preview#rpc#command('FzfPreviewVimLspCurrentDiagnostics', <f-args>)
+command! -nargs=? FzfPreviewVimLspDefinitionRpc call fzf_preview#rpc#command('FzfPreviewVimLspDefinition', <f-args>)
 command! -nargs=? FzfPreviewVimLspTypeDefinitionRpc call fzf_preview#rpc#command('FzfPreviewVimLspTypeDefinition', <f-args>)
 command! -nargs=? FzfPreviewVimLspImplementationRpc call fzf_preview#rpc#command('FzfPreviewVimLspImplementation', <f-args>)
 command! -nargs=? FzfPreviewBookmarksRpc call fzf_preview#rpc#command('FzfPreviewBookmarks', <f-args>)

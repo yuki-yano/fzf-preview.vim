@@ -368,9 +368,14 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewVimLspCurrentDiagnostics
      Select and open the current file diagnostics from vim-lsp.
 
+                                                *:FzfPreviewVimLspDefinitions*
+:FzfPreviewVimLspDefinitionRpc
+:FzfPreviewVimLspDefinition
+     Select and open the definitions from coc.nvim.
+
                                                 *:FzfPreviewVimLspTypeDefinitions*
-:FzfPreviewVimLspCurrentDiagnosticsRpc
-:FzfPreviewVimLspCurrentDiagnostics
+:FzfPreviewVimLspCurrentTypeDefinitionsRpc
+:FzfPreviewVimLspCurrentTypeDefinition
      Select and open the type definitions from coc.nvim.
 
                                                 *:FzfPreviewVimLspImplementations*
@@ -432,8 +437,13 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
      Select and open the current file diagnostics from coc.nvim.
      Only coc extensions.
 
-                                                *:FzfPreviewCocTypeDefinitions*
-:CocCommand fzf-preview.CocTypeDefinitions
+                                                *:FzfPreviewCocDefinition*
+:CocCommand fzf-preview.CocDefinition
+     Select and open the definitions from coc.nvim.
+     Only coc extensions.
+
+                                                *:FzfPreviewCocTypeDefinition*
+:CocCommand fzf-preview.CocTypeDefinition
      Select and open the type definitions from coc.nvim.
      Only coc extensions.
 
