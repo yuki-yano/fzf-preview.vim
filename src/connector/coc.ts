@@ -1,6 +1,13 @@
-import type { DiagnosticItem, ImplementationProvider, Range, ReferenceProvider, TypeDefinitionProvider } from "coc.nvim"
+import type {
+  DefinitionProvider,
+  DiagnosticItem,
+  ImplementationProvider,
+  Range,
+  ReferenceProvider,
+  TypeDefinitionProvider,
+} from "coc.nvim"
 import { CancellationTokenSource, languages, workspace } from "coc.nvim"
-import type { Location as CocLocation } from "vscode-languageserver-types"
+import type { DefinitionLink as CocDefinitionLink, Location as CocLocation } from "vscode-languageserver-types"
 
 import { diagnosticItemToData, lspLocationToLocation } from "@/connector/lsp"
 import { pluginCall } from "@/plugin"
@@ -11,6 +18,10 @@ import { uniqWith } from "@/util/uniq-with"
 
 type ReferenceProviders = ReadonlyArray<{
   provider: ReferenceProvider
+}>
+
+type DefinitionProviders = ReadonlyArray<{
+  provider: DefinitionProvider
 }>
 
 type TypeDefinitionProviders = ReadonlyArray<{
@@ -80,6 +91,43 @@ export const getReferences = async (): Promise<{
 
   return {
     references,
+    symbol,
+  } as const
+}
+
+export const getDefinition = async (): Promise<{ definitions: ReadonlyArray<Location>; symbol: string }> => {
+  let locations: ReadonlyArray<CocLocation> = []
+
+  const { document, position, symbol } = await getCurrentState()
+  const tokenSource = new CancellationTokenSource()
+
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const providers: DefinitionProviders = Array.from(languages.definitionManager.providers)
+  for (const { provider } of providers) {
+    /* eslint-disable no-await-in-loop */
+    const definitions = (
+      (await provider.provideDefinition(document, position, tokenSource.token)) as unknown as
+        | ReadonlyArray<CocDefinitionLink>
+        | undefined
+    )?.map<CocLocation>((definitionLink) => ({
+      range: definitionLink.targetRange,
+      uri: definitionLink.targetUri,
+    }))
+    /* eslint-enable */
+
+    if (definitions != null) {
+      locations = [...locations, ...definitions]
+    }
+  }
+
+  const definitions = uniqWith(
+    (await lspLocationToLocation(locations)) as Array<Location>,
+    (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
+  )
+
+  return {
+    definitions,
     symbol,
   } as const
 }

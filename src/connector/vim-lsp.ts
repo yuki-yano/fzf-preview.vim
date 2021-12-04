@@ -101,6 +101,41 @@ export const getReferences = async (): Promise<{
   }
 }
 
+export const getDefinition = async (): Promise<{
+  definitions: ReadonlyArray<Location>
+}> => {
+  const servers = (await pluginCall("fzf_preview#remote#resource#vim_lsp#servers", [
+    "definition",
+  ])) as ReadonlyArray<string>
+  await pluginCall("fzf_preview#remote#resource#vim_lsp#request_definition", [servers])
+
+  let definitionWithServer: {
+    [server: string]: ReadonlyArray<VimLspLocation>
+  } = {}
+
+  for (let i = 0; i < 100; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    definitionWithServer = (await pluginCall("fzf_preview#remote#resource#vim_lsp#fetch_definition")) as {
+      [server: string]: ReadonlyArray<VimLspLocation>
+    }
+    console.warn(definitionWithServer)
+    console.warn(servers)
+
+    if (isEqual([...servers].sort(), Object.keys(definitionWithServer).sort())) {
+      break
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise((resolve) => setTimeout(resolve, 50))
+  }
+
+  return {
+    definitions: await lspLocationToLocation(
+      Object.entries(definitionWithServer).flatMap(([_, definition]) => definition)
+    ),
+  }
+}
+
 export const getTypeDefinition = async (): Promise<{
   typeDefinitions: ReadonlyArray<Location>
 }> => {
@@ -119,7 +154,7 @@ export const getTypeDefinition = async (): Promise<{
       [server: string]: ReadonlyArray<VimLspLocation>
     }
 
-    if (isEqual([[...servers].sort()], Object.keys(typeDefinitionWithServer).sort())) {
+    if (isEqual([...servers].sort(), Object.keys(typeDefinitionWithServer).sort())) {
       break
     }
 

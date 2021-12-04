@@ -12,6 +12,7 @@ import {
   cocTypeDefinitions,
   cocTypeDefinitionsDefaultOptions,
 } from "@/fzf/resource/coc"
+import { cocDefinitions, cocDefinitionsDefaultOptions } from "@/fzf/resource/coc/coc-definitions"
 import { cocOutline, cocOutlineDefaultOptions } from "@/fzf/resource/coc/coc-outline"
 import type { FzfCommand } from "@/type"
 
@@ -48,7 +49,17 @@ export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
     enableDevIcons: true,
   },
   {
-    commandName: "FzfPreviewCocTypeDefinitions",
+    commandName: "FzfPreviewCocDefinition",
+    sourceFunc: cocDefinitions,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocDefinitionsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewCocTypeDefinition",
     sourceFunc: cocTypeDefinitions,
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,

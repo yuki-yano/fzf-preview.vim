@@ -1,13 +1,13 @@
-import { getTypeDefinition } from "@/connector/coc"
+import { getDefinition } from "@/connector/coc"
 import { colorize, colorizeFile } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import type { FzfCommandDefinitionDefaultOption, Resource, ResourceLines, SourceFuncArgs } from "@/type"
 
-export const cocTypeDefinitions = async (_args: SourceFuncArgs): Promise<Resource> => {
-  const { typeDefinitions, symbol } = await getTypeDefinition()
-  const resourceLines: ResourceLines = typeDefinitions.map(({ file, lineNumber, text }) => ({
+export const cocDefinitions = async (_args: SourceFuncArgs): Promise<Resource> => {
+  const { definitions, symbol } = await getDefinition()
+  const resourceLines: ResourceLines = definitions.map(({ file, lineNumber, text }) => ({
     data: {
-      command: "FzfPreviewCocTypeDefinition",
+      command: "FzfPreviewCocDefinition",
       type: "line",
       file,
       text,
@@ -29,8 +29,8 @@ const previewCommand = () => {
   return `"${grepPreviewCommand} {3..}"`
 }
 
-export const cocTypeDefinitionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"TypeDefinitions> "',
+export const cocDefinitionsDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
+  "--prompt": '"Definitions> "',
   "--multi": true,
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',

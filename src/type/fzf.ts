@@ -62,6 +62,7 @@ export type BaseFzfCommandName =
   | "FzfPreviewVimLspReferences"
   | "FzfPreviewVimLspDiagnostics"
   | "FzfPreviewVimLspCurrentDiagnostics"
+  | "FzfPreviewVimLspDefinition"
   | "FzfPreviewVimLspTypeDefinition"
   | "FzfPreviewVimLspImplementation"
   | "FzfPreviewBookmarks"
@@ -77,7 +78,8 @@ type CocFzfCommandName =
   | "FzfPreviewCocReferences"
   | "FzfPreviewCocDiagnostics"
   | "FzfPreviewCocCurrentDiagnostics"
-  | "FzfPreviewCocTypeDefinitions"
+  | "FzfPreviewCocDefinition"
+  | "FzfPreviewCocTypeDefinition"
   | "FzfPreviewCocImplementations"
   | "FzfPreviewCocOutline"
 
