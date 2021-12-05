@@ -13,7 +13,7 @@ import { gitStatusProcesses } from "@/fzf/process/git-status"
 import { gitStatusActionProcesses } from "@/fzf/process/git-status-action"
 import { openBufferProcesses } from "@/fzf/process/open-buffer"
 import { openBufnrProcesses } from "@/fzf/process/open-bufnr"
-import { openFileProcesses } from "@/fzf/process/open-file"
+import { openFileProcesses, openFileWithTagStackProcesses } from "@/fzf/process/open-file"
 import { openPrProcesses } from "@/fzf/process/open-pr"
 import { registerProcesses } from "@/fzf/process/register"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
@@ -23,6 +23,10 @@ export const processesDefinition: ProcessesDefinition = [
   {
     name: "open-file",
     processes: openFileProcesses,
+  },
+  {
+    name: "open-file-with-tag-stack",
+    processes: openFileWithTagStackProcesses,
   },
   {
     name: "open-buffer",

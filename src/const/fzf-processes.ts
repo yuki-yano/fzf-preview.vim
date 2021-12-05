@@ -1,5 +1,6 @@
 export const PROCESSES_NAME = [
   "open-file",
+  "open-file-with-tag-stack",
   "open-buffer",
   "open-bufnr",
   "command-palette",

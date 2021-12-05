@@ -3,6 +3,7 @@ import type { ReadonlyDeep } from "type-fest"
 import {
   dropConsumer,
   editConsumer,
+  editWithTagStackConsumer,
   exportQuickfixConsumer,
   splitConsumer,
   tabeditConsumer,
@@ -20,4 +21,15 @@ export const openFileProcesses: ReadonlyDeep<Processes> = [
   createOpenFileProcess("ctrl-t", tabeditConsumer),
   createOpenFileProcess("ctrl-o", dropConsumer),
   createOpenFileProcess("ctrl-q", exportQuickfixConsumer),
+]
+
+const createOpenFileWithTagStackProcess = createProcessCreator("open-file-with-tag-stack")
+
+export const openFileWithTagStackProcesses: ReadonlyDeep<Processes> = [
+  createOpenFileWithTagStackProcess("enter", editWithTagStackConsumer),
+  createOpenFileWithTagStackProcess("ctrl-x", splitConsumer),
+  createOpenFileWithTagStackProcess("ctrl-v", vsplitConsumer),
+  createOpenFileWithTagStackProcess("ctrl-t", tabeditConsumer),
+  createOpenFileWithTagStackProcess("ctrl-o", dropConsumer),
+  createOpenFileWithTagStackProcess("ctrl-q", exportQuickfixConsumer),
 ]

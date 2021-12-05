@@ -4,6 +4,7 @@ export type OpenFile = {
   openCommand: OpenCommand
   file: string
   lineNumber?: number
+  setTagStack?: boolean
 }
 
 export type ExportQuickFix =
