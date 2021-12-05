@@ -14,7 +14,7 @@ const convertOpenCommand = (openCommand: OpenCommand): OpenCommand => {
   return openCommand
 }
 
-const createOpenFileConsumer = (openCommand: OpenCommand) =>
+const createOpenFileConsumer = (openCommand: OpenCommand, opt?: { setTagStack?: boolean }) =>
   createSingleLineConsumer(async (data) => {
     const command = convertOpenCommand(openCommand)
 
@@ -38,6 +38,7 @@ const createOpenFileConsumer = (openCommand: OpenCommand) =>
           openCommand: command,
           file: data.file,
           lineNumber: data.lineNumber,
+          setTagStack: opt?.setTagStack,
         })
         break
       }
@@ -55,6 +56,7 @@ const createOpenFileConsumer = (openCommand: OpenCommand) =>
   })
 
 export const editConsumer = createOpenFileConsumer("edit")
+export const editWithTagStackConsumer = createOpenFileConsumer("edit", { setTagStack: true })
 export const splitConsumer = createOpenFileConsumer("split")
 export const vsplitConsumer = createOpenFileConsumer("vsplit")
 export const tabeditConsumer = createOpenFileConsumer("tabedit")
