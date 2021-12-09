@@ -28,6 +28,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - run: yarn run release-build:coc
+      - run: yarn run build:preview-script
       - run: |
           TAG="v$(yarn run --silent print-version)"
           git tag $TAG
