@@ -2,5 +2,6 @@
 
 /lib
 /rplugin/node/fzf-preview.vim/index.js
+/bin/preview_fzf_grep
 
 /doc/tags
