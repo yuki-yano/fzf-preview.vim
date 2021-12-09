@@ -29,6 +29,7 @@
     "build:remote": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --config webpack.remote.ts",
     "build:coc": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --config webpack.coc.ts",
     "build:rpc": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --config webpack.rpc.ts",
+    "build:preview-script": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --config webpack.preview.ts",
     "dev": "npm-run-all --parallel dev:*",
     "dev:remote": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --watch --config webpack.remote.ts",
     "dev:coc": "TS_NODE_PROJECT=\"tsconfig.webpack-jest.json\" yarn run webpack --watch --config webpack.coc.ts",
