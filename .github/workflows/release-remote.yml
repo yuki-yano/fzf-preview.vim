@@ -28,6 +28,7 @@ jobs:
       - run: git merge main
       - run: yarn install --ignore-script --frozen-lockfile
       - run: yarn run release-build:remote
+      - run: yarn run build:preview-script
       - run: git add --all
       - run: git commit -m "Release $(yarn run --silent print-version)" --allow-empty
       - run: git push origin release/remote
