@@ -726,7 +726,7 @@ OPTIONS                                         *fzf-preview-options*
 
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
-    Default value is 'ansi'
+    Default value is 'OneHalfDark'
 
 *$FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR*
     The root directory to be searched by GrepHelp.
