@@ -6,7 +6,7 @@ endif
 let s:loaded = 1
 
 if !exists('$FZF_PREVIEW_PREVIEW_BAT_THEME')
-  let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'ansi'
+  let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'OneHalfDark'
 endif
 
 let s:bat_theme_option = '--theme=' . $FZF_PREVIEW_PREVIEW_BAT_THEME

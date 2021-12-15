@@ -4,7 +4,7 @@ const { existsSync } = require("fs")
 const util = require("util")
 const glob = util.promisify(require("glob"))
 
-const BAT_THEME = process.env.FZF_PREVIEW_PREVIEW_BAT_THEME ?? "ansi"
+const BAT_THEME = process.env.FZF_PREVIEW_PREVIEW_BAT_THEME ?? "OneHalfDark"
 const VIM_RUNTIME_DIR = process.env.VIMRUNTIME ?? ""
 const HELP_ROOT_DIR = process.env.FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR ?? ""
 
