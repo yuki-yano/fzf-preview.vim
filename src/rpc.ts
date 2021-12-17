@@ -26,12 +26,14 @@ const getDefaultProcessesRequest = new rpc.RequestType<void, { [key: string]: { 
 )
 connection.onRequest(getDefaultProcessesRequest, () => {
   const openFile = getDefaultProcesses("open-file")
+  const openFileWithTagStack = getDefaultProcesses("open-file-with-tag-stack")
   const openBuffer = getDefaultProcesses("open-buffer")
   const openBufnr = getDefaultProcesses("open-bufnr")
   const gitStatus = getDefaultProcesses("git-status")
 
   return {
     "open-file": openFile,
+    "open-file-with-tag-stack": openFileWithTagStack,
     "open-buffer": openBuffer,
     "open-bufnr": openBufnr,
     "git-status": gitStatus,
