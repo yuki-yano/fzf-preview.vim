@@ -1,4 +1,4 @@
-import { parseAddFzfArg, parseProcesses, parseResume } from "@/args"
+import { parseAddFzfArg, parseGrepArgs, parseProcesses, parseResume } from "@/args"
 import { parseExperimental } from "@/args/experimental-parser"
 import { parseSession } from "@/args/session-parser"
 import { TEMPORALLY_DATA_FILE_PATH } from "@/const/system"
@@ -54,13 +54,13 @@ export const executeCommand = async (
   if (commandName === "FzfPreviewProjectGrep") {
     dispatch(
       recallModule.actions.setGrepArgs({
-        grepArgs: args,
+        grepArgs: parseGrepArgs(args).args.join(" "),
       })
     )
   }
   if (commandName === "FzfPreviewProjectGrepRecall") {
     // eslint-disable-next-line no-param-reassign
-    args = recallSelector("grepArgs")
+    args = `${args} ${recallSelector("grepArgs")}`
     // eslint-disable-next-line no-param-reassign
     commandName = "FzfPreviewProjectGrep"
   }
