@@ -62,8 +62,7 @@ export const executeExperimentalFast = async ({
   )
 
   // For resume option
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  setResourceCommandName(commandName)
+  await setResourceCommandName(commandName)
 
   const fd = fs.openSync(TEMPORALLY_DATA_FILE_PATH, "a")
 
