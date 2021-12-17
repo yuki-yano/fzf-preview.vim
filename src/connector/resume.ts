@@ -8,8 +8,5 @@ export const setResourceCommandName = async (commandName: string): Promise<void>
 }
 
 export const dispatchResumeQuery = ([commandName, query]: [FzfPreviewCommandList, string]): void => {
-  if (commandName === "FzfPreviewProjectGrep" || commandName === "FzfPreviewProjectGrepRecall") {
-    dispatch(resumeModule.actions.setQuery({ commandName: "FzfPreviewProjectGrep", query }))
-  }
   dispatch(resumeModule.actions.setQuery({ commandName, query }))
 }
