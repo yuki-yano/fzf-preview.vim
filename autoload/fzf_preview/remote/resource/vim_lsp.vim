@@ -2,6 +2,7 @@ let s:references = {}
 let s:definition = {}
 let s:type_definition = {}
 let s:implementation = {}
+let s:code_action = {}
 
 function! fzf_preview#remote#resource#vim_lsp#servers(method) abort
   return filter(lsp#get_allowed_servers(), 'lsp#capabilities#has_' . a:method . '_provider(v:val)')
@@ -116,6 +117,38 @@ function! fzf_preview#remote#resource#vim_lsp#request_implementation(servers) ab
   endfor
 endfunction
 
+function! fzf_preview#remote#resource#vim_lsp#request_code_action(servers) abort
+  let s:code_action = {}
+
+  let command_id = lsp#_new_command()
+  let ctx = {}
+
+  let params = {
+  \ 'textDocument': lsp#get_text_document_identifier(),
+  \ 'position': lsp#get_position(),
+  \ 'context': {'includeDeclaration': v:false},
+  \ }
+
+  let bufnr = bufnr('%')
+
+  for server in a:servers
+    let diagnostic = lsp#internal#diagnostics#under_cursor#get_diagnostic({'server': server})
+    call lsp#send_request(server, {
+    \ 'method': 'textDocument/codeAction',
+    \ 'params': {
+    \   'textDocument': lsp#get_text_document_identifier(),
+    \   'range': lsp#utils#range#_get_current_line_range(),
+    \   'context': {
+    \     'diagnostics' : empty(diagnostic) ? [] : [diagnostic],
+    \     'only': ['', 'quickfix', 'refactor', 'refactor.extract', 'refactor.inline', 'refactor.rewrite', 'source', 'source.organizeImports'],
+    \   },
+    \ },
+    \ 'sync': v:false,
+    \ 'on_notification': function('s:handle_code_action', [ctx, server, command_id, bufnr]),
+    \ })
+  endfor
+endfunction
+
 function! fzf_preview#remote#resource#vim_lsp#fetch_references() abort
   return s:references
 endfunction
@@ -132,6 +165,10 @@ function! fzf_preview#remote#resource#vim_lsp#fetch_implementation() abort
   return s:implementation
 endfunction
 
+function! fzf_preview#remote#resource#vim_lsp#fetch_code_action() abort
+  return s:code_action
+endfunction
+
 function! s:handle_references(ctx, server, type, data) abort
   let s:references[a:data['server_name']] = a:data['response']['result']
 endfunction
@@ -146,4 +183,8 @@ endfunction
 
 function! s:handle_implementation(ctx, server, type, data) abort
   let s:implementation[a:data['server_name']] = a:data['response']['result']
+endfunction
+
+function! s:handle_code_action(ctx, server, command_id, bufnr, data) abort
+  let s:code_action[a:data['server_name']] = a:data['response']['result']
 endfunction
