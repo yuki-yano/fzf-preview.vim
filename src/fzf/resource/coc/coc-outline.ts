@@ -16,7 +16,7 @@ export const cocOutline = async (_args: SourceFuncArgs): Promise<Resource> => {
     outline.map(({ kind, label, file, lineNumber }) => [
       `${file}`,
       `${lineNumber.toString()}:`,
-      `[${kind}]`,
+      kind != null ? `[${kind}]` : "",
       ` ${label.split("\t")[0]}`,
     ])
   ).map((line) => colorizeOutline(line))
@@ -50,5 +50,5 @@ export const cocOutlineDefaultOptions = (): FzfCommandDefinitionDefaultOption =>
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',
   "--with-nth": '"3.."',
-  "--nth": '"4.."'
+  "--nth": '"4.."',
 })

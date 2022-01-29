@@ -200,7 +200,7 @@ export const getImplementation = async (): Promise<{
 }
 
 type CocOutlineItem = {
-  data: {
+  data?: {
     kind: string
   }
   filterText: string
@@ -212,7 +212,7 @@ type CocOutlineItem = {
 }
 
 type OutlineItem = {
-  kind: string
+  kind: string | undefined
   text: string
   label: string
   lineNumber: number
@@ -220,7 +220,7 @@ type OutlineItem = {
 }
 
 const outlineItemToData = async ({
-  data: { kind },
+  data,
   filterText,
   label,
   location: {
@@ -238,7 +238,7 @@ const outlineItemToData = async ({
   }
 
   return {
-    kind,
+    kind: data?.kind,
     file,
     text: filterText,
     label,
