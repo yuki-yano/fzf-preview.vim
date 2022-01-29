@@ -1,6 +1,6 @@
 {
   "name": "coc-fzf-preview",
-  "version": "2.12.7",
+  "version": "2.12.8",
   "description": "The plugin that powerfully integrates fzf and (Neo)vim. It is also possible to integrate with coc.nvim.",
   "author": "yuki-yano",
   "license": "MIT",
@@ -71,7 +71,6 @@
   "devDependencies": {
     "@jest/types": "^27.1.1",
     "@types/eslint": "^7.28.0",
-    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/expand-tilde": "^2.0.0",
     "@types/jest": "^27.0.2",
     "@types/lodash": "^4.14.174",
