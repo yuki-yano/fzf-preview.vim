@@ -40,6 +40,10 @@ export const readFile = (filePath: string): string => {
   return fs.readFileSync(filePath, { encoding: "utf-8" })
 }
 
+export const readFileLine = (filePath: string, lineNumber: number): string => {
+  return readFile(filePath).split("\n")[lineNumber - 1]
+}
+
 export const getCurrentFilePath = async (): Promise<string> => {
   const file = (await pluginCall("expand", "%")) as string
 
