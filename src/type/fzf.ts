@@ -82,6 +82,7 @@ type CocFzfCommandName =
   | "FzfPreviewCocTypeDefinition"
   | "FzfPreviewCocImplementations"
   | "FzfPreviewCocOutline"
+  | "FzfPreviewCocTsServerSourceDefinition"
 
 export type FzfCommandName = BaseFzfCommandName | CocFzfCommandName
 
