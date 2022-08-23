@@ -13,7 +13,7 @@ export const bookmarks = async (_args: SourceFuncArgs): Promise<Resource> => {
         text,
         lineNumber: Number(line),
       },
-      displayText: `${colorizeFile(file)}:${colorize(line, "green")}:${text}:${comment}`,
+      displayText: `${colorizeFile(file)}:${colorize(line, "green")}: ${text}:${comment}`,
     }
   })
 
@@ -26,7 +26,7 @@ export const bookmarks = async (_args: SourceFuncArgs): Promise<Resource> => {
 const previewCommand = () => {
   const grepPreviewCommand = globalVariableSelector("fzfPreviewGrepPreviewCmd") as string
 
-  return `"${grepPreviewCommand} {}"`
+  return `"${grepPreviewCommand} {3..}"`
 }
 
 export const bookmarksDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({

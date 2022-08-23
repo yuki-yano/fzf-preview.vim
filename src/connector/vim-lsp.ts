@@ -118,8 +118,6 @@ export const getDefinition = async (): Promise<{
     definitionWithServer = (await pluginCall("fzf_preview#remote#resource#vim_lsp#fetch_definition")) as {
       [server: string]: ReadonlyArray<VimLspLocation>
     }
-    console.warn(definitionWithServer)
-    console.warn(servers)
 
     if (isEqual([...servers].sort(), Object.keys(definitionWithServer).sort())) {
       break

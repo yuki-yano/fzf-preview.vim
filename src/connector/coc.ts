@@ -1,17 +1,19 @@
 import type {
+  CancellationToken,
   DefinitionProvider,
   DiagnosticItem,
   ImplementationProvider,
+  Position,
   Range,
   ReferenceProvider,
   TypeDefinitionProvider,
 } from "coc.nvim"
-import { CancellationTokenSource, languages, workspace } from "coc.nvim"
+import { CancellationTokenSource, languages, services, workspace } from "coc.nvim"
 import type { DefinitionLink as CocDefinitionLink, Location as CocLocation } from "vscode-languageserver-types"
 
 import { diagnosticItemToData, lspLocationToLocation } from "@/connector/lsp"
 import { pluginCall } from "@/plugin"
-import { getCurrentFilePath, getCurrentPath } from "@/system/file"
+import { getCurrentFilePath, getCurrentPath, readFileLine } from "@/system/file"
 import { dropFileProtocol, filePathToRelativeFilePath } from "@/system/project"
 import type { Diagnostic, Location } from "@/type"
 import { uniqWith } from "@/util/uniq-with"
@@ -255,4 +257,67 @@ export const getOutline = async (): Promise<ReadonlyArray<OutlineItem>> => {
   ) as Promise<ReadonlyArray<OutlineItem>>
 
   return data
+}
+
+type TsServerSourceDefinitionServiceClient = {
+  toOpenedFilePath: (uri: string) => string
+  execute: (
+    command: "findSourceDefinition",
+    args: { file: string; line: number; offset: number },
+    token: CancellationToken
+  ) => Promise<{
+    type: "response"
+    success: true
+    body: Array<{
+      file: string
+      start: Position
+      end: Position
+    }>
+  }>
+}
+
+export const getTsServerSourceDefinition = async (): Promise<{
+  sourceDefinitions: ReadonlyArray<Location>
+  symbol: string
+}> => {
+  const { document, position, symbol } = await getCurrentState()
+  const currentPath = await getCurrentPath()
+
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const serviceClient = services.getService("tsserver")?.clientHost
+    ?.serviceClient as TsServerSourceDefinitionServiceClient
+
+  if (serviceClient == null) {
+    return { sourceDefinitions: [], symbol }
+  }
+
+  const file = serviceClient.toOpenedFilePath(document.uri)
+  const tokenSource = new CancellationTokenSource()
+
+  const args = {
+    file,
+    line: position.line + 1,
+    offset: position.character + 1,
+  }
+
+  const response = await serviceClient.execute("findSourceDefinition", args, tokenSource.token)
+
+  return {
+    symbol,
+    sourceDefinitions: response.body.map((v) => {
+      const relativeFilePath = filePathToRelativeFilePath(v.file, currentPath)
+
+      if (relativeFilePath == null) {
+        console.error(v)
+        throw new Error(`Source definition response error.`)
+      }
+
+      return {
+        file: relativeFilePath,
+        lineNumber: v.start.line,
+        text: readFileLine(v.file, v.start.line),
+      }
+    }),
+  }
 }
