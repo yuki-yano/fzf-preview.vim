@@ -14,6 +14,10 @@ import {
 } from "@/fzf/resource/coc"
 import { cocDefinitions, cocDefinitionsDefaultOptions } from "@/fzf/resource/coc/coc-definitions"
 import { cocOutline, cocOutlineDefaultOptions } from "@/fzf/resource/coc/coc-outline"
+import {
+  cocTsServerSourceDefinition,
+  cocTsServerSourceDefinitionsDefaultOptions,
+} from "@/fzf/resource/coc/coc-tsserver-source-definition"
 import type { FzfCommand } from "@/type"
 
 export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
@@ -85,6 +89,16 @@ export const cocCommandDefinition: ReadonlyArray<FzfCommand> = [
     vimCommandOptions,
     defaultFzfOptionFunc: cocOutlineDefaultOptions,
     defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewCocTsServerSourceDefinition",
+    sourceFunc: cocTsServerSourceDefinition,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: cocTsServerSourceDefinitionsDefaultOptions,
+    defaultProcessesName: "open-file-with-tag-stack",
     enableConvertForFzf: true,
     enableDevIcons: true,
   },

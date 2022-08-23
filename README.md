@@ -677,6 +677,9 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 <details>
 <summary>Changes history</summary>
 
+- 2022/08/23 version 2.13.0
+  - Implement coc TypeScript go to source definition resource.
+
 - 2021/12/05 version 2.12.0
   - Implement vim-lsp resources.
 
