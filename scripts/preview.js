@@ -4,6 +4,7 @@ const { existsSync } = require("fs")
 const util = require("util")
 const glob = util.promisify(require("glob"))
 
+const MAX_BUFFER_SIZE = 1024 * 1024 * 1000
 const BAT_THEME = process.env.FZF_PREVIEW_PREVIEW_BAT_THEME ?? "OneHalfDark"
 const VIM_RUNTIME_DIR = process.env.VIMRUNTIME ?? ""
 const HELP_ROOT_DIR = process.env.FZF_PREVIEW_PLUGIN_HELP_ROOT_DIR ?? ""
@@ -64,7 +65,7 @@ const main = async () => {
   const cats = [`bat --highlight-line="${lineNum}" --color=always --theme="${BAT_THEME}" --plain --number`, "cat"]
   const cat = cats.find((cat) => isInstalled(cat))
 
-  const result = execSync(`${cat} ${fileName}`, { encoding: "utf-8" })
+  const result = execSync(`${cat} ${fileName}`, { encoding: "utf-8", maxBuffer: MAX_BUFFER_SIZE })
 
   if (cat === "cat") {
     for (const [index, line] of result.split("\n").entries()) {
