@@ -16,6 +16,8 @@ function! fzf_preview#remote#runner#fzf_run(params) abort
         \  g:fzf_preview_direct_window_option :
         \  { 'width': g:fzf_preview_floating_window_rate, 'height': g:fzf_preview_floating_window_rate }
 
+  call feedkeys("\<Cmd>nohlsearch\<CR>", 'nit')
+
   call fzf#run({
   \ 'source':  source,
   \ 'sink*':   Sink,
