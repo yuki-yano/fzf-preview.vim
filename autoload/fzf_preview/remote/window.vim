@@ -2,7 +2,30 @@
 let s:resource_command_name = ''
 
 function! fzf_preview#remote#window#set_resource_command_name(command_name) abort
-  let s:resource_command_name = a:command_name
+  if s:resource_command_name !=# a:command_name
+    let s:resource_command_name = a:command_name
+  endif
+  call timer_start(10, { -> fzf_preview#remote#window#set_status_line(v:true) })
+endfunction
+
+function! fzf_preview#remote#window#get_resource_command_name() abort
+  return substitute(s:resource_command_name, '^FzfPreview', '', '')
+endfunction
+
+function! fzf_preview#remote#window#set_status_line(updated_command_name) abort
+  if !g:fzf_preview_update_statusline
+    return
+  endif
+
+  if &laststatus != 3
+    return
+  endif
+
+  if a:updated_command_name
+    setlocal statusline=%#Identifier#\ >\ fzf-preview\ %{fzf_preview#remote#window#get_resource_command_name()}
+  else
+    setlocal statusline=\ 
+  endif
 endfunction
 
 function! fzf_preview#remote#window#set_fzf_last_query(...) abort
