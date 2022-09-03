@@ -144,6 +144,10 @@ if !exists('g:fzf_preview_blame_pr_command')
   let g:fzf_preview_blame_pr_command = expand('<sfile>:h:h') . '/bin/git_blame_pr'
 endif
 
+if !exists('g:fzf_preview_update_statusline')
+  let g:fzf_preview_update_statusline = v:true
+endif
+
 let g:fzf_preview_script_dir = expand('<sfile>:h:h') . '/bin'
 
 let s:save_cpo = &cpoptions
@@ -196,6 +200,8 @@ augroup fzf_preview_initialized
   autocmd VimEnter *       call s:doautocmd_from_rpc()
 
   autocmd FileType fzf call fzf_preview#remote#window#set_fzf_last_query()
+
+  autocmd FileType fzf call fzf_preview#remote#window#set_status_line(v:false)
 augroup END
 
 function! s:doautocmd_from_remote() abort
