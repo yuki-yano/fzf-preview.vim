@@ -724,6 +724,11 @@ OPTIONS                                         *fzf-preview-options*
 
     Defaul value is expand('<sfile>:h:h') . '/bin/git_blame_pr'
 
+*g:fzf_preview_update_statusline*
+    If true, statusline is updated during fzf-preview startup.
+
+    Defaul value is true
+
 *$FZF_PREVIEW_PREVIEW_BAT_THEME*
     The theme used in the bat preview.
     Default value is 'OneHalfDark'
