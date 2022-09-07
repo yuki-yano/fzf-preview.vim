@@ -48,3 +48,8 @@ export type GitReflog = ReadonlyDeep<{
   author: string
   comment: string
 }>
+
+export type ParsedGitStatus = ReadonlyDeep<{
+  file: string
+  status: string
+}>

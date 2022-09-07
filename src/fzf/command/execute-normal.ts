@@ -21,6 +21,7 @@ export const executeNormal = async ({
   historyOption,
   resumeQuery,
   enableConvertForFzf,
+  addGitStatus,
 }: ExecuteArgs): Promise<void> => {
   const resource = await sourceFunc(sourceFuncArgs)
   const enableDevIcons = getEnableDevIcons(resource.lines, enableDevIconsCommandSetting)
@@ -50,9 +51,10 @@ export const executeNormal = async ({
     resumeQuery,
   })
 
-  const resourceForFzf = convertForFzf(resource.lines, {
+  const resourceForFzf = await convertForFzf(resource.lines, {
     enableConvertForFzf,
     enableDevIcons,
+    addGitStatus,
   })
 
   await fzfRunner({

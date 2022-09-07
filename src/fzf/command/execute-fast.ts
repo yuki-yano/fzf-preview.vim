@@ -27,6 +27,7 @@ export const executeExperimentalFast = async ({
   historyOption,
   resumeQuery,
   enableConvertForFzf,
+  addGitStatus,
 }: ExecuteArgs): Promise<void> => {
   const fzfOptions = await generateOptions({
     fzfCommandDefaultOptions,
@@ -66,9 +67,10 @@ export const executeExperimentalFast = async ({
 
   const fd = fs.openSync(TEMPORALLY_DATA_FILE_PATH, "a")
 
-  const lines = convertForFzf(resource.lines, {
+  const lines = await convertForFzf(resource.lines, {
     enableConvertForFzf,
     enableDevIcons,
+    addGitStatus,
   })
 
   for (const line of lines) {
