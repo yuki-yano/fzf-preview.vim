@@ -32,7 +32,7 @@ const parseOptions = (options: ArgsOptions) => {
 
 export const parseAddFzfArg = (args: string): ReadonlyArray<AddFzfArg> => {
   const parser = argsParser()
-  const options = parser.parse(args)
+  const options = parser.parseSync(args)
 
   return parseOptions(options)
 }
