@@ -4,12 +4,12 @@ const config: Config.InitialOptions = {
   verbose: true,
   moduleFileExtensions: ["js", "ts"],
   transform: {
-    "^.+\\.ts$": "ts-jest",
-  },
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.json",
-    },
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.json",
+      },
+    ],
   },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
