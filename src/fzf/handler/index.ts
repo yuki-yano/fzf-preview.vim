@@ -5,9 +5,8 @@ import { processesRunner } from "@/plugin/process-runner"
 import { syncVimVariable } from "@/plugin/sync-vim-variable"
 import type { CallbackLines, ExpectKeyAndSelectedLines, FzfCommand, SelectedLines } from "@/type"
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-var-requires,global-require,node/no-missing-require */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires, global-require, n/no-missing-require, no-nested-ternary  */
 const commands: ReadonlyArray<FzfCommand> =
-  // eslint-disable-next-line no-nested-ternary
   PLUGIN.ENV === "remote" || PLUGIN.ENV === "rpc"
     ? (require("@/association/command").commandDefinition as ReadonlyArray<FzfCommand>)
     : PLUGIN.ENV === "coc"
