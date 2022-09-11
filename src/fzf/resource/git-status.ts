@@ -37,15 +37,7 @@ export const gitStatus = async (_args: SourceFuncArgs): Promise<Resource> => {
 
   const lines = [
     ...headers,
-    ...statuses.map<ResourceLine>((line) => {
-      const result = /(?<status>.+)\s(?<file>.+)/.exec(line)
-      if (result?.groups == null) {
-        throw new Error(`Unexpected line: ${line}`)
-      }
-
-      const file = stripAnsi(result.groups.file)
-      const { status } = result.groups
-
+    ...statuses.map<ResourceLine>(({ file, status }) => {
       return {
         data: {
           command: "FzfPreviewGitStatus",

@@ -26,4 +26,5 @@ export type ExecuteArgs = {
   }
   resumeQuery?: ResumeQuery
   enableConvertForFzf: boolean
+  addGitStatus: boolean | undefined
 }

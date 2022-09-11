@@ -29,7 +29,11 @@ function! fzf_preview#remote#consumer#git#reset(file, option) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#patch(file) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    tabedit
+    call s:execute('GinPatch ' . fnamemodify(a:file, ':p'))
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina patch ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') != 0
@@ -37,21 +41,28 @@ function! fzf_preview#remote#consumer#git#patch(file) abort
     return
   endif
 
-  echoerr 'Fugitive and Gina not installed'
+  echoerr 'Gin, Gina and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#chaperon(file) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    tabedit
+    call s:execute('GinChaperon ' . fnamemodify(a:file, ':p'))
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina chaperon ' . fnamemodify(a:file, ':p'))
     return
   endif
 
-  echoerr 'Gina not installed'
+  echoerr 'Gin and Gina not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#commit(option) abort
   if match(a:option, '--fixup') != -1
     echomsg system('git commit ' . a:option)
+    return
+  elseif exists(':Gin') == 2
+    call s:execute('Gin commit --verbose ' . a:option)
     return
   elseif exists(':Gina') == 2
     call s:execute('Gina commit --verbose ' . a:option)
@@ -61,11 +72,14 @@ function! fzf_preview#remote#consumer#git#commit(option) abort
     return
   endif
 
-  echoerr 'Fugitive and Gina not installed'
+  echoerr 'Gin, Gina and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#restore(file) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    call s:execute('Gin checkout -- ' . fnamemodify(a:file, ':p'))
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina checkout -- ' . fnamemodify(a:file, ':p'))
     return
   elseif exists(':Git') == 2
@@ -80,7 +94,10 @@ function! fzf_preview#remote#consumer#git#restore(file) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#switch(branch) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    call s:execute('Gin checkout ' . a:branch)
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina checkout ' . a:branch)
     return
   elseif exists(':Git') == 2
@@ -104,7 +121,11 @@ endfunction
 function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    execute 'silent GinBuffer diff ' . a:branch . '..' . branch2
+    echomsg 'git diff ' . a:branch . '..' . branch2
+    return
+  elseif exists(':Gina') == 2
     execute 'silent Gina diff ' . a:branch . '..' . branch2
     echomsg 'git diff ' . a:branch . '..' . branch2
     return
@@ -114,11 +135,14 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
     return
   endif
 
-  echoerr 'Fugitive and Gina not installed'
+  echoerr 'Gin, Gina and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    call s:execute('GinBuffer show ' . a:name_or_hash)
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina show ' . a:name_or_hash)
     return
   elseif exists(':Git') == 2
@@ -126,11 +150,14 @@ function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
     return
   endif
 
-  echoerr 'Fugitive and Gina not installed'
+  echoerr 'Gin, Gina and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#merge(branch, option) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    call s:execute('Gin merge ' . a:option . ' ' . a:branch)
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina merge ' . a:option . ' ' . a:branch)
     return
   elseif exists(':Git') == 2
@@ -138,11 +165,14 @@ function! fzf_preview#remote#consumer#git#merge(branch, option) abort
     return
   endif
 
-  echoerr 'Fugitive and Gina not installed'
+  echoerr 'Gin, Gina and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#rebase(branch) abort
-  if exists(':Gina') == 2
+  if exists(':Gin') == 2
+    call s:execute('Gin rebase ' . a:branch)
+    return
+  elseif exists(':Gina') == 2
     call s:execute('Gina rebase ' . a:branch)
     return
   elseif exists(':Git') == 2
@@ -154,12 +184,15 @@ function! fzf_preview#remote#consumer#git#rebase(branch) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#rebase_interactive(branch_or_hash) abort
-  if exists(':Git') == 2
+  if exists(':Gin') == 2
+    execute 'Gin rebase --interactive ' . a:branch_or_hash
+    return
+  elseif exists(':Git') == 2
     execute 'Git rebase --interactive ' . a:branch_or_hash
     return
   endif
 
-  echoerr 'Fugitive not installed'
+  echoerr 'Gin and Fugitive not installed'
 endfunction
 
 function! fzf_preview#remote#consumer#git#push(option) abort
@@ -177,17 +210,9 @@ function! fzf_preview#remote#consumer#git#fetch() abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#delete_branch(branch, option) abort
-  if exists(':Gina') == 2
-    call s:execute('Gina branch --delete ' . a:option . ' ' . a:branch)
-    return
-  elseif exists(':Git') == 2
-    execute 'Git branch --delete ' . a:option . ' ' . a:branch
-    return
-  else
-    echomsg system('git branch --delete ' . a:option . ' ' . shellescape(a:branch))
-    if v:shell_error
-      echomsg 'Failed: git branch --delete ' . a:option . ' ' . a:branch
-    endif
+  echomsg system('git branch --delete ' . a:option . ' ' . shellescape(a:branch))
+  if v:shell_error
+    echomsg 'Failed: git branch --delete ' . a:option . ' ' . a:branch
   endif
 endfunction
 
