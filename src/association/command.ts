@@ -114,6 +114,7 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    addGitStatus: true,
   },
   {
     commandName: "FzfPreviewGitFiles",
@@ -164,6 +165,7 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    addGitStatus: true,
   },
   {
     commandName: "FzfPreviewProjectMruFiles",
@@ -174,6 +176,7 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    addGitStatus: true,
   },
   {
     commandName: "FzfPreviewProjectMrwFiles",
@@ -184,6 +187,7 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    addGitStatus: true,
   },
   {
     commandName: "FzfPreviewLines",
@@ -334,6 +338,7 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     defaultProcessesName: "open-file",
     enableConvertForFzf: true,
     enableDevIcons: true,
+    addGitStatus: true,
   },
   {
     commandName: "FzfPreviewCommandPalette",

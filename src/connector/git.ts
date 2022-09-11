@@ -1,3 +1,5 @@
+import stripAnsi from "strip-ansi"
+
 import { GIT_BRANCH_COMMAND } from "@/const/git"
 import {
   createGitLogCommand,
@@ -10,7 +12,7 @@ import { gitConfigSelector } from "@/module/selector/git-config"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
 import { pluginCall } from "@/plugin"
 import { getCurrentFilePath } from "@/system/file"
-import type { GitBranch, GitLog, GitReflog, GitStash } from "@/type"
+import type { GitBranch, GitLog, GitReflog, GitStash, ParsedGitStatus } from "@/type"
 import { unreachable } from "@/util/type"
 
 export const execGitFiles = async (): Promise<ReadonlyArray<string>> => {
@@ -26,7 +28,7 @@ export const execGitFiles = async (): Promise<ReadonlyArray<string>> => {
   return lines
 }
 
-export const execGitStatus = async (): Promise<ReadonlyArray<string>> => {
+export const execGitStatus = async (): Promise<ReadonlyArray<ParsedGitStatus>> => {
   const gitStatusCommand = globalVariableSelector("fzfPreviewGitStatusCommand")
   if (typeof gitStatusCommand !== "string") {
     return []
@@ -36,7 +38,20 @@ export const execGitStatus = async (): Promise<ReadonlyArray<string>> => {
     gitStatusCommand,
   ])) as ReadonlyArray<string>
 
-  return lines
+  return lines.map((line) => {
+    const result = /(?<status>.+)\s(?<file>.+)/.exec(line)
+    if (result?.groups == null) {
+      throw new Error(`Unexpected line: ${line}`)
+    }
+
+    const file = stripAnsi(result.groups.file)
+    const { status } = result.groups
+
+    return {
+      file,
+      status,
+    }
+  })
 }
 
 export const execGitBranch = async (): Promise<ReadonlyArray<GitBranch>> => {

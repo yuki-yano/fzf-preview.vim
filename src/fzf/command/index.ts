@@ -40,6 +40,7 @@ export const executeCommand = async (
     enableConvertForFzf,
     enableDevIcons: enableDevIconsCommandSetting,
     beforeCommandHook,
+    addGitStatus,
   }: FzfCommand
 ): Promise<void> => {
   await Promise.all([syncVimVariable(), syncVimOptions()])
@@ -96,6 +97,7 @@ export const executeCommand = async (
     historyOption,
     resumeQuery,
     enableConvertForFzf,
+    addGitStatus,
   }
 
   if (experimental.fast) {
