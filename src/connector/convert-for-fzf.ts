@@ -1,14 +1,16 @@
 import stripAnsi from "strip-ansi"
 import type { ReadonlyDeep } from "type-fest"
 
+import { execGitStatus } from "@/connector/git"
 import { USE_DEV_ICONS_PATTERN_LIMIT } from "@/const/fzf-resource"
-import { colorizeDevIcon } from "@/fzf/syntax/colorize"
+import { colorize, colorizeDevIcon } from "@/fzf/syntax/colorize"
 import { globalVariableSelector } from "@/module/selector/vim-variable"
-import type { ResourceLines } from "@/type"
+import type { FileData, ResourceLines } from "@/type"
 
 type Options = ReadonlyDeep<{
   enableConvertForFzf: boolean
   enableDevIcons: boolean
+  addGitStatus: boolean | undefined
 }>
 
 const createDevIconsList = (files: ReadonlyArray<string>): ReadonlyArray<string> => {
@@ -49,18 +51,20 @@ const createDevIconsList = (files: ReadonlyArray<string>): ReadonlyArray<string>
   })
 }
 
-export const convertForFzf = (lines: ResourceLines, options: Options): ResourceLines => {
-  const { enableConvertForFzf, enableDevIcons } = options
+export const convertForFzf = async (lines: ResourceLines, options: Options): Promise<ResourceLines> => {
+  const { enableConvertForFzf, enableDevIcons, addGitStatus } = options
 
   if (!enableConvertForFzf) {
     return lines
   }
 
+  let convertedLines: ResourceLines = []
+
   if (enableDevIcons) {
     const convertedTexts = lines.map((line) => stripAnsi(line.displayText).split(":")[0])
     const icons = createDevIconsList(convertedTexts).map((icon) => colorizeDevIcon(icon))
 
-    return lines.map((line, i) => {
+    convertedLines = lines.map((line, i) => {
       const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : ""
 
       return {
@@ -69,7 +73,7 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
       }
     })
   } else {
-    return lines.map((line) => {
+    convertedLines = lines.map((line) => {
       const lineNumber = line.data.lineNumber != null ? `${line.data.lineNumber} ` : ""
 
       return {
@@ -78,4 +82,31 @@ export const convertForFzf = (lines: ResourceLines, options: Options): ResourceL
       }
     })
   }
+
+  if (addGitStatus === true) {
+    const status = await execGitStatus()
+
+    if (status.length > 0) {
+      convertedLines = convertedLines.map((line) => {
+        const data = line.data as FileData
+        const statusLine = status.find((s) => s.file === data.file)
+
+        if (statusLine == null) {
+          return {
+            data: line.data,
+            displayText: `\xA0\xA0${line.displayText}`,
+          }
+        }
+
+        const statusText = stripAnsi(statusLine.status.trim()).slice(0, 1)
+
+        return {
+          data: line.data,
+          displayText: `${colorize(statusText, "yellow")} ${line.displayText}`,
+        }
+      })
+    }
+  }
+
+  return convertedLines
 }

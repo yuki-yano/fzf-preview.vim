@@ -100,6 +100,7 @@ type FzfCommandBase = ReadonlyDeep<{
   defaultProcessesName: ProcessesName
   enableConvertForFzf: boolean
   enableDevIcons: boolean
+  addGitStatus?: boolean
   beforeCommandHook?: (args: string) => void
 }>
 
