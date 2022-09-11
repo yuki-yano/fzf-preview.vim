@@ -1,5 +1,5 @@
 import type { ReadonlyDeep } from "type-fest"
-import type { Location as LspLocation } from "vscode-languageserver-types"
+import type { Location as LspLocation, LocationLink } from "vscode-languageserver-types"
 
 import { getLineFromFile } from "@/connector/util"
 import { collapseHome, existsFileAsync, getCurrentPath } from "@/system/file"
@@ -32,16 +32,41 @@ export const diagnosticItemToData = async (
   } as const
 }
 
+type LocationOrLocationLink =
+  | (LspLocation & {
+      kind: "location"
+    })
+  | (LocationLink & {
+      kind: "locationLink"
+    })
+
 export const lspLocationToLocation = async (
-  locations: ReadonlyArray<LspLocation>
+  locations: ReadonlyArray<LocationOrLocationLink>
 ): Promise<ReadonlyArray<Location>> => {
   const currentPath = await getCurrentPath()
 
   return (
     await Promise.all(
       locations.map(async (location) => {
-        const lineNumber = location.range.start.line + 1
-        const absoluteFilePath = decodeURIComponent(dropFileProtocol(location.uri))
+        let lineNumber: number
+        if (location.kind === "location") {
+          lineNumber = location.range.start.line + 1
+        } else if (location.targetRange != null) {
+          lineNumber = location.targetRange.start.line + 1
+        } else {
+          throw new Error("Unexpected location")
+        }
+
+        let uri: string
+        if (location.kind === "location") {
+          uri = location.uri
+        } else if (location.kind === "locationLink") {
+          uri = location.targetUri
+        } else {
+          throw new Error("Unexpected location")
+        }
+
+        const absoluteFilePath = decodeURIComponent(dropFileProtocol(uri))
         const filePath =
           new RegExp(`^${currentPath}`).exec(absoluteFilePath) != null
             ? filePathToRelativeFilePath(absoluteFilePath, currentPath)
