@@ -7,6 +7,7 @@ chalk.level = 3
 type Options = {
   bold?: boolean
 }
+
 export const colorize = (str: string, color: Color, options?: Options): string => {
   const line = chalk[color](str)
   if (options == null) {
