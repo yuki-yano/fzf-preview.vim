@@ -1,5 +1,5 @@
 import expandTilde from "expand-tilde"
-import { isObject, mapValues } from "lodash"
+import { isObject } from "lodash"
 
 import { PREVIEW_WINDOW_LAYOUT_CHANGE_SIZE } from "@/const/fzf-option"
 import { globalVariableSelector, vimOptionsSelector } from "@/module/selector/vim-variable"
@@ -31,17 +31,19 @@ const defaultOptions: FzfOptions = {
 
 const getUserDefaultOptions = (): FzfOptions => {
   const userDefaultOptions = globalVariableSelector("fzfPreviewDefaultFzfOptions")
-  if (!isObject(userDefaultOptions)) {
+  if (!isObject(userDefaultOptions) || Array.isArray(userDefaultOptions)) {
     throw new Error("g:fzf_preview_default_fzf_options must be dictionary variable.")
   }
 
-  return mapValues(userDefaultOptions, (value) => {
-    if (typeof value === "string") {
-      return `"${value}"`
-    }
+  return Object.fromEntries(
+    Object.entries(userDefaultOptions).map(([k, v]) => {
+      if (typeof v === "string") {
+        return [k, `"${v}"`]
+      }
 
-    return value
-  })
+      return [k, v]
+    })
+  )
 }
 
 const isCustomProcessesVimVariable = (

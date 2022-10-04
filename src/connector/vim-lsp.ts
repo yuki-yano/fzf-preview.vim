@@ -1,5 +1,5 @@
 import { isEqual } from "lodash"
-import type { Diagnostic as LspDiagnostic, Location as VimLspLocation } from "vscode-languageserver-types"
+import type { Diagnostic as LspDiagnostic, Location as VimLspLocation, LocationLink } from "vscode-languageserver-types"
 
 import { diagnosticItemToData, lspLocationToLocation } from "@/connector/lsp"
 import { pluginCall } from "@/plugin"
@@ -90,13 +90,15 @@ export const getReferences = async (): Promise<{
       break
     }
 
-    // eslint-disable-next-line no-await-in-loop
-    await new Promise((resolve) => setTimeout(resolve, 50))
+    // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 50))
   }
 
   return {
     references: await lspLocationToLocation(
-      Object.entries(referencesWithServer).flatMap(([_, references]) => references)
+      Object.entries(referencesWithServer).flatMap(([_, references]) =>
+        references.map((v) => ({ ...v, kind: "location" }))
+      )
     ),
   }
 }
@@ -123,13 +125,15 @@ export const getDefinition = async (): Promise<{
       break
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
 
   return {
     definitions: await lspLocationToLocation(
-      Object.entries(definitionWithServer).flatMap(([_, definition]) => definition)
+      Object.entries(definitionWithServer).flatMap(([_, definitions]) =>
+        definitions.map((v) => ({ ...v, kind: "location" }))
+      )
     ),
   }
 }
@@ -143,26 +147,28 @@ export const getTypeDefinition = async (): Promise<{
   await pluginCall("fzf_preview#remote#resource#vim_lsp#request_type_definition", [servers])
 
   let typeDefinitionWithServer: {
-    [server: string]: ReadonlyArray<VimLspLocation>
+    [server: string]: ReadonlyArray<LocationLink>
   } = {}
 
   for (let i = 0; i < 100; i += 1) {
     // eslint-disable-next-line no-await-in-loop
     typeDefinitionWithServer = (await pluginCall("fzf_preview#remote#resource#vim_lsp#fetch_type_definition")) as {
-      [server: string]: ReadonlyArray<VimLspLocation>
+      [server: string]: ReadonlyArray<LocationLink>
     }
 
     if (isEqual([...servers].sort(), Object.keys(typeDefinitionWithServer).sort())) {
       break
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
 
   return {
     typeDefinitions: await lspLocationToLocation(
-      Object.entries(typeDefinitionWithServer).flatMap(([_, typeDefinition]) => typeDefinition)
+      Object.entries(typeDefinitionWithServer).flatMap(([_, typeDefinitions]) =>
+        typeDefinitions.map((v) => ({ ...v, kind: "locationLink" }))
+      )
     ),
   }
 }
@@ -176,26 +182,28 @@ export const getImplementation = async (): Promise<{
   await pluginCall("fzf_preview#remote#resource#vim_lsp#request_implementation", [servers])
 
   let implementationWithServer: {
-    [server: string]: ReadonlyArray<VimLspLocation>
+    [server: string]: ReadonlyArray<LocationLink>
   } = {}
 
   for (let i = 0; i < 100; i += 1) {
     // eslint-disable-next-line no-await-in-loop
     implementationWithServer = (await pluginCall("fzf_preview#remote#resource#vim_lsp#fetch_implementation")) as {
-      [server: string]: ReadonlyArray<VimLspLocation>
+      [server: string]: ReadonlyArray<LocationLink>
     }
 
     if (isEqual([...servers].sort(), Object.keys(implementationWithServer).sort())) {
       break
     }
 
-    // eslint-disable-next-line no-await-in-loop
+    // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
 
   return {
     implementations: await lspLocationToLocation(
-      Object.entries(implementationWithServer).flatMap(([_, implementation]) => implementation)
+      Object.entries(implementationWithServer).flatMap(([_, implementations]) =>
+        implementations.map((v) => ({ ...v, kind: "locationLink" }))
+      )
     ),
   }
 }

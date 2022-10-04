@@ -6,16 +6,17 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:eslint-comments/recommended",
-    "plugin:node/recommended",
+    "plugin:n/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
     "prettier",
   ],
-  plugins: ["@typescript-eslint", "node", "import", "simple-import-sort"],
+  plugins: ["@typescript-eslint", "import", "simple-import-sort"],
   parserOptions: {
     sourceType: "module",
     project: "./tsconfig.json",
+    ecmaVersion: 2020,
   },
   settings: {
     "import/resolver": {
@@ -70,8 +71,8 @@ module.exports = {
 
     "eslint-comments/no-unused-disable": "error",
 
-    "node/no-unsupported-features/es-syntax": "off",
-    "node/no-missing-import": "off",
+    "n/no-unsupported-features/es-syntax": "off",
+    "n/no-missing-import": "off",
   },
   overrides: [
     {

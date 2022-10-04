@@ -6,7 +6,7 @@ type Experimental = {
 
 export const parseExperimental = (args: string): Experimental => {
   const parser = argsParser()
-  const options = parser.parse(args)
+  const options = parser.parseSync(args)
 
   return {
     fast: options["experimental-fast"] != null,
