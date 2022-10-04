@@ -18,7 +18,7 @@ const defaultBind = [
 
 describe("joinBind", () => {
   it("bind option is array", () => {
-    expect(joinBind(defaultBind)).toEqual("ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview")
+    expect(joinBind(defaultBind)).toBe("ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview")
   })
 })
 

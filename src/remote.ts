@@ -1,7 +1,9 @@
+/* eslint-disable import/no-import-module-exports */
 import type { NvimPlugin } from "neovim"
 
 import { setRemotePlugin } from "@/plugin"
 import { registerFunction, registerProcesses, registerRemoteCommands } from "@/register/remote"
+/* eslint-enable */
 
 module.exports = (plugin: NvimPlugin) => {
   setRemotePlugin(plugin)

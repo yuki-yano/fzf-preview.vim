@@ -20,7 +20,7 @@ const parseOptions = (options: ArgsOptions): UserProcesses | null => {
 
 export const parseProcesses = (defaultProcessesName: ProcessesName, args: string): UserProcesses | undefined => {
   const parser = argsParser()
-  const options = parser.parse(args)
+  const options = parser.parseSync(args)
 
   const parsedOptions = parseOptions(options)
   if (parsedOptions != null) {

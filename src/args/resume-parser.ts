@@ -4,7 +4,7 @@ import type { FzfCommandName, ResumeQuery } from "@/type"
 
 export const parseResume = (commandName: FzfCommandName, args: string): ResumeQuery => {
   const parser = argsParser()
-  const options = parser.parse(args)
+  const options = parser.parseSync(args)
 
   if (options.resume == null) {
     return null

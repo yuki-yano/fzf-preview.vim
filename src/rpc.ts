@@ -16,9 +16,11 @@ import type {
 
 const connection = rpc.createMessageConnection(
   // @ts-ignore
-  new rpc.StreamMessageReader(process.stdin), // eslint-disable-line @typescript-eslint/no-unsafe-call
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+  new rpc.StreamMessageReader(process.stdin),
   // @ts-ignore
-  new rpc.StreamMessageWriter(process.stdout) // eslint-disable-line @typescript-eslint/no-unsafe-call
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
+  new rpc.StreamMessageWriter(process.stdout)
 )
 
 const getDefaultProcessesRequest = new rpc.RequestType<void, { [key: string]: { [key: string]: string } }, void>(
