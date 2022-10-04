@@ -9,7 +9,11 @@ import type {
   TypeDefinitionProvider,
 } from "coc.nvim"
 import { CancellationTokenSource, languages, services, workspace } from "coc.nvim"
-import type { DefinitionLink as CocDefinitionLink, Location as CocLocation } from "vscode-languageserver-types"
+import type {
+  DefinitionLink as CocDefinitionLink,
+  Location as CocLocation,
+  LocationLink as CocLocationLink,
+} from "vscode-languageserver-types"
 
 import { diagnosticItemToData, lspLocationToLocation } from "@/connector/lsp"
 import { pluginCall } from "@/plugin"
@@ -69,7 +73,7 @@ export const getReferences = async (): Promise<{
   const tokenSource = new CancellationTokenSource()
 
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
   const providers: ReferenceProviders = Array.from(languages.referenceManager.providers)
   for (const { provider } of providers) {
     // eslint-disable-next-line no-await-in-loop
@@ -87,7 +91,7 @@ export const getReferences = async (): Promise<{
   }
 
   const references = uniqWith(
-    (await lspLocationToLocation(locations)) as Array<Location>,
+    (await lspLocationToLocation(locations.map((v) => ({ ...v, kind: "location" })))) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 
@@ -104,7 +108,7 @@ export const getDefinition = async (): Promise<{ definitions: ReadonlyArray<Loca
   const tokenSource = new CancellationTokenSource()
 
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
   const providers: DefinitionProviders = Array.from(languages.definitionManager.providers)
   for (const { provider } of providers) {
     /* eslint-disable no-await-in-loop */
@@ -124,7 +128,7 @@ export const getDefinition = async (): Promise<{ definitions: ReadonlyArray<Loca
   }
 
   const definitions = uniqWith(
-    (await lspLocationToLocation(locations)) as Array<Location>,
+    (await lspLocationToLocation(locations.map((v) => ({ ...v, kind: "location" })))) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 
@@ -135,13 +139,13 @@ export const getDefinition = async (): Promise<{ definitions: ReadonlyArray<Loca
 }
 
 export const getTypeDefinition = async (): Promise<{ typeDefinitions: ReadonlyArray<Location>; symbol: string }> => {
-  let locations: ReadonlyArray<CocLocation> = []
+  let locations: ReadonlyArray<CocLocationLink> = []
 
   const { document, position, symbol } = await getCurrentState()
   const tokenSource = new CancellationTokenSource()
 
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
   const providers: TypeDefinitionProviders = Array.from(languages.typeDefinitionManager.providers)
   for (const { provider } of providers) {
     // eslint-disable-next-line no-await-in-loop
@@ -149,14 +153,14 @@ export const getTypeDefinition = async (): Promise<{ typeDefinitions: ReadonlyAr
       document,
       position,
       tokenSource.token
-    )) as ReadonlyArray<CocLocation>
+    )) as unknown as ReadonlyArray<CocLocationLink>
     if (typeDefinitions != null) {
       locations = [...locations, ...typeDefinitions]
     }
   }
 
   const typeDefinitions = uniqWith(
-    (await lspLocationToLocation(locations)) as Array<Location>,
+    (await lspLocationToLocation(locations.map((v) => ({ ...v, kind: "locationLink" })))) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 
@@ -170,13 +174,13 @@ export const getImplementation = async (): Promise<{
   implementations: ReadonlyArray<Location>
   symbol: string
 }> => {
-  let locations: ReadonlyArray<CocLocation> = []
+  let locations: ReadonlyArray<CocLocationLink> = []
 
   const { document, position, symbol } = await getCurrentState()
   const tokenSource = new CancellationTokenSource()
 
   // @ts-expect-error
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
   const providers: ImplementationProviders = Array.from(languages.implementationManager.providers)
   for (const { provider } of providers) {
     // eslint-disable-next-line no-await-in-loop
@@ -184,14 +188,14 @@ export const getImplementation = async (): Promise<{
       document,
       position,
       tokenSource.token
-    )) as ReadonlyArray<CocLocation>
+    )) as unknown as ReadonlyArray<CocLocationLink>
     if (implementations != null) {
       locations = [...locations, ...implementations]
     }
   }
 
   const implementations = uniqWith(
-    (await lspLocationToLocation(locations)) as Array<Location>,
+    (await lspLocationToLocation(locations.map((v) => ({ ...v, kind: "locationLink" })))) as Array<Location>,
     (a, b) => a.file === b.file && a.lineNumber === b.lineNumber && a.text === b.text
   )
 

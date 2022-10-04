@@ -1,16 +1,14 @@
-import type { Argv } from "yargs"
 import yargs from "yargs"
 
-export const argsParser = (): Argv => {
-  yargs.option("add-fzf-arg", { type: "string" })
-  yargs.option("processes", { type: "string" })
-  yargs.option("resume", { type: "boolean" })
-  yargs.option("session", { type: "string" })
-  yargs.option("experimental-fast", { type: "boolean" })
-  yargs.parserConfiguration({
-    "camel-case-expansion": false,
-    "unknown-options-as-args": true,
-  })
-
+export const argsParser = () => {
   return yargs
+    .options("add-fzf-arg", { type: "string" })
+    .options("processes", { type: "string" })
+    .options("resume", { type: "boolean" })
+    .options("session", { type: "string" })
+    .options("experimental-fast", { type: "boolean" })
+    .parserConfiguration({
+      "camel-case-expansion": false,
+      "unknown-options-as-args": true,
+    })
 }

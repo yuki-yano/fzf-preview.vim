@@ -4,7 +4,7 @@ import type { SourceFuncArgs } from "@/type"
 
 export const parseResources = (args: string): SourceFuncArgs => {
   const parser = argsParser()
-  const options = parser.parse(args)
+  const options = parser.parseSync(args)
 
   const resources = options._.map((resource) => (typeof resource === "number" ? resource.toString() : resource))
 
