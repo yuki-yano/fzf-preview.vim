@@ -14,7 +14,15 @@ export const GIT_ACTIONS = [
   "pull",
   "toggle --no-verify",
 ] as const
-export const GIT_STATUS_ACTIONS = ["add", "reset", "patch", "restore", "chaperon"] as const
+export const GIT_STATUS_ACTIONS = [
+  "add",
+  "reset",
+  "patch",
+  "restore",
+  "chaperon",
+  "add --intent-to-add",
+  "reset --intent-to-add",
+] as const
 export const GIT_BRANCH_ACTIONS = [
   "diff",
   "switch",

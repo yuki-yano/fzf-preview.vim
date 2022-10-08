@@ -1,4 +1,12 @@
-import { gitAdd, gitChaperon, gitPatch, gitReset, gitRestore } from "@/connector/git"
+import {
+  gitAdd,
+  gitAddIntentToAdd,
+  gitChaperon,
+  gitPatch,
+  gitReset,
+  gitResetIntentToAdd,
+  gitRestore,
+} from "@/connector/git"
 import { chainFzfCommand, createSingleLineConsumer } from "@/fzf/process/consumer"
 import { unreachable } from "@/util/type"
 
@@ -48,6 +56,24 @@ export const execGitStatusActionConsumer = createSingleLineConsumer(async (data)
         // eslint-disable-next-line no-await-in-loop
         await gitChaperon(file)
       }
+      break
+    }
+
+    case "add --intent-to-add": {
+      for (const file of data.files) {
+        // eslint-disable-next-line no-await-in-loop
+        await gitAddIntentToAdd(file)
+      }
+      await chainFzfCommand("FzfPreviewGitStatus")
+      break
+    }
+
+    case "reset --intent-to-add": {
+      for (const file of data.files) {
+        // eslint-disable-next-line no-await-in-loop
+        await gitResetIntentToAdd(file)
+      }
+      await chainFzfCommand("FzfPreviewGitStatus")
       break
     }
 
