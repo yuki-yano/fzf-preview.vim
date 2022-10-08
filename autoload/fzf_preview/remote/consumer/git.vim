@@ -14,6 +14,13 @@ function! fzf_preview#remote#consumer#git#add(file) abort
   endif
 endfunction
 
+function! fzf_preview#remote#consumer#git#add_intent_to_add(file) abort
+  call system('git add --intent-to-add ' . shellescape(a:file))
+  if v:shell_error
+    echomsg 'Failed: git add --intent-to-add ' . a:file
+  endif
+endfunction
+
 function! fzf_preview#remote#consumer#git#reset(file, option) abort
   if a:option !=# ''
     let command = 'git reset ' . a:option . ' ' . shellescape(a:file)
@@ -25,6 +32,13 @@ function! fzf_preview#remote#consumer#git#reset(file, option) abort
 
   if v:shell_error
     echomsg 'Failed: ' . command
+  endif
+endfunction
+
+function! fzf_preview#remote#consumer#git#reset_intent_to_add(file) abort
+  call system('git reset --intent-to-add ' . shellescape(a:file))
+  if v:shell_error
+    echomsg 'Failed: git reset --intent-to-add ' . a:file
   endif
 endfunction
 
