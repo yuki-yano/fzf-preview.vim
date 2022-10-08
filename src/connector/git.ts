@@ -152,6 +152,14 @@ export const gitChaperon = async (file: string): Promise<void> => {
   await pluginCall("fzf_preview#remote#consumer#git#chaperon", [file])
 }
 
+export const gitAddIntentToAdd = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#add_intent_to_add", [file])
+}
+
+export const gitResetIntentToAdd = async (file: string): Promise<void> => {
+  await pluginCall("fzf_preview#remote#consumer#git#reset_intent_to_add", [file])
+}
+
 type CommitOption =
   | { name: "--amend" }
   | { name: "--amend --no-edit" }
