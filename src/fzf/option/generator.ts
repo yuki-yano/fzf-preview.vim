@@ -27,6 +27,7 @@ const defaultOptions: FzfOptions = {
   "--expect": ["alt-enter"],
   "--bind": defaultBind,
   "--with-nth": '"2.."',
+  "--no-separator": true,
 } as const
 
 const getUserDefaultOptions = (): FzfOptions => {
