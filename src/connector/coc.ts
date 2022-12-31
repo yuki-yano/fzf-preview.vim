@@ -80,9 +80,7 @@ export const getReferences = async (): Promise<{
     const references = await provider.provideReferences(
       document,
       position,
-      {
-        includeDeclaration: false,
-      },
+      { includeDeclaration: false },
       tokenSource.token
     )
     if (references != null) {
@@ -314,7 +312,7 @@ export const getTsServerSourceDefinition = async (): Promise<{
 
       if (relativeFilePath == null) {
         console.error(v)
-        throw new Error(`Source definition response error.`)
+        throw new Error("Source definition response error.")
       }
 
       return {
