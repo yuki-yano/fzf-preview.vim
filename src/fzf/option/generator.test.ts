@@ -34,6 +34,7 @@ describe("generateOptions", () => {
       "--expect": ["ctrl-x", "ctrl-v", "ctrl-t", "ctrl-o", "ctrl-q"],
       "--reverse": true,
       "--with-nth": '"2.."',
+      "--no-separator": true,
     }
   })
 
