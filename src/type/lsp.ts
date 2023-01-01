@@ -6,7 +6,7 @@ export type Location = ReadonlyDeep<{
   text: string
 }>
 
-export type DiagnosticLevel = "Error" | "Warning" | "Information" | "Hint"
+export type DiagnosticLevel = "Error" | "Warning" | "Information" | "Hint" | ""
 
 export type Diagnostic = ReadonlyDeep<{
   file: string
