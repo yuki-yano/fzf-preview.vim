@@ -314,6 +314,30 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
 :FzfPreviewGitStatus
 :CocCommand fzf-preview.GitStatus
 
+" Select references from nvim-lsp
+:FzfPreviewNvimLspReferencesRpc
+:FzfPreviewNvimLspReferences
+
+" Select diagnostics from nvim-lsp
+:FzfPreviewNvimLspDiagnosticsRpc
+:FzfPreviewNvimLspDiagnostics
+
+" Select current file diagnostics from nvim-lsp
+:FzfPreviewNvimLspCurrentDiagnosticsRpc
+:FzfPreviewNvimLspCurrentDiagnostics
+
+" Select definitions from nvim-lsp
+:FzfPreviewNvimLspDefinitionRpc
+:FzfPreviewNvimLspDefinition
+
+" Select type definitions from nvim-lsp
+:FzfPreviewNvimLspTypeDefinitionRpc
+:FzfPreviewNvimLspTypeDefinition
+
+" Select implementations from nvim-lsp
+:FzfPreviewNvimLspImplementationsRpc
+:FzfPreviewNvimLspImplementations
+
 " Select references from vim-lsp
 :FzfPreviewVimLspReferencesRpc
 :FzfPreviewVimLspReferences
@@ -676,6 +700,12 @@ call fzf_preview#remote#process#get_default_processes({processes_name}, {plugin_
 
 <details>
 <summary>Changes history</summary>
+
+- 2023/01/02 version 2.16.0
+  - Implement nvim-lsp resources.
+
+- 2021/12/05 version 2.12.0
+  - Implement vim-lsp resources.
 
 - 2022/08/23 version 2.13.0
   - Implement coc TypeScript go to source definition resource.
