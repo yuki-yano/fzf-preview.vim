@@ -34,6 +34,9 @@ export const diagnosticItemToData = async (
 
 type LocationOrLocationLink =
   | (LspLocation & {
+      kind?: undefined
+    })
+  | (LspLocation & {
       kind: "location"
     })
   | (LocationLink & {
@@ -47,9 +50,10 @@ export const lspLocationToLocation = async (
 
   return (
     await Promise.all(
+      /* eslint-disable complexity */
       locations.map(async (location) => {
         let lineNumber: number
-        if (location.kind === "location") {
+        if (location.kind == null || location.kind === "location") {
           lineNumber = location.range.start.line + 1
         } else if (location.targetRange != null) {
           lineNumber = location.targetRange.start.line + 1
@@ -58,7 +62,7 @@ export const lspLocationToLocation = async (
         }
 
         let uri: string
-        if (location.kind === "location") {
+        if (location.kind == null || location.kind === "location") {
           uri = location.uri
         } else if (location.kind === "locationLink") {
           uri = location.targetUri
@@ -79,6 +83,7 @@ export const lspLocationToLocation = async (
 
         return { file: filePath, lineNumber, text }
       })
+      /* eslint-enable */
     )
   ).filter((location): location is Location => location != null)
 }

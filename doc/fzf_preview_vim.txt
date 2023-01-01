@@ -353,6 +353,36 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
      Select current buffer tags from vista.vim.
      Required: vista.vim
 
+                                                *:FzfPreviewNvimLspReferences*
+:FzfPreviewNvimLspReferencesRpc
+:FzfPreviewNvimLspReferences
+     Select and open the references from nvim-lsp.
+
+                                                *:FzfPreviewNvimLspDiagnostics*
+:FzfPreviewNvimLspDiagnosticsRpc
+:FzfPreviewNvimLspDiagnostics
+     Select and open the diagnostics from nvim-lsp.
+
+                                                *:FzfPreviewNvimLspCurrentDiagnostics*
+:FzfPreviewNvimLspCurrentDiagnosticsRpc
+:FzfPreviewNvimLspCurrentDiagnostics
+     Select and open the current file diagnostics from nvim-lsp.
+
+                                                *:FzfPreviewNvimLspDefinitions*
+:FzfPreviewNvimLspDefinitionRpc
+:FzfPreviewNvimLspDefinition
+     Select and open the definitions from nvim-lsp.
+
+                                                *:FzfPreviewNvimLspTypeDefinitions*
+:FzfPreviewNvimLspTypeDefinitionsRpc
+:FzfPreviewNvimLspTypeDefinition
+     Select and open the type definitions from nvim-lsp.
+
+                                                *:FzfPreviewNvimLspImplementations*
+:FzfPreviewNvimLspImplementationsRpc
+:FzfPreviewNvimLspImplementations
+     Select and open the implementations from nvim-lsp.
+
                                                 *:FzfPreviewVimLspReferences*
 :FzfPreviewVimLspReferencesRpc
 :FzfPreviewVimLspReferences
@@ -371,12 +401,12 @@ Vim script RPC, Remote Plugin, and coc extensions, in that order.
                                                 *:FzfPreviewVimLspDefinitions*
 :FzfPreviewVimLspDefinitionRpc
 :FzfPreviewVimLspDefinition
-     Select and open the definitions from coc.nvim.
+     Select and open the definitions from vim-lsp.
 
                                                 *:FzfPreviewVimLspTypeDefinitions*
-:FzfPreviewVimLspCurrentTypeDefinitionsRpc
-:FzfPreviewVimLspCurrentTypeDefinition
-     Select and open the type definitions from coc.nvim.
+:FzfPreviewVimLspTypeDefinitionsRpc
+:FzfPreviewVimLspTypeDefinition
+     Select and open the type definitions from vim-lsp.
 
                                                 *:FzfPreviewVimLspImplementations*
 :FzfPreviewVimLspImplementationsRpc

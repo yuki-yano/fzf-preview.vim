@@ -86,6 +86,15 @@ import {
   yankround,
   yankroundDefaultOptions,
 } from "@/fzf/resource"
+import {
+  nvimLspCurrentDiagnostics,
+  nvimLspCurrentDiagnosticsDefaultOptions,
+} from "@/fzf/resource/nvim-lsp-current-diagnostics"
+import { nvimLspDefinition, nvimLspDefinitionDefaultOptions } from "@/fzf/resource/nvim-lsp-definition"
+import { nvimLspDiagnostics, nvimLspDiagnosticsDefaultOptions } from "@/fzf/resource/nvim-lsp-diagnostics"
+import { nvimLspImplementation, nvimLspImplementationDefaultOptions } from "@/fzf/resource/nvim-lsp-implementation"
+import { nvimLspReferences, nvimLspReferencesDefaultOptions } from "@/fzf/resource/nvim-lsp-references"
+import { nvimLspTypeDefinition, nvimLspTypeDefinitionDefaultOptions } from "@/fzf/resource/nvim-lsp-type-definition"
 import { todoComments, todoCommentsDefaultOptions } from "@/fzf/resource/todo-comments"
 import { grepHelp, grepHelpDefaultOptions } from "@/fzf/resource/vim-help"
 import {
@@ -536,6 +545,66 @@ export const commandDefinition: ReadonlyArray<BaseFzfCommand> = [
     sourceFuncArgsParser: parseEmptySourceFuncArgs,
     vimCommandOptions,
     defaultFzfOptionFunc: vimLspImplementationDefaultOptions,
+    defaultProcessesName: "open-file-with-tag-stack",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspReferences",
+    sourceFunc: nvimLspReferences,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspReferencesDefaultOptions,
+    defaultProcessesName: "open-file-with-tag-stack",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspDiagnostics",
+    sourceFunc: nvimLspDiagnostics,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspCurrentDiagnostics",
+    sourceFunc: nvimLspCurrentDiagnostics,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspCurrentDiagnosticsDefaultOptions,
+    defaultProcessesName: "open-file",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspDefinition",
+    sourceFunc: nvimLspDefinition,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspDefinitionDefaultOptions,
+    defaultProcessesName: "open-file-with-tag-stack",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspTypeDefinition",
+    sourceFunc: nvimLspTypeDefinition,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspTypeDefinitionDefaultOptions,
+    defaultProcessesName: "open-file-with-tag-stack",
+    enableConvertForFzf: true,
+    enableDevIcons: true,
+  },
+  {
+    commandName: "FzfPreviewNvimLspImplementation",
+    sourceFunc: nvimLspImplementation,
+    sourceFuncArgsParser: parseEmptySourceFuncArgs,
+    vimCommandOptions,
+    defaultFzfOptionFunc: nvimLspImplementationDefaultOptions,
     defaultProcessesName: "open-file-with-tag-stack",
     enableConvertForFzf: true,
     enableDevIcons: true,

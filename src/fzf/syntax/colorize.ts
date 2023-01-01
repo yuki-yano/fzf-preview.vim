@@ -40,6 +40,7 @@ export const diagnosticToDisplayText = ({ file, lineNumber, severity, message }:
     Warning: "yellow",
     Information: "blue",
     Hint: "cyan",
+    "": "white",
   } as const
 
   return `${colorizeFile(file)}:${colorize(lineNumber.toString(), "green")}:  ${colorize(
