@@ -48,7 +48,6 @@ function M.nvim_lsp_definition()
   for _, v in pairs(response) do
     vim.list_extend(result, v.result)
   end
-  vim.pretty_print(result)
   vim.g.fzf_preview_nvim_lsp_definition = result
 end
 
@@ -69,7 +68,6 @@ function M.nvim_lsp_type_definition()
   for _, v in pairs(response) do
     vim.list_extend(result, v.result)
   end
-  vim.pretty_print(result)
   vim.g.fzf_preview_nvim_lsp_type_definition = result
 end
 
