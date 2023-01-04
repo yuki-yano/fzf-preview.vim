@@ -29,7 +29,7 @@ const previewCommand = () => {
 }
 
 export const nvimLspReferencesDefaultOptions = (): FzfCommandDefinitionDefaultOption => ({
-  "--prompt": '"Implementation> "',
+  "--prompt": '"References> "',
   "--multi": true,
   "--preview": previewCommand(),
   "--preview-window": '"+{2}-10"',
