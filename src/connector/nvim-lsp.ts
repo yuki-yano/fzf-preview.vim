@@ -28,7 +28,7 @@ const nvimLspDiagnosticToDiagnosticItem = async (nvimDiagnostic: NvimLspDiagnost
 
   return {
     file,
-    lineNumber: nvimDiagnostic.lnum,
+    lineNumber: nvimDiagnostic.lnum + 1,
     message: nvimDiagnostic.message,
     severity: severity[nvimDiagnostic.severity],
   }
