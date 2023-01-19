@@ -50,21 +50,14 @@ export const lspLocationToLocation = async (
 
   return (
     await Promise.all(
-      /* eslint-disable complexity */
       locations.map(async (location) => {
         let lineNumber: number
-        if (location.kind == null || location.kind === "location") {
-          lineNumber = location.range.start.line + 1
-        } else if (location.targetRange != null) {
-          lineNumber = location.targetRange.start.line + 1
-        } else {
-          throw new Error("Unexpected location")
-        }
-
         let uri: string
         if (location.kind == null || location.kind === "location") {
+          lineNumber = location.range.start.line + 1
           uri = location.uri
-        } else if (location.kind === "locationLink") {
+        } else if (location.targetRange != null) {
+          lineNumber = location.targetRange.start.line + 1
           uri = location.targetUri
         } else {
           throw new Error("Unexpected location")
@@ -83,7 +76,6 @@ export const lspLocationToLocation = async (
 
         return { file: filePath, lineNumber, text }
       })
-      /* eslint-enable */
     )
   ).filter((location): location is Location => location != null)
 }
