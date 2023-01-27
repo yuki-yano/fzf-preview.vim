@@ -136,7 +136,7 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
   let branch2 = get(a:, 1, '')
 
   if exists(':Gin') == 2
-    execute 'silent GinBuffer diff ' . a:branch . '..' . branch2
+    execute 'silent GinDiff ' . a:branch . '..' . branch2
     echomsg 'git diff ' . a:branch . '..' . branch2
     return
   elseif exists(':Gina') == 2

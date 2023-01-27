@@ -58,7 +58,7 @@ export const getCurrentDiagnostics = async (): Promise<ReadonlyArray<Diagnostic>
 const getCurrentState = async () => {
   const { document, position } = await workspace.getCurrentState()
   const range = (await workspace.document).getWordRangeAtPosition(position)
-  const symbol = range && range != null ? document.getText(range) : ""
+  const symbol = range != null ? document.getText(range) : ""
 
   return { document, position, symbol } as const
 }
