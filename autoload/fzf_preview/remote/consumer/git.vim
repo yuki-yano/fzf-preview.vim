@@ -153,11 +153,12 @@ function! fzf_preview#remote#consumer#git#diff(branch, ...) abort
 endfunction
 
 function! fzf_preview#remote#consumer#git#show(name_or_hash) abort
-  if exists(':Gin') == 2
-    call s:execute('GinBuffer show ' . a:name_or_hash)
-    return
-  elseif exists(':Gina') == 2
+  " TODO: Until GinShow is implemented in gin, gina is the priority
+  if exists(':Gina') == 2
     call s:execute('Gina show ' . a:name_or_hash)
+    return
+  elseif exists(':Gin') == 2
+    call s:execute('GinBuffer show ' . a:name_or_hash)
     return
   elseif exists(':Git') == 2
     execute 'Git show ' . a:name_or_hash
