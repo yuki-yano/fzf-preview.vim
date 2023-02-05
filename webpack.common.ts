@@ -23,6 +23,13 @@ const common: Configuration = {
       },
     ],
   },
+  externals: {
+    // NOTE: Disable `node:{module}` import
+    // SEE: https://github.com/webpack/webpack/issues/14166
+    "node:process": "commonjs2 process",
+    "node:os": "commonjs2 os",
+    "node:tty": "commonjs2 tty",
+  },
   ignoreWarnings: [{ module: /yargs/ }],
   node: {
     __dirname: false,
